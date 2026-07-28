@@ -3,46 +3,184 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI講習 公開テスト</title>
+<title>同期カウントダウン支援アプリ</title>
 <style>
   :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
   body {
     margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     color: #f1f5f9;
+    line-height: 1.7;
+  }
+  header {
     text-align: center;
-    padding: 2rem;
+    padding: 4rem 1.5rem 3rem;
   }
-  .card {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 16px;
-    padding: 2.5rem 3rem;
-    max-width: 480px;
-  }
-  h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  p { color: #94a3b8; line-height: 1.6; }
-  .badge {
+  header .badge {
     display: inline-block;
-    margin-top: 1rem;
-    padding: 0.4rem 0.9rem;
+    padding: 0.35rem 0.9rem;
     background: #22c55e22;
     color: #4ade80;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
   }
+  header h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin: 0 0 1rem;
+  }
+  header p.lead {
+    color: #94a3b8;
+    max-width: 640px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  section { margin-bottom: 3.5rem; }
+  h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 1.5rem;
+  }
+  .box h3 { margin-top: 0; font-size: 1.05rem; }
+  .box p { color: #94a3b8; margin-bottom: 0; font-size: 0.95rem; }
+  .pricing-note {
+    font-size: 0.85rem;
+    color: #f59e0b;
+    background: #f59e0b1a;
+    border: 1px solid #f59e0b44;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+  .plan {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .plan h3 { margin: 0 0 0.25rem; font-size: 1.2rem; }
+  .plan .price { font-size: 2rem; font-weight: 700; margin: 0.5rem 0 1rem; }
+  .plan .price span { font-size: 0.95rem; font-weight: 400; color: #94a3b8; }
+  .plan ul { color: #cbd5e1; padding-left: 1.2rem; flex-grow: 1; }
+  .plan button {
+    margin-top: 1.5rem;
+    padding: 0.85rem 1.2rem;
+    border: none;
+    border-radius: 10px;
+    background: #22c55e;
+    color: #05210f;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .plan button:hover { background: #4ade80; }
+  .plan button:disabled { opacity: 0.6; cursor: not-allowed; }
+  .status-msg { margin-top: 0.75rem; font-size: 0.85rem; color: #94a3b8; min-height: 1.2em; }
+  footer { text-align: center; color: #64748b; font-size: 0.85rem; padding-bottom: 3rem; }
 </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Vercel 公開テスト</h1>
-    <p>このページは AI講習 の Vercel 公開テスト用に作成されました。<br>正常にアクセスできれば公開設定は成功です。</p>
-    <span class="badge">Deployed via Vercel + GitHub</span>
-  </div>
+  <header>
+    <span class="badge">AI講習会 Day2 テスト公開</span>
+    <h1>同期カウントダウン支援アプリ</h1>
+    <p class="lead">
+      携帯戦略ゲームで、離れた場所にいる仲間の到着タイミングをぴったり揃える。
+      ゲーム画面から離れずに、自分専用のカウントダウンがオーバーレイ表示されます。
+    </p>
+  </header>
+
+  <main>
+    <section>
+      <h2>課題と解決策</h2>
+      <div class="grid">
+        <div class="box">
+          <h3>課題</h3>
+          <p>50〜100人が別々の場所から動くと、全員が同時出発しても到着はバラバラ。揃えるべきは出発ではなく到着。</p>
+        </div>
+        <div class="box">
+          <h3>解決策</h3>
+          <p>各自の移動時間から個別のスタートタイミングを逆算し、一人ひとりの端末にカウントダウンを配信。</p>
+        </div>
+        <div class="box">
+          <h3>差別化ポイント</h3>
+          <p>Discordボットやブラウザタイマーと違い、<strong>ゲーム画面に重ねて表示</strong>されるため、ゲームを離れる必要がありません。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>料金プラン</h2>
+      <div class="pricing-note">
+        ※ 現在表示している金額は<strong>仮料金</strong>です。講師との相談を経て正式決定します。
+      </div>
+      <div class="plans">
+        <div class="plan">
+          <h3>個人プラン（仮）</h3>
+          <div class="price">¥500 <span>/ 月</span></div>
+          <ul>
+            <li>個人アカウントで利用</li>
+            <li>オーバーレイ表示対応</li>
+            <li>カウントダウン配信</li>
+          </ul>
+          <button data-plan="personal">今すぐ始める（テスト決済）</button>
+          <div class="status-msg" data-status="personal"></div>
+        </div>
+        <div class="plan">
+          <h3>アライアンスプラン（仮）</h3>
+          <div class="price">¥3,000 <span>/ 月</span></div>
+          <ul>
+            <li>アライアンス単位で人数無制限</li>
+            <li>オーバーレイ表示対応</li>
+            <li>要望・不具合の優先対応</li>
+          </ul>
+          <button data-plan="alliance">今すぐ始める（テスト決済）</button>
+          <div class="status-msg" data-status="alliance"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>AI講習会 Day2 テスト公開 &middot; Powered by Vercel + GitHub</footer>
+
+  <script>
+    document.querySelectorAll('button[data-plan]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const plan = btn.getAttribute('data-plan');
+        const statusEl = document.querySelector(`[data-status="${plan}"]`);
+        btn.disabled = true;
+        statusEl.textContent = '決済ページを準備中…';
+        try {
+          const res = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan }),
+          });
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || '不明なエラー');
+          window.location.href = data.url;
+        } catch (err) {
+          statusEl.textContent = 'エラー: ' + err.message;
+          btn.disabled = false;
+        }
+      });
+    });
+  </script>
 </body>
 </html>
