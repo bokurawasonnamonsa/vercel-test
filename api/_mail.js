@@ -42,7 +42,8 @@ function buildWelcomeHtml({ room, adminUrl, playerUrl, feedbackUrl }) {
             お気づきの点・不具合は<a href="${feedbackUrl}" style="color:#4ade80;">こちらのフォーム</a>からお知らせください。いただいた内容はAIが自動で分類し、開発の優先順位に反映されます。
           </p>
           <p style="color:#3f4c5f;font-size:11px;margin:14px 0 0;">
-            ※ 本メールはAI講習会のデモとして送信されています。現在の決済はテストモード（¥100）です。
+            ※ 本サービスは現在、検証運用中のため特別価格（¥100）で提供しています。<br>
+            解約・お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#5b6b81;">bokurawasonnamonsa@gmail.com</a> まで。
           </p>
         </td></tr>
       </table>
