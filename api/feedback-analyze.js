@@ -60,7 +60,8 @@ async function callGemini(items) {
       contents: [{ role: 'user', parts: [{ text: buildUserContent(items) }] }],
       generationConfig: {
         temperature: 0.2,
-        maxOutputTokens: 2048,
+        // 推論トークンも消費するモデルがあるため、切り捨て防止に余裕を持たせる
+        maxOutputTokens: 8192,
         responseMimeType: 'application/json',
       },
     }),
