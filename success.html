@@ -4,24 +4,64 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ご登録ありがとうございます</title>
+<link rel="icon" type="image/png" href="/assets/icon.png">
 <style>
   :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b); color: #f1f5f9; text-align: center; padding: 2rem;
   }
-  .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 2.5rem 3rem; max-width: 480px; }
+  .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 2.5rem 2.5rem; max-width: 520px; width: 100%; }
   h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
   p { color: #94a3b8; line-height: 1.6; }
   a { color: #4ade80; }
+  .links { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .links a.btn {
+    display: block; padding: 0.9rem 1rem; border-radius: 10px; text-decoration: none; font-weight: 700;
+  }
+  .links a.admin { background: #334155; color: #f1f5f9; }
+  .links a.admin:hover { background: #475569; }
+  .links a.player { background: #22c55e; color: #05210f; }
+  .links a.player:hover { background: #4ade80; }
+  .status { margin-top: 1rem; font-size: 0.85rem; color: #64748b; min-height: 1.4em; }
+  .room-badge {
+    display: inline-block; margin-top: 0.75rem; padding: 0.3rem 0.8rem; background: #22c55e22; color: #4ade80;
+    border: 1px solid #22c55e44; border-radius: 999px; font-size: 0.8rem; letter-spacing: 0.1em;
+  }
 </style>
 </head>
 <body>
   <div class="card">
     <h1>✅ 登録が完了しました</h1>
-    <p>ご登録ありがとうございます。決済（テストモード）が正常に完了しました。<br>アプリのセットアップ手順は追ってご案内します。</p>
-    <p><a href="/">トップに戻る</a></p>
+    <p>ご登録ありがとうございます。決済（テストモード）が正常に完了しました。<br>以下から、あなた専用の指揮官コンソールとプレーヤー配布用URLを発行できます。</p>
+    <div id="roomBadgeWrap"></div>
+    <div class="links" id="linksWrap"></div>
+    <div class="status" id="status">ルームを準備中…</div>
+    <p style="margin-top:1.5rem;"><a href="/">トップに戻る</a></p>
   </div>
+
+  <script>
+    (async () => {
+      const statusEl = document.getElementById('status');
+      try {
+        const res = await fetch('/api/room-create', { method: 'POST' });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '不明なエラー');
+
+        document.getElementById('roomBadgeWrap').innerHTML =
+          `<span class="room-badge">ルームコード: ${data.room}</span>`;
+
+        document.getElementById('linksWrap').innerHTML = `
+          <a class="btn admin" href="${data.adminUrl}" target="_blank" rel="noopener">🎖 指揮官コンソールを開く</a>
+          <a class="btn player" href="${data.playerUrl}" target="_blank" rel="noopener">📱 プレーヤー画面を開く（配布用）</a>
+        `;
+        statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
+      } catch (err) {
+        statusEl.textContent = 'ルーム作成でエラーが発生しました: ' + err.message;
+      }
+    })();
+  </script>
 </body>
 </html>

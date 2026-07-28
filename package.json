@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "dependencies": {
-    "stripe": "^17.4.0"
+    "stripe": "^17.4.0",
+    "ioredis": "^5.4.1"
   }
 }

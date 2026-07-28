@@ -1,13 +1,15 @@
 const Stripe = require('stripe');
 
+// 金額は仮設定。本日のデモでは講師確認用に¥0（無料）決済としている。
+// 正式な金額はDay2報告書のプラン決定を参照（個人¥500/月・アライアンス¥3,000/月・いずれも仮）。
 const PLANS = {
   personal: {
-    name: '個人プラン（仮）',
-    amount: 500,
+    name: '個人プラン（仮・デモ価格）',
+    amount: 0,
   },
   alliance: {
-    name: 'アライアンスプラン（仮）',
-    amount: 3000,
+    name: 'アライアンスプラン（仮・デモ価格）',
+    amount: 0,
   },
 };
 
@@ -34,14 +36,13 @@ module.exports = async (req, res) => {
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
     const session = await stripe.checkout.sessions.create({
-      mode: 'subscription',
+      mode: 'payment',
       line_items: [
         {
           price_data: {
             currency: 'jpy',
             product_data: { name: selected.name },
             unit_amount: selected.amount,
-            recurring: { interval: 'month' },
           },
           quantity: 1,
         },
