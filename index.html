@@ -134,6 +134,21 @@
   .plan button:hover { background: #4ade80; }
   .plan button:disabled { opacity: 0.6; cursor: not-allowed; }
   .status-msg { margin-top: 0.75rem; font-size: 0.85rem; color: #94a3b8; min-height: 1.2em; }
+
+  .plan-link {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin-top: 1.75rem; padding: 1.1rem 1.4rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    text-decoration: none; color: #f1f5f9;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .plan-link:hover { border-color: rgba(34,197,94,0.45); transform: translateY(-2px); }
+  .plan-link .pl-title { font-weight: 700; font-size: 1rem; }
+  .plan-link .pl-sub { color: #94a3b8; font-size: 0.85rem; margin-top: 0.15rem; }
+  .plan-link .pl-arrow { color: #4ade80; font-size: 1.2rem; flex-shrink: 0; }
+
   footer { text-align: center; color: #64748b; font-size: 0.85rem; padding-bottom: 3rem; }
 </style>
 </head>
@@ -146,6 +161,13 @@
       携帯戦略ゲームで、離れた場所にいる仲間の到着タイミングをぴったり揃える。
       ゲーム画面から離れずに、自分専用のカウントダウンがオーバーレイ表示されます。
     </p>
+    <a class="plan-link" href="/plan.html" style="max-width:560px;margin-left:auto;margin-right:auto;text-align:left;">
+      <span>
+        <span class="pl-title">📋 事業プラン・要件・合宿のゴール</span>
+        <span class="pl-sub" style="display:block;">AI講習会 2日目 報告レポートを見る</span>
+      </span>
+      <span class="pl-arrow">→</span>
+    </a>
   </header>
 
   <main>
