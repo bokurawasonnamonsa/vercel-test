@@ -4,25 +4,41 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>同期カウントダウン支援アプリ</title>
+<link rel="icon" type="image/png" href="/assets/icon.png">
 <style>
   :root { color-scheme: light dark; }
   * { box-sizing: border-box; }
   body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    background: #0f172a;
     color: #f1f5f9;
     line-height: 1.7;
   }
   header {
+    position: relative;
     text-align: center;
-    padding: 4rem 1.5rem 3rem;
+    padding: 5rem 1.5rem 4rem;
+    background-image:
+      linear-gradient(180deg, rgba(15,23,42,0.55) 0%, rgba(15,23,42,0.85) 55%, #0f172a 100%),
+      url('/assets/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+  }
+  .logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 24px rgba(34,197,94,0.35);
   }
   header .badge {
     display: inline-block;
     padding: 0.35rem 0.9rem;
     background: #22c55e22;
     color: #4ade80;
+    border: 1px solid #22c55e44;
     border-radius: 999px;
     font-size: 0.8rem;
     margin-bottom: 1rem;
@@ -32,14 +48,36 @@
     margin: 0 0 1rem;
   }
   header p.lead {
-    color: #94a3b8;
+    color: #cbd5e1;
     max-width: 640px;
     margin: 0 auto;
     font-size: 1.05rem;
   }
-  main { max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  main { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem 4rem; }
   section { margin-bottom: 3.5rem; }
   h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+  .showcase {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-top: -2.5rem;
+  }
+  .showcase img {
+    width: 100%;
+    max-width: 280px;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    justify-self: center;
+  }
+  .showcase .copy h2 { margin-top: 0; }
+  .showcase .copy p { color: #94a3b8; }
+  @media (max-width: 700px) {
+    .showcase { grid-template-columns: 1fr; text-align: center; }
+    .showcase img { max-width: 220px; }
+  }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -98,6 +136,7 @@
 </head>
 <body>
   <header>
+    <img class="logo" src="/assets/icon.png" alt="アプリアイコン">
     <span class="badge">AI講習会 Day2 テスト公開</span>
     <h1>同期カウントダウン支援アプリ</h1>
     <p class="lead">
@@ -107,6 +146,17 @@
   </header>
 
   <main>
+    <section class="showcase">
+      <img src="/assets/app-mockup.png" alt="アプリのオーバーレイ表示イメージ">
+      <div class="copy">
+        <h2>ゲームを離れずに、自分専用のタイミングが見える</h2>
+        <p>
+          Discordボットやブラウザタイマーとは違い、ゲーム画面の上に直接カウントダウンをオーバーレイ表示。
+          画面を切り替える必要も、二台目の端末を用意する必要もありません。
+        </p>
+      </div>
+    </section>
+
     <section>
       <h2>課題と解決策</h2>
       <div class="grid">
