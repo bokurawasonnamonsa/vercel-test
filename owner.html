@@ -105,6 +105,20 @@
   .foot a { color: #5b6b81; text-decoration: none; font-size: 0.85rem; }
   .foot a:hover { color: var(--accent-soft); }
 
+  .gate { max-width: 420px; margin: 4rem auto; text-align: center; }
+  .gate .lock { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  .gate h2 { font-size: 1.2rem; margin: 0 0 0.6rem; }
+  .gate p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.75rem; }
+  .gate .gbtn-wrap { display: flex; justify-content: center; }
+
+  .who { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--muted); }
+  .who img { width: 26px; height: 26px; border-radius: 50%; }
+  .who button {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    padding: 0.28rem 0.7rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer;
+  }
+  .who button:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+
   @media (max-width: 720px) {
     header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
     .toolbar { flex-direction: column; align-items: stretch; }
@@ -118,10 +132,23 @@
       <span class="badge">オーナーダッシュボード</span>
       <h1>AIが整理した、次に作るべきもの</h1>
       <p>プレーヤーから届いた要望・不具合を、AIが自動で分類し優先順位を付けます。オーナーは「どれをやるか」を判断するだけです。</p>
+      <div class="who hidden" id="whoWrap" style="margin-top:1.25rem;">
+        <img id="whoPic" alt="">
+        <span id="whoName"></span>
+        <button type="button" id="logoutBtn">ログアウト</button>
+      </div>
     </div>
   </header>
 
-  <main>
+  <div class="gate hidden" id="gate">
+    <div class="lock">🔒</div>
+    <h2>オーナー専用ページです</h2>
+    <p>プレーヤーから届いた声を確認するには、Googleアカウントでログインしてください。</p>
+    <div class="gbtn-wrap" id="gbtn"></div>
+    <div class="msg" id="gateMsg" style="text-align:center;"></div>
+  </div>
+
+  <main id="mainArea">
     <div class="toolbar">
       <div class="stats">
         <div class="s"><div class="k">届いている声</div><div class="v" id="statCount">-</div></div>
@@ -250,7 +277,78 @@
       }
     });
 
-    loadRaw();
+    // ---------- auth ----------
+    function showApp(user) {
+      $('gate').classList.add('hidden');
+      $('mainArea').classList.remove('hidden');
+      if (user) {
+        $('whoWrap').classList.remove('hidden');
+        $('whoName').textContent = user.name || user.email;
+        if (user.picture) $('whoPic').src = user.picture;
+        else $('whoPic').style.display = 'none';
+      }
+      loadRaw();
+    }
+
+    function showGate(clientId) {
+      $('mainArea').classList.add('hidden');
+      $('gate').classList.remove('hidden');
+
+      if (!clientId) {
+        $('gateMsg').className = 'msg err';
+        $('gateMsg').textContent = 'GOOGLE_CLIENT_ID が未設定のため、ログインを利用できません。';
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.onload = () => {
+        google.accounts.id.initialize({
+          client_id: clientId,
+          callback: async (response) => {
+            $('gateMsg').className = 'msg';
+            $('gateMsg').textContent = 'ログイン中…';
+            try {
+              const res = await fetch('/api/auth-google', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ credential: response.credential }),
+              });
+              const data = await res.json();
+              if (!res.ok) throw new Error(data.error || 'ログインに失敗しました');
+              showApp(data.user);
+            } catch (err) {
+              $('gateMsg').className = 'msg err';
+              $('gateMsg').textContent = 'エラー: ' + err.message;
+            }
+          },
+        });
+        google.accounts.id.renderButton($('gbtn'), {
+          theme: 'filled_black', size: 'large', text: 'signin_with',
+          shape: 'pill', locale: 'ja',
+        });
+      };
+      document.head.appendChild(script);
+    }
+
+    $('logoutBtn').addEventListener('click', async () => {
+      await fetch('/api/auth-logout', { method: 'POST' });
+      location.reload();
+    });
+
+    (async () => {
+      try {
+        const res = await fetch('/api/auth-me');
+        const data = await res.json();
+        // ログイン機能が未設定なら、そのまま開けるようにする（デモ用フォールバック）
+        if (!data.googleClientId) { showApp(null); return; }
+        if (data.signedIn) showApp(data.user);
+        else showGate(data.googleClientId);
+      } catch (err) {
+        showApp(null);
+      }
+    })();
   </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 const { getClient } = require('./_redis');
+const { getSession } = require('./_auth');
 
 const FEEDBACK_KEY = 'feedback:all';
 const CACHE_KEY = 'feedback:analysis';
@@ -119,6 +120,11 @@ async function callAI(items) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
+  if (process.env.GOOGLE_CLIENT_ID && !getSession(req)) {
+    res.status(401).json({ error: 'ログインが必要です' });
     return;
   }
 
