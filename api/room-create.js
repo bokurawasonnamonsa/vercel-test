@@ -1,4 +1,5 @@
 const { getClient } = require('./_redis');
+const { sendWelcomeMail } = require('./_mail');
 
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 const ROOM_TTL_SECONDS = 6 * 60 * 60;
@@ -9,6 +10,22 @@ function generateCode(length = 6) {
     out += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
   }
   return out;
+}
+
+async function lookupPurchaserEmail(sessionId) {
+  if (!sessionId || !process.env.STRIPE_SECRET_KEY) return null;
+  try {
+    const Stripe = require('stripe');
+    const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    return (
+      (session.customer_details && session.customer_details.email) ||
+      session.customer_email ||
+      null
+    );
+  } catch (err) {
+    return null;
+  }
 }
 
 module.exports = async (req, res) => {
@@ -35,10 +52,23 @@ module.exports = async (req, res) => {
     await redis.set(`room:${code}`, JSON.stringify(initialState), 'EX', ROOM_TTL_SECONDS);
 
     const origin = req.headers.origin || `https://${req.headers.host}`;
+    const adminUrl = `${origin}/admin.html?room=${code}`;
+    const playerUrl = `${origin}/player-view.html?room=${code}`;
+    const feedbackUrl = `${origin}/feedback.html?room=${code}`;
+
+    const { sessionId, email: emailFromBody } = req.body || {};
+    const to = (await lookupPurchaserEmail(sessionId)) || emailFromBody || null;
+
+    const mail = to
+      ? await sendWelcomeMail({ to, room: code, adminUrl, playerUrl, feedbackUrl })
+      : { sent: false, reason: 'no recipient address' };
+
     res.status(200).json({
       room: code,
-      adminUrl: `${origin}/admin.html?room=${code}`,
-      playerUrl: `${origin}/player-view.html?room=${code}`,
+      adminUrl,
+      playerUrl,
+      feedbackUrl,
+      email: { to, ...mail },
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

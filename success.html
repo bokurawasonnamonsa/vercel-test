@@ -45,8 +45,13 @@
   <script>
     (async () => {
       const statusEl = document.getElementById('status');
+      const sessionId = new URLSearchParams(location.search).get('session_id');
       try {
-        const res = await fetch('/api/room-create', { method: 'POST' });
+        const res = await fetch('/api/room-create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sessionId }),
+        });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
@@ -58,7 +63,12 @@
           <a class="btn player" href="${data.playerUrl}" target="_blank" rel="noopener">📱 プレーヤー画面を開く（配布用）</a>
           <a class="btn admin" href="/owner.html" target="_blank" rel="noopener">🤖 オーナーダッシュボード（AIが要望を整理）</a>
         `;
-        statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
+        const mail = data.email || {};
+        if (mail.sent && mail.to) {
+          statusEl.innerHTML = `準備完了。<span style="color:#4ade80">📧 ${mail.to} 宛にご案内メールを送信しました。</span>`;
+        } else {
+          statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
+        }
       } catch (err) {
         statusEl.textContent = 'ルーム作成でエラーが発生しました: ' + err.message;
       }

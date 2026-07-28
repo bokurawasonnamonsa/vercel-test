@@ -28,31 +28,72 @@ const SYSTEM_PROMPT = `あなたは、携帯戦略ゲーム向け「同期カウ
   "nextAction": "最優先で着手すべきこと（1文）"
 }`;
 
-async function callAI(items) {
-  const gatewayKey = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN;
-  if (!gatewayKey) {
-    throw new Error('AI認証情報が設定されていません（AI_GATEWAY_API_KEY）');
-  }
-
-  const userContent = [
+function buildUserContent(items) {
+  return [
     '以下は実際に届いた要望・不具合です。分類し優先順位を付けてください。',
     '',
     ...items.map(
       (it) => `- id: ${it.id} / 種別: ${it.kind} / 投稿日時: ${it.createdAt}\n  内容: ${it.body}`
     ),
   ].join('\n');
+}
 
+function parseJsonResponse(content) {
+  if (!content) throw new Error('AIから空の応答が返りました');
+  const cleaned = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+  return JSON.parse(cleaned);
+}
+
+async function callGemini(items) {
+  const model = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'x-goog-api-key': process.env.GEMINI_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+      contents: [{ role: 'user', parts: [{ text: buildUserContent(items) }] }],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 2048,
+        responseMimeType: 'application/json',
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Gemini呼び出しに失敗しました (${response.status}): ${detail.slice(0, 300)}`);
+  }
+
+  const data = await response.json();
+  const text =
+    data.candidates &&
+    data.candidates[0] &&
+    data.candidates[0].content &&
+    data.candidates[0].content.parts &&
+    data.candidates[0].content.parts[0] &&
+    data.candidates[0].content.parts[0].text;
+
+  return parseJsonResponse(text);
+}
+
+async function callGateway(items) {
   const response = await fetch('https://ai-gateway.vercel.sh/v1/chat/completions', {
     method: 'POST',
     headers: {
-      Authorization: `Bearer ${gatewayKey}`,
+      Authorization: `Bearer ${process.env.AI_GATEWAY_API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       model: process.env.AI_MODEL || 'anthropic/claude-haiku-4.5',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: userContent },
+        { role: 'user', content: buildUserContent(items) },
       ],
       temperature: 0.2,
       max_tokens: 2000,
@@ -66,10 +107,13 @@ async function callAI(items) {
 
   const data = await response.json();
   const content = data.choices && data.choices[0] && data.choices[0].message.content;
-  if (!content) throw new Error('AIから空の応答が返りました');
+  return parseJsonResponse(content);
+}
 
-  const cleaned = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
-  return JSON.parse(cleaned);
+async function callAI(items) {
+  if (process.env.GEMINI_API_KEY) return callGemini(items);
+  if (process.env.AI_GATEWAY_API_KEY) return callGateway(items);
+  throw new Error('AI認証情報が設定されていません（GEMINI_API_KEY または AI_GATEWAY_API_KEY）');
 }
 
 module.exports = async (req, res) => {
