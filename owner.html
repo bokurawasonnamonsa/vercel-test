@@ -173,6 +173,9 @@
       <div id="groupsWrap"></div>
     </div>
 
+    <h2 class="sec">売上の記録</h2>
+    <div id="purchasesWrap"></div>
+
     <h2 class="sec">届いている生の声</h2>
     <div id="rawWrap"></div>
 
@@ -222,6 +225,53 @@
         `).join('');
       } catch (err) {
         $('rawWrap').innerHTML = `<div class="empty">読み込みエラー: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    async function loadPurchases() {
+      try {
+        const res = await fetch('/api/purchases-list');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '取得に失敗しました');
+
+        if (data.count === 0) {
+          $('purchasesWrap').innerHTML = `<div class="empty">
+            まだ購入がありません。<br>
+            <a href="/">製品ページ</a>から申し込むと、ここに記録が残ります。
+          </div>`;
+          return;
+        }
+
+        const rows = data.items.map((p) => `
+          <div class="raw-item">
+            <div class="meta">
+              <span class="kind ${p.paymentStatus === 'paid' ? 'request' : 'other'}">
+                ${p.paymentStatus === 'paid' ? '決済完了' : escapeHtml(p.paymentStatus || '不明')}
+              </span>
+              <span>${new Date(p.createdAt).toLocaleString('ja-JP')}</span>
+              <span>${p.livemode ? '本番' : 'テスト'}</span>
+              ${p.room ? `<span>ルーム: ${escapeHtml(p.room)}</span>` : ''}
+            </div>
+            <p>
+              <strong>${escapeHtml(p.email || '不明')}</strong> が
+              「${escapeHtml(p.itemName || '不明')}」を
+              <strong>${(p.currency || 'jpy').toUpperCase()} ${Number(p.amount || 0).toLocaleString()}</strong> で購入
+              ${p.mailSentTo ? '<br><span style="color:#4ade80;font-size:0.85rem;">📧 案内メール送信済み</span>' : ''}
+            </p>
+          </div>
+        `).join('');
+
+        $('purchasesWrap').innerHTML = `
+          <div class="summary-card" style="margin-bottom:1rem;">
+            <div class="lbl">累計売上（決済完了分）</div>
+            <p style="font-size:1.6rem;font-weight:800;margin:0;">
+              ¥${Number(data.totalPaid || 0).toLocaleString()}
+              <span style="font-size:0.9rem;font-weight:400;color:#8fa0b8;">／ ${data.count} 件</span>
+            </p>
+          </div>
+          ${rows}`;
+      } catch (err) {
+        $('purchasesWrap').innerHTML = `<div class="empty">読み込みエラー: ${escapeHtml(err.message)}</div>`;
       }
     }
 
@@ -288,6 +338,7 @@
         else $('whoPic').style.display = 'none';
       }
       loadRaw();
+      loadPurchases();
     }
 
     function showGate(clientId) {
