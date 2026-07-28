@@ -54,6 +54,12 @@
     color: #05210f; font-weight: 800; font-size: 1rem; cursor: pointer;
   }
   .waiting { text-align: center; color: #94a3b8; padding: 1.5rem 0; }
+  .fb-link {
+    display: block; margin-top: 1.25rem; padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-align: center; color: #64748b; text-decoration: none; font-size: 0.82rem;
+  }
+  .fb-link:hover { color: #4ade80; }
   .hidden { display: none; }
 </style>
 </head>
@@ -84,6 +90,10 @@
           <div class="timer-value arrival" id="arrivalTimer">--:--</div>
         </div>
       </div>
+
+      <a class="fb-link" id="fbLink" href="/feedback.html">
+        気づいたこと・不具合を報告する →
+      </a>
     </div>
   </main>
 
@@ -105,6 +115,9 @@
       document.getElementById('setupCard').classList.add('hidden');
       document.getElementById('overlayCard').classList.remove('hidden');
       document.getElementById('travelDisplay').textContent = travelSeconds;
+      if (room) {
+        document.getElementById('fbLink').href = `/feedback.html?room=${encodeURIComponent(room)}`;
+      }
       startPolling(travelSeconds);
     }
 

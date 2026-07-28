@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>オーナーダッシュボード｜AIが整理した開発優先順位</title>
+<link rel="icon" type="image/png" href="/assets/icon.png">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #070b14; --panel: rgba(255,255,255,0.035); --line: rgba(255,255,255,0.09);
+    --text: #e8eef7; --muted: #8fa0b8; --accent: #22c55e; --accent-soft: #4ade80;
+    --high: #f87171; --mid: #fbbf24; --low: #60a5fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: var(--bg); color: var(--text); line-height: 1.8;
+  }
+  header {
+    padding: 3rem 2rem 2.5rem; border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(34,197,94,0.05), transparent);
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 0.9rem; background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.28); color: var(--accent-soft);
+    border-radius: 999px; font-size: 0.78rem; margin-bottom: 1rem;
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  h1 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); margin: 0 0 0.6rem; letter-spacing: -0.01em; }
+  header p { color: var(--muted); margin: 0; max-width: 620px; font-size: 0.97rem; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
+
+  .toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+  .stats { display: flex; gap: 2rem; }
+  .stats .s .k { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
+  .stats .s .v { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  button.run {
+    padding: 0.75rem 1.4rem; border: none; border-radius: 10px;
+    background: var(--accent); color: #05210f; font-weight: 700; font-size: 0.92rem; cursor: pointer;
+  }
+  button.run:hover:not(:disabled) { background: var(--accent-soft); }
+  button.run:disabled { opacity: 0.55; cursor: not-allowed; }
+
+  h2.sec { font-size: 0.78rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin: 2.5rem 0 1rem; }
+
+  .summary-card {
+    background: linear-gradient(135deg, rgba(34,197,94,0.09), rgba(255,255,255,0.02));
+    border: 1px solid rgba(34,197,94,0.22); border-radius: 16px; padding: 1.6rem 1.8rem;
+  }
+  .summary-card .lbl { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent-soft); margin-bottom: 0.5rem; }
+  .summary-card p { margin: 0; font-size: 1rem; }
+  .next-action {
+    margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid rgba(34,197,94,0.18);
+  }
+  .next-action .lbl { color: var(--muted); }
+  .next-action p { font-weight: 600; color: var(--accent-soft); }
+
+  .group {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 1.35rem 1.6rem; margin-bottom: 1rem; position: relative; overflow: hidden;
+  }
+  .group::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
+  .group.high::before { background: var(--high); }
+  .group.medium::before { background: var(--mid); }
+  .group.low::before { background: var(--low); }
+  .group-head { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+  .pri {
+    font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 700;
+  }
+  .group.high .pri { background: rgba(248,113,113,0.14); color: var(--high); border: 1px solid rgba(248,113,113,0.3); }
+  .group.medium .pri { background: rgba(251,191,36,0.14); color: var(--mid); border: 1px solid rgba(251,191,36,0.3); }
+  .group.low .pri { background: rgba(96,165,250,0.14); color: var(--low); border: 1px solid rgba(96,165,250,0.3); }
+  .group h3 { margin: 0; font-size: 1.05rem; }
+  .group .cnt { font-size: 0.8rem; color: var(--muted); }
+  .group .reason { color: var(--muted); font-size: 0.92rem; margin: 0 0 0.8rem; }
+  .group .action {
+    background: rgba(255,255,255,0.04); border-left: 2px solid var(--accent);
+    padding: 0.6rem 0.9rem; border-radius: 0 8px 8px 0; font-size: 0.92rem;
+  }
+  .group .action strong { color: var(--accent-soft); font-size: 0.75rem; letter-spacing: 0.06em; display: block; margin-bottom: 0.2rem; }
+
+  .raw-item {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+    padding: 1rem 1.2rem; margin-bottom: 0.7rem;
+  }
+  .raw-item .meta { display: flex; gap: 0.7rem; align-items: center; font-size: 0.76rem; color: var(--muted); margin-bottom: 0.4rem; }
+  .raw-item .kind {
+    padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.7rem;
+    background: rgba(255,255,255,0.07); border: 1px solid var(--line);
+  }
+  .raw-item .kind.bug { color: var(--high); border-color: rgba(248,113,113,0.3); }
+  .raw-item .kind.request { color: var(--accent-soft); border-color: rgba(34,197,94,0.3); }
+  .raw-item p { margin: 0; font-size: 0.94rem; white-space: pre-wrap; }
+
+  .empty { color: var(--muted); text-align: center; padding: 3rem 1rem; border: 1px dashed var(--line); border-radius: 14px; }
+  .empty a { color: var(--accent-soft); }
+  .msg { font-size: 0.9rem; color: var(--muted); min-height: 1.4em; margin-top: 0.8rem; }
+  .msg.err { color: var(--high); }
+  .hidden { display: none; }
+  .foot { text-align: center; margin-top: 3rem; }
+  .foot a { color: #5b6b81; text-decoration: none; font-size: 0.85rem; }
+  .foot a:hover { color: var(--accent-soft); }
+
+  @media (max-width: 720px) {
+    header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .toolbar { flex-direction: column; align-items: stretch; }
+    button.run { width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <span class="badge">オーナーダッシュボード</span>
+      <h1>AIが整理した、次に作るべきもの</h1>
+      <p>プレーヤーから届いた要望・不具合を、AIが自動で分類し優先順位を付けます。オーナーは「どれをやるか」を判断するだけです。</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="toolbar">
+      <div class="stats">
+        <div class="s"><div class="k">届いている声</div><div class="v" id="statCount">-</div></div>
+        <div class="s"><div class="k">AIが抽出したテーマ</div><div class="v" id="statThemes">-</div></div>
+      </div>
+      <button class="run" id="runBtn">🤖 AIに分類・優先順位付けさせる</button>
+    </div>
+    <div class="msg" id="msg"></div>
+
+    <div id="resultWrap" class="hidden">
+      <h2 class="sec">AIによる要約</h2>
+      <div class="summary-card">
+        <div class="lbl">全体傾向</div>
+        <p id="summaryText"></p>
+        <div class="next-action">
+          <div class="lbl">最優先で着手すべきこと</div>
+          <p id="nextActionText"></p>
+        </div>
+      </div>
+
+      <h2 class="sec">分類と優先順位</h2>
+      <div id="groupsWrap"></div>
+    </div>
+
+    <h2 class="sec">届いている生の声</h2>
+    <div id="rawWrap"></div>
+
+    <div class="foot">
+      <a href="/">← 製品ページへ戻る</a> &nbsp;·&nbsp;
+      <a href="/feedback.html">意見フォームを開く</a> &nbsp;·&nbsp;
+      <a href="/plan.html">事業プランを見る</a>
+    </div>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      }[c]));
+    }
+
+    const KIND_LABEL = { bug: '不具合', request: '要望', other: 'その他' };
+
+    async function loadRaw() {
+      try {
+        const res = await fetch('/api/feedback-list');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '取得に失敗しました');
+
+        $('statCount').textContent = data.count;
+
+        if (data.count === 0) {
+          $('rawWrap').innerHTML = `<div class="empty">
+            まだ声が届いていません。<br>
+            <a href="/feedback.html">意見フォーム</a>をプレーヤーに共有してください。
+          </div>`;
+          return;
+        }
+
+        $('rawWrap').innerHTML = data.items.map((it) => `
+          <div class="raw-item">
+            <div class="meta">
+              <span class="kind ${escapeHtml(it.kind)}">${KIND_LABEL[it.kind] || 'その他'}</span>
+              <span>${new Date(it.createdAt).toLocaleString('ja-JP')}</span>
+              ${it.room ? `<span>ルーム: ${escapeHtml(it.room)}</span>` : ''}
+            </div>
+            <p>${escapeHtml(it.body)}</p>
+          </div>
+        `).join('');
+      } catch (err) {
+        $('rawWrap').innerHTML = `<div class="empty">読み込みエラー: ${escapeHtml(err.message)}</div>`;
+      }
+    }
+
+    function renderAnalysis(data) {
+      $('summaryText').textContent = data.summary || '';
+      $('nextActionText').textContent = data.nextAction || '';
+      const groups = data.groups || [];
+      $('statThemes').textContent = groups.length;
+
+      $('groupsWrap').innerHTML = groups.map((g) => {
+        const pri = ['high', 'medium', 'low'].includes(g.priority) ? g.priority : 'medium';
+        const priLabel = { high: '最優先', medium: '中', low: '低' }[pri];
+        const n = (g.itemIds || []).length;
+        return `
+          <div class="group ${pri}">
+            <div class="group-head">
+              <span class="pri">${priLabel}</span>
+              <h3>${escapeHtml(g.theme || '')}</h3>
+              ${n ? `<span class="cnt">該当 ${n} 件</span>` : ''}
+            </div>
+            <p class="reason">${escapeHtml(g.reason || '')}</p>
+            <div class="action"><strong>次のアクション</strong>${escapeHtml(g.action || '')}</div>
+          </div>
+        `;
+      }).join('');
+
+      $('resultWrap').classList.remove('hidden');
+    }
+
+    $('runBtn').addEventListener('click', async () => {
+      const btn = $('runBtn');
+      btn.disabled = true;
+      $('msg').className = 'msg';
+      $('msg').textContent = 'AIが分類中です…（数秒かかります）';
+      try {
+        const res = await fetch('/api/feedback-analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refresh: true }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '分類に失敗しました');
+
+        renderAnalysis(data);
+        $('msg').textContent = data.analyzedCount
+          ? `${data.analyzedCount} 件を分析しました（${new Date().toLocaleTimeString('ja-JP')}）。`
+          : 'まだ分析対象がありません。';
+      } catch (err) {
+        $('msg').className = 'msg err';
+        $('msg').textContent = 'エラー: ' + err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    loadRaw();
+  </script>
+</body>
+</html>

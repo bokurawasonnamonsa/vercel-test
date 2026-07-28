@@ -56,6 +56,7 @@
         document.getElementById('linksWrap').innerHTML = `
           <a class="btn admin" href="${data.adminUrl}" target="_blank" rel="noopener">🎖 指揮官コンソールを開く</a>
           <a class="btn player" href="${data.playerUrl}" target="_blank" rel="noopener">📱 プレーヤー画面を開く（配布用）</a>
+          <a class="btn admin" href="/owner.html" target="_blank" rel="noopener">🤖 オーナーダッシュボード（AIが要望を整理）</a>
         `;
         statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
       } catch (err) {

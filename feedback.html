@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ご意見・不具合の報告</title>
+<link rel="icon" type="image/png" href="/assets/icon.png">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+    background: #070b14; color: #e8eef7; line-height: 1.8;
+    display: flex; align-items: center; justify-content: center; padding: 2rem 1.5rem;
+  }
+  main { width: 100%; max-width: 520px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.35rem 0.9rem; background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.28); color: #4ade80;
+    border-radius: 999px; font-size: 0.78rem; margin-bottom: 1rem;
+  }
+  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
+  p.lead { color: #8fa0b8; font-size: 0.95rem; margin: 0 0 2rem; }
+  .card {
+    background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px; padding: 1.75rem;
+  }
+  label { display: block; font-size: 0.8rem; letter-spacing: 0.06em; color: #8fa0b8; margin-bottom: 0.6rem; }
+  .kinds { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem; }
+  .kinds input { position: absolute; opacity: 0; pointer-events: none; }
+  .kinds label {
+    margin: 0; text-align: center; padding: 0.7rem 0.4rem; cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.12); border-radius: 10px;
+    font-size: 0.88rem; color: #8fa0b8; letter-spacing: 0; transition: all 0.18s ease;
+  }
+  .kinds input:checked + label {
+    border-color: rgba(34,197,94,0.5); background: rgba(34,197,94,0.1); color: #4ade80; font-weight: 600;
+  }
+  textarea {
+    width: 100%; min-height: 150px; resize: vertical;
+    padding: 0.9rem 1rem; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.12); background: #0c1220; color: #e8eef7;
+    font-size: 0.98rem; font-family: inherit; line-height: 1.7;
+  }
+  textarea:focus { outline: none; border-color: rgba(34,197,94,0.45); }
+  .counter { text-align: right; font-size: 0.78rem; color: #5b6b81; margin-top: 0.4rem; }
+  button {
+    width: 100%; margin-top: 1.25rem; padding: 0.95rem;
+    border: none; border-radius: 10px; background: #22c55e; color: #05210f;
+    font-weight: 800; font-size: 1rem; cursor: pointer; transition: background 0.18s ease;
+  }
+  button:hover:not(:disabled) { background: #4ade80; }
+  button:disabled { opacity: 0.55; cursor: not-allowed; }
+  .status { margin-top: 1rem; font-size: 0.88rem; min-height: 1.4em; color: #8fa0b8; }
+  .status.ok { color: #4ade80; }
+  .status.err { color: #f87171; }
+  .done { text-align: center; padding: 1.5rem 0; }
+  .done .mark { font-size: 2.5rem; margin-bottom: 0.5rem; }
+  .done p { color: #8fa0b8; font-size: 0.95rem; }
+  .hidden { display: none; }
+  .foot { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; }
+  .foot a { color: #64748b; text-decoration: none; }
+  .foot a:hover { color: #4ade80; }
+</style>
+</head>
+<body>
+  <main>
+    <span class="badge">ご意見・不具合の報告</span>
+    <h1>気づいたことを教えてください</h1>
+    <p class="lead">いただいた内容はAIが自動で分類・優先順位付けし、次の開発計画に反映されます。</p>
+
+    <div class="card" id="formCard">
+      <form id="fbForm">
+        <label>種別</label>
+        <div class="kinds">
+          <input type="radio" name="kind" id="k-bug" value="bug">
+          <label for="k-bug">不具合</label>
+          <input type="radio" name="kind" id="k-req" value="request" checked>
+          <label for="k-req">要望</label>
+          <input type="radio" name="kind" id="k-other" value="other">
+          <label for="k-other">その他</label>
+        </div>
+
+        <label for="body">内容</label>
+        <textarea id="body" maxlength="1000" placeholder="例: オーバーレイが他のアプリを開くと消えてしまいます。&#10;例: 集結先ごとに別々のカウントダウンを出したいです。"></textarea>
+        <div class="counter"><span id="count">0</span> / 1000</div>
+
+        <button type="submit" id="submitBtn">送信する</button>
+      </form>
+      <div class="status" id="status"></div>
+    </div>
+
+    <div class="card hidden" id="doneCard">
+      <div class="done">
+        <div class="mark">✅</div>
+        <h2 style="margin:0 0 .5rem;font-size:1.15rem;">ありがとうございました</h2>
+        <p>いただいた内容は記録されました。<br>AIが他の声とあわせて分類し、開発の優先順位に反映します。</p>
+        <button type="button" id="againBtn" style="max-width:220px;margin:1rem auto 0;background:rgba(255,255,255,0.08);color:#e8eef7;">続けて報告する</button>
+      </div>
+    </div>
+
+    <div class="foot"><a href="/">← 製品ページへ戻る</a></div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const room = params.get('room') || '';
+
+    const bodyEl = document.getElementById('body');
+    const countEl = document.getElementById('count');
+    bodyEl.addEventListener('input', () => { countEl.textContent = bodyEl.value.length; });
+
+    document.getElementById('fbForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusEl = document.getElementById('status');
+      const btn = document.getElementById('submitBtn');
+      const kind = document.querySelector('input[name="kind"]:checked').value;
+      const text = bodyEl.value.trim();
+
+      if (!text) {
+        statusEl.className = 'status err';
+        statusEl.textContent = '内容を入力してください。';
+        return;
+      }
+
+      btn.disabled = true;
+      statusEl.className = 'status';
+      statusEl.textContent = '送信中…';
+
+      try {
+        const res = await fetch('/api/feedback-submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ kind, body: text, room }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '不明なエラー');
+
+        document.getElementById('formCard').classList.add('hidden');
+        document.getElementById('doneCard').classList.remove('hidden');
+      } catch (err) {
+        statusEl.className = 'status err';
+        statusEl.textContent = 'エラー: ' + err.message;
+        btn.disabled = false;
+      }
+    });
+
+    document.getElementById('againBtn').addEventListener('click', () => {
+      bodyEl.value = '';
+      countEl.textContent = '0';
+      document.getElementById('status').textContent = '';
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('doneCard').classList.add('hidden');
+      document.getElementById('formCard').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
