@@ -3,448 +3,536 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>同期カウントダウン支援アプリ｜ゲームから目を離さずに、自分だけのカウントダウン</title>
-<meta name="description" content="ゲーム画面に重ねて表示されるオーバーレイ型の同期カウントダウン。位置が違う全員を、同じ瞬間に到着させます。実際のイベントで219名が利用中。">
+<title>CommandClock｜ゲームから目を離さずに、自分だけのカウントダウンが始まる。</title>
+<meta name="description" content="指揮官の号令ひとつで、位置の違う全員がそれぞれのタイミングで動き出し、同じ瞬間に到着する。ゲーム画面に重ねて表示されるオーバーレイ型の同期カウントダウン。">
 <link rel="icon" type="image/png" href="/assets/icon.png">
 <style>
   :root {
     color-scheme: dark;
-    --bg: #05070d;
-    --bg-soft: #0b1120;
-    --panel: rgba(255,255,255,0.04);
-    --line: rgba(255,255,255,0.09);
-    --text: #e8eef7;
-    --muted: #8fa0b8;
-    --dim: #5b6b81;
-    --accent: #22c55e;
-    --accent-soft: #4ade80;
-    --amber: #f59e0b;
+    --bg: #08080c;
+    --bg-2: #0d0d13;
+    --panel: rgba(255,255,255,0.035);
+    --line: rgba(255,255,255,0.08);
+    --line-gold: rgba(233,169,60,0.28);
+    --text: #f4f2ee;
+    --muted: #9a9488;
+    --dim: #6b665d;
+    --gold: #e9a93c;
+    --gold-lt: #f5c263;
+    --gold-dim: rgba(233,169,60,0.12);
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body {
-    margin: 0;
+    margin: 0; background: var(--bg); color: var(--text); line-height: 1.85;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.85;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 1.75rem; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.6rem; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.12em; }
 
-  /* ============ HERO ============ */
-  .hero {
-    position: relative; overflow: hidden;
-    padding: 5.5rem 0 4.5rem;
-    background-image:
-      linear-gradient(100deg, rgba(5,7,13,0.96) 0%, rgba(5,7,13,0.82) 45%, rgba(5,7,13,0.5) 100%),
-      url('/assets/lp-hero.png');
-    background-size: cover; background-position: center right;
+  /* ---------- header ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(8,8,12,0.82); backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--line);
   }
-  .hero .inner { max-width: 620px; }
-  .logo { width: 52px; height: 52px; border-radius: 13px; margin-bottom: 1.4rem; box-shadow: 0 8px 30px rgba(34,197,94,0.3); }
-  .hero h1 {
-    font-size: clamp(1.85rem, 4.4vw, 2.85rem);
-    line-height: 1.38; margin: 0 0 1.1rem; letter-spacing: -0.02em; font-weight: 800;
-  }
-  .hero h1 .hl { color: var(--accent-soft); }
-  .hero .lead { color: #cbd5e1; font-size: 1.04rem; margin: 0 0 2.2rem; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.95rem 1.8rem; border-radius: 11px; text-decoration: none;
-    font-weight: 800; font-size: 1rem; border: none; cursor: pointer;
-    transition: transform 0.15s ease, background 0.15s ease;
-  }
-  .btn-primary { background: var(--accent); color: #04240f; box-shadow: 0 8px 24px rgba(34,197,94,0.28); }
-  .btn-primary:hover { background: var(--accent-soft); transform: translateY(-2px); }
-  .btn-ghost { background: rgba(255,255,255,0.06); color: var(--text); border: 1px solid var(--line); }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.22); }
-  .proof-inline { margin-top: 1.6rem; color: var(--muted); font-size: 0.88rem; }
-  .proof-inline strong { color: var(--accent-soft); font-size: 1.05rem; }
-
-  /* ============ sections ============ */
-  section { padding: 5rem 0; border-bottom: 1px solid var(--line); }
-  section:last-of-type { border-bottom: none; }
-  .step-label {
-    display: inline-block; font-size: 0.72rem; letter-spacing: 0.16em;
-    color: var(--dim); margin-bottom: 0.7rem; text-transform: uppercase;
-  }
-  h2 { font-size: clamp(1.35rem, 2.8vw, 1.85rem); margin: 0 0 0.9rem; letter-spacing: -0.015em; line-height: 1.45; }
-  .sec-lead { color: var(--muted); max-width: 660px; margin: 0 0 2.5rem; font-size: 0.98rem; }
-
-  /* ① 悩み */
-  .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
-  .pain {
-    background: var(--panel); border: 1px solid var(--line);
-    border-radius: 14px; padding: 1.6rem;
-    border-left: 3px solid rgba(239,68,68,0.5);
-  }
-  .pain .q { color: #fca5a5; font-size: 0.98rem; font-weight: 700; margin: 0 0 0.5rem; }
-  .pain p { margin: 0; color: var(--muted); font-size: 0.92rem; }
-
-  /* ② ベネフィット */
-  .benefit-hero {
-    background: linear-gradient(135deg, rgba(34,197,94,0.09), rgba(34,197,94,0.02));
-    border: 1px solid rgba(34,197,94,0.25); border-radius: 18px;
-    padding: 2.5rem; text-align: center; margin-bottom: 1.5rem;
-  }
-  .benefit-hero .big { font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 800; margin: 0 0 0.6rem; }
-  .benefit-hero p { color: #a7c8b4; margin: 0; font-size: 0.98rem; }
-  .benefit-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
-  .bcard { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; }
-  .bcard h3 { margin: 0 0 0.45rem; font-size: 1rem; }
-  .bcard p { margin: 0; color: var(--muted); font-size: 0.9rem; }
-
-  /* ③ 違い */
-  .table-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 620px; }
-  th, td { padding: 1rem; text-align: center; border-bottom: 1px solid var(--line); }
-  th:first-child, td:first-child { text-align: left; white-space: nowrap; }
-  thead th { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.05em; font-weight: 600; }
-  tbody tr:last-child td { border-bottom: none; }
-  .ours { background: rgba(34,197,94,0.06); }
-  .ours td { color: var(--accent-soft); font-weight: 700; }
-  .mark-o { color: var(--accent-soft); font-weight: 800; }
-  .mark-x { color: #64748b; }
-  .why-hard {
-    margin-top: 1.5rem; border-left: 3px solid var(--accent);
-    background: rgba(34,197,94,0.05); padding: 1.2rem 1.4rem; border-radius: 0 12px 12px 0;
-  }
-  .why-hard h3 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--accent-soft); }
-  .why-hard p { margin: 0; color: #cbd5e1; font-size: 0.92rem; }
-
-  /* ④ 証拠 */
-  .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
-  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; text-align: center; }
-  .stat .n { font-size: 2.1rem; font-weight: 800; color: var(--accent-soft); line-height: 1.2; }
-  .stat .n small { font-size: 0.9rem; color: var(--muted); font-weight: 400; }
-  .stat .k { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
-
-  /* ⑤ 使用シーン */
-  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; counter-reset: f; }
-  .fstep { counter-increment: f; position: relative; padding-top: 2.6rem; }
-  .fstep::before {
-    content: counter(f); position: absolute; top: 0; left: 0;
+  .nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.95rem 0; }
+  .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--text); }
+  .mark {
     width: 34px; height: 34px; border-radius: 50%;
-    background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.35);
-    color: var(--accent-soft); font-weight: 800; display: grid; place-items: center;
+    border: 1.5px solid var(--gold); position: relative; flex-shrink: 0;
   }
-  .fstep h3 { margin: 0 0 0.4rem; font-size: 1rem; }
-  .fstep p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+  .mark::before, .mark::after {
+    content: ''; position: absolute; background: var(--gold); border-radius: 2px;
+    left: 50%; bottom: 50%; transform-origin: bottom center;
+  }
+  .mark::before { width: 1.5px; height: 9px; transform: translateX(-50%) rotate(0deg); }
+  .mark::after { width: 1.5px; height: 6px; transform: translateX(-50%) rotate(95deg); }
+  .brand .name { font-weight: 700; font-size: 1.02rem; letter-spacing: 0.02em; }
+  .nav-cta {
+    padding: 0.5rem 1.35rem; border-radius: 999px; background: var(--gold); color: #241703;
+    font-weight: 800; font-size: 0.88rem; text-decoration: none; border: none; cursor: pointer;
+  }
+  .nav-cta:hover { background: var(--gold-lt); }
 
-  /* ⑥ 不安解消 */
-  .faq { display: grid; gap: 0.75rem; }
-  .faq details {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.4rem;
+  /* ---------- hero ---------- */
+  .hero { position: relative; overflow: hidden; padding: 5rem 0 4.5rem; }
+  .rings { position: absolute; inset: 0; pointer-events: none; opacity: 0.5; }
+  .ring {
+    position: absolute; border-radius: 50%; border: 1px solid rgba(233,169,60,0.12);
+    top: 50%; left: 62%; transform: translate(-50%,-50%);
   }
-  .faq summary { cursor: pointer; font-weight: 700; font-size: 0.96rem; list-style: none; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: '＋'; float: right; color: var(--accent-soft); }
-  .faq details[open] summary::after { content: '−'; }
-  .faq p { margin: 0.8rem 0 0; color: var(--muted); font-size: 0.92rem; }
+  .ring.r1 { width: 420px; height: 420px; }
+  .ring.r2 { width: 700px; height: 700px; border-color: rgba(233,169,60,0.09); }
+  .ring.r3 { width: 1000px; height: 1000px; border-color: rgba(233,169,60,0.055); }
+  .ring.r4 { width: 1360px; height: 1360px; border-color: rgba(233,169,60,0.035); }
+  .hero .inner { position: relative; z-index: 1; max-width: 700px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.42rem 1.05rem; border: 1px solid var(--line-gold);
+    border-radius: 999px; color: var(--gold); font-size: 0.75rem; margin-bottom: 1.8rem;
+  }
+  .badge .dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--gold);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+  h1 {
+    font-size: clamp(1.95rem, 5vw, 3.15rem); line-height: 1.34;
+    margin: 0 0 1.3rem; letter-spacing: -0.02em; font-weight: 800;
+  }
+  h1 .g { color: var(--gold); }
+  .lead { color: #b9b3a8; font-size: 1.05rem; margin: 0 0 2.3rem; max-width: 640px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 1rem 2.1rem; border-radius: 12px; font-weight: 800; font-size: 1rem;
+    text-decoration: none; border: none; cursor: pointer; transition: all 0.16s ease;
+  }
+  .btn-gold {
+    background: linear-gradient(180deg, var(--gold-lt), var(--gold)); color: #241703;
+    box-shadow: 0 10px 30px rgba(233,169,60,0.22);
+  }
+  .btn-gold:hover { filter: brightness(1.08); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--line); }
+  .btn-outline:hover { border-color: var(--line-gold); }
+  .social {
+    display: flex; align-items: center; gap: 0.75rem; margin-top: 2.2rem;
+    color: var(--muted); font-size: 0.9rem;
+  }
+  .dots { display: flex; }
+  .dots i {
+    width: 26px; height: 26px; border-radius: 50%; display: block;
+    background: linear-gradient(135deg,#3a3a45,#22222a); border: 2px solid var(--bg); margin-left: -9px;
+  }
+  .dots i:first-child { margin-left: 0; }
+  .social b { color: var(--gold); font-size: 1rem; }
 
-  /* ⑦ 料金 */
-  .pricing-note {
-    font-size: 0.88rem; color: #fcd9a0; background: rgba(245,158,11,0.08);
-    border: 1px solid rgba(245,158,11,0.3); border-radius: 12px;
-    padding: 1rem 1.3rem; margin-bottom: 1.75rem;
+  /* live countdown */
+  .clock-card {
+    position: relative; z-index: 1; margin-top: 3.2rem; max-width: 430px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+    border: 1px solid var(--line); border-radius: 18px; padding: 1.5rem 1.7rem;
+    backdrop-filter: blur(8px);
   }
-  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; }
+  .clock-card .k { font-size: 0.72rem; color: var(--dim); margin-bottom: 0.15rem; }
+  .clock-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .clock-row + .clock-row { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px solid var(--line); }
+  .cd { font-size: 2rem; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+  .cd.mine { color: var(--gold); }
+  .cd.all { color: var(--text); font-size: 1.35rem; }
+
+  /* ---------- sections ---------- */
+  section { padding: 5.5rem 0; border-top: 1px solid var(--line); }
+  .eyebrow { font-size: 0.72rem; color: var(--gold); margin-bottom: 0.85rem; }
+  h2 { font-size: clamp(1.4rem, 3.2vw, 2.05rem); margin: 0 0 1rem; letter-spacing: -0.018em; line-height: 1.45; }
+  .sec-lead { color: var(--muted); max-width: 680px; margin: 0 0 2.8rem; font-size: 0.99rem; }
+
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.1rem; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 1.7rem; }
+  .card h3 { margin: 0 0 0.55rem; font-size: 1.02rem; }
+  .card p { margin: 0; color: var(--muted); font-size: 0.93rem; }
+  .card.pain { border-left: 2px solid rgba(220,90,90,0.55); }
+  .card.pain h3 { color: #e8a0a0; }
+
+  /* sync visual */
+  .sync {
+    background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px;
+    padding: 2rem 1.9rem; margin-bottom: 1.6rem;
+  }
+  .sync .lbl { font-size: 0.74rem; color: var(--dim); margin-bottom: 0.9rem; }
+  .track { position: relative; height: 30px; margin-bottom: 1.6rem; }
+  .track .base {
+    position: absolute; left: 0; right: 0; top: 50%; height: 1px;
+    background: var(--line); transform: translateY(-50%);
+  }
+  .track .goal {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: var(--gold);
+  }
+  .track i {
+    position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%;
+    background: var(--gold); transform: translate(-50%,-50%); box-shadow: 0 0 10px rgba(233,169,60,0.6);
+  }
+  .track.scatter i { background: #6b665d; box-shadow: none; }
+  .sync .cap { font-size: 0.87rem; color: var(--muted); margin: 0; }
+  .sync .cap b { color: var(--gold); }
+
+  /* table */
+  .tbl-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 600px; }
+  th, td { padding: 1.05rem 1rem; text-align: center; border-bottom: 1px solid var(--line); }
+  th:first-child, td:first-child { text-align: left; white-space: nowrap; }
+  thead th { color: var(--dim); font-size: 0.76rem; font-weight: 600; }
+  tbody tr:last-child td { border-bottom: none; }
+  .ours { background: rgba(233,169,60,0.055); }
+  .ours td { color: var(--gold); font-weight: 700; }
+  .o { color: var(--gold); font-weight: 800; }
+  .x { color: #55504a; }
+  .note-gold {
+    margin-top: 1.6rem; border-left: 2px solid var(--gold);
+    background: rgba(233,169,60,0.05); padding: 1.2rem 1.5rem; border-radius: 0 12px 12px 0;
+  }
+  .note-gold h3 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--gold); }
+  .note-gold p { margin: 0; color: #cfc9bd; font-size: 0.92rem; }
+
+  /* stats */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 1.1rem; }
+  .stat { text-align: center; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem 1rem; }
+  .stat .n { font-size: 2.15rem; font-weight: 800; color: var(--gold); line-height: 1.15; }
+  .stat .n small { font-size: 0.85rem; color: var(--muted); font-weight: 400; }
+  .stat .k { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.4rem; counter-reset: s; }
+  .step { counter-increment: s; padding-top: 2.9rem; position: relative; }
+  .step::before {
+    content: '0' counter(s); position: absolute; top: 0; left: 0;
+    color: var(--gold); font-size: 0.9rem; letter-spacing: 0.1em;
+    font-family: ui-monospace, monospace;
+  }
+  .step::after {
+    content: ''; position: absolute; top: 1.85rem; left: 0; width: 26px; height: 1px; background: var(--line-gold);
+  }
+  .step h3 { margin: 0 0 0.45rem; font-size: 1rem; }
+  .step p { margin: 0; color: var(--muted); font-size: 0.91rem; }
+
+  /* faq */
+  .faq { display: grid; gap: 0.7rem; }
+  details {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 13px; padding: 1.15rem 1.5rem;
+  }
+  summary { cursor: pointer; font-weight: 700; font-size: 0.96rem; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '＋'; float: right; color: var(--gold); font-weight: 400; }
+  details[open] summary::after { content: '−'; }
+  details p { margin: 0.85rem 0 0; color: var(--muted); font-size: 0.92rem; }
+
+  /* pricing */
+  .price-note {
+    background: rgba(233,169,60,0.06); border: 1px solid var(--line-gold);
+    border-radius: 14px; padding: 1.15rem 1.5rem; font-size: 0.88rem; color: #ddd0b6; margin-bottom: 1.9rem;
+  }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(285px,1fr)); gap: 1.3rem; }
   .plan {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
-    padding: 2rem; display: flex; flex-direction: column; position: relative;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 20px;
+    padding: 2.1rem; display: flex; flex-direction: column; position: relative;
   }
-  .plan.featured { border-color: rgba(34,197,94,0.4); background: linear-gradient(180deg, rgba(34,197,94,0.06), var(--panel)); }
+  .plan.hot { border-color: var(--line-gold); background: linear-gradient(180deg, rgba(233,169,60,0.07), var(--panel)); }
   .plan .tag {
-    position: absolute; top: -11px; left: 2rem; padding: 0.15rem 0.75rem;
-    background: var(--accent); color: #04240f; border-radius: 999px; font-size: 0.72rem; font-weight: 800;
+    position: absolute; top: -11px; left: 2.1rem; background: var(--gold); color: #241703;
+    padding: 0.16rem 0.8rem; border-radius: 999px; font-size: 0.71rem; font-weight: 800;
   }
-  .plan h3 { margin: 0 0 0.3rem; font-size: 1.15rem; }
-  .plan .price { font-size: 2.2rem; font-weight: 800; margin: 0.4rem 0 1.2rem; }
-  .plan .price span { font-size: 0.9rem; font-weight: 400; color: var(--muted); }
+  .plan h3 { margin: 0; font-size: 1.12rem; }
+  .plan .amt { font-size: 2.3rem; font-weight: 800; margin: 0.5rem 0 1.3rem; }
+  .plan .amt span { font-size: 0.88rem; font-weight: 400; color: var(--muted); }
   .plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
-  .plan li { position: relative; padding-left: 1.5rem; margin-bottom: 0.6rem; color: #cbd5e1; font-size: 0.93rem; }
-  .plan li::before { content: '✓'; position: absolute; left: 0; color: var(--accent-soft); font-weight: 800; }
-  .plan button { margin-top: 1.75rem; width: 100%; justify-content: center; }
-  .status-msg { margin-top: 0.8rem; font-size: 0.85rem; color: var(--muted); min-height: 1.3em; text-align: center; }
-  .buy-note { font-size: 0.83rem; color: var(--dim); margin-top: 1.5rem; line-height: 1.8; }
-  .buy-note a { color: var(--accent-soft); }
+  .plan li { padding-left: 1.5rem; position: relative; margin-bottom: 0.6rem; font-size: 0.93rem; color: #cfc9bd; }
+  .plan li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 800; }
+  .plan .btn { margin-top: 1.8rem; width: 100%; }
+  .msg { margin-top: 0.8rem; font-size: 0.85rem; color: var(--muted); min-height: 1.3em; text-align: center; }
+  .fine { font-size: 0.83rem; color: var(--dim); margin-top: 1.7rem; line-height: 1.85; }
+  .fine a { color: var(--gold); }
 
-  footer { padding: 2.5rem 0 3rem; text-align: center; color: var(--dim); font-size: 0.85rem; }
+  footer { padding: 2.8rem 0 3.2rem; text-align: center; color: var(--dim); font-size: 0.85rem; border-top: 1px solid var(--line); }
   footer a { color: var(--muted); text-decoration: none; }
-  footer a:hover { color: var(--accent-soft); }
+  footer a:hover { color: var(--gold); }
 
   @media (max-width: 700px) {
-    .hero { padding: 3.5rem 0 3rem; background-position: 72% center; }
-    section { padding: 3.5rem 0; }
-    .btn { width: 100%; justify-content: center; }
+    .hero { padding: 3.2rem 0 3.5rem; }
+    section { padding: 3.8rem 0; }
+    .btn { width: 100%; }
+    .ring.r1 { width: 300px; height: 300px; }
+    .ring.r2 { width: 480px; height: 480px; }
+    .nav-cta { padding: 0.45rem 1.1rem; font-size: 0.83rem; }
   }
 </style>
 </head>
 <body>
 
-  <!-- ============ HERO ============ -->
-  <header class="hero">
-    <div class="wrap">
-      <div class="inner">
-        <img class="logo" src="/assets/icon.png" alt="アプリアイコン">
-        <h1>ゲームから目を離さずに、<br><span class="hl">自分だけのカウントダウン</span>が始まる。</h1>
-        <p class="lead">
-          指揮官の号令ひとつで、位置の違う全員がそれぞれのタイミングで動き出し、同じ瞬間に到着する。
-          画面を切り替える必要も、2台目の端末もいりません。
-        </p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#pricing">申し込む（月 ¥100）</a>
-          <a class="btn btn-ghost" href="#difference">他のツールとの違いを見る</a>
-        </div>
-        <div class="proof-inline">
-          実際のアライアンスイベントで <strong>219名</strong> が利用中
-        </div>
-      </div>
-    </div>
-  </header>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <span class="mark"></span>
+      <span class="name mono">CommandClock</span>
+    </a>
+    <a class="nav-cta" href="#pricing">申し込む</a>
+  </div>
+</header>
 
-  <!-- ============ ① ターゲットの悩み ============ -->
-  <section id="pain">
-    <div class="wrap">
-      <span class="step-label">こんな場面はありませんか</span>
-      <h2>号令をかけても、到着はいつもバラバラ。</h2>
-      <p class="sec-lead">
-        50〜200人規模のアライアンスをまとめる立場なら、この悔しさを何度も味わっているはずです。
+<!-- ===== HERO ===== -->
+<div class="hero">
+  <div class="rings">
+    <span class="ring r1"></span><span class="ring r2"></span>
+    <span class="ring r3"></span><span class="ring r4"></span>
+  </div>
+  <div class="wrap">
+    <div class="inner">
+      <span class="badge mono"><span class="dot"></span>ALLIANCE EVENT / LIVE</span>
+      <h1>ゲームから目を離さずに、<br><span class="g">自分だけのカウントダウン</span>が始まる。</h1>
+      <p class="lead">
+        指揮官の号令ひとつで、位置の違う全員がそれぞれのタイミングで動き出し、同じ瞬間に到着する。
+        画面を切り替える必要も、2台目の端末もいりません。
       </p>
-      <div class="pain-grid">
-        <div class="pain">
-          <p class="q">全員に同時に声をかけたのに</p>
-          <p>メンバーの位置がそれぞれ違うため、同時に出発させても到着時刻はバラバラになる。揃えるべきなのは出発ではなく到着です。</p>
+      <div class="cta-row">
+        <a class="btn btn-gold" href="#pricing">申し込む（月 ¥100）</a>
+        <a class="btn btn-outline" href="#difference">まず詳しく見る</a>
+      </div>
+      <div class="social">
+        <span class="dots"><i></i><i></i><i></i></span>
+        実際のアライアンスイベントで <b>219名</b> が利用中
+      </div>
+
+      <div class="clock-card">
+        <div class="clock-row">
+          <div>
+            <div class="k mono">YOUR START</div>
+            <div class="cd mine" id="cdMine">--:--</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="k mono">ARRIVAL</div>
+            <div class="cd all" id="cdAll">--:--</div>
+          </div>
         </div>
-        <div class="pain">
-          <p class="q">Discordを見ている間に手が止まる</p>
-          <p>口頭カウントダウンを聞くために画面から目を離した一瞬で、操作が遅れる。全員に同じ音声しか流せないため、個人ごとのタイミングは配れません。</p>
-        </div>
-        <div class="pain">
-          <p class="q">数秒のズレで作戦が崩れる</p>
-          <p>一人の到着が遅れただけで攻略は失敗する。運営者としては、毎回この不確実性を抱えたまま号令をかけることになります。</p>
+        <div class="clock-row" style="display:block;">
+          <div class="k mono" style="margin-bottom:.3rem;">SAMPLE — 移動時間 45 秒の場合</div>
+          <div style="color:var(--muted);font-size:.86rem;">
+            到着目標から自分の移動時間を引いた時刻に、あなただけのスタートが来ます。
+          </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- ============ ② ベネフィット ============ -->
-  <section id="benefit">
-    <div class="wrap">
-      <span class="step-label">このアプリで得られること</span>
-      <h2>全員が、同じ瞬間に到着する。</h2>
-      <p class="sec-lead">
-        一人ひとりの移動時間から逆算し、それぞれに違うスタートタイミングを配信します。
-      </p>
-      <div class="benefit-hero">
-        <p class="big">号令はひとつ。動き出す時刻は、全員バラバラ。</p>
-        <p>だから、到着だけがぴったり揃います。</p>
+<!-- ===== ① 悩み ===== -->
+<section id="pain">
+  <div class="wrap">
+    <div class="eyebrow mono">THE PROBLEM</div>
+    <h2>号令をかけても、到着はいつもバラバラ。</h2>
+    <p class="sec-lead">50〜200人規模のアライアンスをまとめる立場なら、この悔しさを何度も味わっているはずです。</p>
+    <div class="grid3">
+      <div class="card pain">
+        <h3>全員に同時に声をかけたのに</h3>
+        <p>メンバーの位置がそれぞれ違うため、同時に出発させても到着時刻はバラバラになる。揃えるべきなのは出発ではなく到着です。</p>
       </div>
-      <div class="benefit-list">
-        <div class="bcard">
-          <h3>攻略成功率が上がる</h3>
-          <p>同着が安定することで、これまで数秒のズレで落としていた作戦が通るようになります。</p>
-        </div>
-        <div class="bcard">
-          <h3>運営者が声を出し続けなくていい</h3>
-          <p>号令を出した後は、各メンバーの端末が自動でカウントします。指揮に集中できます。</p>
-        </div>
-        <div class="bcard">
-          <h3>リーダーとしての信頼が積み上がる</h3>
-          <p>「この人が仕切ると決まる」という実績が、アライアンス全体の結束につながります。</p>
-        </div>
+      <div class="card pain">
+        <h3>Discordを見ている間に手が止まる</h3>
+        <p>口頭カウントダウンを聞くために画面から目を離した一瞬で、操作が遅れる。全員に同じ音声しか流せないため、個人ごとのタイミングは配れません。</p>
+      </div>
+      <div class="card pain">
+        <h3>数秒のズレで作戦が崩れる</h3>
+        <p>一人の到着が遅れただけで攻略は失敗する。運営者としては、毎回この不確実性を抱えたまま号令をかけることになります。</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============ ③ 他社との違い ============ -->
-  <section id="difference">
-    <div class="wrap">
-      <span class="step-label">他のツールとの違い</span>
-      <h2>同時到着だけなら、他にもできます。</h2>
-      <p class="sec-lead">
-        違いは「ゲームの外に出ずに済むか」です。ここができるツールは、他にありません。
-      </p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>手段</th><th>同時到着</th><th>個人ごとの<br>タイミング</th><th>ゲームを<br>離れない</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td>Discord管理サービス</td><td class="mark-o">◯</td><td class="mark-x">×</td><td class="mark-x">×</td></tr>
-            <tr><td>Discordボット（無料）</td><td class="mark-o">◯</td><td class="mark-x">×</td><td class="mark-x">×</td></tr>
-            <tr><td>ブラウザタイマー</td><td class="mark-o">◯</td><td class="mark-x">△</td><td class="mark-x">×</td></tr>
-            <tr class="ours"><td>このアプリ</td><td>◯</td><td>◯</td><td>◯</td></tr>
-          </tbody>
-        </table>
+<!-- ===== ② ベネフィット ===== -->
+<section id="benefit">
+  <div class="wrap">
+    <div class="eyebrow mono">THE BENEFIT</div>
+    <h2>全員が、同じ瞬間に到着する。</h2>
+    <p class="sec-lead">一人ひとりの移動時間から逆算し、それぞれに違うスタートタイミングを配信します。</p>
+
+    <div class="sync">
+      <div class="lbl mono">従来 — 同時に出発する</div>
+      <div class="track scatter">
+        <span class="base"></span><span class="goal"></span>
+        <i style="left:64%"></i><i style="left:79%"></i><i style="left:88%"></i><i style="left:97%"></i>
       </div>
-      <div class="why-hard">
-        <h3>なぜ他にないのか</h3>
-        <p>
-          端末時刻のズレをネットワーク時刻で補正し、移動時間から逆算し、号令と連動して個別配信する——
-          この3つが同時に必要だと気づくには、実際に同着に失敗し続けた経験が要ります。
-          このアプリは、同じ悔しさを味わったプレイヤー自身が作りました。
-        </p>
+      <div class="lbl mono">CommandClock — 同時に到着する</div>
+      <div class="track">
+        <span class="base"></span><span class="goal"></span>
+        <i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i>
+      </div>
+      <p class="cap">出発の時刻はバラバラ。<b>揃うのは到着だけ。</b></p>
+    </div>
+
+    <div class="grid3">
+      <div class="card">
+        <h3>攻略成功率が上がる</h3>
+        <p>同着が安定することで、これまで数秒のズレで落としていた作戦が通るようになります。</p>
+      </div>
+      <div class="card">
+        <h3>運営者が声を出し続けなくていい</h3>
+        <p>号令を出した後は、各メンバーの端末が自動でカウントします。指揮に集中できます。</p>
+      </div>
+      <div class="card">
+        <h3>リーダーとしての信頼が積み上がる</h3>
+        <p>「この人が仕切ると決まる」という実績が、アライアンス全体の結束につながります。</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ============ ④ 証拠 ============ -->
-  <section id="proof">
-    <div class="wrap">
-      <span class="step-label">実績</span>
-      <h2>試作品ではありません。すでに動いています。</h2>
-      <p class="sec-lead">
-        実際のアライアンス対抗イベントで運用され、参加者は増え続けています。
-      </p>
-      <div class="proof-grid">
-        <div class="stat"><div class="n">219<small> 名</small></div><div class="k">直近イベントの利用者数</div></div>
-        <div class="stat"><div class="n">+5.8<small> %</small></div><div class="k">前回イベントからの増加</div></div>
-        <div class="stat"><div class="n">200<small> 名超</small></div><div class="k">毎回の実運用規模</div></div>
-        <div class="stat"><div class="n">Android<small></small></div><div class="k">オーバーレイ実装済み</div></div>
-      </div>
+<!-- ===== ③ 違い ===== -->
+<section id="difference">
+  <div class="wrap">
+    <div class="eyebrow mono">THE DIFFERENCE</div>
+    <h2>同時到着だけなら、他にもできます。</h2>
+    <p class="sec-lead">違いは「ゲームの外に出ずに済むか」です。ここができるツールは、他にありません。</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>手段</th><th>同時到着</th><th>個人ごとの<br>タイミング</th><th>ゲームを<br>離れない</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Discord管理サービス</td><td class="o">◯</td><td class="x">×</td><td class="x">×</td></tr>
+          <tr><td>Discordボット（無料）</td><td class="o">◯</td><td class="x">×</td><td class="x">×</td></tr>
+          <tr><td>ブラウザタイマー</td><td class="o">◯</td><td class="x">△</td><td class="x">×</td></tr>
+          <tr class="ours"><td>CommandClock</td><td>◯</td><td>◯</td><td>◯</td></tr>
+        </tbody>
+      </table>
     </div>
-  </section>
-
-  <!-- ============ ⑤ 使用シーン ============ -->
-  <section id="how">
-    <div class="wrap">
-      <span class="step-label">使い方</span>
-      <h2>申し込んだその場から使えます。</h2>
-      <p class="sec-lead">
-        インストール作業も、サーバーの用意もいりません。
-      </p>
-      <div class="flow">
-        <div class="fstep">
-          <h3>申し込む</h3>
-          <p>決済が終わると、その場で指揮官用とメンバー配布用のURLが発行されます。</p>
-        </div>
-        <div class="fstep">
-          <h3>メンバーにURLを配る</h3>
-          <p>各メンバーは自分の移動時間を一度入力するだけ。以降は保存されます。</p>
-        </div>
-        <div class="fstep">
-          <h3>号令を出す</h3>
-          <p>到着させたい時刻を入力して送信するだけ。全員の画面に即座に反映されます。</p>
-        </div>
-        <div class="fstep">
-          <h3>各自の画面が動き出す</h3>
-          <p>一人ひとりに違うスタートタイミングが表示され、全員が同じ瞬間に到着します。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ⑥ 不安解消 ============ -->
-  <section id="faq">
-    <div class="wrap">
-      <span class="step-label">よくあるご質問</span>
-      <h2>申し込む前に、気になるところ。</h2>
-      <div class="faq">
-        <details>
-          <summary>解約はいつでもできますか？</summary>
-          <p>できます。ご連絡いただければ次回以降の請求は発生しません。契約期間の縛りはありません。</p>
-        </details>
-        <details>
-          <summary>メンバー全員がアプリを入れる必要がありますか？</summary>
-          <p>いいえ。配布されたURLをブラウザで開くだけで使えます。インストールは不要です。</p>
-        </details>
-        <details>
-          <summary>カード情報は安全ですか？</summary>
-          <p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p>
-        </details>
-        <details>
-          <summary>特定のゲーム専用ですか？</summary>
-          <p>いいえ。時刻を合わせて複数人が同時に行動する場面であれば、ゲームの種類を問わず使えます。</p>
-        </details>
-        <details>
-          <summary>うまく動かなかった場合は？</summary>
-          <p>サービスが正常に提供できなかった場合は個別に対応します。お問い合わせ先は特定商取引法に基づく表記に記載しています。</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ ⑦ 今申し込む理由 ============ -->
-  <section id="pricing">
-    <div class="wrap">
-      <span class="step-label">料金</span>
-      <h2>いまは検証運用中のため、特別価格です。</h2>
-      <p class="sec-lead">
-        実際に使っていただき、要望をいただきながら育てている段階です。その分、価格を抑えています。
-      </p>
-      <div class="pricing-note">
-        現在の <strong>月 ¥100</strong> は検証運用中の特別価格です。
-        想定している通常価格は個人プラン ¥500/月・アライアンスプラン ¥3,000/月で、今後正式に決定します。
-        いま申し込まれた方には、この価格のまま継続してご利用いただけるようにする予定です。
-      </div>
-      <div class="plans">
-        <div class="plan">
-          <h3>個人プラン</h3>
-          <div class="price">¥100 <span>/ 月</span></div>
-          <ul>
-            <li>個人アカウントで利用</li>
-            <li>オーバーレイ表示対応</li>
-            <li>個別カウントダウン配信</li>
-          </ul>
-          <button class="btn btn-ghost" data-plan="personal">このプランで申し込む</button>
-          <div class="status-msg" data-status="personal"></div>
-        </div>
-        <div class="plan featured">
-          <span class="tag">おすすめ</span>
-          <h3>アライアンスプラン</h3>
-          <div class="price">¥100 <span>/ 月</span></div>
-          <ul>
-            <li>アライアンス単位で人数無制限</li>
-            <li>オーバーレイ表示対応</li>
-            <li>個別カウントダウン配信</li>
-            <li>要望・不具合の優先対応</li>
-          </ul>
-          <button class="btn btn-primary" data-plan="alliance">このプランで申し込む</button>
-          <div class="status-msg" data-status="alliance"></div>
-        </div>
-      </div>
-      <p class="buy-note">
-        お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--muted);">実際にご請求が発生します</strong>。
-        お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
+    <div class="note-gold">
+      <h3>なぜ他にないのか</h3>
+      <p>
+        端末時刻のズレをネットワーク時刻で補正し、移動時間から逆算し、号令と連動して個別配信する——
+        この3つが同時に必要だと気づくには、実際に同着に失敗し続けた経験が要ります。
+        CommandClockは、同じ悔しさを味わったプレイヤー自身が作りました。
       </p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div class="wrap">
-      <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
-      &nbsp;·&nbsp;
-      <a href="/feedback.html">ご意見・不具合の報告</a>
-      <div style="margin-top:1rem;">&copy; 2026 同期カウントダウン支援アプリ</div>
+<!-- ===== ④ 証拠 ===== -->
+<section id="proof">
+  <div class="wrap">
+    <div class="eyebrow mono">THE PROOF</div>
+    <h2>試作品ではありません。すでに動いています。</h2>
+    <p class="sec-lead">実際のアライアンス対抗イベントで運用され、参加者は増え続けています。</p>
+    <div class="stats">
+      <div class="stat"><div class="n">219<small> 名</small></div><div class="k">直近イベントの利用者数</div></div>
+      <div class="stat"><div class="n">+5.8<small> %</small></div><div class="k">前回イベントからの増加</div></div>
+      <div class="stat"><div class="n">200<small> 名超</small></div><div class="k">毎回の実運用規模</div></div>
+      <div class="stat"><div class="n" style="font-size:1.5rem;">Android</div><div class="k">オーバーレイ実装済み</div></div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    document.querySelectorAll('button[data-plan]').forEach((btn) => {
-      btn.addEventListener('click', async () => {
-        const plan = btn.getAttribute('data-plan');
-        const statusEl = document.querySelector(`[data-status="${plan}"]`);
-        btn.disabled = true;
-        statusEl.textContent = '決済ページを準備中…';
-        try {
-          const res = await fetch('/api/create-checkout-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ plan }),
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || '不明なエラー');
-          window.location.href = data.url;
-        } catch (err) {
-          statusEl.textContent = 'エラー: ' + err.message;
-          btn.disabled = false;
-        }
-      });
+<!-- ===== ⑤ 使い方 ===== -->
+<section id="how">
+  <div class="wrap">
+    <div class="eyebrow mono">HOW IT WORKS</div>
+    <h2>申し込んだその場から使えます。</h2>
+    <p class="sec-lead">インストール作業も、サーバーの用意もいりません。</p>
+    <div class="steps">
+      <div class="step"><h3>申し込む</h3><p>決済が終わると、その場で指揮官用とメンバー配布用のURLが発行されます。</p></div>
+      <div class="step"><h3>メンバーにURLを配る</h3><p>各メンバーは自分の移動時間を一度入力するだけ。以降は保存されます。</p></div>
+      <div class="step"><h3>号令を出す</h3><p>到着させたい時刻を入力して送信するだけ。全員の画面に即座に反映されます。</p></div>
+      <div class="step"><h3>各自の画面が動き出す</h3><p>一人ひとりに違うスタートタイミングが表示され、全員が同じ瞬間に到着します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ⑥ 不安解消 ===== -->
+<section id="faq">
+  <div class="wrap">
+    <div class="eyebrow mono">FAQ</div>
+    <h2>申し込む前に、気になるところ。</h2>
+    <div class="faq">
+      <details><summary>解約はいつでもできますか？</summary><p>できます。ご連絡いただければ次回以降の請求は発生しません。契約期間の縛りはありません。</p></details>
+      <details><summary>メンバー全員がアプリを入れる必要がありますか？</summary><p>いいえ。配布されたURLをブラウザで開くだけで使えます。インストールは不要です。</p></details>
+      <details><summary>カード情報は安全ですか？</summary><p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p></details>
+      <details><summary>特定のゲーム専用ですか？</summary><p>いいえ。時刻を合わせて複数人が同時に行動する場面であれば、ゲームの種類を問わず使えます。</p></details>
+      <details><summary>うまく動かなかった場合は？</summary><p>サービスが正常に提供できなかった場合は個別に対応します。お問い合わせ先は特定商取引法に基づく表記に記載しています。</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ⑦ 料金 ===== -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow mono">PRICING</div>
+    <h2>いまは検証運用中のため、特別価格です。</h2>
+    <p class="sec-lead">実際に使っていただき、要望をいただきながら育てている段階です。その分、価格を抑えています。</p>
+    <div class="price-note">
+      現在の <strong>月 ¥100</strong> は検証運用中の特別価格です。
+      想定している通常価格は個人プラン ¥500/月・アライアンスプラン ¥3,000/月で、今後正式に決定します。
+      いま申し込まれた方には、この価格のまま継続してご利用いただけるようにする予定です。
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3>個人プラン</h3>
+        <div class="amt">¥100 <span>/ 月</span></div>
+        <ul>
+          <li>個人アカウントで利用</li>
+          <li>オーバーレイ表示対応</li>
+          <li>個別カウントダウン配信</li>
+        </ul>
+        <button class="btn btn-outline" data-plan="personal">このプランで申し込む</button>
+        <div class="msg" data-status="personal"></div>
+      </div>
+      <div class="plan hot">
+        <span class="tag">おすすめ</span>
+        <h3>アライアンスプラン</h3>
+        <div class="amt">¥100 <span>/ 月</span></div>
+        <ul>
+          <li>アライアンス単位で人数無制限</li>
+          <li>オーバーレイ表示対応</li>
+          <li>個別カウントダウン配信</li>
+          <li>要望・不具合の優先対応</li>
+        </ul>
+        <button class="btn btn-gold" data-plan="alliance">このプランで申し込む</button>
+        <div class="msg" data-status="alliance"></div>
+      </div>
+    </div>
+    <p class="fine">
+      お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--muted);">実際にご請求が発生します</strong>。
+      お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
+    &nbsp;·&nbsp;
+    <a href="/feedback.html">ご意見・不具合の報告</a>
+    <div style="margin-top:1rem;">&copy; 2026 CommandClock</div>
+  </div>
+</footer>
+
+<script>
+  // ヒーローの live カウントダウン（デモ表示）
+  const TRAVEL = 45;           // 自分の移動時間（秒）
+  const CYCLE  = 180;          // 到着までの周期（秒）
+  const fmt = (s) => {
+    const neg = s < 0; s = Math.abs(Math.round(s));
+    return (neg ? '-' : '') + String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+  };
+  const mineEl = document.getElementById('cdMine');
+  const allEl  = document.getElementById('cdAll');
+  setInterval(() => {
+    const t = CYCLE - (Math.floor(Date.now()/1000) % CYCLE);
+    allEl.textContent = fmt(t);
+    const mine = t - TRAVEL;
+    mineEl.textContent = mine > 0 ? fmt(mine) : 'START';
+  }, 250);
+
+  // 決済
+  document.querySelectorAll('button[data-plan]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const plan = btn.getAttribute('data-plan');
+      const el = document.querySelector(`[data-status="${plan}"]`);
+      btn.disabled = true;
+      el.textContent = '決済ページを準備中…';
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '不明なエラー');
+        window.location.href = data.url;
+      } catch (err) {
+        el.textContent = 'エラー: ' + err.message;
+        btn.disabled = false;
+      }
     });
-  </script>
+  });
+</script>
 </body>
 </html>
