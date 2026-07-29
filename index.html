@@ -59,10 +59,8 @@
   }
   .nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.95rem 0; }
   .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--text); }
-  .mark {
-    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0; display: block;
-    object-fit: cover;
-  }
+  /* 背景が黒なのでヘッダーに溶け込む。角丸プレートは不要 */
+  .mark { width: 36px; height: 36px; flex-shrink: 0; display: block; }
   .brand .name { font-weight: 700; font-size: 1.02rem; letter-spacing: 0.02em; }
   .nav-cta {
     padding: 0.5rem 1.35rem; border-radius: 999px; background: var(--gold); color: #241703;
@@ -362,7 +360,7 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="/">
-      <img class="mark" src="/assets/icon-gold.png" alt="">
+      <img class="mark" src="/assets/mark.png" alt="">
       <span class="name mono">CommandClock</span>
     </a>
     <a class="nav-cta" href="#pricing">申し込む</a>
