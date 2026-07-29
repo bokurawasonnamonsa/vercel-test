@@ -80,11 +80,14 @@
   .hero {
     position: relative; overflow: hidden; padding: 6rem 0 5rem;
     background-image:
-      linear-gradient(100deg, var(--bg) 0%, var(--bg) 26%, rgba(8,8,12,0.86) 44%, rgba(8,8,12,0.35) 66%, rgba(8,8,12,0.15) 100%),
+      /* 上下も締めて、写真が主張しすぎないようにする */
+      linear-gradient(180deg, rgba(8,8,12,.75) 0%, rgba(8,8,12,.25) 30%, rgba(8,8,12,.35) 75%, var(--bg) 100%),
+      /* 左は見出しのためほぼ黒、右にかけて時計を覗かせる */
+      linear-gradient(95deg, var(--bg) 0%, var(--bg) 34%, rgba(8,8,12,.94) 48%, rgba(8,8,12,.72) 66%, rgba(8,8,12,.5) 100%),
       url('/assets/hero.png');
-    background-size: cover, cover;
-    background-position: center, center right;
-    background-repeat: no-repeat, no-repeat;
+    background-size: cover, cover, 78% auto;
+    background-position: center, center, right -6% center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
   }
   /* 奥行きのある金色の光 */
   .hero::before {
