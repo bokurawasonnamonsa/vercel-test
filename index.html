@@ -5,7 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CommandClock｜ゲームから目を離さずに、自分だけのカウントダウンが始まる。</title>
 <meta name="description" content="指揮官の号令ひとつで、位置の違う全員がそれぞれのタイミングで動き出し、同じ瞬間に到着する。ゲーム画面に重ねて表示されるオーバーレイ型の同期カウントダウン。">
-<link rel="icon" type="image/png" href="/assets/icon.png">
+<link rel="icon" type="image/png" href="/assets/icon-gold.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://commandclock.jp/">
+<meta property="og:title" content="CommandClock｜ゲームから目を離さずに、自分だけのカウントダウンが始まる。">
+<meta property="og:description" content="指揮官の号令ひとつで、位置の違う全員がそれぞれのタイミングで動き出し、同じ瞬間に到着する。実際のイベントで219名が利用中。">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp.png">
 <style>
   :root {
     color-scheme: dark;
@@ -70,7 +77,15 @@
   .nav-cta:hover { background: var(--gold-lt); }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; overflow: hidden; padding: 6rem 0 5rem; }
+  .hero {
+    position: relative; overflow: hidden; padding: 6rem 0 5rem;
+    background-image:
+      linear-gradient(100deg, var(--bg) 0%, var(--bg) 26%, rgba(8,8,12,0.86) 44%, rgba(8,8,12,0.35) 66%, rgba(8,8,12,0.15) 100%),
+      url('/assets/hero.png');
+    background-size: cover, cover;
+    background-position: center, center right;
+    background-repeat: no-repeat, no-repeat;
+  }
   /* 奥行きのある金色の光 */
   .hero::before {
     content: ''; position: absolute; width: 1100px; height: 1100px; border-radius: 50%;
@@ -187,6 +202,23 @@
   .card p { margin: 0; color: var(--muted); font-size: 0.93rem; }
   .card.pain { border-left: 2px solid rgba(220,90,90,0.55); }
   .card.pain h3 { color: #e8a0a0; }
+
+  /* 収束のビジュアル */
+  .converge-fig { margin: 0 0 1.6rem; position: relative; }
+  .converge-fig img {
+    width: 100%; display: block; border-radius: 18px; border: 1px solid var(--line);
+    /* 上下を背景になじませ、切り取り感を消す */
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  }
+  .converge-fig figcaption {
+    position: absolute; left: 2rem; bottom: 1.6rem;
+    font-size: 0.9rem; color: #ddd0b6; letter-spacing: 0.02em;
+    text-shadow: 0 2px 14px rgba(0,0,0,.9);
+  }
+  @media (max-width: 700px) {
+    .converge-fig figcaption { position: static; margin-top: .7rem; text-align: center; }
+  }
 
   /* sync visual */
   .sync {
@@ -414,6 +446,11 @@
     <div class="eyebrow mono">THE BENEFIT</div>
     <h2>全員が、同じ瞬間に到着する。</h2>
     <p class="sec-lead">一人ひとりの移動時間から逆算し、それぞれに違うスタートタイミングを配信します。</p>
+
+    <figure class="converge-fig">
+      <img src="/assets/converge.png" alt="バラバラの位置から出た光の筋が、一点に収束していく様子">
+      <figcaption>位置の違う全員が、ひとつの瞬間へ。</figcaption>
+    </figure>
 
     <div class="sync">
       <div class="lbl mono">従来 — 同時に出発する</div>
