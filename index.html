@@ -27,9 +27,22 @@
     margin: 0; background: var(--bg); color: var(--text); line-height: 1.85;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
     -webkit-font-smoothing: antialiased;
+    position: relative;
   }
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.6rem; }
+  /* フィルム粒子 — 全面に薄く乗せて安っぽさを消す */
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: 999; pointer-events: none; opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 1.6rem; position: relative; z-index: 1; }
   .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0.12em; }
+
+  /* スクロールに合わせて現れる */
+  .rise { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.7,.3,1), transform .9s cubic-bezier(.2,.7,.3,1); }
+  .rise.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .rise { opacity: 1; transform: none; transition: none; }
+  }
 
   /* ---------- header ---------- */
   header.nav {
@@ -57,16 +70,34 @@
   .nav-cta:hover { background: var(--gold-lt); }
 
   /* ---------- hero ---------- */
-  .hero { position: relative; overflow: hidden; padding: 5rem 0 4.5rem; }
-  .rings { position: absolute; inset: 0; pointer-events: none; opacity: 0.5; }
-  .ring {
-    position: absolute; border-radius: 50%; border: 1px solid rgba(233,169,60,0.12);
-    top: 50%; left: 62%; transform: translate(-50%,-50%);
+  .hero { position: relative; overflow: hidden; padding: 6rem 0 5rem; }
+  /* 奥行きのある金色の光 */
+  .hero::before {
+    content: ''; position: absolute; width: 1100px; height: 1100px; border-radius: 50%;
+    top: 50%; left: 68%; transform: translate(-50%,-50%); pointer-events: none;
+    background: radial-gradient(circle, rgba(233,169,60,0.16) 0%, rgba(233,169,60,0.05) 38%, transparent 66%);
+    filter: blur(30px); animation: breathe 9s ease-in-out infinite;
   }
-  .ring.r1 { width: 420px; height: 420px; }
-  .ring.r2 { width: 700px; height: 700px; border-color: rgba(233,169,60,0.09); }
-  .ring.r3 { width: 1000px; height: 1000px; border-color: rgba(233,169,60,0.055); }
-  .ring.r4 { width: 1360px; height: 1360px; border-color: rgba(233,169,60,0.035); }
+  @keyframes breathe {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity: .85; }
+    50%     { transform: translate(-50%,-50%) scale(1.1); opacity: 1; }
+  }
+  .rings { position: absolute; inset: 0; pointer-events: none; }
+  .ring {
+    position: absolute; border-radius: 50%; border: 1px solid rgba(233,169,60,0.13);
+    top: 50%; left: 68%; transform: translate(-50%,-50%);
+    animation: expand 7s ease-out infinite;
+  }
+  /* 中心から外へ広がる — 同期の号令が伝わる様子 */
+  @keyframes expand {
+    0%   { transform: translate(-50%,-50%) scale(.55); opacity: 0; }
+    18%  { opacity: .9; }
+    100% { transform: translate(-50%,-50%) scale(1.5); opacity: 0; }
+  }
+  .ring.r1 { width: 420px; height: 420px; animation-delay: 0s; }
+  .ring.r2 { width: 700px; height: 700px; animation-delay: 1.75s; }
+  .ring.r3 { width: 1000px; height: 1000px; animation-delay: 3.5s; }
+  .ring.r4 { width: 1360px; height: 1360px; animation-delay: 5.25s; }
   .hero .inner { position: relative; z-index: 1; max-width: 700px; }
   .badge {
     display: inline-flex; align-items: center; gap: 0.55rem;
@@ -82,7 +113,14 @@
     font-size: clamp(1.95rem, 5vw, 3.15rem); line-height: 1.34;
     margin: 0 0 1.3rem; letter-spacing: -0.02em; font-weight: 800;
   }
-  h1 .g { color: var(--gold); }
+  /* 金属質のゴールド + ゆっくり流れる光沢 */
+  h1 .g {
+    background: linear-gradient(100deg, #b8842a 0%, #f5c263 22%, #fff2cf 34%, #f5c263 46%, #b8842a 70%, #f5c263 100%);
+    background-size: 260% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: sheen 7s linear infinite;
+  }
+  @keyframes sheen { 0% { background-position: 180% 0; } 100% { background-position: -80% 0; } }
   .lead { color: #b9b3a8; font-size: 1.05rem; margin: 0 0 2.3rem; max-width: 640px; }
   .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
   .btn {
@@ -93,8 +131,15 @@
   .btn-gold {
     background: linear-gradient(180deg, var(--gold-lt), var(--gold)); color: #241703;
     box-shadow: 0 10px 30px rgba(233,169,60,0.22);
+    position: relative; overflow: hidden;
   }
-  .btn-gold:hover { filter: brightness(1.08); transform: translateY(-2px); }
+  /* ホバーで光がすっと走る */
+  .btn-gold::after {
+    content: ''; position: absolute; inset: 0; transform: translateX(-130%);
+    background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%);
+  }
+  .btn-gold:hover::after { transform: translateX(130%); transition: transform .75s ease; }
+  .btn-gold:hover { filter: brightness(1.08); transform: translateY(-2px); box-shadow: 0 14px 40px rgba(233,169,60,0.34); }
   .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--line); }
   .btn-outline:hover { border-color: var(--line-gold); }
   .social {
@@ -130,7 +175,14 @@
   .sec-lead { color: var(--muted); max-width: 680px; margin: 0 0 2.8rem; font-size: 0.99rem; }
 
   .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.1rem; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 1.7rem; }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 1.7rem;
+    transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+  }
+  .card:hover {
+    border-color: var(--line-gold); transform: translateY(-4px);
+    box-shadow: 0 18px 46px rgba(0,0,0,.5), 0 0 0 1px rgba(233,169,60,.08);
+  }
   .card h3 { margin: 0 0 0.55rem; font-size: 1.02rem; }
   .card p { margin: 0; color: var(--muted); font-size: 0.93rem; }
   .card.pain { border-left: 2px solid rgba(220,90,90,0.55); }
@@ -155,6 +207,34 @@
     background: var(--gold); transform: translate(-50%,-50%); box-shadow: 0 0 10px rgba(233,169,60,0.6);
   }
   .track.scatter i { background: #6b665d; box-shadow: none; }
+  /* 同時出発 → 到着はバラバラ */
+  .track.scatter i { animation: driftOff 5s cubic-bezier(.35,.8,.4,1) infinite; }
+  @keyframes driftOff {
+    0%      { left: 4%; opacity: 0; }
+    12%     { opacity: 1; }
+    72%,88% { opacity: 1; }
+    100%    { opacity: 0; }
+  }
+  .track.scatter i:nth-child(3) { animation-name: d1; }
+  .track.scatter i:nth-child(4) { animation-name: d2; }
+  .track.scatter i:nth-child(5) { animation-name: d3; }
+  .track.scatter i:nth-child(6) { animation-name: d4; }
+  @keyframes d1 { 0%{left:4%;opacity:0} 12%{opacity:1} 72%,88%{left:64%;opacity:1} 100%{left:64%;opacity:0} }
+  @keyframes d2 { 0%{left:4%;opacity:0} 12%{opacity:1} 72%,88%{left:79%;opacity:1} 100%{left:79%;opacity:0} }
+  @keyframes d3 { 0%{left:4%;opacity:0} 12%{opacity:1} 72%,88%{left:88%;opacity:1} 100%{left:88%;opacity:0} }
+  @keyframes d4 { 0%{left:4%;opacity:0} 12%{opacity:1} 72%,88%{left:97%;opacity:1} 100%{left:97%;opacity:0} }
+
+  /* 出発はバラバラ → 到着だけが揃う */
+  .track:not(.scatter) i { animation: 5s cubic-bezier(.35,.8,.4,1) infinite; }
+  .track:not(.scatter) i:nth-child(3) { animation-name: a1; }
+  .track:not(.scatter) i:nth-child(4) { animation-name: a2; }
+  .track:not(.scatter) i:nth-child(5) { animation-name: a3; }
+  .track:not(.scatter) i:nth-child(6) { animation-name: a4; }
+  @keyframes a1 { 0%,10%{left:4%;opacity:0}  14%{opacity:1} 72%,88%{left:99%;opacity:1} 100%{left:99%;opacity:0} }
+  @keyframes a2 { 0%,22%{left:24%;opacity:0} 26%{opacity:1} 72%,88%{left:99%;opacity:1} 100%{left:99%;opacity:0} }
+  @keyframes a3 { 0%,34%{left:44%;opacity:0} 38%{opacity:1} 72%,88%{left:99%;opacity:1} 100%{left:99%;opacity:0} }
+  @keyframes a4 { 0%,46%{left:64%;opacity:0} 50%{opacity:1} 72%,88%{left:99%;opacity:1} 100%{left:99%;opacity:0} }
+  @media (prefers-reduced-motion: reduce) { .track i { animation: none !important; } }
   .sync .cap { font-size: 0.87rem; color: var(--muted); margin: 0; }
   .sync .cap b { color: var(--gold); }
 
@@ -403,9 +483,9 @@
     <h2>試作品ではありません。すでに動いています。</h2>
     <p class="sec-lead">実際のアライアンス対抗イベントで運用され、参加者は増え続けています。</p>
     <div class="stats">
-      <div class="stat"><div class="n">219<small> 名</small></div><div class="k">直近イベントの利用者数</div></div>
-      <div class="stat"><div class="n">+5.8<small> %</small></div><div class="k">前回イベントからの増加</div></div>
-      <div class="stat"><div class="n">200<small> 名超</small></div><div class="k">毎回の実運用規模</div></div>
+      <div class="stat"><div class="n"><span data-count="219">0</span><small> 名</small></div><div class="k">直近イベントの利用者数</div></div>
+      <div class="stat"><div class="n"><span data-count="5.8" data-prefix="+">+0.0</span><small> %</small></div><div class="k">前回イベントからの増加</div></div>
+      <div class="stat"><div class="n"><span data-count="200">0</span><small> 名超</small></div><div class="k">毎回の実運用規模</div></div>
       <div class="stat"><div class="n" style="font-size:1.5rem;">Android</div><div class="k">オーバーレイ実装済み</div></div>
     </div>
   </div>
@@ -510,6 +590,35 @@
     const mine = t - TRAVEL;
     mineEl.textContent = mine > 0 ? fmt(mine) : 'START';
   }, 250);
+
+  // スクロールで現れる
+  const io = new IntersectionObserver((es) => {
+    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('section .eyebrow, section h2, section .sec-lead, .card, .stat, .step, .sync, .tbl-wrap, .note-gold, details, .plan, .price-note')
+    .forEach((el, i) => {
+      el.classList.add('rise');
+      el.style.transitionDelay = (i % 4) * 70 + 'ms';
+      io.observe(el);
+    });
+
+  // 実績の数字をカウントアップ
+  const numIO = new IntersectionObserver((es) => {
+    es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const el = e.target, target = parseFloat(el.dataset.count), dec = (el.dataset.count.split('.')[1] || '').length;
+      const t0 = performance.now(), dur = 1100;
+      const tick = (t) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const v = target * (1 - Math.pow(1 - p, 3));
+        el.textContent = (el.dataset.prefix || '') + v.toFixed(dec);
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+      numIO.unobserve(el);
+    });
+  }, { rootMargin: '0px 0px -20% 0px' });
+  document.querySelectorAll('[data-count]').forEach((el) => numIO.observe(el));
 
   // 決済
   document.querySelectorAll('button[data-plan]').forEach((btn) => {
