@@ -64,13 +64,18 @@
           <a class="btn admin" href="/owner.html" target="_blank" rel="noopener">🤖 オーナーダッシュボード（AIが要望を整理）</a>
         `;
         const mail = data.email || {};
-        if (mail.sent && mail.to) {
+        if (data.reused) {
+          statusEl.textContent = 'すでに発行済みのURLです。ご案内メールもお送りしています。';
+        } else if (mail.sent && mail.to) {
           statusEl.innerHTML = `準備完了。<span style="color:#4ade80">📧 ${mail.to} 宛にご案内メールを送信しました。</span>`;
         } else {
           statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
         }
       } catch (err) {
-        statusEl.textContent = 'ルーム作成でエラーが発生しました: ' + err.message;
+        statusEl.innerHTML = `${err.message}<br>
+          <span style="font-size:0.85rem;">
+            お困りの場合は <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#4ade80;">bokurawasonnamonsa@gmail.com</a> までご連絡ください。
+          </span>`;
       }
     })();
   </script>

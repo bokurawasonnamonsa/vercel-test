@@ -1,7 +1,5 @@
 const { getClient } = require('./_redis');
 
-const ROOM_TTL_SECONDS = 6 * 60 * 60;
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -28,7 +26,8 @@ module.exports = async (req, res) => {
       updatedAt: Date.now(),
     };
 
-    await redis.set(`room:${room}`, JSON.stringify(state), 'EX', ROOM_TTL_SECONDS);
+    // KEEPTTL: 号令を送るたびに有効期限が短縮されないよう、購入時の期限を維持する。
+    await redis.set(`room:${room}`, JSON.stringify(state), 'KEEPTTL');
     res.status(200).json({ ok: true, state });
   } catch (err) {
     res.status(500).json({ error: err.message });
