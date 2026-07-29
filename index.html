@@ -60,15 +60,9 @@
   .nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.95rem 0; }
   .brand { display: flex; align-items: center; gap: 0.7rem; text-decoration: none; color: var(--text); }
   .mark {
-    width: 34px; height: 34px; border-radius: 50%;
-    border: 1.5px solid var(--gold); position: relative; flex-shrink: 0;
+    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0; display: block;
+    object-fit: cover;
   }
-  .mark::before, .mark::after {
-    content: ''; position: absolute; background: var(--gold); border-radius: 2px;
-    left: 50%; bottom: 50%; transform-origin: bottom center;
-  }
-  .mark::before { width: 1.5px; height: 9px; transform: translateX(-50%) rotate(0deg); }
-  .mark::after { width: 1.5px; height: 6px; transform: translateX(-50%) rotate(95deg); }
   .brand .name { font-weight: 700; font-size: 1.02rem; letter-spacing: 0.02em; }
   .nav-cta {
     padding: 0.5rem 1.35rem; border-radius: 999px; background: var(--gold); color: #241703;
@@ -80,13 +74,13 @@
   .hero {
     position: relative; overflow: hidden; padding: 6rem 0 5rem;
     background-image:
-      /* 上下も締めて、写真が主張しすぎないようにする */
-      linear-gradient(180deg, rgba(8,8,12,.75) 0%, rgba(8,8,12,.25) 30%, rgba(8,8,12,.35) 75%, var(--bg) 100%),
-      /* 左は見出しのためほぼ黒、右にかけて時計を覗かせる */
-      linear-gradient(95deg, var(--bg) 0%, var(--bg) 34%, rgba(8,8,12,.94) 48%, rgba(8,8,12,.72) 66%, rgba(8,8,12,.5) 100%),
+      /* 上下のなじませは最小限に */
+      linear-gradient(180deg, rgba(8,8,12,.55) 0%, rgba(8,8,12,.05) 34%, rgba(8,8,12,.12) 78%, var(--bg) 100%),
+      /* 見出しの乗る左側だけ確保し、右は大きく開けて時計を見せる */
+      linear-gradient(95deg, var(--bg) 0%, rgba(8,8,12,.96) 26%, rgba(8,8,12,.74) 42%, rgba(8,8,12,.3) 60%, transparent 82%),
       url('/assets/hero.png');
-    background-size: cover, cover, 78% auto;
-    background-position: center, center, right -6% center;
+    background-size: cover, cover, 92% auto;
+    background-position: center, center, right -4% center;
     background-repeat: no-repeat, no-repeat, no-repeat;
   }
   /* 奥行きのある金色の光 */
@@ -368,7 +362,7 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="/">
-      <span class="mark"></span>
+      <img class="mark" src="/assets/icon-gold.png" alt="">
       <span class="name mono">CommandClock</span>
     </a>
     <a class="nav-cta" href="#pricing">申し込む</a>
