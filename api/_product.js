@@ -38,8 +38,17 @@ async function callProduct(path, body) {
 }
 
 // お申し込み1件につきルームを1つ発行する。
-async function issueRoom({ name, note }) {
-  return callProduct('/api/rooms/issue', { name, note });
+//
+// idempotencyKey に決済セッションIDを渡すと、同じ決済に対しては常に同じルームが
+// 返る。完了画面をリロードされてもルームが増えない。
+// purchase（誰が・いくら払ったか）は商品サーバー側に控えとして保存される。
+async function issueRoom({ name, note, idempotencyKey, purchase }) {
+  return callProduct('/api/rooms/issue', {
+    name,
+    note,
+    idempotency_key: idempotencyKey,
+    purchase,
+  });
 }
 
 // 解約時にルームを止める。
