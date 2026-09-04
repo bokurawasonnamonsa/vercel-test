@@ -13,36 +13,83 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b); color: #f1f5f9; text-align: center; padding: 2rem;
   }
-  .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 2.5rem 2.5rem; max-width: 520px; width: 100%; }
-  h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-  p { color: #94a3b8; line-height: 1.6; }
-  a { color: #4ade80; }
+  .card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 2.5rem; max-width: 560px; width: 100%; }
+  h1 { font-size: 1.6rem; margin: 0 0 0.6rem; }
+  p { color: #94a3b8; line-height: 1.75; margin: 0.4rem 0; }
+  a { color: #e9a93c; }
+  .creds {
+    margin-top: 1.6rem; text-align: left; background: rgba(0,0,0,0.28);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 1.1rem 1.2rem;
+  }
+  .creds .label { font-size: 0.68rem; letter-spacing: 0.12em; color: #7c8ba1; }
+  .creds .val {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.15rem; font-weight: 700;
+    letter-spacing: 0.06em; word-break: break-all; margin: 0.15rem 0 0.1rem; color: #f1f5f9;
+  }
+  .creds .val.code { color: #4ade80; letter-spacing: 0.16em; font-size: 1.35rem; }
+  .creds .row + .row { margin-top: 1rem; }
+  .copy {
+    background: transparent; border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1;
+    border-radius: 7px; padding: 0.2rem 0.6rem; font-size: 0.72rem; cursor: pointer; margin-left: 0.4rem;
+  }
+  .copy:hover { border-color: #e9a93c; color: #e9a93c; }
   .links { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
-  .links a.btn {
-    display: block; padding: 0.9rem 1rem; border-radius: 10px; text-decoration: none; font-weight: 700;
-  }
-  .links a.admin { background: #334155; color: #f1f5f9; }
-  .links a.admin:hover { background: #475569; }
-  .links a.player { background: #22c55e; color: #05210f; }
-  .links a.player:hover { background: #4ade80; }
-  .status { margin-top: 1rem; font-size: 0.85rem; color: #64748b; min-height: 1.4em; }
-  .room-badge {
-    display: inline-block; margin-top: 0.75rem; padding: 0.3rem 0.8rem; background: #22c55e22; color: #4ade80;
-    border: 1px solid #22c55e44; border-radius: 999px; font-size: 0.8rem; letter-spacing: 0.1em;
-  }
+  .links a.btn { display: block; padding: 0.95rem 1rem; border-radius: 10px; text-decoration: none; font-weight: 700; }
+  .links a.open { background: #e9a93c; color: #241703; }
+  .links a.open:hover { background: #f5c263; }
+  .status { margin-top: 1.1rem; font-size: 0.85rem; color: #64748b; min-height: 1.4em; }
+  .howto { margin-top: 1.5rem; text-align: left; font-size: 0.86rem; color: #94a3b8; line-height: 1.9; }
+  .howto strong { color: #e2e8f0; }
+  .warn { margin-top: 1rem; font-size: 0.78rem; color: #fcd9a0; text-align: left; }
 </style>
 </head>
 <body>
   <div class="card">
-    <h1>✅ 登録が完了しました</h1>
-    <p>ご登録ありがとうございます。決済が正常に完了しました。<br>以下から、あなた専用の指揮官コンソールとプレーヤー配布用URLを発行できます。</p>
-    <div id="roomBadgeWrap"></div>
+    <h1>✅ お申し込みが完了しました</h1>
+    <p>決済が正常に完了しました。専用のルームを発行しています。</p>
+
+    <div class="creds" id="credsWrap" style="display:none;">
+      <div class="row">
+        <div class="label">ご利用URL</div>
+        <div class="val" id="appUrl"></div>
+      </div>
+      <div class="row">
+        <div class="label">ルームID<button class="copy" onclick="copyVal('roomId')">コピー</button></div>
+        <div class="val" id="roomId"></div>
+      </div>
+      <div class="row">
+        <div class="label">参加コード<button class="copy" onclick="copyVal('joinCode')">コピー</button></div>
+        <div class="val code" id="joinCode"></div>
+      </div>
+    </div>
+
     <div class="links" id="linksWrap"></div>
     <div class="status" id="status">ルームを準備中…</div>
-    <p style="margin-top:1.5rem;"><a href="/">トップに戻る</a></p>
+
+    <div class="howto" id="howto" style="display:none;">
+      <strong>使い方</strong><br>
+      1. 上のURLを<strong>ブラウザ</strong>で開く（Discordなどのアプリ内ブラウザでは正しく動きません）<br>
+      2. ルームIDと参加コードを入力して参加<br>
+      3. 指揮する方は「参謀」、動く方は「集結主」「乗り手」を選ぶ<br>
+      4. 参謀が到着させたい時刻を送ると、各メンバーに<strong>一人ずつ違うスタートタイミング</strong>が表示されます<br><br>
+      <strong>メンバーへの配り方</strong><br>
+      URL・ルームID・参加コードの3点を共有してください。
+      <div class="warn">※ ルームIDと参加コードは、ご自身のチーム以外に共有しないでください。同じ内容をメールでもお送りしています。</div>
+    </div>
+
+    <p style="margin-top:1.6rem;"><a href="/">トップに戻る</a></p>
   </div>
 
   <script>
+    function copyVal(id) {
+      const t = document.getElementById(id).textContent.trim();
+      if (!t) return;
+      navigator.clipboard.writeText(t).then(() => {
+        const s = document.getElementById('status');
+        s.textContent = 'コピーしました: ' + t;
+      });
+    }
+
     (async () => {
       const statusEl = document.getElementById('status');
       const sessionId = new URLSearchParams(location.search).get('session_id');
@@ -55,26 +102,27 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
-        document.getElementById('roomBadgeWrap').innerHTML =
-          `<span class="room-badge">ルームコード: ${data.room}</span>`;
+        document.getElementById('appUrl').textContent = data.appUrl;
+        document.getElementById('roomId').textContent = data.roomId;
+        document.getElementById('joinCode').textContent = data.code;
+        document.getElementById('credsWrap').style.display = 'block';
+        document.getElementById('howto').style.display = 'block';
+        document.getElementById('linksWrap').innerHTML =
+          `<a class="btn open" href="${data.appUrl}" target="_blank" rel="noopener">CommandClock を開く</a>`;
 
-        document.getElementById('linksWrap').innerHTML = `
-          <a class="btn admin" href="${data.adminUrl}" target="_blank" rel="noopener">🎖 指揮官コンソールを開く</a>
-          <a class="btn player" href="${data.playerUrl}" target="_blank" rel="noopener">📱 プレーヤー画面を開く（配布用）</a>
-          <a class="btn admin" href="/owner.html" target="_blank" rel="noopener">🤖 オーナーダッシュボード（AIが要望を整理）</a>
-        `;
         const mail = data.email || {};
         if (data.reused) {
-          statusEl.textContent = 'すでに発行済みのURLです。ご案内メールもお送りしています。';
+          statusEl.textContent = 'すでに発行済みのルームです。同じ内容をメールでもお送りしています。';
         } else if (mail.sent && mail.to) {
-          statusEl.innerHTML = `準備完了。<span style="color:#4ade80">📧 ${mail.to} 宛にご案内メールを送信しました。</span>`;
+          statusEl.innerHTML = `準備完了。<span style="color:#4ade80">📧 ${mail.to} 宛に同じ内容をお送りしました。</span>`;
         } else {
-          statusEl.textContent = '準備完了。指揮官コンソールで号令を送ると、プレーヤー画面に反映されます。';
+          statusEl.innerHTML = '準備完了。<span style="color:#fcd9a0">メールの送信は確認できませんでした。この画面の内容を控えてください。</span>';
         }
       } catch (err) {
         statusEl.innerHTML = `${err.message}<br>
           <span style="font-size:0.85rem;">
-            お困りの場合は <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#4ade80;">bokurawasonnamonsa@gmail.com</a> までご連絡ください。
+            お手数ですが <a href="mailto:bokurawasonnamonsa@gmail.com">bokurawasonnamonsa@gmail.com</a> までご連絡ください。
+            決済は完了していますので、こちらでルームを発行してお送りします。
           </span>`;
       }
     })();

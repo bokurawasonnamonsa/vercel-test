@@ -1,18 +1,13 @@
+// 決済完了 → 商品サーバーにルームを発行させ、記録を残し、案内メールを送る。
+//
+// 同じ決済セッションに対しては常に同じルームを返す（冪等）。
+// これがないと、完了画面をリロードするたびにルームと購入記録が増える。
+
 const { getClient } = require('./_redis');
 const { sendWelcomeMail } = require('./_mail');
-const { ROOM_TTL_SECONDS } = require('./_rooms');
+const { issueRoom, isConfigured, playerUrl } = require('./_product');
 
-const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-
-function generateCode(length = 6) {
-  let out = '';
-  for (let i = 0; i < length; i += 1) {
-    out += ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-  }
-  return out;
-}
-
-// 決済セッションから「誰が・何を・いくら払ったか」を取得する。
+// 決済セッションから「誰が・何を・いくら払ったか」を取り出す。
 async function lookupPurchase(sessionId) {
   const Stripe = require('stripe');
   const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -31,14 +26,8 @@ async function lookupPurchase(sessionId) {
     currency: session.currency,
     paymentStatus: session.payment_status,
     livemode: session.livemode,
-  };
-}
-
-function urlsFor(origin, code) {
-  return {
-    adminUrl: `${origin}/admin.html?room=${code}`,
-    playerUrl: `${origin}/player-view.html?room=${code}`,
-    feedbackUrl: `${origin}/feedback.html?room=${code}`,
+    mode: session.mode,
+    subscriptionId: session.subscription || null,
   };
 }
 
@@ -48,11 +37,14 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const origin = req.headers.origin || `https://${req.headers.host}`;
   const { sessionId } = req.body || {};
 
   if (!process.env.STRIPE_SECRET_KEY) {
     res.status(500).json({ error: '決済が設定されていません' });
+    return;
+  }
+  if (!isConfigured()) {
+    res.status(500).json({ error: 'ルーム発行が設定されていません（COMMANDCLOCK_ISSUE_KEY）' });
     return;
   }
   if (!sessionId) {
@@ -63,17 +55,25 @@ module.exports = async (req, res) => {
   try {
     const redis = getClient();
 
-    // 同じ決済に対しては常に同じルームを返す。
-    // これがないと、完了画面をリロードするたびに購入記録とメールが重複する。
-    const existing = await redis.get(`session:${sessionId}`);
-    if (existing) {
-      res.status(200).json({
-        room: existing,
-        ...urlsFor(origin, existing),
-        email: { sent: false, reason: 'already issued' },
-        reused: true,
-      });
-      return;
+    // すでに発行済みなら、同じものを返すだけ。
+    const existingRaw = await redis.get(`session:${sessionId}`);
+    if (existingRaw) {
+      let existing = null;
+      try {
+        existing = JSON.parse(existingRaw);
+      } catch (e) {
+        existing = null;
+      }
+      if (existing && existing.roomId) {
+        res.status(200).json({
+          roomId: existing.roomId,
+          code: existing.code,
+          appUrl: playerUrl(),
+          reused: true,
+          email: { sent: false, reason: 'already issued' },
+        });
+        return;
+      }
     }
 
     let purchase;
@@ -90,21 +90,24 @@ module.exports = async (req, res) => {
       return;
     }
 
-    let code;
-    for (let attempt = 0; attempt < 5; attempt += 1) {
-      code = generateCode();
-      const exists = await redis.exists(`room:${code}`);
-      if (!exists) break;
+    // 商品サーバーにルームを発行させる。
+    const issued = await issueRoom({
+      name: (purchase.email || 'Alliance').split('@')[0].slice(0, 24),
+      note: `stripe:${purchase.sessionId}`,
+    });
+    if (!issued.ok) {
+      res.status(502).json({ error: 'ルームの発行に失敗しました。お問い合わせください。', detail: issued.error });
+      return;
     }
+    const roomId = issued.data.room_id;
+    const code = issued.data.code;
 
-    const initialState = { label: '', targetEpochMs: null, updatedAt: Date.now() };
-    await redis.set(`room:${code}`, JSON.stringify(initialState), 'EX', ROOM_TTL_SECONDS);
-    await redis.set(`session:${sessionId}`, code);
+    // 決済とルームの対応を残す（冪等性の担保）。
+    await redis.set(`session:${sessionId}`, JSON.stringify({ roomId, code }));
 
-    const urls = urlsFor(origin, code);
     const to = purchase.email;
     const mail = to
-      ? await sendWelcomeMail({ to, room: code, ...urls })
+      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl() })
       : { sent: false, reason: 'no recipient address' };
 
     // お金の証跡を恒久保存（TTLなし）。
@@ -112,15 +115,16 @@ module.exports = async (req, res) => {
       'purchases',
       JSON.stringify({
         ...purchase,
-        room: code,
+        roomId,
         mailSentTo: mail.sent ? to : null,
         createdAt: new Date().toISOString(),
       })
     );
 
     res.status(200).json({
-      room: code,
-      ...urls,
+      roomId,
+      code,
+      appUrl: playerUrl(),
       email: { to, ...mail },
       purchase: {
         amount: purchase.amount,
