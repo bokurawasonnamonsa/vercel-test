@@ -1,2 +1,7 @@
 .vercel
 .env*
+
+# 事故防止：依存とスキル一式はコミットしない
+node_modules/
+.agents/
+skills-lock.json
