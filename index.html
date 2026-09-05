@@ -176,7 +176,7 @@ h1 .accent {
 }
 .board svg { width: 100%; height: auto; display: block; }
 .bd-grid   { stroke: rgba(140,175,220,0.10); stroke-width: 1; }
-.bd-path   { stroke: rgba(240,166,60,0.30); stroke-width: 1.5; stroke-dasharray: 5 5; fill: none; }
+.bd-path   { stroke: rgba(240,166,60,0.42); stroke-width: 1.6; stroke-dasharray: 6 5; fill: none; }
 .bd-base   { fill: none; stroke: var(--amber); stroke-width: 1.6; }
 .bd-label  { font-size: 12px; fill: var(--muted); font-family: ui-monospace, Menlo, monospace; }
 .bd-label-b{ font-size: 12px; fill: var(--amber-lt); font-family: ui-monospace, Menlo, monospace; }
@@ -246,8 +246,9 @@ h1 .accent {
   border: 1px solid var(--line); border-radius: 18px; padding: 0.7rem 0; margin: 0 0 1rem;
 }
 .fig svg { width: 100%; height: auto; display: block; }
-.fig-narrow { display: none; }
-@media (max-width: 640px) { .fig-wide { display: none; } .fig-narrow { display: block; } }
+/* .fig svg の指定に負けないよう、こちらも2段の指定にする */
+.fig .fig-narrow { display: none; }
+@media (max-width: 640px) { .fig .fig-wide { display: none; } .fig .fig-narrow { display: block; } }
 figcaption { text-align: center; color: #c3cede; font-size: 0.9rem; margin: 0 0 2.4rem; }
 .fg-cap  { font-size: 13px; fill: var(--dim); font-family: ui-monospace, Menlo, monospace; letter-spacing: .06em; }
 .fg-cyan { fill: var(--cyan); }
@@ -416,13 +417,13 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
       <!-- 作戦盤。4つの部隊が別々の場所から出て、いま全員が目標から
            同じ距離＝同じ残り時間の位置にいる。だから同時に着く。 -->
       <div class="board">
-        <svg viewBox="0 0 640 500" role="img" aria-labelledby="bdTitle bdDesc">
+        <svg viewBox="0 0 640 476" role="img" aria-labelledby="bdTitle bdDesc">
           <title id="bdTitle">別々の場所から出た4部隊が、同時に目標へ到達する作戦盤</title>
           <desc id="bdDesc">目標を中心に、4つの拠点から伸びる進路。4部隊はいずれも目標から同じ距離にあり、同じ瞬間に到達します。</desc>
 
           <g class="bd-grid">
             <path d="M0 60H640M0 130H640M0 200H640M0 270H640M0 340H640M0 410H640"/>
-            <path d="M70 0V500M150 0V500M230 0V500M310 0V500M390 0V500M470 0V500M550 0V500" />
+            <path d="M70 0V476M150 0V476M230 0V476M310 0V476M390 0V476M470 0V476M550 0V476"/>
           </g>
 
           <text class="bd-cap" x="16" y="26">OPERATION BOARD</text>
@@ -471,7 +472,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
             <circle class="bd-unit" cx="308.1" cy="327.2" r="6.5"/>
           </g>
 
-          <text class="bd-cap" x="400" y="452" text-anchor="middle">4部隊とも、残り時間はおなじ</text>
+          <text class="bd-cap" x="400" y="462" text-anchor="middle">4部隊とも、目標までの残り時間はおなじ</text>
         </svg>
 
         <div class="hud">
