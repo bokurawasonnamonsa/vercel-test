@@ -106,10 +106,40 @@ async function verifyGoogleIdToken(idToken) {
   };
 }
 
+// 運営者として認めるメールアドレス。
+//
+// Googleでログインできる人は世界中にいるので、「ログイン済み」だけでは
+// 運営用の画面を守れない。ここに載っているアドレスだけを通す。
+// 追加したい場合は Vercel の環境変数 OWNER_EMAILS にカンマ区切りで設定する。
+const DEFAULT_OWNER_EMAILS = ['bokurawasonnamonsa@gmail.com'];
+
+function ownerEmails() {
+  const fromEnv = (process.env.OWNER_EMAILS || '')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  return fromEnv.length ? fromEnv : DEFAULT_OWNER_EMAILS;
+}
+
+function isOwnerEmail(email) {
+  if (!email) return false;
+  return ownerEmails().includes(String(email).trim().toLowerCase());
+}
+
+// 運営者のセッションを返す。運営者でなければ null。
+function getOwnerSession(req) {
+  const session = getSession(req);
+  if (!session) return null;
+  return isOwnerEmail(session.email) ? session : null;
+}
+
 module.exports = {
   createSessionToken,
   verifySessionToken,
   getSession,
+  getOwnerSession,
+  isOwnerEmail,
+  ownerEmails,
   setSessionCookie,
   clearSessionCookie,
   verifyGoogleIdToken,

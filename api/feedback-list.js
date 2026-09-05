@@ -1,5 +1,5 @@
 const { getClient } = require('./_redis');
-const { getSession } = require('./_auth');
+const { getOwnerSession } = require('./_auth');
 
 const FEEDBACK_KEY = 'feedback:all';
 
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  if (process.env.GOOGLE_CLIENT_ID && !getSession(req)) {
+  if (!getOwnerSession(req)) {
     res.status(401).json({ error: 'ログインが必要です' });
     return;
   }

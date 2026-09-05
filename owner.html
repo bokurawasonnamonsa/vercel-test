@@ -3,403 +3,241 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>オーナーダッシュボード｜AIが整理した開発優先順位</title>
+<meta name="robots" content="noindex, nofollow">
+<title>運営ダッシュボード｜CommandClock</title>
 <link rel="icon" type="image/png" href="/assets/icon-gold.png">
 <style>
   :root {
     color-scheme: dark;
-    --bg: #070b14; --panel: rgba(255,255,255,0.035); --line: rgba(255,255,255,0.09);
-    --text: #e8eef7; --muted: #8fa0b8; --accent: #22c55e; --accent-soft: #4ade80;
-    --high: #f87171; --mid: #fbbf24; --low: #60a5fa;
+    --bg: #08080c; --panel: rgba(255,255,255,0.04); --line: rgba(255,255,255,0.10);
+    --text: #f4f2ee; --muted: #9a9488; --dim: #6b665d;
+    --gold: #e9a93c; --green: #4ade80; --amber: #fcd9a0;
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.8;
+    margin: 0; background: var(--bg); color: var(--text); line-height: 1.7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
   }
-  header {
-    padding: 3rem 2rem 2.5rem; border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, rgba(34,197,94,0.05), transparent);
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 2.2rem 1.4rem 4rem; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
+  h1 { font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 0.86rem; margin: 0.2rem 0 0; }
+  .who { display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; color: var(--muted); }
+  button {
+    background: transparent; color: var(--muted); border: 1px solid var(--line);
+    border-radius: 8px; padding: 0.4rem 0.9rem; font-size: 0.82rem; cursor: pointer;
+    font-family: inherit;
   }
-  .wrap { max-width: 1000px; margin: 0 auto; }
-  .badge {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    padding: 0.35rem 0.9rem; background: rgba(34,197,94,0.1);
-    border: 1px solid rgba(34,197,94,0.28); color: var(--accent-soft);
-    border-radius: 999px; font-size: 0.78rem; margin-bottom: 1rem;
-  }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
-  h1 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); margin: 0 0 0.6rem; letter-spacing: -0.01em; }
-  header p { color: var(--muted); margin: 0; max-width: 620px; font-size: 0.97rem; }
-
-  main { max-width: 1000px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
-
-  .toolbar { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
-  .stats { display: flex; gap: 2rem; }
-  .stats .s .k { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; }
-  .stats .s .v { font-size: 1.5rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-  button.run {
-    padding: 0.75rem 1.4rem; border: none; border-radius: 10px;
-    background: var(--accent); color: #05210f; font-weight: 700; font-size: 0.92rem; cursor: pointer;
-  }
-  button.run:hover:not(:disabled) { background: var(--accent-soft); }
-  button.run:disabled { opacity: 0.55; cursor: not-allowed; }
-
-  h2.sec { font-size: 0.78rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin: 2.5rem 0 1rem; }
-
-  .summary-card {
-    background: linear-gradient(135deg, rgba(34,197,94,0.09), rgba(255,255,255,0.02));
-    border: 1px solid rgba(34,197,94,0.22); border-radius: 16px; padding: 1.6rem 1.8rem;
-  }
-  .summary-card .lbl { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent-soft); margin-bottom: 0.5rem; }
-  .summary-card p { margin: 0; font-size: 1rem; }
-  .next-action {
-    margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid rgba(34,197,94,0.18);
-  }
-  .next-action .lbl { color: var(--muted); }
-  .next-action p { font-weight: 600; color: var(--accent-soft); }
-
-  .group {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-    padding: 1.35rem 1.6rem; margin-bottom: 1rem; position: relative; overflow: hidden;
-  }
-  .group::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; }
-  .group.high::before { background: var(--high); }
-  .group.medium::before { background: var(--mid); }
-  .group.low::before { background: var(--low); }
-  .group-head { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
-  .pri {
-    font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 999px; font-weight: 700;
-  }
-  .group.high .pri { background: rgba(248,113,113,0.14); color: var(--high); border: 1px solid rgba(248,113,113,0.3); }
-  .group.medium .pri { background: rgba(251,191,36,0.14); color: var(--mid); border: 1px solid rgba(251,191,36,0.3); }
-  .group.low .pri { background: rgba(96,165,250,0.14); color: var(--low); border: 1px solid rgba(96,165,250,0.3); }
-  .group h3 { margin: 0; font-size: 1.05rem; }
-  .group .cnt { font-size: 0.8rem; color: var(--muted); }
-  .group .reason { color: var(--muted); font-size: 0.92rem; margin: 0 0 0.8rem; }
-  .group .action {
-    background: rgba(255,255,255,0.04); border-left: 2px solid var(--accent);
-    padding: 0.6rem 0.9rem; border-radius: 0 8px 8px 0; font-size: 0.92rem;
-  }
-  .group .action strong { color: var(--accent-soft); font-size: 0.75rem; letter-spacing: 0.06em; display: block; margin-bottom: 0.2rem; }
-
-  .raw-item {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
-    padding: 1rem 1.2rem; margin-bottom: 0.7rem;
-  }
-  .raw-item .meta { display: flex; gap: 0.7rem; align-items: center; font-size: 0.76rem; color: var(--muted); margin-bottom: 0.4rem; }
-  .raw-item .kind {
-    padding: 0.12rem 0.5rem; border-radius: 999px; font-size: 0.7rem;
-    background: rgba(255,255,255,0.07); border: 1px solid var(--line);
-  }
-  .raw-item .kind.bug { color: var(--high); border-color: rgba(248,113,113,0.3); }
-  .raw-item .kind.request { color: var(--accent-soft); border-color: rgba(34,197,94,0.3); }
-  .raw-item p { margin: 0; font-size: 0.94rem; white-space: pre-wrap; }
-
-  .empty { color: var(--muted); text-align: center; padding: 3rem 1rem; border: 1px dashed var(--line); border-radius: 14px; }
-  .empty a { color: var(--accent-soft); }
-  .msg { font-size: 0.9rem; color: var(--muted); min-height: 1.4em; margin-top: 0.8rem; }
-  .msg.err { color: var(--high); }
+  button:hover { border-color: var(--gold); color: var(--gold); }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.9rem; margin-bottom: 1.8rem; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
+  .card .k { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--dim); }
+  .card .v { font-size: 1.8rem; font-weight: 800; margin-top: 0.15rem; letter-spacing: -0.02em; }
+  .card .v.money { color: var(--gold); }
+  .card .v.ok { color: var(--green); }
+  .tbl-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 780px; }
+  th, td { text-align: left; padding: 0.75rem 0.95rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--dim); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; }
+  tr:last-child td { border-bottom: none; }
+  td.money { color: var(--gold); font-weight: 700; }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; }
+  .tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.68rem; border: 1px solid var(--line); }
+  .tag.live { color: var(--green); border-color: rgba(74,222,128,0.35); }
+  .tag.test { color: var(--amber); border-color: rgba(252,217,160,0.35); }
+  .empty { padding: 3rem 1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
+  .msg { margin-top: 1rem; font-size: 0.86rem; color: var(--muted); min-height: 1.4em; }
+  .msg.err { color: #f0a0a0; }
+  .gate { max-width: 460px; margin: 6rem auto; text-align: center; }
+  .gate p { color: var(--muted); font-size: 0.9rem; }
+  #gbtn { display: flex; justify-content: center; margin-top: 1.5rem; }
   .hidden { display: none !important; }
-  .foot { text-align: center; margin-top: 3rem; }
-  .foot a { color: #5b6b81; text-decoration: none; font-size: 0.85rem; }
-  .foot a:hover { color: var(--accent-soft); }
-
-  .gate { max-width: 420px; margin: 4rem auto; text-align: center; }
-  .gate .lock { font-size: 2.2rem; margin-bottom: 0.8rem; }
-  .gate h2 { font-size: 1.2rem; margin: 0 0 0.6rem; }
-  .gate p { color: var(--muted); font-size: 0.92rem; margin: 0 0 1.75rem; }
-  .gate .gbtn-wrap { display: flex; justify-content: center; }
-
-  .who { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--muted); }
-  .who img { width: 26px; height: 26px; border-radius: 50%; }
-  .who button {
-    background: none; border: 1px solid var(--line); color: var(--muted);
-    padding: 0.28rem 0.7rem; border-radius: 8px; font-size: 0.78rem; cursor: pointer;
-  }
-  .who button:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
-
-  @media (max-width: 720px) {
-    header, main { padding-left: 1.25rem; padding-right: 1.25rem; }
-    .toolbar { flex-direction: column; align-items: stretch; }
-    button.run { width: 100%; }
-  }
+  .foot { margin-top: 2rem; font-size: 0.78rem; color: var(--dim); }
+  .foot a { color: var(--muted); }
 </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <span class="badge">オーナーダッシュボード</span>
-      <h1>AIが整理した、次に作るべきもの</h1>
-      <p>プレーヤーから届いた要望・不具合を、AIが自動で分類し優先順位を付けます。オーナーは「どれをやるか」を判断するだけです。</p>
-      <div class="who hidden" id="whoWrap" style="margin-top:1.25rem;">
-        <img id="whoPic" alt="">
-        <span id="whoName"></span>
-        <button type="button" id="logoutBtn">ログアウト</button>
-      </div>
-    </div>
-  </header>
 
-  <div class="gate hidden" id="gate">
-    <div class="lock">🔒</div>
-    <h2>オーナー専用ページです</h2>
-    <p>プレーヤーから届いた声を確認するには、Googleアカウントでログインしてください。</p>
-    <div class="gbtn-wrap" id="gbtn"></div>
-    <div class="msg" id="gateMsg" style="text-align:center;"></div>
+<div class="wrap">
+  <!-- ログイン前 -->
+  <div id="gate" class="gate">
+    <h1>運営ダッシュボード</h1>
+    <p>この画面は運営者のみが閲覧できます。<br>Googleアカウントでログインしてください。</p>
+    <div id="gbtn"></div>
+    <div id="gateMsg" class="msg"></div>
   </div>
 
-  <main id="mainArea">
-    <div class="toolbar">
-      <div class="stats">
-        <div class="s"><div class="k">届いている声</div><div class="v" id="statCount">-</div></div>
-        <div class="s"><div class="k">AIが抽出したテーマ</div><div class="v" id="statThemes">-</div></div>
+  <!-- ログイン後 -->
+  <div id="app" class="hidden">
+    <header>
+      <div>
+        <h1>運営ダッシュボード</h1>
+        <p class="sub">発行済みルームと、誰が・何を・いくら払ったかの控え</p>
       </div>
-      <button class="run" id="runBtn">🤖 AIに分類・優先順位付けさせる</button>
-    </div>
-    <div class="msg" id="msg"></div>
-
-    <div id="resultWrap" class="hidden">
-      <h2 class="sec">AIによる要約</h2>
-      <div class="summary-card">
-        <div class="lbl">全体傾向</div>
-        <p id="summaryText"></p>
-        <div class="next-action">
-          <div class="lbl">最優先で着手すべきこと</div>
-          <p id="nextActionText"></p>
-        </div>
+      <div class="who">
+        <span id="whoami"></span>
+        <button id="reloadBtn">再読み込み</button>
+        <button id="logoutBtn">ログアウト</button>
       </div>
+    </header>
 
-      <h2 class="sec">分類と優先順位</h2>
-      <div id="groupsWrap"></div>
+    <div class="cards">
+      <div class="card"><div class="k">本番決済の累計</div><div class="v money" id="cTotal">—</div></div>
+      <div class="card"><div class="k">発行済みルーム</div><div class="v" id="cRooms">—</div></div>
+      <div class="card"><div class="k">いま接続中</div><div class="v ok" id="cOnline">—</div></div>
+      <div class="card"><div class="k">月額の合計</div><div class="v money" id="cMrr">—</div></div>
     </div>
 
-    <h2 class="sec">売上の記録</h2>
-    <div id="purchasesWrap"></div>
-
-    <h2 class="sec">届いている生の声</h2>
-    <div id="rawWrap"></div>
-
-    <div class="foot">
-      <a href="/">← 製品ページへ戻る</a> &nbsp;·&nbsp;
-      <a href="/feedback.html">意見フォームを開く</a> &nbsp;·&nbsp;
-      <a href="/plan.html">事業プランを見る</a>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>発行日時</th><th>お客様</th><th>プラン</th><th>金額</th>
+            <th>種別</th><th>接続</th><th>ルームID</th><th>決済ID</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div id="empty" class="empty hidden">まだ発行されたルームはありません。</div>
     </div>
-  </main>
 
-  <script>
-    const $ = (id) => document.getElementById(id);
+    <div id="msg" class="msg"></div>
 
-    function escapeHtml(s) {
-      return String(s).replace(/[&<>"']/g, (c) => ({
-        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
-      }[c]));
-    }
+    <p class="foot">
+      お金の記録の正本は <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Stripe</a> です。
+      この画面はその控えを、発行したルームと結びつけて表示しています。<br>
+      商品サーバー: <span id="appUrl" class="mono"></span>
+    </p>
+  </div>
+</div>
 
-    const KIND_LABEL = { bug: '不具合', request: '要望', other: 'その他' };
+<script>
+  const $ = (id) => document.getElementById(id);
+  const yen = (n) => (typeof n === 'number' ? '¥' + n.toLocaleString('ja-JP') : '—');
 
-    async function loadRaw() {
-      try {
-        const res = await fetch('/api/feedback-list');
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || '取得に失敗しました');
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      const d = new Date(iso);
+      return d.toLocaleString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit' });
+    } catch (e) { return iso; }
+  }
 
-        $('statCount').textContent = data.count;
-
-        if (data.count === 0) {
-          $('rawWrap').innerHTML = `<div class="empty">
-            まだ声が届いていません。<br>
-            <a href="/feedback.html">意見フォーム</a>をプレーヤーに共有してください。
-          </div>`;
-          return;
-        }
-
-        $('rawWrap').innerHTML = data.items.map((it) => `
-          <div class="raw-item">
-            <div class="meta">
-              <span class="kind ${escapeHtml(it.kind)}">${KIND_LABEL[it.kind] || 'その他'}</span>
-              <span>${new Date(it.createdAt).toLocaleString('ja-JP')}</span>
-              ${it.room ? `<span>ルーム: ${escapeHtml(it.room)}</span>` : ''}
-            </div>
-            <p>${escapeHtml(it.body)}</p>
-          </div>
-        `).join('');
-      } catch (err) {
-        $('rawWrap').innerHTML = `<div class="empty">読み込みエラー: ${escapeHtml(err.message)}</div>`;
-      }
-    }
-
-    async function loadPurchases() {
-      try {
-        const res = await fetch('/api/purchases-list');
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || '取得に失敗しました');
-
-        if (data.count === 0) {
-          $('purchasesWrap').innerHTML = `<div class="empty">
-            まだ購入がありません。<br>
-            <a href="/">製品ページ</a>から申し込むと、ここに記録が残ります。
-          </div>`;
-          return;
-        }
-
-        const rows = data.items.map((p) => `
-          <div class="raw-item">
-            <div class="meta">
-              <span class="kind ${p.paymentStatus === 'paid' ? 'request' : 'other'}">
-                ${p.paymentStatus === 'paid' ? '決済完了' : escapeHtml(p.paymentStatus || '不明')}
-              </span>
-              <span>${new Date(p.createdAt).toLocaleString('ja-JP')}</span>
-              <span>${p.livemode ? '本番' : 'テスト'}</span>
-              ${p.room ? `<span>ルーム: ${escapeHtml(p.room)}</span>` : ''}
-            </div>
-            <p>
-              <strong>${escapeHtml(p.email || '不明')}</strong> が
-              「${escapeHtml(p.itemName || '不明')}」を
-              <strong>${(p.currency || 'jpy').toUpperCase()} ${Number(p.amount || 0).toLocaleString()}</strong> で購入
-              ${p.mailSentTo ? '<br><span style="color:#4ade80;font-size:0.85rem;">📧 案内メール送信済み</span>' : ''}
-            </p>
-          </div>
-        `).join('');
-
-        $('purchasesWrap').innerHTML = `
-          <div class="summary-card" style="margin-bottom:1rem;">
-            <div class="lbl">累計売上（決済完了分）</div>
-            <p style="font-size:1.6rem;font-weight:800;margin:0;">
-              ¥${Number(data.totalPaid || 0).toLocaleString()}
-              <span style="font-size:0.9rem;font-weight:400;color:#8fa0b8;">／ ${data.count} 件</span>
-            </p>
-          </div>
-          ${rows}`;
-      } catch (err) {
-        $('purchasesWrap').innerHTML = `<div class="empty">読み込みエラー: ${escapeHtml(err.message)}</div>`;
-      }
-    }
-
-    function renderAnalysis(data) {
-      $('summaryText').textContent = data.summary || '';
-      $('nextActionText').textContent = data.nextAction || '';
-      const groups = data.groups || [];
-      $('statThemes').textContent = groups.length;
-
-      $('groupsWrap').innerHTML = groups.map((g) => {
-        const pri = ['high', 'medium', 'low'].includes(g.priority) ? g.priority : 'medium';
-        const priLabel = { high: '最優先', medium: '中', low: '低' }[pri];
-        const n = (g.itemIds || []).length;
-        return `
-          <div class="group ${pri}">
-            <div class="group-head">
-              <span class="pri">${priLabel}</span>
-              <h3>${escapeHtml(g.theme || '')}</h3>
-              ${n ? `<span class="cnt">該当 ${n} 件</span>` : ''}
-            </div>
-            <p class="reason">${escapeHtml(g.reason || '')}</p>
-            <div class="action"><strong>次のアクション</strong>${escapeHtml(g.action || '')}</div>
-          </div>
-        `;
-      }).join('');
-
-      $('resultWrap').classList.remove('hidden');
-    }
-
-    $('runBtn').addEventListener('click', async () => {
-      const btn = $('runBtn');
-      btn.disabled = true;
-      $('msg').className = 'msg';
-      $('msg').textContent = 'AIが分類中です…（数秒かかります）';
-      try {
-        const res = await fetch('/api/feedback-analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refresh: true }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || '分類に失敗しました');
-
-        renderAnalysis(data);
-        $('msg').textContent = data.analyzedCount
-          ? `${data.analyzedCount} 件を分析しました（${new Date().toLocaleTimeString('ja-JP')}）。`
-          : 'まだ分析対象がありません。';
-      } catch (err) {
-        $('msg').className = 'msg err';
-        $('msg').textContent = 'エラー: ' + err.message;
-      } finally {
-        btn.disabled = false;
-      }
-    });
-
-    // ---------- auth ----------
-    function showApp(user) {
-      $('gate').classList.add('hidden');
-      $('mainArea').classList.remove('hidden');
-      if (user) {
-        $('whoWrap').classList.remove('hidden');
-        $('whoName').textContent = user.name || user.email;
-        if (user.picture) $('whoPic').src = user.picture;
-        else $('whoPic').style.display = 'none';
-      }
-      loadRaw();
-      loadPurchases();
-    }
-
-    function showGate(clientId) {
-      $('mainArea').classList.add('hidden');
-      $('gate').classList.remove('hidden');
-
-      if (!clientId) {
-        $('gateMsg').className = 'msg err';
-        $('gateMsg').textContent = 'GOOGLE_CLIENT_ID が未設定のため、ログインを利用できません。';
-        return;
+  async function loadRooms() {
+    $('msg').className = 'msg';
+    $('msg').textContent = '読み込み中…';
+    try {
+      const res = await fetch('/api/owner-rooms');
+      const data = await res.json();
+      if (!res.ok) {
+        let m = data.error || '取得に失敗しました';
+        if (data.signedInAs) m += `（ログイン中: ${data.signedInAs}）`;
+        if (data.hint) m += ` — ${data.hint}`;
+        throw new Error(m);
       }
 
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.onload = () => {
-        google.accounts.id.initialize({
-          client_id: clientId,
-          callback: async (response) => {
-            $('gateMsg').className = 'msg';
-            $('gateMsg').textContent = 'ログイン中…';
-            try {
-              const res = await fetch('/api/auth-google', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ credential: response.credential }),
-              });
-              const data = await res.json();
-              if (!res.ok) throw new Error(data.error || 'ログインに失敗しました');
-              showApp(data.user);
-            } catch (err) {
-              $('gateMsg').className = 'msg err';
-              $('gateMsg').textContent = 'エラー: ' + err.message;
-            }
-          },
-        });
-        google.accounts.id.renderButton($('gbtn'), {
-          theme: 'filled_black', size: 'large', text: 'signin_with',
-          shape: 'pill', locale: 'ja',
-        });
-      };
-      document.head.appendChild(script);
+      const items = data.items || [];
+      const live = items.filter((i) => i.livemode);
+      const online = items.reduce((s, i) => s + (i.online || 0), 0);
+      const mrr = live
+        .filter((i) => i.mode === 'subscription')
+        .reduce((s, i) => s + (i.amount || 0), 0);
+
+      $('cTotal').textContent = yen(data.total_paid_livemode || 0);
+      $('cRooms').textContent = items.length;
+      $('cOnline').textContent = online + ' 名';
+      $('cMrr').textContent = yen(mrr);
+      $('appUrl').textContent = data.appUrl || '';
+
+      const rows = $('rows');
+      rows.innerHTML = '';
+      items.forEach((i) => {
+        const tr = document.createElement('tr');
+        const tag = i.livemode
+          ? '<span class="tag live">本番</span>'
+          : '<span class="tag test">テスト</span>';
+        tr.innerHTML = `
+          <td>${fmtDate(i.issued_at)}</td>
+          <td>${i.email || '<span style="color:#6b665d">—</span>'}</td>
+          <td>${i.item_name || i.name || '—'}</td>
+          <td class="money">${yen(i.amount)}${i.mode === 'subscription' ? ' <span style="color:#6b665d;font-weight:400">/月</span>' : ''}</td>
+          <td>${tag}</td>
+          <td>${i.online ? i.online + ' 名' : '<span style="color:#6b665d">—</span>'}</td>
+          <td class="mono">${(i.room_id || '').slice(0, 12)}…</td>
+          <td class="mono" style="color:#6b665d">${(i.issued_for || '').slice(0, 18) || '—'}</td>`;
+        rows.appendChild(tr);
+      });
+
+      $('empty').classList.toggle('hidden', items.length > 0);
+      $('msg').textContent = `最終更新 ${new Date().toLocaleTimeString('ja-JP')}`;
+    } catch (err) {
+      $('msg').className = 'msg err';
+      $('msg').textContent = 'エラー: ' + err.message;
     }
+  }
 
-    $('logoutBtn').addEventListener('click', async () => {
-      await fetch('/api/auth-logout', { method: 'POST' });
-      location.reload();
-    });
+  function showApp(user) {
+    $('gate').classList.add('hidden');
+    $('app').classList.remove('hidden');
+    $('whoami').textContent = user && user.email ? user.email : '';
+    loadRooms();
+  }
 
-    (async () => {
-      try {
-        const res = await fetch('/api/auth-me');
-        const data = await res.json();
-        // ログイン機能が未設定なら、そのまま開けるようにする（デモ用フォールバック）
-        if (!data.googleClientId) { showApp(null); return; }
-        if (data.signedIn) showApp(data.user);
-        else showGate(data.googleClientId);
-      } catch (err) {
-        showApp(null);
-      }
-    })();
-  </script>
+  function mountSignIn(clientId) {
+    if (!clientId) {
+      $('gateMsg').className = 'msg err';
+      $('gateMsg').textContent = 'GOOGLE_CLIENT_ID が未設定のため、ログインを利用できません。';
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.onload = () => {
+      google.accounts.id.initialize({
+        client_id: clientId,
+        callback: async (response) => {
+          $('gateMsg').className = 'msg';
+          $('gateMsg').textContent = 'ログイン中…';
+          try {
+            const res = await fetch('/api/auth-google', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ credential: response.credential }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'ログインに失敗しました');
+            showApp(data.user);
+          } catch (err) {
+            $('gateMsg').className = 'msg err';
+            $('gateMsg').textContent = 'エラー: ' + err.message;
+          }
+        },
+      });
+      google.accounts.id.renderButton($('gbtn'), {
+        theme: 'filled_black', size: 'large', text: 'signin_with', shape: 'pill', locale: 'ja',
+      });
+    };
+    document.head.appendChild(script);
+  }
+
+  $('logoutBtn').addEventListener('click', async () => {
+    await fetch('/api/auth-logout', { method: 'POST' });
+    location.reload();
+  });
+  $('reloadBtn').addEventListener('click', loadRooms);
+
+  (async () => {
+    try {
+      const res = await fetch('/api/auth-me');
+      const data = await res.json();
+      if (data.signedIn) showApp(data.user);
+      else mountSignIn(data.googleClientId);
+    } catch (err) {
+      $('gateMsg').className = 'msg err';
+      $('gateMsg').textContent = 'エラー: ' + err.message;
+    }
+  })();
+</script>
 </body>
 </html>
