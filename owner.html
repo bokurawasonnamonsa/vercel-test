@@ -52,6 +52,15 @@
   .gate p { color: var(--muted); font-size: 0.9rem; }
   #gbtn { display: flex; justify-content: center; margin-top: 1.5rem; }
   .hidden { display: none !important; }
+  h2.sec { font-size: 1rem; margin: 2.4rem 0 0.3rem; letter-spacing: -0.01em; }
+  .sechint { color: var(--muted); font-size: 0.84rem; margin: 0 0 0.9rem; line-height: 1.75; }
+  .sechint strong { color: var(--amber); }
+  .tag.paid { color: var(--green); border-color: rgba(74,222,128,0.35); }
+  .tag.unpaid { color: #f0a0a0; border-color: rgba(240,160,160,0.35); }
+  .tag.done { color: var(--muted); }
+  .tag.todo { color: #241703; background: var(--gold); border-color: var(--gold); font-weight: 700; }
+  button.act { border-color: var(--gold); color: var(--gold); padding: 0.3rem 0.7rem; font-size: 0.78rem; }
+  button.act:disabled { opacity: 0.45; cursor: default; }
   .foot { margin-top: 2rem; font-size: 0.78rem; color: var(--dim); }
   .foot a { color: var(--muted); }
 </style>
@@ -103,6 +112,27 @@
 
     <div id="msg" class="msg"></div>
 
+    <h2 class="sec">決済の照合</h2>
+    <p class="sechint">
+      Stripeに残っている直近のお申し込みと、発行済みルームを突き合わせます。
+      <strong>「未引き渡し」が出ていたら、そのお客様はお金を払ったのにルームを受け取れていません。</strong>
+      「引き渡す」を押すと、その場で発行してメールをお送りします（二重に押しても増えません）。
+    </p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>お申し込み日時</th><th>お客様</th><th>プラン</th><th>金額</th>
+            <th>支払い</th><th>種別</th><th>引き渡し</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="payRows"></tbody>
+      </table>
+      <div id="payEmpty" class="empty hidden">Stripeにお申し込みの記録がありません。</div>
+    </div>
+    <div id="payMsg" class="msg"></div>
+
+
     <p class="foot">
       お金の記録の正本は <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Stripe</a> です。
       この画面はその控えを、発行したルームと結びつけて表示しています。<br>
@@ -115,6 +145,8 @@
   const $ = (id) => document.getElementById(id);
 
   // 通貨ごとに書式を変える。ドル建ては最小単位がセント、円は円そのもの。
+  const PLAN_LABELS = { personal: '個人用', alliance: '同盟用', server: 'サーバー用' };
+
   function money(amount, currency) {
     if (typeof amount !== 'number') return '—';
     const c = String(currency || 'usd').toLowerCase();
@@ -198,11 +230,93 @@
     }
   }
 
+  async function loadPayments() {
+    $('payMsg').className = 'msg';
+    $('payMsg').textContent = '読み込み中…';
+    try {
+      const res = await fetch('/api/owner-payments');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '取得に失敗しました');
+
+      const items = data.items || [];
+      const rows = $('payRows');
+      rows.innerHTML = '';
+      items.forEach((i) => {
+        const tr = document.createElement('tr');
+        const paid = i.payment_status === 'paid';
+        const payTag = paid
+          ? '<span class="tag paid">支払い済み</span>'
+          : `<span class="tag unpaid">${i.payment_status === 'unpaid' ? '未完了' : i.payment_status}</span>`;
+        const liveTag = i.livemode
+          ? '<span class="tag live">本番</span>'
+          : '<span class="tag test">テスト</span>';
+        const delivered = i.delivered
+          ? '<span class="tag done">済み</span>'
+          : (paid ? '<span class="tag todo">未引き渡し</span>' : '<span style="color:#6b665d">—</span>');
+        const btn = i.needsFulfill
+          ? `<button class="act" data-fulfill="${i.id}">引き渡す</button>`
+          : '';
+        tr.innerHTML = `
+          <td>${fmtDate(i.created ? new Date(i.created * 1000).toISOString() : null)}</td>
+          <td>${i.email || '<span style="color:#6b665d">—</span>'}</td>
+          <td>${PLAN_LABELS[i.plan] || '<span style="color:#6b665d">—</span>'}</td>
+          <td class="money">${money(i.amount, i.currency)}</td>
+          <td>${payTag}</td>
+          <td>${liveTag}</td>
+          <td>${delivered}</td>
+          <td>${btn}</td>`;
+        rows.appendChild(tr);
+      });
+
+      $('payEmpty').classList.toggle('hidden', items.length > 0);
+      rows.querySelectorAll('button[data-fulfill]').forEach((b) => {
+        b.addEventListener('click', () => fulfillOne(b.getAttribute('data-fulfill'), b));
+      });
+
+      let note = `支払い済み ${data.paid} 件 / 全 ${data.count} 件`;
+      if (data.pending > 0) note += ` — 未引き渡しが ${data.pending} 件あります`;
+      if (data.roomsError) note += `（ルーム一覧を取得できませんでした: ${data.roomsError}）`;
+      $('payMsg').className = data.pending > 0 || data.roomsError ? 'msg err' : 'msg';
+      $('payMsg').textContent = note;
+    } catch (err) {
+      $('payMsg').className = 'msg err';
+      $('payMsg').textContent = 'エラー: ' + err.message;
+    }
+  }
+
+  async function fulfillOne(sessionId, btn) {
+    btn.disabled = true;
+    btn.textContent = '発行中…';
+    try {
+      const res = await fetch('/api/owner-fulfill', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '発行に失敗しました');
+      $('payMsg').className = 'msg';
+      const to = (data.email && data.email.to) || '';
+      const sent = data.email && data.email.sent;
+      $('payMsg').textContent =
+        `発行しました（ルームID ${data.roomId} / 参加コード ${data.code}）` +
+        (sent ? ` — ${to} 宛にご案内をお送りしました。` : ' — メールは送信できていません。この内容を直接お伝えください。');
+      await loadRooms();
+      await loadPayments();
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = '引き渡す';
+      $('payMsg').className = 'msg err';
+      $('payMsg').textContent = 'エラー: ' + err.message;
+    }
+  }
+
   function showApp(user) {
     $('gate').classList.add('hidden');
     $('app').classList.remove('hidden');
     $('whoami').textContent = user && user.email ? user.email : '';
     loadRooms();
+    loadPayments();
   }
 
   function mountSignIn(clientId) {
@@ -246,7 +360,7 @@
     await fetch('/api/auth-logout', { method: 'POST' });
     location.reload();
   });
-  $('reloadBtn').addEventListener('click', loadRooms);
+  $('reloadBtn').addEventListener('click', () => { loadRooms(); loadPayments(); });
 
   (async () => {
     try {
