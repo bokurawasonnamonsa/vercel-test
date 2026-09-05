@@ -800,13 +800,22 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
   tick();
   setInterval(tick, 250);
 
-  // 現れ方は控えめに。速くスクロールする人に空白を見せないよう、
-  // 画面に入る手前から出しはじめ、遅延も付けない。
-  const io = new IntersectionObserver((es) => {
-    es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { rootMargin: '120px 0px 0px 0px' });
-  document.querySelectorAll('section .eyebrow, section h2, section .sec-lead, .card, .stat, .step, .sync, .tbl-wrap, .note-gold, details, .plan, .price-note, .fig-figure')
-    .forEach((el) => { el.classList.add('rise'); io.observe(el); });
+  // 現れ方は控えめに。速くスクロールされても、白い画面を見せないことを最優先にする。
+  // ① 画面に入るだいぶ手前から出しはじめる
+  // ② 何かの理由で監視が働かなくても、2.5秒後には全部表示する
+  const revealTargets = document.querySelectorAll(
+    'section .eyebrow, section h2, section .sec-lead, .card, .stat, .step, .sync, .tbl-wrap, .note-gold, details, .plan, .price-note, .fig-figure'
+  );
+  const revealAll = () => revealTargets.forEach((el) => el.classList.add('in'));
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px 35% 0px' });
+    revealTargets.forEach((el) => { el.classList.add('rise'); io.observe(el); });
+    setTimeout(revealAll, 2500);
+  } else {
+    revealAll();
+  }
 
   // 実績の数字をカウントアップ
   const numIO = new IntersectionObserver((es) => {
