@@ -76,6 +76,39 @@
   }
   .stepitem h3 { margin: 0.15rem 0 0.35rem; }
 
+  /* サーバー ⊃ 同盟 ⊃ 班 ⊃ 集結主。この入れ子がそのまま料金の境目。 */
+  .scope { margin: 1.2rem 0 1.6rem; }
+  .scope-server {
+    border: 1px dashed rgba(233,169,60,0.45); border-radius: 16px;
+    padding: 2.1rem 1.1rem 1.1rem; position: relative;
+    background: linear-gradient(180deg, rgba(233,169,60,0.05), transparent);
+  }
+  .scope-tag {
+    position: absolute; top: -0.72rem; left: 1.1rem;
+    font-size: 0.68rem; font-weight: 800; letter-spacing: .04em;
+    padding: 0.18rem 0.7rem; border-radius: 999px;
+    background: var(--gold); color: #241703; white-space: nowrap;
+  }
+  .scope-tag.alt { background: var(--green); color: #04231d; }
+  .scope-alliances { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
+  @media (min-width: 700px) { .scope-alliances { grid-template-columns: repeat(3, 1fr); } }
+  .scope-alliance {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 1.7rem 0.8rem 0.8rem; position: relative; background: var(--panel);
+  }
+  .scope-alliance.is-lit { border-color: rgba(74,222,128,0.5); background: rgba(74,222,128,0.05); }
+  .scope-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .squads { display: grid; gap: 0.45rem; }
+  .squad {
+    border: 1px solid var(--line); border-radius: 8px; padding: 0.45rem 0.6rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  }
+  .squad .nm { font-size: 0.76rem; color: var(--muted); white-space: nowrap; }
+  .squad .seats { display: inline-flex; gap: 3px; }
+  .squad .seats i { width: 7px; height: 7px; border-radius: 2px; background: var(--gold); opacity: .75; }
+  .scope-note { color: var(--muted); font-size: 0.85rem; margin: 0.9rem 0 0; line-height: 1.9; }
+  .scope-note b { color: var(--text); }
+
   .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
   table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 520px; }
   th, td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
@@ -277,12 +310,57 @@
 
   <h3>指揮官コンソール（サーバー用プランのみ）</h3>
   <ul class="plain">
-    <li>複数のグループをまとめて1画面で見られます。</li>
-    <li>複数のグループに同時に号令を出せます。</li>
+    <li>3つの同盟をまとめて1画面で見られます。</li>
+    <li>複数の同盟にまたがって、同時に号令を出せます（ペア号令）。</li>
+    <li><strong>入替指示</strong>— 攻めた同盟が敵に勝った想定で、占領している同盟と入れ替える指示を出します。入れ替えの着弾時刻と、王城から抜けてもらう時刻を、まとめて配れます。</li>
     <li>ご利用URLの末尾に <span class="mono">/admin</span> を付けて開き、同じルームIDと参加コードで入ります。</li>
   </ul>
+  <div class="box">
+    <h3>差込指示は、参謀の画面にもあります</h3>
+    <p>
+      敵から連続で攻められたときに、こちらの隊を割り込ませて防ぐのが<strong>差込</strong>です。
+      最終着弾の何秒前に入れるかを指定すると、その時刻から逆算した合図が配られます。
+      これは参謀の機能なので、<strong>どのプランでもお使いいただけます</strong>。
+    </p>
+  </div>
 
   <h2 id="plans">5. プランごとにできること</h2>
+  <p>
+    プランの境目は、この入れ子のどこまでを使うかで決まります。
+  </p>
+  <div class="scope">
+    <div class="scope-server">
+      <span class="scope-tag">サーバー用 $20 — この枠ぜんぶ</span>
+      <div class="scope-alliances">
+        <div class="scope-alliance is-lit">
+          <span class="scope-tag alt">同盟用 $10 — この枠ひとつ</span>
+          <div class="scope-title">同盟①</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+        <div class="scope-alliance">
+          <div class="scope-title">同盟②</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+        <div class="scope-alliance">
+          <div class="scope-title">同盟③</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="scope-note">
+      ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで。全部で36枠あります。<br>
+      <b>乗り手は枠を使いません。</b>集結主の隊に乗るだけの方は、何人参加しても追加料金はかかりません。
+    </p>
+  </div>
   <div class="tbl-wrap">
     <table>
       <thead>
@@ -291,10 +369,14 @@
       <tbody>
         <tr><td>出発時刻の自動計算</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
         <tr><td>結果をコピーしてチャットに貼る</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>差込指示（参謀の機能）</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
         <tr><td>メンバーが各自の端末で使う</td><td class="no">－</td><td class="yes">○</td><td class="yes">○</td></tr>
         <tr><td>同時に使える端末</td><td>1台</td><td class="yes">無制限</td><td class="yes">無制限</td></tr>
-        <tr><td>まとめられるグループ</td><td>1つ</td><td>1つ</td><td class="yes">3つ</td></tr>
+        <tr><td>まとめられる同盟</td><td>1つ</td><td>1つ</td><td class="yes">3つ</td></tr>
+        <tr><td>集結主の枠</td><td>12</td><td>12</td><td class="yes">36</td></tr>
         <tr><td>指揮官コンソール</td><td class="no">－</td><td class="no">－</td><td class="yes">○</td></tr>
+        <tr><td>複数同盟にまたがるペア号令</td><td class="no">－</td><td class="no">－</td><td class="yes">○</td></tr>
+        <tr><td>入替指示（指揮官の機能）</td><td class="no">－</td><td class="no">－</td><td class="yes">○</td></tr>
       </tbody>
     </table>
   </div>
