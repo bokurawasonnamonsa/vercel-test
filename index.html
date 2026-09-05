@@ -199,20 +199,30 @@
   .card.pain h3 { color: #e8a0a0; }
 
   /* 収束のビジュアル */
-  .converge-fig { margin: 0 0 1.6rem; position: relative; }
-  .converge-fig img {
-    width: 100%; display: block; border-radius: 18px; border: 1px solid var(--line);
-    /* 上下を背景になじませ、切り取り感を消す */
-    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
-    mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  .converge-fig { margin: 0 0 1.6rem; }
+  .converge-fig svg {
+    width: 100%; height: auto; display: block;
+    background: linear-gradient(180deg, rgba(233,169,60,0.05), var(--panel));
+    border: 1px solid var(--line); border-radius: 18px; padding: 0.6rem 0;
+  }
+  .fig-cap { font-size: 13px; fill: var(--dim); letter-spacing: 0.08em;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .fig-gold { fill: var(--gold); }
+  .fig-name { font-size: 14px; fill: var(--text); }
+  .fig-time { font-size: 13px; fill: var(--gold-lt);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .fig-march { font-size: 11px; fill: var(--muted); }
+  .fig-bar { stroke: var(--line-gold); stroke-width: 3; stroke-linecap: round; }
+  .fig-dot { fill: var(--gold); }
+  .fig-goal { stroke: var(--gold); stroke-width: 2; }
+  .fig-goal-glow { stroke: var(--gold); stroke-width: 12; opacity: 0.14; }
+  @media (max-width: 560px) {
+    .fig-march { display: none; }
+    .fig-name, .fig-time { font-size: 15px; }
   }
   .converge-fig figcaption {
-    position: absolute; left: 2rem; bottom: 1.6rem;
+    margin-top: 0.8rem; text-align: center;
     font-size: 0.9rem; color: #ddd0b6; letter-spacing: 0.02em;
-    text-shadow: 0 2px 14px rgba(0,0,0,.9);
-  }
-  @media (max-width: 700px) {
-    .converge-fig figcaption { position: static; margin-top: .7rem; text-align: center; }
   }
 
   /* sync visual */
@@ -443,9 +453,50 @@
     <h2>全員が、同じ瞬間に到着する。</h2>
     <p class="sec-lead">一人ひとりの移動時間から逆算し、それぞれに違うスタートタイミングを配信します。</p>
 
+    <!-- 中心の仕組みを1枚で。ここで伝えたいのは「場所」ではなく「時刻」。
+         移動時間が長い人ほど早く出発し、右端の一本の線で全員そろう。 -->
     <figure class="converge-fig">
-      <img src="/assets/converge.png" alt="バラバラの位置から出た光の筋が、一点に収束していく様子">
-      <figcaption>位置の違う全員が、ひとつの瞬間へ。</figcaption>
+      <svg viewBox="0 0 820 300" role="img" aria-labelledby="figTitle figDesc" preserveAspectRatio="xMidYMid meet">
+        <title id="figTitle">出発時刻をずらして、到着を揃える仕組み</title>
+        <desc id="figDesc">移動時間の違う4人が、それぞれ違う時刻に出発し、右端の同じ時刻に全員が到着する図</desc>
+
+        <text class="fig-cap" x="12" y="22">出発 — ひとりずつ違う</text>
+        <text class="fig-cap fig-gold" x="808" y="22" text-anchor="end">着弾 — 全員そろう</text>
+
+        <line class="fig-goal-glow" x1="760" y1="36" x2="760" y2="268"/>
+        <line class="fig-goal" x1="760" y1="36" x2="760" y2="268"/>
+        <text class="fig-time fig-gold" x="808" y="288" text-anchor="end">21:03:15</text>
+
+        <g class="fig-row">
+          <text class="fig-name" x="92" y="76" text-anchor="end">りく</text>
+          <text class="fig-time" x="180" y="76" text-anchor="end">21:00:15</text>
+          <line class="fig-bar" x1="190" y1="71" x2="760" y2="71"/>
+          <circle class="fig-dot" cx="190" cy="71" r="5"/>
+          <text class="fig-march" x="475" y="62" text-anchor="middle">移動 3:00</text>
+        </g>
+        <g class="fig-row">
+          <text class="fig-name" x="92" y="128" text-anchor="end">あおい</text>
+          <text class="fig-time" x="322" y="128" text-anchor="end">21:01:00</text>
+          <line class="fig-bar" x1="332" y1="123" x2="760" y2="123"/>
+          <circle class="fig-dot" cx="332" cy="123" r="5"/>
+          <text class="fig-march" x="546" y="114" text-anchor="middle">移動 2:15</text>
+        </g>
+        <g class="fig-row">
+          <text class="fig-name" x="92" y="180" text-anchor="end">はると</text>
+          <text class="fig-time" x="465" y="180" text-anchor="end">21:01:45</text>
+          <line class="fig-bar" x1="475" y1="175" x2="760" y2="175"/>
+          <circle class="fig-dot" cx="475" cy="175" r="5"/>
+          <text class="fig-march" x="617" y="166" text-anchor="middle">移動 1:30</text>
+        </g>
+        <g class="fig-row">
+          <text class="fig-name" x="92" y="232" text-anchor="end">めい</text>
+          <text class="fig-time" x="607" y="232" text-anchor="end">21:02:30</text>
+          <line class="fig-bar" x1="617" y1="227" x2="760" y2="227"/>
+          <circle class="fig-dot" cx="617" cy="227" r="5"/>
+          <text class="fig-march" x="688" y="218" text-anchor="middle">移動 0:45</text>
+        </g>
+      </svg>
+      <figcaption>移動に時間がかかる人ほど、早く出発する。だから、到着だけが揃う。</figcaption>
     </figure>
 
     <div class="sync">
