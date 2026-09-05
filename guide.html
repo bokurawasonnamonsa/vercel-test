@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使い方ガイド｜CommandClock</title>
+<meta name="description" content="CommandClockが何をする道具なのか、申し込んでから実際に使うまでに何をすればいいのかを、順番に説明します。">
+<link rel="icon" type="image/png" href="/assets/icon-gold.png">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #08080c; --bg-2: #0d0d13; --panel: rgba(255,255,255,0.035);
+    --line: rgba(255,255,255,0.08); --line-gold: rgba(233,169,60,0.28);
+    --text: #f4f2ee; --muted: #9a9488; --dim: #6b665d;
+    --gold: #e9a93c; --gold-lt: #f5c263; --green: #4ade80;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text); line-height: 1.9;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  a { color: var(--gold); }
+
+  .nav {
+    position: sticky; top: 0; z-index: 40; background: rgba(8,8,12,0.86);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+  }
+  .nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 0; }
+  .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: var(--text); }
+  .brand img { width: 26px; height: 26px; }
+  .brand .name { font-size: 0.95rem; letter-spacing: 0.02em; }
+  .nav-cta {
+    background: var(--gold); color: #241703; text-decoration: none; font-weight: 700;
+    padding: 0.5rem 1.1rem; border-radius: 999px; font-size: 0.86rem;
+  }
+
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 1.3rem; }
+  header.top { padding: 3rem 0 1rem; }
+  .eyebrow { color: var(--gold); font-size: 0.72rem; letter-spacing: 0.18em; }
+  h1 { font-size: 1.9rem; line-height: 1.45; margin: 0.5rem 0 0.7rem; letter-spacing: -0.02em; }
+  .lead { color: var(--muted); font-size: 0.98rem; margin: 0 0 1rem; }
+
+  h2 {
+    font-size: 1.3rem; margin: 3.2rem 0 0.6rem; letter-spacing: -0.01em;
+    padding-top: 1.6rem; border-top: 1px solid var(--line);
+  }
+  h3 { font-size: 1.02rem; margin: 1.9rem 0 0.4rem; }
+  p { margin: 0 0 1rem; color: #d9d3c8; font-size: 0.95rem; }
+  .muted { color: var(--muted); font-size: 0.88rem; }
+
+  .toc { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.4rem; margin: 1.8rem 0 0; }
+  .toc ol { margin: 0; padding-left: 1.2rem; }
+  .toc li { margin: 0.25rem 0; font-size: 0.92rem; }
+
+  .box {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.2rem 1.4rem; margin: 1.2rem 0;
+  }
+  .box.gold { border-color: var(--line-gold); background: linear-gradient(180deg, rgba(233,169,60,0.06), var(--panel)); }
+  .box h3 { margin-top: 0; }
+  .box p:last-child, .box ul:last-child { margin-bottom: 0; }
+
+  ul.plain { margin: 0 0 1rem; padding-left: 1.2rem; color: #d9d3c8; font-size: 0.95rem; }
+  ul.plain li { margin-bottom: 0.45rem; }
+
+  .steps { counter-reset: st; }
+  .stepitem { position: relative; padding-left: 3rem; margin-bottom: 1.9rem; }
+  .stepitem::before {
+    counter-increment: st; content: counter(st);
+    position: absolute; left: 0; top: 0.1rem;
+    width: 2.1rem; height: 2.1rem; border-radius: 50%;
+    background: var(--gold); color: #241703; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; font-size: 0.95rem;
+  }
+  .stepitem h3 { margin: 0.15rem 0 0.35rem; }
+
+  .tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 520px; }
+  th, td { text-align: left; padding: 0.75rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--dim); font-weight: 600; font-size: 0.76rem; letter-spacing: 0.06em; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td.yes { color: var(--green); }
+  td.no { color: var(--dim); }
+
+  pre.sample {
+    background: #0a0a10; border: 1px solid var(--line); border-radius: 12px;
+    padding: 1rem 1.1rem; overflow-x: auto; font-size: 0.85rem; line-height: 1.85;
+    color: #d9d3c8; margin: 0.8rem 0 1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  details { border-bottom: 1px solid var(--line); padding: 0.85rem 0; }
+  details summary { cursor: pointer; font-size: 0.95rem; color: var(--text); }
+  details p { margin: 0.6rem 0 0; font-size: 0.9rem; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 2rem 0 0; }
+  .btn {
+    display: inline-block; text-decoration: none; border-radius: 999px;
+    padding: 0.85rem 1.7rem; font-weight: 700; font-size: 0.94rem;
+  }
+  .btn-gold { background: var(--gold); color: #241703; }
+  .btn-outline { border: 1px solid var(--line); color: var(--text); }
+
+  footer { margin-top: 4rem; border-top: 1px solid var(--line); padding: 2rem 0 3rem; }
+  footer p { color: var(--dim); font-size: 0.8rem; margin: 0.3rem 0; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <img class="mark" src="/assets/mark.png" alt="">
+      <span class="name mono">CommandClock</span>
+    </a>
+    <a class="nav-cta" href="/#pricing">申し込む</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow mono">GUIDE</div>
+    <h1>使い方ガイド</h1>
+    <p class="lead">
+      何をする道具なのか、申し込んだあと何をすればいいのかを、順番に説明します。
+      ゲームをご存じない方でも読めるように書いています。
+    </p>
+    <nav class="toc">
+      <ol>
+        <li><a href="#what">これは何をする道具か</a></li>
+        <li><a href="#roles">出てくる3つの役割</a></li>
+        <li><a href="#start">申し込んでから使い始めるまで</a></li>
+        <li><a href="#screens">それぞれの画面で何をするか</a></li>
+        <li><a href="#plans">プランごとにできること</a></li>
+        <li><a href="#trouble">うまくいかないとき</a></li>
+      </ol>
+    </nav>
+  </header>
+
+  <h2 id="what">1. これは何をする道具か</h2>
+  <p>
+    ひとことで言うと、<strong>「全員を同じ瞬間に到着させるために、一人ひとり違う出発時刻を計算して配る」</strong>道具です。
+  </p>
+  <p>
+    たとえば4人で、同じ場所に同時に着きたいとします。ところが4人は別々の場所にいるので、
+    そこまでにかかる時間が違います。3分かかる人もいれば、45秒で着く人もいる。
+  </p>
+  <p>
+    このとき「せーので同時に出発」すると、当然バラバラに着きます。
+    正しいのは<strong>「かかる時間が長い人ほど、早く出発する」</strong>——つまり全員バラバラに出発することです。
+  </p>
+
+  <div class="box gold">
+    <h3>21時03分15秒に全員そろえたい場合</h3>
+    <pre class="sample">りく　　移動 3:00　→　21:00:15 に出発
+あおい　移動 2:15　→　21:01:00 に出発
+はると　移動 1:30　→　21:01:45 に出発
+めい　　移動 0:45　→　21:02:30 に出発
+                     ↓
+              全員 21:03:15 に到着</pre>
+    <p class="muted">
+      この引き算を、人数分・秒単位で、しかも本番中に何度もやるのは人間には無理があります。
+      CommandClockは、まとめ役が「到着させたい時刻」を一つ入れるだけで、
+      この表を自動で作り、それぞれの端末に<strong>その人だけの秒読み</strong>を流します。
+    </p>
+  </div>
+
+  <h3>時計のズレは気にしなくて大丈夫です</h3>
+  <p>
+    秒単位で揃える以上、各自のスマホの時計が数秒ズレていると台無しになります。
+    CommandClockは各端末の時計ではなく<strong>サーバーの時刻</strong>を基準にし、
+    通信の往復にかかった時間も引き算して補正しています。
+    利用者が時計を合わせ直す必要はありません。
+  </p>
+
+  <h2 id="roles">2. 出てくる3つの役割</h2>
+  <p>
+    参加する人は、最初に自分の役割を選びます。3つだけです。
+  </p>
+
+  <div class="box">
+    <h3>参謀（さんぼう） — まとめ役</h3>
+    <p>
+      到着させたい時刻を決めて、号令を出す人です。1グループに1人いれば足ります。
+      参謀の画面には、メンバー全員の出発時刻が一覧で出ます。
+    </p>
+  </div>
+  <div class="box">
+    <h3>集結主（しゅうけつぬし） — 隊を出す人</h3>
+    <p>
+      自分の隊を出して、目的地へ向かう人です。この人の画面に
+      「あと○秒で出発」という<strong>その人専用の秒読み</strong>が出ます。
+      移動にかかる時間は人によって違うので、最初に一度だけ自分の移動時間を入力します。
+    </p>
+    <p class="muted">1グループ（班）につき6人まで登録できます。</p>
+  </div>
+  <div class="box">
+    <h3>乗り手（のりて） — 隊に加わる人</h3>
+    <p>
+      自分では隊を出さず、集結主の隊に加わる人です。
+      人数の制限はありません。何人いても追加料金はかかりません。
+    </p>
+  </div>
+
+  <h2 id="start">3. 申し込んでから使い始めるまで</h2>
+  <div class="steps">
+    <div class="stepitem">
+      <h3>申し込む</h3>
+      <p>
+        <a href="/#pricing">料金のところ</a>でプランを選び、カードで決済します。
+        決済が終わると完了画面に、<strong>ご利用URL・ルームID・参加コード</strong>の3点が表示されます。
+        同じ内容がご登録のメールアドレスにも届きます。
+      </p>
+      <p class="muted">
+        ルームIDと参加コードは、あなたのグループ専用の鍵です。他のお客様からは見えません。
+      </p>
+    </div>
+    <div class="stepitem">
+      <h3>メンバーに3点を配る</h3>
+      <p>
+        チャットなどで、<strong>URL・ルームID・参加コード</strong>をメンバーに送ります。
+        アプリのインストールはいりません。スマホのブラウザで開けば使えます。
+      </p>
+      <p class="muted">
+        ※ SNSアプリの中の簡易ブラウザではうまく動かないことがあります。
+        「ブラウザで開く」を選んでいただくのが確実です。
+      </p>
+    </div>
+    <div class="stepitem">
+      <h3>それぞれが役割を選んで登録する</h3>
+      <p>
+        URLを開くと、ルームIDと参加コードを入れる画面が出ます。入ったあと、
+        「参謀」「集結主」「乗り手」から自分の役割を選び、名前を入れます。
+        集結主の方は、あわせて<strong>自分の移動時間</strong>を入力します。
+      </p>
+      <p class="muted">一度入れた内容は端末に保存されるので、次回からは選ぶだけです。</p>
+    </div>
+    <div class="stepitem">
+      <h3>参謀が号令を出す</h3>
+      <p>
+        参謀の画面で到着させたい時刻を決めて、号令のボタンを押します。
+        その瞬間、全員の画面がそれぞれ違うタイミングで動き出します。
+        あとは自分の画面が「スタート」と言った瞬間に動くだけです。
+      </p>
+    </div>
+  </div>
+
+  <h2 id="screens">4. それぞれの画面で何をするか</h2>
+
+  <h3>参加者の画面（全員が使います）</h3>
+  <ul class="plain">
+    <li>大きな時計と、自分専用の秒読みが出ます。</li>
+    <li>やることは「秒読みが0になった瞬間に動く」だけです。</li>
+    <li>音声でも読み上げるので、画面を見ていなくても分かります。</li>
+  </ul>
+
+  <h3>参謀の画面（まとめ役が使います）</h3>
+  <ul class="plain">
+    <li>自分のグループ全員の、出発時刻・移動時間・到着時刻が一覧で出ます。</li>
+    <li>到着させたい時刻を決めて号令を出します。「今から◯秒後」でも「何時何分に」でも指定できます。</li>
+    <li><strong>「コピー」ボタン</strong>を押すと、全員の出発時刻がテキストになります。
+      そのままチャットに貼れば、ツールを開いていないメンバーにも伝えられます。</li>
+  </ul>
+  <div class="box">
+    <p class="muted" style="margin-bottom:0.5rem;">コピーで出てくるテキストの例</p>
+    <pre class="sample">【集結タイム】○○同盟
+第1班　着弾 21:03:15
+　りく　出発 21:00:15（行軍 3:00）
+　あおい　出発 21:01:00（行軍 2:15）</pre>
+    <p class="muted">
+      個人用プランは、この使い方が中心になります。メンバー側の準備がいらないのが利点です。
+    </p>
+  </div>
+
+  <h3>指揮官コンソール（サーバー用プランのみ）</h3>
+  <ul class="plain">
+    <li>複数のグループをまとめて1画面で見られます。</li>
+    <li>複数のグループに同時に号令を出せます。</li>
+    <li>ご利用URLの末尾に <span class="mono">/admin</span> を付けて開き、同じルームIDと参加コードで入ります。</li>
+  </ul>
+
+  <h2 id="plans">5. プランごとにできること</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>できること</th><th>個人用<br>$3/月</th><th>同盟用<br>$10/月</th><th>サーバー用<br>$20/月</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>出発時刻の自動計算</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>結果をコピーしてチャットに貼る</td><td class="yes">○</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>メンバーが各自の端末で使う</td><td class="no">－</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>同時に使える端末</td><td>1台</td><td class="yes">無制限</td><td class="yes">無制限</td></tr>
+        <tr><td>まとめられるグループ</td><td>1つ</td><td>1つ</td><td class="yes">3つ</td></tr>
+        <tr><td>指揮官コンソール</td><td class="no">－</td><td class="no">－</td><td class="yes">○</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:0.9rem;">
+    ご請求は米ドル建てです。日本円への換算はご利用のカード会社のレートによります。
+    解約はいつでもでき、次回以降の請求は発生しません。
+  </p>
+
+  <h2 id="trouble">6. うまくいかないとき</h2>
+  <details>
+    <summary>ルームIDと参加コードを入れても入れない</summary>
+    <p>
+      前後に空白が入っていないかご確認ください。コードは大文字と小文字を区別します。
+      それでも入れない場合は、お渡ししたメールの内容をそのままコピーしてお試しください。
+    </p>
+  </details>
+  <details>
+    <summary>「同時に1台まで」と出て入れない</summary>
+    <p>
+      個人用プランは、同時に開ける端末が1台までです。他の端末やタブを閉じてから、
+      もう一度お試しください。複数人で同時に使う場合は同盟用へお切り替えください。
+    </p>
+  </details>
+  <details>
+    <summary>「この班は満員です」と出る</summary>
+    <p>
+      1つの班に登録できる集結主は6人までです。別の班を選ぶか、参謀に空きをご確認ください。
+      乗り手は人数の制限がないので、そのまま参加できます。
+    </p>
+  </details>
+  <details>
+    <summary>自分だけ秒読みが動かない</summary>
+    <p>
+      登録が済んでいない可能性があります。名前と移動時間を入れて「登録して開始」を押したか、
+      ご確認ください。参謀の画面の一覧にお名前が出ていれば登録できています。
+    </p>
+  </details>
+  <details>
+    <summary>お金は払ったのに、ルームIDが届かない</summary>
+    <p>
+      迷惑メールフォルダをご確認のうえ、見つからない場合は
+      <a href="mailto:bokurawasonnamonsa@gmail.com">bokurawasonnamonsa@gmail.com</a>
+      までご連絡ください。決済が確認でき次第、こちらで発行してお送りします。
+    </p>
+  </details>
+  <details>
+    <summary>解約したい</summary>
+    <p>
+      上記のアドレスへご連絡ください。次回以降の請求は発生しません。
+      日割りの返金は行っておりませんが、お支払い済みの期間はそのままお使いいただけます。
+    </p>
+  </details>
+
+  <div class="cta-row">
+    <a class="btn btn-gold" href="/#pricing">プランを見る</a>
+    <a class="btn btn-outline" href="/">トップに戻る</a>
+  </div>
+
+  <footer>
+    <p>ご不明な点は <a href="mailto:bokurawasonnamonsa@gmail.com">bokurawasonnamonsa@gmail.com</a> までお気軽にどうぞ。</p>
+    <p><a href="/legal.html">特定商取引法に基づく表記・利用規約</a></p>
+  </footer>
+</div>
+
+</body>
+</html>

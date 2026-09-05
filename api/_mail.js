@@ -56,8 +56,9 @@ function buildWelcomeHtml({ roomId, code, appUrl, plan }) {
             <strong style="color:#e8eef7;">使い方</strong><br>
             1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
             2. ルームIDと参加コードを入力して参加します<br>
-            3. 指揮する方は「参謀」、動く方は「集結主」「乗り手」を選びます<br>
-            4. 参謀が到着させたい時刻を送ると、各メンバーの画面に<strong style="color:#e8eef7;">一人ずつ違うスタートタイミング</strong>が出ます
+            3. 役割を選びます。まとめ役は「参謀」、隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
+            4. 参謀が到着させたい時刻を送ると、各メンバーの画面に<strong style="color:#e8eef7;">一人ずつ違うスタートタイミング</strong>が出ます<br>
+            <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
           </p>
         </td></tr>
 
