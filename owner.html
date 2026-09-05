@@ -144,8 +144,9 @@
 <script>
   const $ = (id) => document.getElementById(id);
 
-  // 通貨ごとに書式を変える。ドル建ては最小単位がセント、円は円そのもの。
   const PLAN_LABELS = { personal: '個人用', alliance: '同盟用', server: 'サーバー用' };
+
+  // 通貨ごとに書式を変える。ドル建ては最小単位がセント、円は円そのもの。
 
   function money(amount, currency) {
     if (typeof amount !== 'number') return '—';
