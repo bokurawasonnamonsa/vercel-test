@@ -333,6 +333,40 @@ summary::after { content: '+'; color: var(--amber); font-weight: 700; flex: none
 details[open] summary::after { content: '−'; }
 details p { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.9rem; }
 
+/* ---- どこまでが1つのプランか --------------------------------
+   サーバー ⊃ 同盟 ⊃ 班 ⊃ 集結主。この入れ子がそのまま料金の境目。 */
+.scope { margin-bottom: 1.8rem; }
+.scope-server {
+  border: 1px dashed rgba(240,166,60,0.45); border-radius: 16px;
+  padding: 2.1rem 1.2rem 1.2rem; position: relative;
+  background: linear-gradient(180deg, rgba(240,166,60,0.045), transparent);
+}
+.scope-tag {
+  position: absolute; top: -0.72rem; left: 1.2rem;
+  font-size: 0.7rem; font-weight: 800; letter-spacing: .04em;
+  padding: 0.2rem 0.75rem; border-radius: 999px;
+  background: var(--amber); color: #1c1204;
+}
+.scope-tag.alt { background: var(--cyan); color: #04231d; }
+.scope-alliances { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 800px) { .scope-alliances { grid-template-columns: repeat(3, 1fr); } }
+.scope-alliance {
+  border: 1px solid var(--line); border-radius: 12px;
+  padding: 1.7rem 0.9rem 0.9rem; position: relative; background: var(--panel);
+}
+.scope-alliance.is-lit { border-color: rgba(94,234,212,0.5); background: rgba(94,234,212,0.05); }
+.scope-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.6rem; }
+.squads { display: grid; gap: 0.5rem; }
+.squad {
+  border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.squad .nm { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+.squad .seats { display: inline-flex; gap: 3px; }
+.squad .seats i { width: 7px; height: 7px; border-radius: 2px; background: var(--amber); opacity: .75; }
+.scope-note { color: var(--muted); font-size: 0.86rem; margin: 1rem 0 0; line-height: 1.9; }
+.scope-note b { color: var(--text); }
+
 /* ---- 料金 --------------------------------------------------- */
 .price-note {
   border: 1px solid rgba(94,234,212,0.25); background: rgba(94,234,212,0.05);
@@ -700,6 +734,41 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
     <div class="eyebrow mono">PRICING</div>
     <h2>人数を増やしても、料金は増えません。</h2>
     <p class="sec-lead">使う規模で3段階。同盟用・サーバー用は、メンバーが何人になっても追加料金はかかりません。</p>
+    <!-- どのプランを選べばいいか。入れ子の図がそのまま料金の境目になっている。 -->
+    <div class="scope">
+      <div class="scope-server">
+        <span class="scope-tag">サーバー用 $20 — この枠ぜんぶ</span>
+        <div class="scope-alliances">
+          <div class="scope-alliance is-lit">
+            <span class="scope-tag alt">同盟用 $10 — この枠ひとつ</span>
+            <div class="scope-title">同盟①</div>
+            <div class="squads">
+              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+          <div class="scope-alliance">
+            <div class="scope-title">同盟②</div>
+            <div class="squads">
+              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+          <div class="scope-alliance">
+            <div class="scope-title">同盟③</div>
+            <div class="squads">
+              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="scope-note">
+        ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで登録できます。<br>
+        <b>乗り手は枠を使いません。</b>集結主の隊に乗るだけの方は、何人参加しても追加料金はかかりません。<br>
+        個人用 $3 は、参謀ひとりが自分の端末だけで使う形です（同時に1台まで）。
+      </p>
+    </div>
     <div class="price-note">
       同盟用を200人でお使いいただくと <strong>1人あたり月8円</strong>です。
       解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
@@ -728,6 +797,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
           <li>一人ずつ違うスタートタイミングが自動で出る</li>
           <li><strong>人数無制限</strong>・追加料金なし</li>
           <li>ブラウザだけで使える（インストール不要）</li>
+          <li><strong>差込指示</strong>（敵の連撃に合わせて割り込む）</li>
         </ul>
         <button class="btn btn-primary" data-plan="alliance">このプランで申し込む</button>
         <div class="msg" data-status="alliance"></div>
@@ -738,9 +808,10 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
         <div class="jpy" data-usd="20"></div>
         <ul>
           <li>同盟用にできることすべて</li>
-          <li><strong>3同盟まで</strong>まとめて管理</li>
+          <li><strong>3同盟まで</strong>まとめて管理（最大6班・集結主36人）</li>
           <li>指揮官画面つき（全体を1画面で把握）</li>
           <li>複数同盟にまたがるペア号令</li>
+          <li><strong>入替指示</strong>（勝った攻撃同盟と占領同盟を入れ替える）</li>
         </ul>
         <button class="btn btn-ghost" data-plan="server">このプランで申し込む</button>
         <div class="msg" data-status="server"></div>
