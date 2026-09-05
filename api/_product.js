@@ -42,10 +42,11 @@ async function callProduct(path, body) {
 // idempotencyKey に決済セッションIDを渡すと、同じ決済に対しては常に同じルームが
 // 返る。完了画面をリロードされてもルームが増えない。
 // purchase（誰が・いくら払ったか）は商品サーバー側に控えとして保存される。
-async function issueRoom({ name, note, idempotencyKey, purchase }) {
+async function issueRoom({ name, note, plan, idempotencyKey, purchase }) {
   return callProduct('/api/rooms/issue', {
     name,
     note,
+    plan,
     idempotency_key: idempotencyKey,
     purchase,
   });

@@ -1,21 +1,8 @@
 const Stripe = require('stripe');
+const { PLANS, CURRENCY } = require('./_plans');
 
 // 月額のサブスクリプション。解約されるまで毎月自動更新される。
 // 特商法ページに「毎月同日に自動更新」と書いてあるので、実態を合わせている。
-// （以前は mode: 'payment' の1回課金で、表記と実態が食い違っていた）
-const PLANS = {
-  personal: {
-    name: 'CommandClock 個人プラン',
-    description: '小規模な集結の同時到着カウントダウン',
-    amount: 500,
-  },
-  alliance: {
-    name: 'CommandClock アライアンスプラン',
-    description: '人数無制限・要望の優先対応つき',
-    amount: 3000,
-  },
-};
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
@@ -43,22 +30,23 @@ module.exports = async (req, res) => {
       line_items: [
         {
           price_data: {
-            currency: 'jpy',
+            currency: CURRENCY,
             product_data: {
               name: selected.name,
               description: selected.description,
             },
-            unit_amount: selected.amount,
+            unit_amount: selected.unit_amount,
             recurring: { interval: 'month' },
           },
           quantity: 1,
         },
       ],
-      // 解約後もどのお申し込みだったか追えるようにしておく。
+      // どのプランのお申し込みかは、決済側にも残しておく。
+      // 引き渡し（_fulfill）はこの値を読んでルームの機能制限を決める。
       subscription_data: {
-        metadata: { plan },
+        metadata: { plan: selected.id },
       },
-      metadata: { plan },
+      metadata: { plan: selected.id },
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel.html`,
     });

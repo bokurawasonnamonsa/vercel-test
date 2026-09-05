@@ -1,6 +1,19 @@
 const FROM_FALLBACK = 'onboarding@resend.dev';
 
-function buildWelcomeHtml({ roomId, code, appUrl }) {
+// プランごとに、届いた直後に迷わないための一言。
+function planNoteHtml(plan, appUrl) {
+  const b = (t) => `<strong style="color:#e8eef7;">${t}</strong>`;
+  if (plan === 'personal') {
+    return `${b('個人用プラン')}です。ツールを開けるのは同時に1台までです。参謀の画面で計算し、「コピー」ボタンで出発時刻の一覧をチャットに貼って、メンバーへ伝えてください。`;
+  }
+  if (plan === 'server') {
+    const admin = `${String(appUrl).replace(/\/+$/, '')}/admin`;
+    return `${b('サーバー用プラン')}です。3同盟までまとめられます。指揮官の方は <a href="${admin}" style="color:#e9a93c;">${admin}</a> を開き、同じルームIDと参加コードで入ってください。`;
+  }
+  return `${b('同盟用プラン')}です。参加人数の制限はありません。同盟のメンバー全員が、各自の端末で同じルームに参加できます。`;
+}
+
+function buildWelcomeHtml({ roomId, code, appUrl, plan }) {
   return `<!doctype html>
 <html lang="ja">
 <body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
@@ -13,6 +26,12 @@ function buildWelcomeHtml({ roomId, code, appUrl }) {
           <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
             専用のルームを発行しました。下記のルームIDと参加コードで、すぐにご利用いただけます。
           </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:rgba(233,169,60,0.07);border:1px solid rgba(233,169,60,0.22);border-radius:12px;padding:14px 16px;">
+            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">${planNoteHtml(plan, appUrl)}</p>
+          </div>
         </td></tr>
 
         <tr><td style="padding:20px 32px 4px;">
@@ -63,7 +82,7 @@ function buildWelcomeHtml({ roomId, code, appUrl }) {
 </html>`;
 }
 
-async function sendWelcomeMail({ to, roomId, code, appUrl }) {
+async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
   if (!to) return { sent: false, reason: 'no recipient address' };
@@ -79,7 +98,7 @@ async function sendWelcomeMail({ to, roomId, code, appUrl }) {
         from: process.env.MAIL_FROM || `CommandClock <${FROM_FALLBACK}>`,
         to: [to],
         subject: `【CommandClock】ご利用開始のご案内（参加コード ${code}）`,
-        html: buildWelcomeHtml({ roomId, code, appUrl }),
+        html: buildWelcomeHtml({ roomId, code, appUrl, plan }),
       }),
     });
 

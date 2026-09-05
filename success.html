@@ -50,6 +50,10 @@
 
     <div class="creds" id="credsWrap" style="display:none;">
       <div class="row">
+        <div class="label">プラン</div>
+        <div class="val" id="planName"></div>
+      </div>
+      <div class="row">
         <div class="label">ご利用URL</div>
         <div class="val" id="appUrl"></div>
       </div>
@@ -102,13 +106,18 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
+        const PLAN_LABELS = { personal: '個人用（$3/月）', alliance: '同盟用（$10/月）', server: 'サーバー用（$20/月）' };
+        document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟用（$10/月）';
         document.getElementById('appUrl').textContent = data.appUrl;
         document.getElementById('roomId').textContent = data.roomId;
         document.getElementById('joinCode').textContent = data.code;
         document.getElementById('credsWrap').style.display = 'block';
         document.getElementById('howto').style.display = 'block';
         document.getElementById('linksWrap').innerHTML =
-          `<a class="btn open" href="${data.appUrl}" target="_blank" rel="noopener">CommandClock を開く</a>`;
+          `<a class="btn open" href="${data.appUrl}" target="_blank" rel="noopener">CommandClock を開く</a>` +
+          (data.plan === 'server'
+            ? `<a class="btn" href="${String(data.appUrl).replace(/\/+$/, '')}/admin" target="_blank" rel="noopener">指揮官画面を開く</a>`
+            : '');
 
         const mail = data.email || {};
         if (data.reused) {

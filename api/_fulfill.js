@@ -6,6 +6,7 @@
 
 const { sendWelcomeMail } = require('./_mail');
 const { issueRoom, revokeRoom, isConfigured, playerUrl, APP_URL } = require('./_product');
+const { PLANS } = require('./_plans');
 
 function stripeClient() {
   const Stripe = require('stripe');
@@ -31,6 +32,7 @@ async function lookupSession(sessionId) {
     livemode: session.livemode,
     mode: session.mode,
     subscription_id: typeof session.subscription === 'string' ? session.subscription : null,
+    plan: (session.metadata && session.metadata.plan) || null,
   };
 }
 
@@ -62,6 +64,7 @@ async function fulfillSession(sessionId) {
     name: (purchase.email || 'Alliance').split('@')[0].slice(0, 24),
     note: `stripe:${purchase.sessionId}`,
     idempotencyKey: purchase.sessionId,
+    plan: PLANS[purchase.plan] ? purchase.plan : 'alliance',
     purchase: {
       email: purchase.email,
       amount: purchase.amount,
@@ -70,6 +73,7 @@ async function fulfillSession(sessionId) {
       item_name: purchase.item_name,
       mode: purchase.mode,
       subscription_id: purchase.subscription_id,
+      plan: purchase.plan,
     },
   });
   if (!issued.ok) {
@@ -89,13 +93,14 @@ async function fulfillSession(sessionId) {
   const mail = reused
     ? { sent: false, reason: 'already issued' }
     : to
-      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl() })
+      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan })
       : { sent: false, reason: 'no recipient address' };
 
   return {
     status: 200,
     body: {
       roomId,
+      plan: issued.data.plan,
       code,
       appUrl: playerUrl(),
       reused,

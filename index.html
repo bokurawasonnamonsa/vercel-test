@@ -333,6 +333,7 @@
   .plan h3 { margin: 0; font-size: 1.12rem; }
   .plan .amt { font-size: 2.3rem; font-weight: 800; margin: 0.5rem 0 1.3rem; }
   .plan .amt span { font-size: 0.88rem; font-weight: 400; color: var(--muted); }
+  .plan .jpy { font-size: 0.82rem; color: var(--muted); margin: -1.1rem 0 1.3rem; min-height: 1.2em; }
   .plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
   .plan li { padding-left: 1.5rem; position: relative; margin-bottom: 0.6rem; font-size: 0.93rem; color: #cfc9bd; }
   .plan li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 800; }
@@ -382,7 +383,7 @@
         その人だけのスタートタイミングが配信されます。
       </p>
       <div class="cta-row">
-        <a class="btn btn-gold" href="#pricing">申し込む（月 ¥500〜）</a>
+        <a class="btn btn-gold" href="#pricing">申し込む（月 $3〜）</a>
         <a class="btn btn-outline" href="#difference">まず詳しく見る</a>
       </div>
       <div class="social">
@@ -559,38 +560,55 @@
   <div class="wrap">
     <div class="eyebrow mono">PRICING</div>
     <h2>人数を増やしても、料金は増えません。</h2>
-    <p class="sec-lead">アライアンス単位の月額です。メンバーが何人になっても追加料金はかかりません。</p>
+    <p class="sec-lead">使う規模で3段階。同盟用・サーバー用は、メンバーが何人になっても追加料金はかかりません。</p>
     <div class="price-note">
-      アライアンスプランは、200人でお使いいただくと <strong>1人あたり月15円</strong>です。
+      同盟用を200人でお使いいただくと <strong>1人あたり月8円</strong>です。
       解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
     </div>
     <div class="plans">
       <div class="plan">
-        <h3>個人プラン</h3>
-        <div class="amt">¥500 <span>/ 月</span></div>
+        <h3>個人用</h3>
+        <div class="amt">$3 <span>/ 月</span></div>
+        <div class="jpy" data-usd="3"></div>
         <ul>
-          <li>小規模な集結に</li>
-          <li>一人ずつ違うスタートタイミング</li>
-          <li>ブラウザだけで使える（インストール不要）</li>
+          <li>参謀が自分の端末だけで使う</li>
+          <li>計算した出発時刻を<strong>コピーしてチャットに貼る</strong></li>
+          <li>メンバー側の準備はいらない</li>
+          <li>同時に使えるのは1台まで</li>
         </ul>
         <button class="btn btn-outline" data-plan="personal">このプランで申し込む</button>
         <div class="msg" data-status="personal"></div>
       </div>
       <div class="plan hot">
         <span class="tag">おすすめ</span>
-        <h3>アライアンスプラン</h3>
-        <div class="amt">¥3,000 <span>/ 月</span></div>
+        <h3>同盟用</h3>
+        <div class="amt">$10 <span>/ 月</span></div>
+        <div class="jpy" data-usd="10"></div>
         <ul>
-          <li>メンバー何人でも追加料金なし</li>
-          <li>一人ずつ違うスタートタイミング</li>
+          <li>メンバーが各自の端末で使う</li>
+          <li>一人ずつ違うスタートタイミングが自動で出る</li>
+          <li><strong>人数無制限</strong>・追加料金なし</li>
           <li>ブラウザだけで使える（インストール不要）</li>
-          <li>要望・不具合の優先対応</li>
         </ul>
         <button class="btn btn-gold" data-plan="alliance">このプランで申し込む</button>
         <div class="msg" data-status="alliance"></div>
       </div>
+      <div class="plan">
+        <h3>サーバー用</h3>
+        <div class="amt">$20 <span>/ 月</span></div>
+        <div class="jpy" data-usd="20"></div>
+        <ul>
+          <li>同盟用にできることすべて</li>
+          <li><strong>3同盟まで</strong>まとめて管理</li>
+          <li>指揮官画面つき（全体を1画面で把握）</li>
+          <li>複数同盟にまたがるペア号令</li>
+        </ul>
+        <button class="btn btn-outline" data-plan="server">このプランで申し込む</button>
+        <div class="msg" data-status="server"></div>
+      </div>
     </div>
     <p class="fine">
+      ご請求は<strong style="color:var(--muted);">米ドル建て</strong>です。円の表示は目安で、実際の換算レートはご利用のカード会社によります。<br>
       お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--muted);">実際にご請求が発生します</strong>。
       お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
     </p>
@@ -651,6 +669,16 @@
     });
   }, { rootMargin: '0px 0px -20% 0px' });
   document.querySelectorAll('[data-count]').forEach((el) => numIO.observe(el));
+
+  // 円のめやす。請求はドル建てなので、あくまで参考値として出す。
+  // レートを変えるときはこの1行だけ直せばよい。
+  const USD_JPY = 156;
+  document.querySelectorAll('.plan .jpy').forEach((el) => {
+    const usd = Number(el.dataset.usd || 0);
+    if (!usd) return;
+    const jpy = Math.round((usd * USD_JPY) / 10) * 10;
+    el.textContent = `（約 ¥${jpy.toLocaleString('ja-JP')} / 月・1ドル${USD_JPY}円換算）`;
+  });
 
   // 決済
   document.querySelectorAll('button[data-plan]').forEach((btn) => {

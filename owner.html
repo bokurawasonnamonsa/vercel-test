@@ -113,7 +113,28 @@
 
 <script>
   const $ = (id) => document.getElementById(id);
-  const yen = (n) => (typeof n === 'number' ? '¥' + n.toLocaleString('ja-JP') : '—');
+
+  // 通貨ごとに書式を変える。ドル建ては最小単位がセント、円は円そのもの。
+  function money(amount, currency) {
+    if (typeof amount !== 'number') return '—';
+    const c = String(currency || 'usd').toLowerCase();
+    if (c === 'jpy') return '¥' + amount.toLocaleString('ja-JP');
+    return '$' + (amount / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  // 通貨が混ざっていても足し合わせない。通貨ごとに出す。
+  function sumByCurrency(items, pick) {
+    const acc = {};
+    items.forEach((i) => {
+      const v = pick(i);
+      if (typeof v !== 'number') return;
+      const c = String(i.currency || 'usd').toLowerCase();
+      acc[c] = (acc[c] || 0) + v;
+    });
+    const keys = Object.keys(acc);
+    if (!keys.length) return money(0, 'usd');
+    return keys.map((c) => money(acc[c], c)).join(' + ');
+  }
 
   function fmtDate(iso) {
     if (!iso) return '—';
@@ -140,14 +161,14 @@
       const items = data.items || [];
       const live = items.filter((i) => i.livemode);
       const online = items.reduce((s, i) => s + (i.online || 0), 0);
-      const mrr = live
-        .filter((i) => i.mode === 'subscription')
-        .reduce((s, i) => s + (i.amount || 0), 0);
 
-      $('cTotal').textContent = yen(data.total_paid_livemode || 0);
+      $('cTotal').textContent = sumByCurrency(live, (i) => i.amount);
       $('cRooms').textContent = items.length;
       $('cOnline').textContent = online + ' 名';
-      $('cMrr').textContent = yen(mrr);
+      $('cMrr').textContent = sumByCurrency(
+        live.filter((i) => i.mode === 'subscription'),
+        (i) => i.amount
+      );
       $('appUrl').textContent = data.appUrl || '';
 
       const rows = $('rows');
@@ -160,8 +181,8 @@
         tr.innerHTML = `
           <td>${fmtDate(i.issued_at)}</td>
           <td>${i.email || '<span style="color:#6b665d">—</span>'}</td>
-          <td>${i.item_name || i.name || '—'}</td>
-          <td class="money">${yen(i.amount)}${i.mode === 'subscription' ? ' <span style="color:#6b665d;font-weight:400">/月</span>' : ''}</td>
+          <td>${i.plan_label || i.item_name || i.name || '—'}</td>
+          <td class="money">${money(i.amount, i.currency)}${i.mode === 'subscription' ? ' <span style="color:#6b665d;font-weight:400">/月</span>' : ''}</td>
           <td>${tag}</td>
           <td>${i.online ? i.online + ' 名' : '<span style="color:#6b665d">—</span>'}</td>
           <td class="mono">${(i.room_id || '').slice(0, 12)}…</td>
