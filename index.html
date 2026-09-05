@@ -205,7 +205,13 @@
     background: linear-gradient(180deg, rgba(233,169,60,0.05), var(--panel));
     border: 1px solid var(--line); border-radius: 18px; padding: 0.6rem 0;
   }
-  .fig-cap { font-size: 13px; fill: var(--dim); letter-spacing: 0.08em;
+  /* 横長の図は、スマホだと文字が潰れて読めない。縦長の別図に差し替える。 */
+  .converge-fig .fig-narrow { display: none; }
+  @media (max-width: 620px) {
+    .converge-fig .fig-wide { display: none; }
+    .converge-fig .fig-narrow { display: block; }
+  }
+  .fig-cap { font-size: 13px; fill: var(--dim); letter-spacing: 0.06em;
     font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   .fig-gold { fill: var(--gold); }
   .fig-name { font-size: 14px; fill: var(--text); }
@@ -216,10 +222,6 @@
   .fig-dot { fill: var(--gold); }
   .fig-goal { stroke: var(--gold); stroke-width: 2; }
   .fig-goal-glow { stroke: var(--gold); stroke-width: 12; opacity: 0.14; }
-  @media (max-width: 560px) {
-    .fig-march { display: none; }
-    .fig-name, .fig-time { font-size: 15px; }
-  }
   .converge-fig figcaption {
     margin-top: 0.8rem; text-align: center;
     font-size: 0.9rem; color: #ddd0b6; letter-spacing: 0.02em;
@@ -456,7 +458,7 @@
     <!-- 中心の仕組みを1枚で。ここで伝えたいのは「場所」ではなく「時刻」。
          移動時間が長い人ほど早く出発し、右端の一本の線で全員そろう。 -->
     <figure class="converge-fig">
-      <svg viewBox="0 0 820 300" role="img" aria-labelledby="figTitle figDesc" preserveAspectRatio="xMidYMid meet">
+      <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-labelledby="figTitle figDesc" preserveAspectRatio="xMidYMid meet">
         <title id="figTitle">出発時刻をずらして、到着を揃える仕組み</title>
         <desc id="figDesc">移動時間の違う4人が、それぞれ違う時刻に出発し、右端の同じ時刻に全員が到着する図</desc>
 
@@ -495,6 +497,33 @@
           <circle class="fig-dot" cx="617" cy="227" r="5"/>
           <text class="fig-march" x="688" y="218" text-anchor="middle">移動 0:45</text>
         </g>
+      </svg>
+      <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-labelledby="figTitle2 figDesc2" preserveAspectRatio="xMidYMid meet">
+        <title id="figTitle2">出発時刻をずらして、到着を揃える仕組み</title>
+        <desc id="figDesc2">移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する図</desc>
+
+        <text class="fig-cap" x="10" y="24">出発 — ひとりずつ違う</text>
+
+        <line class="fig-goal-glow" x1="352" y1="38" x2="352" y2="332"/>
+        <line class="fig-goal" x1="352" y1="38" x2="352" y2="332"/>
+        <text class="fig-cap fig-gold" x="372" y="360" text-anchor="end">着弾 21:03:15</text>
+        <text class="fig-cap fig-gold" x="372" y="380" text-anchor="end">全員そろう</text>
+
+        <text class="fig-name" x="10" y="74">りく　<tspan class="fig-time">21:00:15</tspan> に出発（移動 3:00）</text>
+        <line class="fig-bar" x1="122" y1="88" x2="352" y2="88"/>
+        <circle class="fig-dot" cx="122" cy="88" r="5"/>
+
+        <text class="fig-name" x="10" y="146">あおい　<tspan class="fig-time">21:01:00</tspan> に出発（移動 2:15）</text>
+        <line class="fig-bar" x1="180" y1="160" x2="352" y2="160"/>
+        <circle class="fig-dot" cx="180" cy="160" r="5"/>
+
+        <text class="fig-name" x="10" y="218">はると　<tspan class="fig-time">21:01:45</tspan> に出発（移動 1:30）</text>
+        <line class="fig-bar" x1="237" y1="232" x2="352" y2="232"/>
+        <circle class="fig-dot" cx="237" cy="232" r="5"/>
+
+        <text class="fig-name" x="10" y="290">めい　<tspan class="fig-time">21:02:30</tspan> に出発（移動 0:45）</text>
+        <line class="fig-bar" x1="294" y1="304" x2="352" y2="304"/>
+        <circle class="fig-dot" cx="294" cy="304" r="5"/>
       </svg>
       <figcaption>移動に時間がかかる人ほど、早く出発する。だから、到着だけが揃う。</figcaption>
     </figure>
