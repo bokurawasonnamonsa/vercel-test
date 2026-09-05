@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>使い方ガイド｜CommandClock</title>
 <meta name="description" content="CommandClockが何をする道具なのか、申し込んでから実際に使うまでに何をすればいいのかを、順番に説明します。">
-<link rel="icon" type="image/png" href="/assets/icon-gold.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23070b12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23f0a63c' stroke-width='2'/%3E%3Cpath d='M16 8v8l6 4' fill='none' stroke='%23f0a63c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
   :root {
     color-scheme: dark;
@@ -29,7 +29,7 @@
   }
   .nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 0; }
   .brand { display: flex; align-items: center; gap: 0.55rem; text-decoration: none; color: var(--text); }
-  .brand img { width: 26px; height: 26px; }
+  .brand svg { width: 26px; height: 26px; flex: none; }
   .brand .name { font-size: 0.95rem; letter-spacing: 0.02em; }
   .nav-cta {
     background: var(--gold); color: #241703; text-decoration: none; font-weight: 700;
@@ -112,7 +112,7 @@
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="/">
-      <img class="mark" src="/assets/mark.png" alt="">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14.2" fill="none" stroke="rgba(140,175,220,0.3)" stroke-width="1.4"/><circle cx="16" cy="16" r="10.5" fill="none" stroke="#f0a63c" stroke-width="1.8"/><path d="M16 8.5V16l5.6 3.6" fill="none" stroke="#f0a63c" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="1.7" fill="#5eead4"/></svg>
       <span class="name mono">CommandClock</span>
     </a>
     <a class="nav-cta" href="/#pricing">申し込む</a>
