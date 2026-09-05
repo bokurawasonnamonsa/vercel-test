@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CommandClock｜全員が同じ瞬間に到着する。一人ずつ違うタイミングで。</title>
-<meta name="description" content="指揮官が到着させたい時刻を送るだけ。一人ひとりの移動時間から逆算した、その人だけのスタートタイミングが配信されます。端末の時計のズレも自動で補正。実際のアライアンスイベントで219名が利用中。">
+<title>CommandClock｜スマホ戦略ゲームの同盟イベント用・同時到着タイマー</title>
+<meta name="description" content="スマホの戦略ゲームで同盟の指示役をしている方へ。着弾させたい時刻を一つ送るだけで、集結時間と行軍時間から逆算した「その人だけのスタートタイミング」が全員の画面に配られます。ゲーム内チャットで時刻を打つより速く、確実。実際の同盟イベントで219名が利用中。">
 <link rel="icon" type="image/png" href="/assets/icon-gold.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://commandclock.jp/">
-<meta property="og:title" content="CommandClock｜全員が同じ瞬間に到着する。一人ずつ違うタイミングで。">
-<meta property="og:description" content="指揮官が到着させたい時刻を送るだけ。一人ひとりの移動時間から逆算した、その人だけのスタートタイミングが配信されます。実際のイベントで219名が利用中。">
+<meta property="og:title" content="CommandClock｜スマホ戦略ゲームの同盟イベント用・同時到着タイマー">
+<meta property="og:description" content="着弾させたい時刻を一つ送るだけ。集結時間と行軍時間から逆算した「その人だけのスタートタイミング」が全員の画面に配られます。ゲーム内チャットで指示するより速く、確実。">
 <meta property="og:image" content="https://commandclock.jp/assets/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://commandclock.jp/assets/ogp.png">
@@ -131,7 +131,25 @@
     animation: sheen 7s linear infinite;
   }
   @keyframes sheen { 0% { background-position: 180% 0; } 100% { background-position: -80% 0; } }
-  .lead { color: #b9b3a8; font-size: 1.05rem; margin: 0 0 2.3rem; max-width: 640px; }
+  .lead { color: #b9b3a8; font-size: 1.05rem; margin: 0 0 1.5rem; max-width: 640px; }
+  /* 最初の画面で「誰の何に効くか」が分かるように、要点を先に出す */
+  .points {
+    list-style: none; margin: 0 0 2.2rem; padding: 0;
+    display: grid; gap: 0.75rem; max-width: 760px;
+  }
+  .points li {
+    position: relative; padding-left: 1.7rem;
+    font-size: 0.94rem; line-height: 1.8; color: #b9b3a8;
+  }
+  .points li::before {
+    content: '✓'; position: absolute; left: 0; top: 0;
+    color: var(--gold); font-weight: 800; font-size: 0.95rem;
+  }
+  .points b { color: var(--text); font-weight: 700; }
+  .points .note { color: var(--dim); font-size: 0.88rem; }
+  @media (min-width: 900px) {
+    .points { grid-template-columns: 1fr 1fr; gap: 0.75rem 1.8rem; }
+  }
   .cta-row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -391,12 +409,19 @@
   </div>
   <div class="wrap">
     <div class="inner">
-      <span class="badge mono"><span class="dot"></span>ALLIANCE EVENT / LIVE</span>
+      <span class="badge mono"><span class="dot"></span>スマホ戦略ゲーム / 同盟イベント用</span>
       <h1>全員が同じ瞬間に到着する。<br><span class="g">一人ずつ違うタイミング</span>で。</h1>
       <p class="lead">
-        指揮官が到着させたい時刻を送るだけ。あとは一人ひとりの移動時間から逆算して、
-        その人だけのスタートタイミングが配信されます。
+        スマホの戦略ゲームで、同盟の指示役をしている方のための道具です。
+        指示役が到着させたい時刻を一つ送るだけで、一人ひとりの行軍時間から逆算した
+        <b style="color:var(--text);">その人だけのスタートタイミング</b>が全員の画面に配られます。
       </p>
+      <ul class="points">
+        <li><b>集結時間も到着時刻も、こちらが計算します。</b>指示役は着弾させたい時刻を決めるだけです。</li>
+        <li><b>ゲーム内チャットで指示するより速い。</b>時刻を打って各自に暗算させる手間が、まるごと無くなります。</li>
+        <li><b>指示役がほしかった機能を、ひととおり。</b>班ごとの号令、着弾時刻の指定、全員の状況を1画面で。</li>
+        <li><b>準備は行軍時間の入力だけ。</b><span class="note">各プレーヤーが自分の行軍時間を一度入れる作業は必要です。それ以外の設定はありません。</span></li>
+      </ul>
       <div class="cta-row">
         <a class="btn btn-gold" href="#pricing">申し込む（月 $3〜）</a>
         <a class="btn btn-outline" href="#difference">まず詳しく見る</a>
@@ -568,12 +593,14 @@
     <div class="eyebrow mono">THE DIFFERENCE</div>
     <h2>同時到着だけなら、他にもできます。</h2>
     <p class="sec-lead">違いは「一人ずつ違うタイミングを配れるか」です。ここができるツールは、他にありません。</p>
+    <p class="sec-lead" style="margin-top:-0.6rem;">いちばん多いのは、ゲーム内チャットに時刻を打って各自に暗算してもらう方法です。数える人が増えるほど、ズレます。</p>
     <div class="tbl-wrap">
       <table>
         <thead>
           <tr><th>手段</th><th>同時到着</th><th>個人ごとの<br>タイミング</th><th>端末時計の<br>ズレを補正</th></tr>
         </thead>
         <tbody>
+          <tr><td>ゲーム内チャットで指示</td><td class="x">△</td><td class="x">×</td><td class="x">×</td></tr>
           <tr><td>Discord管理サービス</td><td class="o">◯</td><td class="x">×</td><td class="x">×</td></tr>
           <tr><td>Discordボット（無料）</td><td class="o">◯</td><td class="x">×</td><td class="x">×</td></tr>
           <tr><td>ブラウザタイマー</td><td class="o">◯</td><td class="x">△</td><td class="x">×</td></tr>
