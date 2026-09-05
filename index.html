@@ -75,7 +75,8 @@
       /* 上下のなじませは最小限に */
       linear-gradient(180deg, rgba(8,8,12,.55) 0%, rgba(8,8,12,.05) 34%, rgba(8,8,12,.12) 78%, var(--bg) 100%),
       /* 見出しの乗る左側だけ確保し、右は大きく開けて時計を見せる */
-      linear-gradient(95deg, var(--bg) 0%, rgba(8,8,12,.96) 26%, rgba(8,8,12,.74) 42%, rgba(8,8,12,.3) 60%, transparent 82%),
+      /* 要点を2列で置くようになったので、文字が乗る範囲まで暗い側を広げる */
+      linear-gradient(95deg, var(--bg) 0%, rgba(8,8,12,.96) 30%, rgba(8,8,12,.85) 48%, rgba(8,8,12,.55) 64%, transparent 88%),
       url('/assets/hero.png');
     background-size: cover, cover, 92% auto;
     background-position: center, center, right -4% center;
@@ -135,7 +136,7 @@
   /* 最初の画面で「誰の何に効くか」が分かるように、要点を先に出す */
   .points {
     list-style: none; margin: 0 0 2.2rem; padding: 0;
-    display: grid; gap: 0.75rem; max-width: 760px;
+    display: grid; gap: 0.75rem; max-width: 720px;
   }
   .points li {
     position: relative; padding-left: 1.7rem;
