@@ -226,6 +226,16 @@ h1 .accent {
 .hud .sep { width: 1px; height: 34px; background: var(--line); }
 .hud-note { color: var(--dim); font-size: 0.76rem; padding: 0 0.5rem 0.7rem; text-align: center; }
 
+
+/* スマホでは盤が縮むぶん、文字が潰れる。
+   補足の行は落として、時刻だけを読める大きさにする。 */
+@media (max-width: 640px) {
+  .bd-label { display: none; }
+  .bd-label-b { font-size: 22px; }
+  .bd-cap  { font-size: 20px; }
+  .bd-unit { r: 10; }
+  .cta-row .btn { width: 100%; }
+}
 /* ---- カード ------------------------------------------------- */
 .grid3 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
 @media (min-width: 760px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
