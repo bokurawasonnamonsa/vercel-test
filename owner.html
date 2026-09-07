@@ -5,64 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>運営ダッシュボード｜CommandClock</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23070b12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23f0a63c' stroke-width='2'/%3E%3Cpath d='M16 8v8l6 4' fill='none' stroke='%23f0a63c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-  :root {
-    color-scheme: dark;
-    --bg: #08080c; --panel: rgba(255,255,255,0.04); --line: rgba(255,255,255,0.10);
-    --text: #f4f2ee; --muted: #9a9488; --dim: #6b665d;
-    --gold: #e9a93c; --green: #4ade80; --amber: #fcd9a0;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text); line-height: 1.7;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
-  }
-  .wrap { max-width: 1040px; margin: 0 auto; padding: 2.2rem 1.4rem 4rem; }
-  header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.8rem; }
-  h1 { font-size: 1.35rem; margin: 0; letter-spacing: -0.01em; }
-  .sub { color: var(--muted); font-size: 0.86rem; margin: 0.2rem 0 0; }
-  .who { display: flex; align-items: center; gap: 0.6rem; font-size: 0.84rem; color: var(--muted); }
-  button {
-    background: transparent; color: var(--muted); border: 1px solid var(--line);
-    border-radius: 8px; padding: 0.4rem 0.9rem; font-size: 0.82rem; cursor: pointer;
-    font-family: inherit;
-  }
-  button:hover { border-color: var(--gold); color: var(--gold); }
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0.9rem; margin-bottom: 1.8rem; }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
-  .card .k { font-size: 0.72rem; letter-spacing: 0.1em; color: var(--dim); }
-  .card .v { font-size: 1.8rem; font-weight: 800; margin-top: 0.15rem; letter-spacing: -0.02em; }
-  .card .v.money { color: var(--gold); }
-  .card .v.ok { color: var(--green); }
-  .tbl-wrap { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 780px; }
-  th, td { text-align: left; padding: 0.75rem 0.95rem; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  th { color: var(--dim); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; }
-  tr:last-child td { border-bottom: none; }
-  td.money { color: var(--gold); font-weight: 700; }
-  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.8rem; }
-  .tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 999px; font-size: 0.68rem; border: 1px solid var(--line); }
-  .tag.live { color: var(--green); border-color: rgba(74,222,128,0.35); }
-  .tag.test { color: var(--amber); border-color: rgba(252,217,160,0.35); }
-  .empty { padding: 3rem 1rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
-  .msg { margin-top: 1rem; font-size: 0.86rem; color: var(--muted); min-height: 1.4em; }
-  .msg.err { color: #f0a0a0; }
-  .gate { max-width: 460px; margin: 6rem auto; text-align: center; }
-  .gate p { color: var(--muted); font-size: 0.9rem; }
-  #gbtn { display: flex; justify-content: center; margin-top: 1.5rem; }
-  .hidden { display: none !important; }
-  h2.sec { font-size: 1rem; margin: 2.4rem 0 0.3rem; letter-spacing: -0.01em; }
-  .sechint { color: var(--muted); font-size: 0.84rem; margin: 0 0 0.9rem; line-height: 1.75; }
-  .sechint strong { color: var(--amber); }
-  .tag.paid { color: var(--green); border-color: rgba(74,222,128,0.35); }
-  .tag.unpaid { color: #f0a0a0; border-color: rgba(240,160,160,0.35); }
-  .tag.done { color: var(--muted); }
-  .tag.todo { color: #241703; background: var(--gold); border-color: var(--gold); font-weight: 700; }
-  button.act { border-color: var(--gold); color: var(--gold); padding: 0.3rem 0.7rem; font-size: 0.78rem; }
-  button.act:disabled { opacity: 0.45; cursor: default; }
-  .foot { margin-top: 2rem; font-size: 0.78rem; color: var(--dim); }
-  .foot a { color: var(--muted); }
+/* 方向D「白の計器」。トップページと同じ決まりを、下層にも通す。 */
+:root {
+  color-scheme: light;
+  --paper:#eef1f5; --surface:#ffffff; --ink:#0d1420; --ink-2:#3d4a63; --ink-3:#56637c;
+  --rule:#ccd4e0; --grid:#dbe2ec; --amber:#f0a63c; --amber-ink:#8a5a12; --signal:#c2410c; --warn:#a33a2a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); line-height: 1.9;
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.4rem; }
+
+.nav { position: sticky; top: 0; z-index: 40; background: rgba(238,241,245,.92); backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--ink); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: .7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--ink); }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand .name { font-size: .95rem; letter-spacing: .04em; font-weight: 700; }
+.nav-cta { background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700; padding: .5rem 1.15rem; font-size: .86rem; border-radius: 2px; white-space: nowrap; }
+
+.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
+h2 { font-size: 1.22rem; font-weight: 900; letter-spacing: -.02em; margin: 3rem 0 .6rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink); }
+h3 { font-size: 1rem; margin: 1.8rem 0 .4rem; }
+p { margin: 0 0 1rem; color: var(--ink-2); font-size: .95rem; }
+.lead { color: var(--ink-2); font-size: .97rem; }
+.muted { color: var(--ink-3); font-size: .88rem; }
+strong { color: var(--ink); }
+
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.panel h3 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.box h3 { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+ul.plain { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .5rem; }
+ul.plain li { display: grid; grid-template-columns: auto 1fr; gap: .65rem; color: var(--ink-2); font-size: .93rem; }
+ul.plain li::before { content: ""; width: 9px; height: 9px; margin-top: .58em; border: 1.5px solid var(--ink); background: var(--amber); }
+
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
+th, td { text-align: left; padding: .75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: "IBM Plex Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.yes { color: var(--signal); font-weight: 700; }
+td.no { color: var(--ink-3); }
+
+pre.sample {
+  background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.1rem;
+  overflow-x: auto; font-size: .84rem; line-height: 1.85; color: var(--ink-2); margin: .8rem 0 1rem;
+  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+details { border-bottom: 1px solid var(--rule); padding: .95rem 0; }
+summary { cursor: pointer; font-size: .95rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "IBM Plex Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: .6rem 0 0; font-size: .89rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: .85rem 1.7rem; font-weight: 700; font-size: .94rem; text-decoration: none; border-radius: 2px; min-height: 48px; border: none; cursor: pointer; font-family: inherit; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+
+footer { margin-top: 3.4rem; border-top: 1.5px solid var(--ink); padding: 2rem 0 3rem; background: var(--surface); }
+footer p, footer a { color: var(--ink-3); font-size: .82rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+/* 運営ダッシュボード。読むものではなく見張るものなので、数字と状態を強く。 */
+.wrap { max-width: 1080px; padding: 2rem 1.4rem 4rem; }
+header.top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.6rem; padding-top: 1rem; }
+header.top h1 { font-size: 1.3rem; margin: 0; }
+.sub { color: var(--ink-3); font-size: .85rem; margin: .2rem 0 0; }
+.who { display: flex; align-items: center; gap: .6rem; font-size: .83rem; color: var(--ink-3); flex-wrap: wrap; }
+button { background: transparent; color: var(--ink-2); border: 1.5px solid var(--rule); padding: .45rem .95rem; font-size: .82rem; cursor: pointer; font-family: inherit; border-radius: 2px; min-height: 40px; }
+button:hover { border-color: var(--ink); color: var(--ink); }
+button.act { border-color: var(--signal); color: var(--signal); font-weight: 700; padding: .35rem .8rem; font-size: .78rem; min-height: 34px; }
+button.act:disabled { opacity: .4; cursor: default; }
+.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); margin-bottom: 1.8rem; }
+@media (min-width: 760px) { .cards { grid-template-columns: repeat(4, 1fr); } }
+.card { background: var(--surface); padding: 1.1rem 1.2rem; margin: 0; border: none; }
+.card .k { font-family: "IBM Plex Mono", monospace; font-size: .64rem; letter-spacing: .14em; color: var(--ink-3); }
+.card .v { font-family: "IBM Plex Mono", monospace; font-size: 1.55rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.03em; margin-top: .15rem; }
+.card .v.money { color: var(--signal); }
+.card .v.ok { color: var(--ink); }
+h2.sec { font-size: 1.02rem; margin: 2.4rem 0 .3rem; padding-top: 1.3rem; border-top: 1.5px solid var(--ink); }
+.sechint { color: var(--ink-2); font-size: .86rem; margin: 0 0 .9rem; line-height: 1.8; }
+.sechint strong { color: var(--signal); }
+td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; color: var(--signal); font-weight: 600; }
+.tbl-wrap table { min-width: 780px; font-size: .84rem; }
+.tbl-wrap th, .tbl-wrap td { white-space: nowrap; padding: .7rem .9rem; }
+.tag { display: inline-block; padding: .08rem .5rem; font-family: "IBM Plex Mono", monospace; font-size: .66rem; border: 1px solid var(--rule); }
+.tag.live, .tag.paid { color: var(--signal); border-color: var(--signal); }
+.tag.test, .tag.unpaid { color: var(--ink-3); }
+.tag.done { color: var(--ink-3); }
+.tag.todo { background: var(--signal); color: #fff; border-color: var(--signal); font-weight: 700; }
+.empty { padding: 2.6rem 1rem; text-align: center; color: var(--ink-3); font-size: .88rem; }
+.msg { margin-top: .9rem; font-size: .85rem; color: var(--ink-3); min-height: 1.4em; }
+.msg.err { color: var(--warn); }
+.gate { max-width: 440px; margin: 5rem auto; text-align: center; }
+.gate p { color: var(--ink-2); font-size: .9rem; }
+#gbtn { display: flex; justify-content: center; margin-top: 1.4rem; }
+.hidden { display: none !important; }
+.foot { margin-top: 2rem; font-size: .78rem; color: var(--ink-3); }
+.foot a { color: var(--amber-ink); }
 </style>
 </head>
 <body>
@@ -78,7 +137,7 @@
 
   <!-- ログイン後 -->
   <div id="app" class="hidden">
-    <header>
+    <header class="top">
       <div>
         <h1>運営ダッシュボード</h1>
         <p class="sub">発行済みルームと、誰が・何を・いくら払ったかの控え</p>
@@ -213,13 +272,13 @@
           : '<span class="tag test">テスト</span>';
         tr.innerHTML = `
           <td>${fmtDate(i.issued_at)}</td>
-          <td>${i.email || '<span style="color:#6b665d">—</span>'}</td>
+          <td>${i.email || '<span style="color:var(--ink-3)">—</span>'}</td>
           <td>${i.plan_label || i.item_name || i.name || '—'}</td>
-          <td class="money">${money(i.amount, i.currency)}${i.mode === 'subscription' ? ' <span style="color:#6b665d;font-weight:400">/月</span>' : ''}</td>
+          <td class="money">${money(i.amount, i.currency)}${i.mode === 'subscription' ? ' <span style="color:var(--ink-3);font-weight:400">/月</span>' : ''}</td>
           <td>${tag}</td>
-          <td>${i.online ? i.online + ' 名' : '<span style="color:#6b665d">—</span>'}</td>
+          <td>${i.online ? i.online + ' 名' : '<span style="color:var(--ink-3)">—</span>'}</td>
           <td class="mono">${(i.room_id || '').slice(0, 12)}…</td>
-          <td class="mono" style="color:#6b665d">${(i.issued_for || '').slice(0, 18) || '—'}</td>`;
+          <td class="mono" style="color:var(--ink-3)">${(i.issued_for || '').slice(0, 18) || '—'}</td>`;
         rows.appendChild(tr);
       });
 
@@ -253,14 +312,14 @@
           : '<span class="tag test">テスト</span>';
         const delivered = i.delivered
           ? '<span class="tag done">済み</span>'
-          : (paid ? '<span class="tag todo">未引き渡し</span>' : '<span style="color:#6b665d">—</span>');
+          : (paid ? '<span class="tag todo">未引き渡し</span>' : '<span style="color:var(--ink-3)">—</span>');
         const btn = i.needsFulfill
           ? `<button class="act" data-fulfill="${i.id}">引き渡す</button>`
           : '';
         tr.innerHTML = `
           <td>${fmtDate(i.created ? new Date(i.created * 1000).toISOString() : null)}</td>
-          <td>${i.email || '<span style="color:#6b665d">—</span>'}</td>
-          <td>${PLAN_LABELS[i.plan] || '<span style="color:#6b665d">—</span>'}</td>
+          <td>${i.email || '<span style="color:var(--ink-3)">—</span>'}</td>
+          <td>${PLAN_LABELS[i.plan] || '<span style="color:var(--ink-3)">—</span>'}</td>
           <td class="money">${money(i.amount, i.currency)}</td>
           <td>${payTag}</td>
           <td>${liveTag}</td>
@@ -351,7 +410,7 @@
         },
       });
       google.accounts.id.renderButton($('gbtn'), {
-        theme: 'filled_black', size: 'large', text: 'signin_with', shape: 'pill', locale: 'ja',
+        theme: 'outline', size: 'large', text: 'signin_with', shape: 'pill', locale: 'ja',
       });
     };
     document.head.appendChild(script);

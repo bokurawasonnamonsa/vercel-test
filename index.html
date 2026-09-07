@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CommandClock｜スマホ戦略ゲームの同盟イベント用・同時到着タイマー</title>
 <meta name="description" content="スマホの戦略ゲームで同盟の指示役をしている方へ。着弾させたい時刻を一つ送るだけで、集結時間と行軍時間から逆算した「その人だけのスタートタイミング」が全員の画面に配られます。ゲーム内チャットで時刻を打つより速く、確実。実際の同盟イベントで219名が利用中。">
-<!-- ファビコンは以前 2048×2048 の 3.9MB の PNG だった。タブの小さな絵のために
-     毎回それを落とさせていたので、その場で描けるSVGに置き換えている。 -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23070b12'/%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%23f0a63c' stroke-width='2'/%3E%3Cpath d='M16 8v8l6 4' fill='none' stroke='%23f0a63c' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://commandclock.jp/">
 <meta property="og:title" content="CommandClock｜スマホ戦略ゲームの同盟イベント用・同時到着タイマー">
@@ -15,398 +13,306 @@
 <meta property="og:image" content="https://commandclock.jp/assets/ogp.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://commandclock.jp/assets/ogp.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 /* ============================================================
-   作戦盤。夜の地図が下地、暖色は「自分たちの動き」、
-   寒色は「全員がそろう瞬間」。この2色の役割は全ページで守る。
+   方向D「白の計器」。
+   秒を扱う道具なので、測定器の説明書のように組む。
+   ・地は冷たい紙。面は白。線は黒の細罫。
+   ・角は丸めない（最大2px）。
+   ・時刻と数字は等幅で、必ず桁を揃える。
+   ・琥珀＝拠点／出発、朱＝目標／着弾。この2色以外は使わない。
    ============================================================ */
 :root {
-  color-scheme: dark;
-  --bg:        #070b12;
-  --bg-2:      #0a0f18;
-  --panel:     rgba(126,164,214,0.05);
-  --panel-2:   rgba(126,164,214,0.085);
-  --line:      rgba(140,175,220,0.13);
-  --line-2:    rgba(140,175,220,0.22);
-  --text:      #eaf0f8;
-  --muted:     #94a3b8;
-  --dim:       #64748b;
-  --amber:     #f0a63c;
-  --amber-lt:  #ffc978;
-  --amber-dim: rgba(240,166,60,0.13);
-  --cyan:      #5eead4;
-  --cyan-dim:  rgba(94,234,212,0.13);
-  --red:       #f87171;
-  --radius:    14px;
+  color-scheme: light;
+  --paper:   #eef1f5;   /* 地 */
+  --surface: #ffffff;   /* 面 */
+  --ink:     #0d1420;   /* 主 */
+  --ink-2:   #3d4a63;   /* 本文 */
+  --ink-3:   #56637c;   /* 補助 */
+  --rule:    #ccd4e0;   /* 罫 */
+  --grid:    #dbe2ec;   /* 方眼 */
+  --amber:   #f0a63c;   /* 拠点・出発 */
+  --amber-ink: #8a5a12; /* 明るい地で読める琥珀 */
+  --signal:  #c2410c;   /* 目標・着弾 */
+  --warn:    #a33a2a;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
-  margin: 0; background: var(--bg); color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic", sans-serif;
-  line-height: 1.85; -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.9; -webkit-text-size-adjust: 100%; overflow-x: hidden;
 }
-.mono { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace; }
-a { color: var(--amber); }
-img { max-width: 100%; }
+.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.4rem; }
 
-/* ---- 見出しまわりの共通 ------------------------------------ */
-section { padding: 5.5rem 0; position: relative; }
-section + section { border-top: 1px solid var(--line); }
+/* ---- 節の共通 ------------------------------------------------ */
+section { padding: 5rem 0; }
+.on-white { background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .eyebrow {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  color: var(--amber); font-size: 0.7rem; letter-spacing: 0.2em; margin-bottom: 0.9rem;
-}
-.eyebrow::before {
-  content: ''; width: 22px; height: 1px; background: var(--amber); opacity: 0.6;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.24em;
+  color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: 0.5rem;
+  display: inline-block; margin-bottom: 1rem;
 }
 h2 {
-  font-size: clamp(1.5rem, 3.4vw, 2.1rem); line-height: 1.5;
-  margin: 0 0 0.7rem; letter-spacing: -0.02em; font-weight: 800;
+  font-size: clamp(1.45rem, 3.4vw, 2.05rem); font-weight: 900; line-height: 1.45;
+  letter-spacing: -0.035em; margin: 0 0 0.7rem; text-wrap: balance;
 }
-.sec-lead { color: var(--muted); font-size: 1rem; margin: 0 0 2.4rem; max-width: 660px; }
+.sec-lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 2.4rem; max-width: 62ch; }
 
-/* ---- ナビ --------------------------------------------------- */
+/* ---- ナビ ---------------------------------------------------- */
 .nav {
   position: sticky; top: 0; z-index: 60;
-  background: rgba(7,11,18,0.82); backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--line);
+  background: rgba(238,241,245,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid var(--ink);
 }
-.nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 0; gap: 1rem; }
-.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--text); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
 .brand svg { width: 26px; height: 26px; flex: none; }
-.brand .name { font-size: 0.95rem; letter-spacing: 0.03em; font-weight: 600; }
-.nav-links { display: flex; align-items: center; gap: 1.3rem; }
-.nav-links a.plain { color: var(--muted); text-decoration: none; font-size: 0.87rem; }
-.nav-links a.plain:hover { color: var(--text); }
+.brand .name { font-size: 0.95rem; letter-spacing: 0.04em; font-weight: 700; }
+.nav-links { display: flex; align-items: center; gap: 1.2rem; }
+.nav-links a.plain { color: var(--ink-3); text-decoration: none; font-size: 0.87rem; }
+.nav-links a.plain:hover { color: var(--ink); }
 .nav-cta {
-  background: var(--amber); color: #1c1204; text-decoration: none; font-weight: 800;
-  padding: 0.5rem 1.15rem; border-radius: 999px; font-size: 0.86rem; white-space: nowrap;
+  background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700;
+  padding: 0.5rem 1.15rem; font-size: 0.86rem; white-space: nowrap; border-radius: 2px;
 }
 
-/* ---- ヒーロー ----------------------------------------------- */
-.hero { position: relative; overflow: hidden; padding: 4.5rem 0 4rem; border-bottom: 1px solid var(--line); }
-/* 夜の地図。方眼と、目標のあたりに寄る淡い光。 */
-.hero::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image:
-    linear-gradient(rgba(140,175,220,0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(140,175,220,0.045) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(120% 90% at 70% 45%, #000 20%, transparent 78%);
-  -webkit-mask-image: radial-gradient(120% 90% at 70% 45%, #000 20%, transparent 78%);
-}
-.hero::after {
-  content: ''; position: absolute; pointer-events: none;
-  width: 900px; height: 900px; border-radius: 50%; top: 42%; left: 74%;
-  transform: translate(-50%,-50%);
-  background: radial-gradient(circle, rgba(94,234,212,0.10) 0%, rgba(240,166,60,0.06) 42%, transparent 68%);
-  filter: blur(24px);
-}
-.hero-grid {
-  position: relative; z-index: 1;
-  display: grid; grid-template-columns: 1fr; gap: 2.8rem; align-items: center;
-}
-@media (min-width: 980px) {
-  .hero-grid { grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 3.4rem; }
-}
-.badge {
-  display: inline-flex; align-items: center; gap: 0.55rem;
-  border: 1px solid var(--line-2); border-radius: 999px;
-  padding: 0.34rem 0.95rem; font-size: 0.74rem; letter-spacing: 0.08em; color: var(--muted);
-  background: var(--panel);
-}
-.badge i {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
-  box-shadow: 0 0 0 4px rgba(94,234,212,0.16); animation: blip 2.4s ease-in-out infinite;
-}
-@keyframes blip { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
-
-h1 {
-  font-size: clamp(1.95rem, 5.2vw, 3.15rem); line-height: 1.34; font-weight: 900;
-  letter-spacing: -0.03em; margin: 1.1rem 0 1rem;
-}
-h1 .accent {
-  background: linear-gradient(96deg, var(--amber) 0%, var(--amber-lt) 45%, var(--amber) 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.lead { color: #c3cede; font-size: 1.03rem; margin: 0 0 1.5rem; max-width: 620px; }
-.lead b { color: var(--text); }
-
-.points { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 0.8rem; }
-.points li { position: relative; padding-left: 1.75rem; font-size: 0.94rem; color: #b6c2d3; line-height: 1.75; }
-.points li::before {
-  content: ''; position: absolute; left: 0; top: 0.62em;
-  width: 9px; height: 9px; border: 1.5px solid var(--amber); border-radius: 2px;
-  background: var(--amber-dim);
-}
-.points b { color: var(--text); font-weight: 700; }
-.points .note { color: var(--muted); font-size: 0.87rem; }
-
-.cta-row { display: flex; flex-wrap: wrap; gap: 0.8rem; }
+/* ---- ボタン -------------------------------------------------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 0.95rem 1.9rem; border-radius: 11px; font-weight: 800; font-size: 0.97rem;
-  text-decoration: none; border: none; cursor: pointer; transition: transform .14s ease, box-shadow .14s ease, background .14s ease;
-  font-family: inherit;
+  padding: 0.9rem 1.8rem; font-weight: 700; font-size: 0.95rem; text-decoration: none;
+  border: none; cursor: pointer; font-family: inherit; border-radius: 2px; min-height: 48px;
+  transition: background .14s ease, color .14s ease;
 }
-.btn-primary { background: var(--amber); color: #1c1204; box-shadow: 0 6px 22px rgba(240,166,60,0.22); }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(240,166,60,0.3); }
-.btn-ghost { border: 1px solid var(--line-2); color: var(--text); background: transparent; }
-.btn-ghost:hover { border-color: var(--amber); color: var(--amber); }
-.btn:disabled { opacity: .5; cursor: default; transform: none; box-shadow: none; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-solid:hover { background: #1c2840; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-line:hover { background: var(--ink); color: #f7f9fc; }
+.btn:disabled { opacity: .45; cursor: default; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+@media (max-width: 560px) { .cta-row .btn { width: 100%; } }
 
-.social { display: flex; align-items: center; gap: 0.7rem; margin-top: 1.6rem; color: var(--muted); font-size: 0.87rem; }
-.social b { color: var(--amber); font-size: 1rem; }
-.social .pips { display: inline-flex; }
-.social .pips i {
-  width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--bg);
-  background: linear-gradient(140deg, #33405a, #1b2434); display: block;
+/* ---- ヒーロー ------------------------------------------------ */
+.hero { padding: 3.6rem 0 4rem; border-bottom: 1.5px solid var(--ink); }
+.hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.6rem; align-items: center; }
+@media (min-width: 940px) { .hero-grid { grid-template-columns: minmax(0,1fr) minmax(0,1.02fr); gap: 3rem; } }
+h1 {
+  font-size: clamp(1.85rem, 4.8vw, 2.85rem); font-weight: 900; line-height: 1.34;
+  letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
 }
-.social .pips i + i { margin-left: -7px; }
+h1 em { font-style: normal; color: var(--amber-ink); }
+.lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 1.4rem; max-width: 44ch; }
+.lead b { color: var(--ink); font-weight: 700; }
+.points { list-style: none; padding: 0; margin: 0 0 1.9rem; display: grid; gap: 0.55rem; }
+.points li {
+  display: grid; grid-template-columns: auto 1fr; gap: 0.7rem;
+  font-size: 0.91rem; line-height: 1.7; color: var(--ink-2);
+}
+.points li::before {
+  content: ""; width: 10px; height: 10px; margin-top: 0.56em;
+  border: 1.5px solid var(--ink); background: var(--amber);
+}
+.points b { color: var(--ink); font-weight: 700; }
+.points .note { color: var(--ink-3); font-size: 0.86rem; }
+.social {
+  margin-top: 1.3rem; font-family: "IBM Plex Mono", monospace; font-size: 0.76rem;
+  letter-spacing: 0.05em; color: var(--ink-3);
+}
+.social b { color: var(--ink); font-weight: 600; }
 
-/* ---- 作戦盤（ヒーローの図） --------------------------------- */
-.board {
-  background: linear-gradient(170deg, rgba(94,234,212,0.05), var(--panel));
-  border: 1px solid var(--line); border-radius: 20px; padding: 0.9rem 0.9rem 0.4rem;
-  position: relative; overflow: hidden;
+/* ---- 計器パネル（作戦盤・図） -------------------------------- */
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1rem 1.1rem 0.85rem; }
+.panel-cap {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.65rem; letter-spacing: 0.18em;
+  color: var(--ink-3); display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem;
 }
-.board svg { width: 100%; height: auto; display: block; }
-.bd-grid   { stroke: rgba(140,175,220,0.10); stroke-width: 1; }
-.bd-path   { stroke: rgba(240,166,60,0.42); stroke-width: 1.6; stroke-dasharray: 6 5; fill: none; }
-.bd-base   { fill: none; stroke: var(--amber); stroke-width: 1.6; }
-.bd-label  { font-size: 12px; fill: var(--muted); font-family: ui-monospace, Menlo, monospace; }
-.bd-label-b{ font-size: 12px; fill: var(--amber-lt); font-family: ui-monospace, Menlo, monospace; }
-.bd-cap    { font-size: 12px; fill: var(--dim); font-family: ui-monospace, Menlo, monospace; letter-spacing: .06em; }
-.bd-ring   { fill: none; stroke: var(--cyan); stroke-width: 1.2; stroke-dasharray: 4 7; opacity: .55; }
-.bd-unit   { fill: var(--amber); }
-.bd-target-o { fill: none; stroke: var(--cyan); stroke-width: 1.4; opacity: .5; }
-.bd-target-i { fill: none; stroke: var(--cyan); stroke-width: 2; }
-.bd-target-c { fill: var(--cyan); }
-.bd-goal   { font-size: 13px; fill: var(--cyan); font-family: ui-monospace, Menlo, monospace; }
+.panel-cap b { color: var(--ink); font-weight: 600; }
+.panel svg { width: 100%; height: auto; display: block; }
+.readout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;
+  border-top: 1px solid var(--rule); margin-top: 0.85rem; padding-top: 0.85rem;
+}
+.readout span {
+  display: block; font-family: "IBM Plex Mono", monospace; font-size: 0.62rem;
+  letter-spacing: 0.16em; color: var(--ink-3);
+}
+.readout b {
+  font-family: "IBM Plex Mono", monospace; font-size: 1.5rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--ink);
+}
+.readout .arrive { color: var(--signal); }
+.panel-note { color: var(--ink-3); font-size: 0.75rem; text-align: center; margin: 0.6rem 0 0; }
 
-/* 全員が同じ「残り時間」の位置にいる＝目標から同じ距離。
-   まとめて縮めれば、4人が同時に中心へ着く。 */
-.bd-inbound {
-  transform-box: view-box; transform-origin: 400px 250px;
-  animation: bd-close 6.4s cubic-bezier(.45,.02,.55,1) infinite;
-}
-@keyframes bd-close {
-  0%   { transform: scale(1);    opacity: 0; }
-  7%   { transform: scale(0.97); opacity: 1; }
-  72%  { transform: scale(0.10); opacity: 1; }
-  80%  { transform: scale(0.04); opacity: 0; }
-  100% { transform: scale(1);    opacity: 0; }
-}
-.bd-pulse { transform-box: view-box; transform-origin: 400px 250px; opacity: 0; animation: bd-hit 6.4s ease-out infinite; }
-@keyframes bd-hit {
-  0%, 68% { transform: scale(.2); opacity: 0; }
-  74%     { transform: scale(1);  opacity: .8; }
-  86%,100%{ transform: scale(2.1); opacity: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .bd-inbound { animation: none; opacity: 1; }
-  .bd-pulse   { animation: none; opacity: 0; }
-  .badge i    { animation: none; }
-  html { scroll-behavior: auto; }
-}
+/* 作戦盤の線 */
+.bd-grid { stroke: var(--grid); stroke-width: 1; }
+.bd-path { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 4 4; fill: none; }
+.bd-base { fill: var(--amber); stroke: var(--ink); stroke-width: 1.5; }
+.bd-time { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; fill: var(--amber-ink); }
+.bd-ring { fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 5; opacity: .5; }
+.bd-unit { fill: var(--ink); }
+.bd-t1 { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.bd-t2 { fill: none; stroke: var(--ink); stroke-width: 2; }
+.bd-t3 { fill: var(--signal); }
+.bd-cap { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .06em; fill: var(--ink-3); }
 
-/* 盤の下の実況表示 */
-.hud {
-  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.6rem;
-  border-top: 1px solid var(--line); margin-top: 0.4rem; padding: 0.85rem 0.5rem 0.6rem;
-}
-.hud .k { font-size: 0.63rem; letter-spacing: 0.16em; color: var(--dim); }
-.hud .v { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; line-height: 1.25; }
-.hud .v.mine { color: var(--amber); }
-.hud .v.all  { color: var(--cyan); }
-.hud .sep { width: 1px; height: 34px; background: var(--line); }
-.hud-note { color: var(--dim); font-size: 0.76rem; padding: 0 0.5rem 0.7rem; text-align: center; }
-
-
-/* スマホでは盤が縮むぶん、文字が潰れる。
-   補足の行は落として、時刻だけを読める大きさにする。 */
-@media (max-width: 640px) {
-  .bd-label { display: none; }
-  .bd-label-b { font-size: 22px; }
-  .bd-cap  { font-size: 20px; }
-  .bd-unit { r: 10; }
-  .cta-row .btn { width: 100%; }
-}
-/* ---- カード ------------------------------------------------- */
-.grid3 { display: grid; grid-template-columns: 1fr; gap: 1.1rem; }
-@media (min-width: 760px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
-.card {
-  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 1.5rem 1.6rem;
-}
-.card h3 { font-size: 1.02rem; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
-.card p  { margin: 0; color: var(--muted); font-size: 0.91rem; }
-.card.pain { border-left: 2px solid rgba(248,113,113,0.45); }
-.card.pain h3::before { content: '×'; color: var(--red); margin-right: 0.45rem; font-weight: 700; }
-.card.gain { border-left: 2px solid rgba(94,234,212,0.45); }
-.card.gain h3::before { content: '✓'; color: var(--cyan); margin-right: 0.45rem; font-weight: 700; }
-
-/* ---- 仕組みの図 --------------------------------------------- */
-.fig {
-  background: linear-gradient(180deg, rgba(94,234,212,0.045), var(--panel));
-  border: 1px solid var(--line); border-radius: 18px; padding: 0.7rem 0; margin: 0 0 1rem;
-}
-.fig svg { width: 100%; height: auto; display: block; }
-/* .fig svg の指定に負けないよう、こちらも2段の指定にする */
+/* ---- 時刻表の図 ---------------------------------------------- */
+.fig { margin: 0 0 1rem; }
 .fig .fig-narrow { display: none; }
 @media (max-width: 640px) { .fig .fig-wide { display: none; } .fig .fig-narrow { display: block; } }
-figcaption { text-align: center; color: #c3cede; font-size: 0.9rem; margin: 0 0 2.4rem; }
-.fg-cap  { font-size: 13px; fill: var(--dim); font-family: ui-monospace, Menlo, monospace; letter-spacing: .06em; }
-.fg-cyan { fill: var(--cyan); }
-.fg-name { font-size: 14px; fill: var(--text); }
-.fg-time { font-size: 13px; fill: var(--amber-lt); font-family: ui-monospace, Menlo, monospace; }
-.fg-march{ font-size: 11px; fill: var(--muted); }
-.fg-bar  { stroke: rgba(240,166,60,0.32); stroke-width: 3; stroke-linecap: round; }
-.fg-dot  { fill: var(--amber); }
-.fg-goal { stroke: var(--cyan); stroke-width: 2; }
-.fg-glow { stroke: var(--cyan); stroke-width: 12; opacity: .14; }
+figure { margin: 0 0 2.4rem; }
+figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin-top: 0.8rem; }
+.fg-cap { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .08em; fill: var(--ink-3); }
+.fg-sig { fill: var(--signal); }
+.fg-name { font-size: 14px; fill: var(--ink); }
+.fg-time { font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600; fill: var(--amber-ink); }
+.fg-march { font-size: 11px; fill: var(--ink-3); }
+.fg-bar { stroke: var(--ink); stroke-width: 1.5; }
+.fg-dot { fill: var(--amber); stroke: var(--ink); stroke-width: 1; }
+.fg-goal { stroke: var(--signal); stroke-width: 2; }
 
-/* ---- 従来との比較バー --------------------------------------- */
-.sync { background: var(--bg-2); border: 1px solid var(--line); border-radius: 18px; padding: 1.9rem 1.8rem; margin-bottom: 2.4rem; }
-.sync .lbl { font-size: 0.72rem; letter-spacing: 0.14em; color: var(--dim); margin-bottom: 0.7rem; }
+/* ---- 従来との比較 -------------------------------------------- */
+.sync { border: 1.5px solid var(--ink); background: var(--surface); padding: 1.8rem 1.7rem; margin-bottom: 2.4rem; }
+.sync .lbl {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; letter-spacing: 0.16em;
+  color: var(--ink-3); margin-bottom: 0.7rem;
+}
 .sync .lbl + .track { margin-bottom: 1.8rem; }
 .track { position: relative; height: 22px; }
-.track .base { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: var(--line-2); }
-.track .goal { position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: var(--cyan); box-shadow: 0 0 12px rgba(94,234,212,.5); }
+.track .base { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: var(--ink); }
+.track .goal { position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: var(--signal); }
 .track i {
-  position: absolute; top: 5px; width: 12px; height: 12px; border-radius: 50%;
-  background: var(--amber); transform: translateX(-50%);
+  position: absolute; top: 4px; width: 12px; height: 12px; transform: translateX(-50%);
+  background: var(--amber); border: 1.5px solid var(--ink);
 }
-.track.scatter i { background: #4b5a70; }
-.sync .cap { margin: 0; color: var(--muted); font-size: 0.9rem; }
-.sync .cap b { color: var(--cyan); }
+.track.scatter i { background: var(--surface); }
+.sync .cap { margin: 0; color: var(--ink-2); font-size: 0.9rem; }
+.sync .cap b { color: var(--signal); }
 
-/* ---- 表 ----------------------------------------------------- */
-.tbl-wrap { border: 1px solid var(--line); border-radius: var(--radius); overflow-x: auto; background: var(--panel); }
+/* ---- カード -------------------------------------------------- */
+.grid3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 780px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
+.card { background: var(--surface); border: 1px solid var(--rule); padding: 1.4rem 1.5rem; }
+.card h3 {
+  font-size: 0.99rem; margin: 0 0 0.5rem; letter-spacing: -0.01em;
+  display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; align-items: baseline;
+}
+.card h3::before { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+.card p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
+.card.pain { border-top: 3px solid var(--warn); }
+.card.pain h3::before { content: "×"; color: var(--warn); }
+.card.gain { border-top: 3px solid var(--ink); }
+.card.gain h3::before { content: "✓"; color: var(--signal); }
+
+/* ---- 表 ------------------------------------------------------ */
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 560px; }
-th, td { text-align: left; padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--line); }
-th { color: var(--dim); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.08em; }
+th, td { text-align: left; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-family: "IBM Plex Mono", monospace; color: var(--ink-3); font-weight: 500;
+  font-size: 0.68rem; letter-spacing: 0.1em; border-bottom: 1.5px solid var(--ink);
+}
 tr:last-child td { border-bottom: none; }
-td.o { color: var(--cyan); } td.x { color: var(--dim); }
-tr.ours { background: rgba(240,166,60,0.07); }
-tr.ours td { color: var(--amber); font-weight: 700; }
-.note-gold {
-  border: 1px solid rgba(240,166,60,0.28); background: linear-gradient(180deg, rgba(240,166,60,0.06), transparent);
-  border-radius: var(--radius); padding: 1.5rem 1.7rem; margin-top: 1.4rem;
+td.o { color: var(--signal); font-weight: 700; }
+td.x { color: var(--ink-3); }
+tr.ours td { background: #fdf6ea; font-weight: 700; }
+.note-line { border-left: 3px solid var(--ink); padding: 0.2rem 0 0.2rem 1.2rem; margin-top: 1.6rem; max-width: 62ch; }
+.note-line h3 { margin: 0 0 0.4rem; font-size: 0.98rem; }
+.note-line p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
+
+/* ---- 実績 ---------------------------------------------------- */
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); }
+@media (min-width: 780px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { background: var(--surface); padding: 1.3rem 1.3rem; }
+.stat .n {
+  font-family: "IBM Plex Mono", monospace; font-size: 2rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.04em; line-height: 1.2; color: var(--ink);
 }
-.note-gold h3 { margin: 0 0 0.5rem; font-size: 1rem; color: var(--amber-lt); }
-.note-gold p  { margin: 0; color: var(--muted); font-size: 0.91rem; }
+.stat .n small { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
+.stat .k { color: var(--ink-3); font-size: 0.79rem; margin-top: 0.2rem; }
 
-/* ---- 実績 --------------------------------------------------- */
-.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-@media (min-width: 760px) { .stats { grid-template-columns: repeat(4, 1fr); } }
-.stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem 1.3rem; }
-.stat .n { font-size: 2.1rem; font-weight: 900; letter-spacing: -0.03em; color: var(--amber); line-height: 1.2; }
-.stat .n small { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
-.stat .k { color: var(--muted); font-size: 0.8rem; margin-top: 0.2rem; }
-
-/* ---- 手順 --------------------------------------------------- */
-.steps { display: grid; grid-template-columns: 1fr; gap: 1.1rem; counter-reset: st; }
+/* ---- 手順 ---------------------------------------------------- */
+.steps { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); }
 @media (min-width: 900px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-.step {
-  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 1.5rem 1.4rem; position: relative;
-}
-.step::before {
-  counter-increment: st; content: '0' counter(st);
-  font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem;
-  color: var(--amber); letter-spacing: .1em;
-}
-.step h3 { font-size: 0.98rem; margin: 0.4rem 0 0.45rem; }
-.step p  { margin: 0; color: var(--muted); font-size: 0.89rem; }
+.step { background: var(--surface); padding: 1.4rem 1.4rem; }
+.step .k { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; letter-spacing: 0.14em; color: var(--amber-ink); }
+.step h3 { font-size: 0.96rem; margin: 0.35rem 0 0.4rem; }
+.step p { margin: 0; color: var(--ink-2); font-size: 0.87rem; }
 
-/* ---- FAQ ---------------------------------------------------- */
-.faq { border-top: 1px solid var(--line); }
-details { border-bottom: 1px solid var(--line); padding: 1.05rem 0; }
-summary { cursor: pointer; font-size: 0.97rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
-summary::-webkit-details-marker { display: none; }
-summary::after { content: '+'; color: var(--amber); font-weight: 700; flex: none; }
-details[open] summary::after { content: '−'; }
-details p { margin: 0.7rem 0 0; color: var(--muted); font-size: 0.9rem; }
-
-/* ---- どこまでが1つのプランか --------------------------------
-   サーバー ⊃ 同盟 ⊃ 班 ⊃ 集結主。この入れ子がそのまま料金の境目。 */
+/* ---- プランの範囲 -------------------------------------------- */
 .scope { margin-bottom: 1.8rem; }
-.scope-server {
-  border: 1px dashed rgba(240,166,60,0.45); border-radius: 16px;
-  padding: 2.1rem 1.2rem 1.2rem; position: relative;
-  background: linear-gradient(180deg, rgba(240,166,60,0.045), transparent);
-}
+.scope-server { border: 1.5px dashed var(--ink); padding: 2rem 1.1rem 1.1rem; position: relative; background: var(--surface); }
 .scope-tag {
-  position: absolute; top: -0.72rem; left: 1.2rem;
-  font-size: 0.7rem; font-weight: 800; letter-spacing: .04em;
-  padding: 0.2rem 0.75rem; border-radius: 999px;
-  background: var(--amber); color: #1c1204;
+  position: absolute; top: -0.75rem; left: 1.1rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.67rem; font-weight: 600; letter-spacing: 0.04em;
+  padding: 0.16rem 0.6rem; background: var(--ink); color: #f7f9fc; white-space: nowrap;
 }
-.scope-tag.alt { background: var(--cyan); color: #04231d; }
-.scope-alliances { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.scope-tag.alt { background: var(--signal); }
+.scope-alliances { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
 @media (min-width: 800px) { .scope-alliances { grid-template-columns: repeat(3, 1fr); } }
-.scope-alliance {
-  border: 1px solid var(--line); border-radius: 12px;
-  padding: 1.7rem 0.9rem 0.9rem; position: relative; background: var(--panel);
-}
-.scope-alliance.is-lit { border-color: rgba(94,234,212,0.5); background: rgba(94,234,212,0.05); }
-.scope-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.6rem; }
-.squads { display: grid; gap: 0.5rem; }
+.scope-alliance { border: 1px solid var(--rule); padding: 1.6rem 0.85rem 0.85rem; position: relative; }
+.scope-alliance.is-lit { border: 1.5px solid var(--signal); }
+.scope-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.55rem; }
+.squads { display: grid; gap: 0.45rem; }
 .squad {
-  border: 1px solid var(--line); border-radius: 8px; padding: 0.5rem 0.7rem;
+  border: 1px solid var(--rule); padding: 0.45rem 0.6rem;
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
 }
-.squad .nm { font-size: 0.78rem; color: var(--muted); white-space: nowrap; }
+.squad .nm { font-family: "IBM Plex Mono", monospace; font-size: 0.72rem; color: var(--ink-3); white-space: nowrap; }
 .squad .seats { display: inline-flex; gap: 3px; }
-.squad .seats i { width: 7px; height: 7px; border-radius: 2px; background: var(--amber); opacity: .75; }
-.scope-note { color: var(--muted); font-size: 0.86rem; margin: 1rem 0 0; line-height: 1.9; }
-.scope-note b { color: var(--text); }
+.squad .seats i { width: 8px; height: 8px; background: var(--amber); border: 1px solid var(--ink); }
+.scope-note { color: var(--ink-2); font-size: 0.86rem; margin: 1rem 0 0; line-height: 1.9; }
+.scope-note b { color: var(--ink); }
 
-/* ---- 料金 --------------------------------------------------- */
-.price-note {
-  border: 1px solid rgba(94,234,212,0.25); background: rgba(94,234,212,0.05);
-  border-radius: var(--radius); padding: 1.1rem 1.4rem; margin-bottom: 1.6rem;
-  color: var(--muted); font-size: 0.9rem;
-}
-.price-note strong { color: var(--cyan); }
-.plans { display: grid; grid-template-columns: 1fr; gap: 1.2rem; }
+/* ---- 料金 ---------------------------------------------------- */
+.price-note { border-left: 3px solid var(--signal); padding-left: 1.2rem; margin-bottom: 1.8rem; color: var(--ink-2); font-size: 0.9rem; max-width: 62ch; }
+.price-note strong { color: var(--ink); }
+.plans { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, 1fr); } }
-.plan {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 18px;
-  padding: 1.8rem 1.7rem; display: flex; flex-direction: column; position: relative;
-}
-.plan.hot { border-color: rgba(240,166,60,0.4); background: linear-gradient(180deg, rgba(240,166,60,0.08), var(--panel)); }
+.plan { background: var(--surface); border: 1px solid var(--rule); padding: 1.7rem 1.6rem; display: flex; flex-direction: column; position: relative; }
+.plan.hot { border: 1.5px solid var(--ink); }
 .plan .tag {
-  position: absolute; top: -0.7rem; left: 1.6rem; background: var(--amber); color: #1c1204;
-  font-size: 0.68rem; font-weight: 800; padding: 0.18rem 0.7rem; border-radius: 999px; letter-spacing: .04em;
+  position: absolute; top: -0.72rem; left: 1.5rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.08em;
+  padding: 0.16rem 0.6rem; background: var(--ink); color: #f7f9fc;
 }
-.plan h3 { margin: 0; font-size: 1.08rem; }
-.plan .amt { font-size: 2.35rem; font-weight: 900; margin: 0.45rem 0 0; letter-spacing: -0.03em; }
-.plan .amt span { font-size: 0.85rem; font-weight: 500; color: var(--muted); }
-.plan .jpy { font-size: 0.8rem; color: var(--muted); min-height: 1.2em; margin-bottom: 1.3rem; }
-.plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
-.plan li { padding-left: 1.5rem; position: relative; margin-bottom: 0.6rem; font-size: 0.91rem; color: #b6c2d3; }
-.plan li::before { content: '✓'; position: absolute; left: 0; color: var(--cyan); font-weight: 800; }
-.plan .btn { margin-top: 1.7rem; width: 100%; }
-.plan .msg { min-height: 1.4em; margin-top: 0.6rem; font-size: 0.83rem; color: var(--muted); }
-.fine { color: var(--dim); font-size: 0.8rem; margin-top: 1.6rem; line-height: 1.9; }
+.plan h3 { margin: 0; font-size: 1.02rem; }
+.plan .amt {
+  font-family: "IBM Plex Mono", monospace; font-size: 2.2rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.045em; margin: 0.4rem 0 0;
+}
+.plan .amt span { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
+.plan .jpy { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-3); min-height: 1.2em; margin-bottom: 1.2rem; }
+.plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: grid; gap: 0.5rem; align-content: start; }
+.plan li { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; font-size: 0.89rem; color: var(--ink-2); }
+.plan li::before { content: "✓"; color: var(--signal); font-weight: 700; }
+.plan .btn { margin-top: 1.6rem; width: 100%; }
+.plan .msg { min-height: 1.4em; margin-top: 0.55rem; font-size: 0.82rem; color: var(--ink-3); }
+.fine { color: var(--ink-3); font-size: 0.79rem; margin-top: 1.6rem; line-height: 1.9; max-width: 70ch; }
 
-/* ---- フッター ----------------------------------------------- */
-footer { border-top: 1px solid var(--line); padding: 2.6rem 0 3.4rem; }
-footer a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
-footer a:hover { color: var(--amber); }
-footer .sep { color: var(--dim); margin: 0 0.7rem; }
-footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
+/* ---- FAQ ----------------------------------------------------- */
+.faq { border-top: 1.5px solid var(--ink); max-width: 78ch; }
+details { border-bottom: 1px solid var(--rule); padding: 1rem 0; }
+summary { cursor: pointer; font-size: 0.95rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; font-weight: 500; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "IBM Plex Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: 0.6rem 0 0; color: var(--ink-2); font-size: 0.89rem; }
 
-/* ---- 現れ方は控えめに。速く読む人に空白を見せない。 --------- */
-.rise { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
-.rise.in { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
+/* ---- フッター ------------------------------------------------ */
+footer { border-top: 1.5px solid var(--ink); padding: 2.2rem 0 3rem; background: var(--surface); }
+footer a { color: var(--ink-3); text-decoration: none; font-size: 0.85rem; }
+footer a:hover { color: var(--ink); }
+footer .sep { color: var(--rule); margin: 0 0.7rem; }
+footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-family: "IBM Plex Mono", monospace; }
 </style>
 </head>
 <body>
@@ -415,10 +321,9 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
   <div class="wrap nav-in">
     <a class="brand" href="/">
       <svg viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="14.2" fill="none" stroke="rgba(140,175,220,0.3)" stroke-width="1.4"/>
-        <circle cx="16" cy="16" r="10.5" fill="none" stroke="#f0a63c" stroke-width="1.8"/>
-        <path d="M16 8.5V16l5.6 3.6" fill="none" stroke="#f0a63c" stroke-width="2.2" stroke-linecap="round"/>
-        <circle cx="16" cy="16" r="1.7" fill="#5eead4"/>
+        <circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/>
+        <path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="2.2" fill="#c2410c"/>
       </svg>
       <span class="name mono">CommandClock</span>
     </a>
@@ -435,8 +340,8 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
     <div class="hero-grid">
 
       <div>
-        <span class="badge mono"><i></i>スマホ戦略ゲーム / 同盟イベント用</span>
-        <h1>全員が同じ瞬間に到着する。<br><span class="accent">一人ずつ違うタイミング</span>で。</h1>
+        <span class="eyebrow">スマホ戦略ゲーム / 同盟イベント用</span>
+        <h1>全員が同じ瞬間に到着する。<br><em>一人ずつ違うタイミング</em>で。</h1>
         <p class="lead">
           スマホの戦略ゲームで、同盟の指示役をしている方のための道具です。
           到着させたい時刻を一つ送るだけで、一人ひとりの行軍時間から逆算した
@@ -449,88 +354,47 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
           <li><b>準備は行軍時間の入力だけ。</b><span class="note">各プレーヤーが自分の行軍時間を一度入れる作業は必要です。それ以外の設定はありません。</span></li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-primary" href="#pricing">申し込む（月 $3〜）</a>
-          <a class="btn btn-ghost" href="#benefit">まず仕組みを見る</a>
+          <a class="btn btn-solid" href="#pricing">申し込む（月 $3〜）</a>
+          <a class="btn btn-line" href="#benefit">まず仕組みを見る</a>
         </div>
-        <div class="social">
-          <span class="pips"><i></i><i></i><i></i></span>
-          実際の同盟イベントで <b>219名</b> が利用中
-        </div>
+        <p class="social">実際の同盟イベントで <b class="num">219</b> 名が利用中</p>
       </div>
 
-      <!-- 作戦盤。4つの部隊が別々の場所から出て、いま全員が目標から
-           同じ距離＝同じ残り時間の位置にいる。だから同時に着く。 -->
-      <div class="board">
-        <svg viewBox="0 0 640 476" role="img" aria-labelledby="bdTitle bdDesc">
-          <title id="bdTitle">別々の場所から出た4部隊が、同時に目標へ到達する作戦盤</title>
-          <desc id="bdDesc">目標を中心に、4つの拠点から伸びる進路。4部隊はいずれも目標から同じ距離にあり、同じ瞬間に到達します。</desc>
-
+      <!-- 作戦盤。4つの拠点から出た部隊が、いま全員おなじ残り時間の位置にいる。 -->
+      <div class="panel">
+        <div class="panel-cap"><span>OPERATION BOARD</span><b class="num">着弾 21:03:15</b></div>
+        <svg viewBox="0 0 520 400" role="img" aria-label="4つの拠点から出た部隊が、目標から同じ距離にいて、同じ瞬間に到達する作戦盤">
           <g class="bd-grid">
-            <path d="M0 60H640M0 130H640M0 200H640M0 270H640M0 340H640M0 410H640"/>
-            <path d="M70 0V476M150 0V476M230 0V476M310 0V476M390 0V476M470 0V476M550 0V476"/>
+            <path d="M0 40H520M0 90H520M0 140H520M0 190H520M0 240H520M0 290H520M0 340H520"/>
+            <path d="M65 0V400M130 0V400M195 0V400M260 0V400M325 0V400M390 0V400M455 0V400"/>
           </g>
-
-          <text class="bd-cap" x="16" y="26">OPERATION BOARD</text>
-          <text class="bd-cap fg-cyan" x="624" y="26" text-anchor="end">着弾 21:03:15</text>
-
-          <!-- 進路 -->
-          <path class="bd-path" d="M101 111 L400 250"/>
-          <path class="bd-path" d="M130 322 L400 250"/>
-          <path class="bd-path" d="M271 97  L400 250"/>
-          <path class="bd-path" d="M224 398 L400 250"/>
-
-          <!-- 拠点と出発時刻 -->
-          <g>
-            <rect class="bd-base" x="94" y="104" width="14" height="14" rx="2"/>
-            <text class="bd-label-b" x="88" y="98" text-anchor="start">21:00:15</text>
-            <text class="bd-label" x="88" y="136">りく・移動 3:00</text>
+          <g class="bd-path">
+            <path d="M78 63 L350 190"/><path d="M108 255 L350 190"/>
+            <path d="M231 48 L350 190"/><path d="M189 325 L350 190"/>
           </g>
-          <g>
-            <rect class="bd-base" x="123" y="315" width="14" height="14" rx="2"/>
-            <text class="bd-label-b" x="117" y="309">21:01:00</text>
-            <text class="bd-label" x="117" y="347">あおい・移動 2:15</text>
+          <circle class="bd-ring" cx="350" cy="190" r="110"/>
+          <circle class="bd-t1" cx="350" cy="190" r="34"/>
+          <circle class="bd-t2" cx="350" cy="190" r="19"/>
+          <circle class="bd-t3" cx="350" cy="190" r="5"/>
+          <g class="bd-unit">
+            <circle cx="250" cy="144" r="6"/><circle cx="244" cy="219" r="6"/>
+            <circle cx="279" cy="106" r="6"/><circle cx="266" cy="261" r="6"/>
           </g>
-          <g>
-            <rect class="bd-base" x="264" y="90" width="14" height="14" rx="2"/>
-            <text class="bd-label-b" x="258" y="84">21:01:45</text>
-            <text class="bd-label" x="258" y="122">はると・移動 1:30</text>
+          <g class="bd-base">
+            <rect x="72" y="57" width="12" height="12"/><rect x="102" y="249" width="12" height="12"/>
+            <rect x="225" y="42" width="12" height="12"/><rect x="183" y="319" width="12" height="12"/>
           </g>
-          <g>
-            <rect class="bd-base" x="217" y="391" width="14" height="14" rx="2"/>
-            <text class="bd-label-b" x="211" y="385">21:02:30</text>
-            <text class="bd-label" x="211" y="423">めい・移動 0:45</text>
+          <g class="bd-time">
+            <text x="72" y="48">21:00:15</text><text x="102" y="240">21:01:00</text>
+            <text x="225" y="33">21:01:45</text><text x="183" y="310">21:02:30</text>
           </g>
-
-          <!-- 目標 -->
-          <circle class="bd-target-o" cx="400" cy="250" r="30"/>
-          <circle class="bd-target-i" cx="400" cy="250" r="17"/>
-          <circle class="bd-target-c" cx="400" cy="250" r="4.5"/>
-          <circle class="bd-pulse" cx="400" cy="250" r="30" fill="none" stroke="#5eead4" stroke-width="2"/>
-
-          <!-- 残り時間が同じ＝目標から同じ距離。ここが同時到着の正体。 -->
-          <g class="bd-inbound">
-            <circle class="bd-ring" cx="400" cy="250" r="120"/>
-            <circle class="bd-unit" cx="291.2" cy="199.3" r="6.5"/>
-            <circle class="bd-unit" cx="284.1" cy="281.1" r="6.5"/>
-            <circle class="bd-unit" cx="322.9" cy="158.1" r="6.5"/>
-            <circle class="bd-unit" cx="308.1" cy="327.2" r="6.5"/>
-          </g>
-
-          <text class="bd-cap" x="400" y="462" text-anchor="middle">4部隊とも、目標までの残り時間はおなじ</text>
+          <text class="bd-cap" x="260" y="385" text-anchor="middle">4部隊とも、目標までの残り時間はおなじ</text>
         </svg>
-
-        <div class="hud">
-          <div>
-            <div class="k mono">あなたの出発まで</div>
-            <div class="v mine mono" id="cdMine">--:--</div>
-          </div>
-          <div class="sep"></div>
-          <div style="text-align:right;">
-            <div class="k mono">全員の着弾まで</div>
-            <div class="v all mono" id="cdAll">--:--</div>
-          </div>
+        <div class="readout">
+          <div><span>YOUR START</span><b id="cdMine">--:--</b></div>
+          <div style="text-align:right;"><span>ARRIVAL</span><b class="arrive" id="cdAll">--:--</b></div>
         </div>
-        <p class="hud-note">行軍45秒の人の例。着弾の45秒前が、その人のスタートです。</p>
+        <p class="panel-note">行軍45秒の人の例。着弾の45秒前が、その人のスタートです。</p>
       </div>
 
     </div>
@@ -538,84 +402,79 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 </div>
 
 <!-- ===== 仕組み ===== -->
-<section id="benefit">
+<section id="benefit" class="on-white">
   <div class="wrap">
-    <div class="eyebrow mono">HOW IT WORKS</div>
+    <span class="eyebrow">HOW IT WORKS</span>
     <h2>移動が長い人ほど、早く出発する。</h2>
     <p class="sec-lead">それだけのことですが、人数分を秒単位で、本番中に何度も計算するのは人間には無理があります。そこを引き受けます。</p>
 
-    <figure class="fig-figure">
-      <div class="fig">
-        <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-labelledby="fgT1 fgD1">
-          <title id="fgT1">出発時刻をずらして、到着を揃える仕組み</title>
-          <desc id="fgD1">移動時間の違う4人が、それぞれ違う時刻に出発し、右端の同じ時刻に全員が到着する図</desc>
+    <figure>
+      <div class="fig panel">
+        <div class="panel-cap"><span>DEPARTURE SCHEDULE</span><b class="num">着弾 21:03:15</b></div>
+        <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-label="移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する予定表">
           <text class="fg-cap" x="12" y="22">出発 — ひとりずつ違う</text>
-          <text class="fg-cap fg-cyan" x="808" y="22" text-anchor="end">着弾 — 全員そろう</text>
-          <line class="fg-glow" x1="760" y1="36" x2="760" y2="268"/>
+          <text class="fg-cap fg-sig" x="808" y="22" text-anchor="end">着弾 — 全員そろう</text>
           <line class="fg-goal" x1="760" y1="36" x2="760" y2="268"/>
-          <text class="fg-cap fg-cyan" x="808" y="288" text-anchor="end">21:03:15</text>
+          <text class="fg-cap fg-sig" x="808" y="288" text-anchor="end">21:03:15</text>
           <g>
             <text class="fg-name" x="92" y="76" text-anchor="end">りく</text>
             <text class="fg-time" x="180" y="76" text-anchor="end">21:00:15</text>
             <line class="fg-bar" x1="190" y1="71" x2="760" y2="71"/>
-            <circle class="fg-dot" cx="190" cy="71" r="5"/>
+            <rect class="fg-dot" x="185" y="66" width="10" height="10"/>
             <text class="fg-march" x="475" y="62" text-anchor="middle">移動 3:00</text>
           </g>
           <g>
             <text class="fg-name" x="92" y="128" text-anchor="end">あおい</text>
             <text class="fg-time" x="322" y="128" text-anchor="end">21:01:00</text>
             <line class="fg-bar" x1="332" y1="123" x2="760" y2="123"/>
-            <circle class="fg-dot" cx="332" cy="123" r="5"/>
+            <rect class="fg-dot" x="327" y="118" width="10" height="10"/>
             <text class="fg-march" x="546" y="114" text-anchor="middle">移動 2:15</text>
           </g>
           <g>
             <text class="fg-name" x="92" y="180" text-anchor="end">はると</text>
             <text class="fg-time" x="465" y="180" text-anchor="end">21:01:45</text>
             <line class="fg-bar" x1="475" y1="175" x2="760" y2="175"/>
-            <circle class="fg-dot" cx="475" cy="175" r="5"/>
+            <rect class="fg-dot" x="470" y="170" width="10" height="10"/>
             <text class="fg-march" x="617" y="166" text-anchor="middle">移動 1:30</text>
           </g>
           <g>
             <text class="fg-name" x="92" y="232" text-anchor="end">めい</text>
             <text class="fg-time" x="607" y="232" text-anchor="end">21:02:30</text>
             <line class="fg-bar" x1="617" y1="227" x2="760" y2="227"/>
-            <circle class="fg-dot" cx="617" cy="227" r="5"/>
+            <rect class="fg-dot" x="612" y="222" width="10" height="10"/>
             <text class="fg-march" x="688" y="218" text-anchor="middle">移動 0:45</text>
           </g>
         </svg>
 
-        <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-labelledby="fgT2 fgD2">
-          <title id="fgT2">出発時刻をずらして、到着を揃える仕組み</title>
-          <desc id="fgD2">移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する図</desc>
+        <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-label="移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する予定表">
           <text class="fg-cap" x="10" y="24">出発 — ひとりずつ違う</text>
-          <line class="fg-glow" x1="352" y1="38" x2="352" y2="332"/>
           <line class="fg-goal" x1="352" y1="38" x2="352" y2="332"/>
-          <text class="fg-cap fg-cyan" x="372" y="360" text-anchor="end">着弾 21:03:15</text>
-          <text class="fg-cap fg-cyan" x="372" y="380" text-anchor="end">全員そろう</text>
+          <text class="fg-cap fg-sig" x="372" y="360" text-anchor="end">着弾 21:03:15</text>
+          <text class="fg-cap fg-sig" x="372" y="380" text-anchor="end">全員そろう</text>
           <text class="fg-name" x="10" y="74">りく　<tspan class="fg-time">21:00:15</tspan> に出発（移動 3:00）</text>
           <line class="fg-bar" x1="122" y1="88" x2="352" y2="88"/>
-          <circle class="fg-dot" cx="122" cy="88" r="5"/>
+          <rect class="fg-dot" x="117" y="83" width="10" height="10"/>
           <text class="fg-name" x="10" y="146">あおい　<tspan class="fg-time">21:01:00</tspan> に出発（移動 2:15）</text>
           <line class="fg-bar" x1="180" y1="160" x2="352" y2="160"/>
-          <circle class="fg-dot" cx="180" cy="160" r="5"/>
+          <rect class="fg-dot" x="175" y="155" width="10" height="10"/>
           <text class="fg-name" x="10" y="218">はると　<tspan class="fg-time">21:01:45</tspan> に出発（移動 1:30）</text>
           <line class="fg-bar" x1="237" y1="232" x2="352" y2="232"/>
-          <circle class="fg-dot" cx="237" cy="232" r="5"/>
+          <rect class="fg-dot" x="232" y="227" width="10" height="10"/>
           <text class="fg-name" x="10" y="290">めい　<tspan class="fg-time">21:02:30</tspan> に出発（移動 0:45）</text>
           <line class="fg-bar" x1="294" y1="304" x2="352" y2="304"/>
-          <circle class="fg-dot" cx="294" cy="304" r="5"/>
+          <rect class="fg-dot" x="289" y="299" width="10" height="10"/>
         </svg>
       </div>
       <figcaption>移動に時間がかかる人ほど、早く出発する。だから、到着だけが揃う。</figcaption>
     </figure>
 
     <div class="sync">
-      <div class="lbl mono">従来 — 同時に出発する</div>
+      <div class="lbl">従来 — 同時に出発する</div>
       <div class="track scatter">
         <span class="base"></span><span class="goal"></span>
         <i style="left:64%"></i><i style="left:79%"></i><i style="left:88%"></i><i style="left:97%"></i>
       </div>
-      <div class="lbl mono">CommandClock — 同時に到着する</div>
+      <div class="lbl">CommandClock — 同時に到着する</div>
       <div class="track">
         <span class="base"></span><span class="goal"></span>
         <i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i>
@@ -643,7 +502,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 <!-- ===== 悩み ===== -->
 <section id="pain">
   <div class="wrap">
-    <div class="eyebrow mono">THE PROBLEM</div>
+    <span class="eyebrow">THE PROBLEM</span>
     <h2>号令をかけても、到着はいつもバラバラ。</h2>
     <p class="sec-lead">50〜200人規模の同盟をまとめる立場なら、この悔しさを何度も味わっているはずです。</p>
     <div class="grid3">
@@ -664,9 +523,9 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 </section>
 
 <!-- ===== 違い ===== -->
-<section id="difference">
+<section id="difference" class="on-white">
   <div class="wrap">
-    <div class="eyebrow mono">THE DIFFERENCE</div>
+    <span class="eyebrow">THE DIFFERENCE</span>
     <h2>同時到着だけなら、他にもできます。</h2>
     <p class="sec-lead">
       違いは「一人ずつ違うタイミングを配れるか」です。ここができるツールは、他にありません。
@@ -686,7 +545,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
         </tbody>
       </table>
     </div>
-    <div class="note-gold">
+    <div class="note-line">
       <h3>なぜ他にないのか</h3>
       <p>
         端末時刻のズレをネットワーク時刻で補正し、移動時間から逆算し、号令と連動して個別配信する——
@@ -700,29 +559,29 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 <!-- ===== 実績 ===== -->
 <section id="proof">
   <div class="wrap">
-    <div class="eyebrow mono">THE PROOF</div>
+    <span class="eyebrow">THE PROOF</span>
     <h2>試作品ではありません。すでに動いています。</h2>
     <p class="sec-lead">実際の同盟対抗イベントで運用され、参加者は増え続けています。</p>
     <div class="stats">
       <div class="stat"><div class="n"><span data-count="219">0</span><small> 名</small></div><div class="k">直近イベントの利用者数</div></div>
       <div class="stat"><div class="n"><span data-count="5.8" data-prefix="+">+0.0</span><small> %</small></div><div class="k">前回イベントからの増加</div></div>
       <div class="stat"><div class="n"><span data-count="200">0</span><small> 名超</small></div><div class="k">毎回の実運用規模</div></div>
-      <div class="stat"><div class="n" style="font-size:1.45rem;">ブラウザ</div><div class="k">インストール不要で参加</div></div>
+      <div class="stat"><div class="n" style="font-size:1.35rem; font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900;">ブラウザ</div><div class="k">インストール不要で参加</div></div>
     </div>
   </div>
 </section>
 
 <!-- ===== 使い方 ===== -->
-<section id="how">
+<section id="how" class="on-white">
   <div class="wrap">
-    <div class="eyebrow mono">GETTING STARTED</div>
+    <span class="eyebrow">GETTING STARTED</span>
     <h2>申し込んだその場から使えます。</h2>
     <p class="sec-lead">インストール作業も、サーバーの用意もいりません。</p>
     <div class="steps">
-      <div class="step"><h3>申し込む</h3><p>決済が終わると、その場でルームIDと参加コードが発行されます。同じ内容がメールにも届きます。</p></div>
-      <div class="step"><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有するだけ。各メンバーは自分の行軍時間を一度入力すれば、以降は保存されます。</p></div>
-      <div class="step"><h3>号令を出す</h3><p>到着させたい時刻を入力して送信するだけ。全員の画面に即座に反映されます。</p></div>
-      <div class="step"><h3>各自の画面が動き出す</h3><p>一人ひとりに違うスタートタイミングが表示され、全員が同じ瞬間に到着します。</p></div>
+      <div class="step"><div class="k">01</div><h3>申し込む</h3><p>決済が終わると、その場でルームIDと参加コードが発行されます。同じ内容がメールにも届きます。</p></div>
+      <div class="step"><div class="k">02</div><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有するだけ。各メンバーは自分の行軍時間を一度入力すれば、以降は保存されます。</p></div>
+      <div class="step"><div class="k">03</div><h3>号令を出す</h3><p>到着させたい時刻を入力して送信するだけ。全員の画面に即座に反映されます。</p></div>
+      <div class="step"><div class="k">04</div><h3>各自の画面が動き出す</h3><p>一人ひとりに違うスタートタイミングが表示され、全員が同じ瞬間に到着します。</p></div>
     </div>
     <p style="margin-top:1.8rem;"><a href="/guide.html">画面ごとの使い方や、出てくる用語の説明はこちら →</a></p>
   </div>
@@ -731,10 +590,11 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 <!-- ===== 料金 ===== -->
 <section id="pricing">
   <div class="wrap">
-    <div class="eyebrow mono">PRICING</div>
+    <span class="eyebrow">PRICING</span>
     <h2>人数を増やしても、料金は増えません。</h2>
     <p class="sec-lead">使う規模で3段階。同盟用・サーバー用は、メンバーが何人になっても追加料金はかかりません。</p>
-    <!-- どのプランを選べばいいか。入れ子の図がそのまま料金の境目になっている。 -->
+
+    <!-- どのプランを選べばいいか。入れ子の図がそのまま料金の境目。 -->
     <div class="scope">
       <div class="scope-server">
         <span class="scope-tag">サーバー用 $20 — この枠ぜんぶ</span>
@@ -764,15 +624,17 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
         </div>
       </div>
       <p class="scope-note">
-        ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで登録できます。<br>
+        ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで、全部で36枠あります。<br>
         <b>乗り手は枠を使いません。</b>集結主の隊に乗るだけの方は、何人参加しても追加料金はかかりません。<br>
         個人用 $3 は、参謀ひとりが自分の端末だけで使う形です（同時に1台まで）。
       </p>
     </div>
+
     <div class="price-note">
       同盟用を200人でお使いいただくと <strong>1人あたり月8円</strong>です。
       解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
     </div>
+
     <div class="plans">
       <div class="plan">
         <h3>個人用</h3>
@@ -784,7 +646,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
           <li>メンバー側の準備はいらない</li>
           <li>同時に使えるのは1台まで</li>
         </ul>
-        <button class="btn btn-ghost" data-plan="personal">このプランで申し込む</button>
+        <button class="btn btn-line" data-plan="personal">このプランで申し込む</button>
         <div class="msg" data-status="personal"></div>
       </div>
       <div class="plan hot">
@@ -799,7 +661,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
           <li>ブラウザだけで使える（インストール不要）</li>
           <li><strong>差込指示</strong>（敵の連撃に合わせて割り込む）</li>
         </ul>
-        <button class="btn btn-primary" data-plan="alliance">このプランで申し込む</button>
+        <button class="btn btn-solid" data-plan="alliance">このプランで申し込む</button>
         <div class="msg" data-status="alliance"></div>
       </div>
       <div class="plan">
@@ -813,22 +675,22 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
           <li>複数同盟にまたがるペア号令</li>
           <li><strong>入替指示</strong>（勝った攻撃同盟と占領同盟を入れ替える）</li>
         </ul>
-        <button class="btn btn-ghost" data-plan="server">このプランで申し込む</button>
+        <button class="btn btn-line" data-plan="server">このプランで申し込む</button>
         <div class="msg" data-status="server"></div>
       </div>
     </div>
     <p class="fine">
-      ご請求は<strong style="color:var(--muted);">米ドル建て</strong>です。円の表示は目安で、実際の換算レートはご利用のカード会社によります。<br>
-      お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--muted);">実際にご請求が発生します</strong>。
+      ご請求は<strong style="color:var(--ink-2);">米ドル建て</strong>です。円の表示は目安で、実際の換算レートはご利用のカード会社によります。<br>
+      お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--ink-2);">実際にご請求が発生します</strong>。
       お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
     </p>
   </div>
 </section>
 
 <!-- ===== FAQ ===== -->
-<section id="faq">
+<section id="faq" class="on-white">
   <div class="wrap">
-    <div class="eyebrow mono">FAQ</div>
+    <span class="eyebrow">FAQ</span>
     <h2>申し込む前に、気になるところ。</h2>
     <div class="faq">
       <details><summary>解約はいつでもできますか？</summary><p>できます。ご連絡いただければ次回以降の請求は発生しません。契約期間の縛りはありません。</p></details>
@@ -845,16 +707,16 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
 <footer>
   <div class="wrap">
     <a href="/guide.html">使い方ガイド</a>
-    <span class="sep">·</span>
+    <span class="sep">/</span>
     <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
-    <span class="sep">·</span>
+    <span class="sep">/</span>
     <a href="/feedback.html">ご意見・不具合の報告</a>
     <div class="cr">&copy; 2026 CommandClock</div>
   </div>
 </footer>
 
 <script>
-  // ヒーローの実況表示（見本）。行軍45秒の人が、着弾の45秒前に出発する様子。
+  // 作戦盤の下の実況表示（見本）。行軍45秒の人が、着弾の45秒前に出発する様子。
   const TRAVEL = 45, CYCLE = 180;
   const fmt = (s) => {
     s = Math.max(0, Math.round(s));
@@ -866,44 +728,33 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
     const t = CYCLE - (Math.floor(Date.now() / 1000) % CYCLE);
     allEl.textContent = fmt(t);
     const mine = t - TRAVEL;
-    mineEl.textContent = mine > 0 ? fmt(mine) : '出発！';
+    mineEl.textContent = mine > 0 ? fmt(mine) : '出発';
   };
   tick();
   setInterval(tick, 250);
 
-  // 現れ方は控えめに。速くスクロールされても、白い画面を見せないことを最優先にする。
-  // ① 画面に入るだいぶ手前から出しはじめる
-  // ② 何かの理由で監視が働かなくても、2.5秒後には全部表示する
-  const revealTargets = document.querySelectorAll(
-    'section .eyebrow, section h2, section .sec-lead, .card, .stat, .step, .sync, .tbl-wrap, .note-gold, details, .plan, .price-note, .fig-figure'
-  );
-  const revealAll = () => revealTargets.forEach((el) => el.classList.add('in'));
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver((es) => {
-      es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { rootMargin: '0px 0px 35% 0px' });
-    revealTargets.forEach((el) => { el.classList.add('rise'); io.observe(el); });
-    setTimeout(revealAll, 2500);
-  } else {
-    revealAll();
-  }
-
   // 実績の数字をカウントアップ
-  const numIO = new IntersectionObserver((es) => {
-    es.forEach((e) => {
-      if (!e.isIntersecting) return;
-      const el = e.target, target = parseFloat(el.dataset.count), dec = (el.dataset.count.split('.')[1] || '').length;
-      const t0 = performance.now(), dur = 1100;
-      const step = (t) => {
-        const p = Math.min((t - t0) / dur, 1);
-        el.textContent = (el.dataset.prefix || '') + (target * (1 - Math.pow(1 - p, 3))).toFixed(dec);
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-      numIO.unobserve(el);
+  if ('IntersectionObserver' in window) {
+    const numIO = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const el = e.target, target = parseFloat(el.dataset.count), dec = (el.dataset.count.split('.')[1] || '').length;
+        const t0 = performance.now(), dur = 1000;
+        const step = (t) => {
+          const p = Math.min((t - t0) / dur, 1);
+          el.textContent = (el.dataset.prefix || '') + (target * (1 - Math.pow(1 - p, 3))).toFixed(dec);
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+        numIO.unobserve(el);
+      });
+    }, { rootMargin: '0px 0px -15% 0px' });
+    document.querySelectorAll('[data-count]').forEach((el) => numIO.observe(el));
+  } else {
+    document.querySelectorAll('[data-count]').forEach((el) => {
+      el.textContent = (el.dataset.prefix || '') + el.dataset.count;
     });
-  }, { rootMargin: '0px 0px -20% 0px' });
-  document.querySelectorAll('[data-count]').forEach((el) => numIO.observe(el));
+  }
 
   // 円のめやす。請求はドル建てなので、あくまで参考値。
   // レートを変えるときはこの1行だけ直せばよい。
@@ -912,7 +763,7 @@ footer .cr { color: var(--dim); font-size: 0.78rem; margin-top: 1rem; }
     const usd = Number(el.dataset.usd || 0);
     if (!usd) return;
     const jpy = Math.round((usd * USD_JPY) / 10) * 10;
-    el.textContent = `（約 ¥${jpy.toLocaleString('ja-JP')} / 月・1ドル${USD_JPY}円換算）`;
+    el.textContent = `約 ¥${jpy.toLocaleString('ja-JP')} / 月（1ドル${USD_JPY}円換算）`;
   });
 
   // 決済
