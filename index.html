@@ -113,13 +113,15 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 1.4rem; max-width: 44ch; }
 .lead b { color: var(--ink); font-weight: 700; }
 .points { list-style: none; padding: 0; margin: 0 0 1.9rem; display: grid; gap: 0.55rem; }
+/* 印は絶対配置にする。grid だと <b> と地の文が別々のマス目に入り、
+   行が割れてしまう（実際に割れた）。 */
 .points li {
-  display: grid; grid-template-columns: auto 1fr; gap: 0.7rem;
+  position: relative; padding-left: 1.75rem;
   font-size: 0.91rem; line-height: 1.7; color: var(--ink-2);
 }
 .points li::before {
-  content: ""; width: 10px; height: 10px; margin-top: 0.56em;
-  border: 1.5px solid var(--ink); background: var(--amber);
+  content: ""; position: absolute; left: 0; top: 0.56em;
+  width: 10px; height: 10px; border: 1.5px solid var(--ink); background: var(--amber);
 }
 .points b { color: var(--ink); font-weight: 700; }
 .points .note { color: var(--ink-3); font-size: 0.86rem; }
@@ -292,8 +294,8 @@ tr.ours td { background: #fdf6ea; font-weight: 700; }
 .plan .amt span { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
 .plan .jpy { font-family: "IBM Plex Mono", monospace; font-size: 0.74rem; color: var(--ink-3); min-height: 1.2em; margin-bottom: 1.2rem; }
 .plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: grid; gap: 0.5rem; align-content: start; }
-.plan li { display: grid; grid-template-columns: auto 1fr; gap: 0.6rem; font-size: 0.89rem; color: var(--ink-2); }
-.plan li::before { content: "✓"; color: var(--signal); font-weight: 700; }
+.plan li { position: relative; padding-left: 1.4rem; font-size: 0.89rem; color: var(--ink-2); }
+.plan li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--signal); font-weight: 700; }
 .plan .btn { margin-top: 1.6rem; width: 100%; }
 .plan .msg { min-height: 1.4em; margin-top: 0.55rem; font-size: 0.82rem; color: var(--ink-3); }
 .fine { color: var(--ink-3); font-size: 0.79rem; margin-top: 1.6rem; line-height: 1.9; max-width: 70ch; }

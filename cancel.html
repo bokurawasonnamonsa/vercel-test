@@ -51,8 +51,8 @@ strong { color: var(--ink); }
 .box p:last-child { margin-bottom: 0; }
 
 ul.plain { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .5rem; }
-ul.plain li { display: grid; grid-template-columns: auto 1fr; gap: .65rem; color: var(--ink-2); font-size: .93rem; }
-ul.plain li::before { content: ""; width: 9px; height: 9px; margin-top: .58em; border: 1.5px solid var(--ink); background: var(--amber); }
+ul.plain li { position: relative; padding-left: 1.55rem; color: var(--ink-2); font-size: .93rem; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: .58em; width: 9px; height: 9px; border: 1.5px solid var(--ink); background: var(--amber); }
 
 .tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
