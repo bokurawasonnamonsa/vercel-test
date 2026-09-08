@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
 <style>
 /* 方向D「白の計器」。トップページと同じ決まりを、下層にも通す。 */
 :root {
@@ -22,7 +22,7 @@ body {
   font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
   -webkit-text-size-adjust: 100%;
 }
-.mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
 .num { font-variant-numeric: tabular-nums; }
 a { color: var(--amber-ink); }
 :focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
@@ -35,7 +35,7 @@ a { color: var(--amber-ink); }
 .brand .name { font-size: .95rem; letter-spacing: .04em; font-weight: 700; }
 .nav-cta { background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700; padding: .5rem 1.15rem; font-size: .86rem; border-radius: 2px; white-space: nowrap; }
 
-.eyebrow { font-family: "IBM Plex Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
 h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
 h2 { font-size: 1.22rem; font-weight: 900; letter-spacing: -.02em; margin: 3rem 0 .6rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink); }
 h3 { font-size: 1rem; margin: 1.8rem 0 .4rem; }
@@ -58,7 +58,7 @@ ul.plain li::before { content: ""; position: absolute; left: 0; top: .58em; widt
 .tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
 th, td { text-align: left; padding: .75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
-th { font-family: "IBM Plex Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+th { font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
 tr:last-child td { border-bottom: none; }
 td.yes { color: var(--signal); font-weight: 700; }
 td.no { color: var(--ink-3); }
@@ -66,12 +66,12 @@ td.no { color: var(--ink-3); }
 pre.sample {
   background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.1rem;
   overflow-x: auto; font-size: .84rem; line-height: 1.85; color: var(--ink-2); margin: .8rem 0 1rem;
-  font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
 }
 details { border-bottom: 1px solid var(--rule); padding: .95rem 0; }
 summary { cursor: pointer; font-size: .95rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
 summary::-webkit-details-marker { display: none; }
-summary::after { content: "+"; font-family: "IBM Plex Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+summary::after { content: "+"; font-family: "Chivo Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
 details[open] summary::after { content: "−"; }
 details p { margin: .6rem 0 0; font-size: .89rem; }
 
@@ -98,17 +98,17 @@ button.act:disabled { opacity: .4; cursor: default; }
 .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); margin-bottom: 1.8rem; }
 @media (min-width: 760px) { .cards { grid-template-columns: repeat(4, 1fr); } }
 .card { background: var(--surface); padding: 1.1rem 1.2rem; margin: 0; border: none; }
-.card .k { font-family: "IBM Plex Mono", monospace; font-size: .64rem; letter-spacing: .14em; color: var(--ink-3); }
-.card .v { font-family: "IBM Plex Mono", monospace; font-size: 1.55rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.03em; margin-top: .15rem; }
+.card .k { font-family: "Chivo Mono", monospace; font-size: .64rem; letter-spacing: .14em; color: var(--ink-3); }
+.card .v { font-family: "Chivo Mono", monospace; font-size: 1.55rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -.03em; margin-top: .15rem; }
 .card .v.money { color: var(--signal); }
 .card .v.ok { color: var(--ink); }
 h2.sec { font-size: 1.02rem; margin: 2.4rem 0 .3rem; padding-top: 1.3rem; border-top: 1.5px solid var(--ink); }
 .sechint { color: var(--ink-2); font-size: .86rem; margin: 0 0 .9rem; line-height: 1.8; }
 .sechint strong { color: var(--signal); }
-td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; color: var(--signal); font-weight: 600; }
+td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-nums; color: var(--signal); font-weight: 600; }
 .tbl-wrap table { min-width: 780px; font-size: .84rem; }
 .tbl-wrap th, .tbl-wrap td { white-space: nowrap; padding: .7rem .9rem; }
-.tag { display: inline-block; padding: .08rem .5rem; font-family: "IBM Plex Mono", monospace; font-size: .66rem; border: 1px solid var(--rule); }
+.tag { display: inline-block; padding: .08rem .5rem; font-family: "Chivo Mono", monospace; font-size: .66rem; border: 1px solid var(--rule); }
 .tag.live, .tag.paid { color: var(--signal); border-color: var(--signal); }
 .tag.test, .tag.unpaid { color: var(--ink-3); }
 .tag.done { color: var(--ink-3); }
