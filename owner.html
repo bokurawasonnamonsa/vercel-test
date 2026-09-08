@@ -177,6 +177,15 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
       <strong>「未引き渡し」が出ていたら、そのお客様はお金を払ったのにルームを受け取れていません。</strong>
       「引き渡す」を押すと、その場で発行してメールをお送りします（二重に押しても増えません）。
     </p>
+    <p class="sechint" style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
+      <label for="planOverride">商品欄が「—」の決済を引き渡すときのプラン:</label>
+      <select id="planOverride" style="font-family:inherit;font-size:.85rem;padding:.4rem .6rem;border:1.5px solid var(--rule);border-radius:2px;background:var(--surface);color:var(--ink);min-height:40px;">
+        <option value="">決済の記録に従う（既定・記録が無ければ同盟用）</option>
+        <option value="personal">個人用にする</option>
+        <option value="alliance">同盟用にする</option>
+        <option value="server">サーバー用にする</option>
+      </select>
+    </p>
     <div class="tbl-wrap">
       <table>
         <thead>
@@ -387,7 +396,7 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
       const res = await fetch('/api/owner-fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId }),
+        body: JSON.stringify({ sessionId, plan: ($('planOverride') && $('planOverride').value) || '' }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '発行に失敗しました');
@@ -395,7 +404,7 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
       const to = (data.email && data.email.to) || '';
       const sent = data.email && data.email.sent;
       $('payMsg').textContent =
-        `発行しました（ルームID ${data.roomId} / 参加コード ${data.code}）` +
+        `発行しました（${data.plan === 'server' ? 'サーバー用' : data.plan === 'personal' ? '個人用' : '同盟用'} / ルームID ${data.roomId} / 参加コード ${data.code}）` +
         (sent ? ` — ${to} 宛にご案内をお送りしました。` : ' — メールは送信できていません。この内容を直接お伝えください。');
       await loadRooms();
       await loadPayments();

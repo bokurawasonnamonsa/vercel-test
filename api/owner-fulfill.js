@@ -80,7 +80,7 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const out = await fulfillSession(sessionId);
+  const out = await fulfillSession(sessionId, { planOverride: String((req.body || {}).plan || '').trim() });
   if (out.status !== 200) {
     res.status(out.status).json({ error: out.error, detail: out.detail });
     return;

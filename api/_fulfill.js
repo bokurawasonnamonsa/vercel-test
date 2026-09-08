@@ -37,7 +37,12 @@ async function lookupSession(sessionId) {
 }
 
 // 引き渡し。戻り値の status で呼び出し側が応答を決める。
-async function fulfillSession(sessionId) {
+//
+// planOverride は、運営が手で引き渡すときだけ使う逃げ道。
+// 3段階プランを作る前のお申し込みには決済側にプラン情報が無く、
+// そのままでは既定の同盟用になってしまう。何を渡すかは人が決めたい。
+// 決済にプラン情報があるときは、そちらを常に優先する（勝手に上書きしない）。
+async function fulfillSession(sessionId, opts) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return { status: 500, error: '決済が設定されていません' };
   }
@@ -64,7 +69,11 @@ async function fulfillSession(sessionId) {
     name: (purchase.email || 'Alliance').split('@')[0].slice(0, 24),
     note: `stripe:${purchase.sessionId}`,
     idempotencyKey: purchase.sessionId,
-    plan: PLANS[purchase.plan] ? purchase.plan : 'alliance',
+    plan: PLANS[purchase.plan]
+      ? purchase.plan
+      : PLANS[(opts || {}).planOverride]
+        ? opts.planOverride
+        : 'alliance',
     purchase: {
       email: purchase.email,
       amount: purchase.amount,
