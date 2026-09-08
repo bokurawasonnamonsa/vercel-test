@@ -1,5 +1,25 @@
 const FROM_FALLBACK = 'onboarding@resend.dev';
 
+// 差出人アドレスを決める。
+//
+// resend.dev の共有アドレスからは、自分のアカウント宛にしか配送されない。
+// お客様宛の案内がそこから出ると、送信は成功しているのに相手には届かない。
+// 実際に 8/12 のお申し込みがこれで届かなかった。
+// 認証済みの独自ドメイン（RESEND_EMAIL_DOMAIN）があるなら必ずそちらを使う。
+function senderAddress() {
+  const explicit = String(process.env.MAIL_FROM || '').trim();
+  if (explicit) return explicit;
+
+  const domain = String(process.env.RESEND_EMAIL_DOMAIN || '')
+    .trim()
+    .replace(/^https?:\/\//, '')
+    .replace(/^mail@/, '')
+    .replace(/\/+$/, '');
+  if (domain && domain.includes('.')) return `CommandClock <noreply@${domain}>`;
+
+  return `CommandClock <${FROM_FALLBACK}>`;
+}
+
 // プランごとに、届いた直後に迷わないための一言。
 function planNoteHtml(plan, appUrl) {
   const b = (t) => `<strong style="color:#e8eef7;">${t}</strong>`;
@@ -88,6 +108,8 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
   if (!to) return { sent: false, reason: 'no recipient address' };
 
+  const from = senderAddress();
+
   try {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -96,7 +118,7 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: process.env.MAIL_FROM || `CommandClock <${FROM_FALLBACK}>`,
+        from,
         to: [to],
         subject: `【CommandClock】ご利用開始のご案内（参加コード ${code}）`,
         html: buildWelcomeHtml({ roomId, code, appUrl, plan }),
@@ -105,14 +127,14 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
 
     if (!response.ok) {
       const detail = await response.text();
-      return { sent: false, reason: `resend ${response.status}: ${detail.slice(0, 200)}` };
+      return { sent: false, from, reason: `resend ${response.status}: ${detail.slice(0, 200)}` };
     }
 
     const data = await response.json();
-    return { sent: true, id: data.id };
+    return { sent: true, from, id: data.id };
   } catch (err) {
-    return { sent: false, reason: err.message };
+    return { sent: false, from, reason: err.message };
   }
 }
 
-module.exports = { sendWelcomeMail };
+module.exports = { sendWelcomeMail, senderAddress };

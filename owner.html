@@ -191,6 +191,17 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
     </div>
     <div id="payMsg" class="msg"></div>
 
+    <h2 class="sec">メールの点検</h2>
+    <p class="foot" style="margin-top:0;">
+      案内メールを自分宛に1通送り、実際に使われた差出人アドレスを表示します。
+      差出人が <span class="mono">resend.dev</span> のままだと、自分には届いてもお客様には届きません。
+      引き渡す前にここで確かめてください。
+    </p>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button id="mailTestBtn">自分宛にテスト送信</button>
+      <span id="mailTestFrom" class="mono"></span>
+    </div>
+    <div id="mailTestMsg" class="msg"></div>
 
     <p class="foot">
       お金の記録の正本は <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener">Stripe</a> です。
@@ -344,6 +355,31 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
     }
   }
 
+  async function runMailTest() {
+    const btn = $('mailTestBtn');
+    btn.disabled = true;
+    btn.textContent = '送信中…';
+    $('mailTestFrom').textContent = '';
+    try {
+      const res = await fetch('/api/owner-mailtest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '送信できませんでした');
+      $('mailTestFrom').textContent = '差出人: ' + data.from;
+      $('mailTestMsg').className = data.sent && !data.usingSharedSender ? 'msg' : 'msg err';
+      $('mailTestMsg').textContent = data.verdict + (data.reason ? '（' + data.reason + '）' : '');
+    } catch (err) {
+      $('mailTestMsg').className = 'msg err';
+      $('mailTestMsg').textContent = 'エラー: ' + err.message;
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '自分宛にテスト送信';
+    }
+  }
+
   async function fulfillOne(sessionId, btn) {
     btn.disabled = true;
     btn.textContent = '発行中…';
@@ -421,6 +457,7 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
     location.reload();
   });
   $('reloadBtn').addEventListener('click', () => { loadRooms(); loadPayments(); });
+  $('mailTestBtn').addEventListener('click', runMailTest);
 
   (async () => {
     try {
