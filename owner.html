@@ -361,10 +361,10 @@ td.money { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabula
     btn.textContent = '送信中…';
     $('mailTestFrom').textContent = '';
     try {
-      const res = await fetch('/api/owner-mailtest', {
+      const res = await fetch('/api/owner-fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ mailTest: true }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '送信できませんでした');
