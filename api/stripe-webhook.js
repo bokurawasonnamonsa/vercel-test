@@ -11,11 +11,6 @@ const { fulfillSession, revokeBySubscription } = require('./_fulfill');
 
 const WEBHOOK_SECRET = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
 
-// Vercel は既定で本文をJSONに解析し、req.body に入れてしまう。
-// そうすると署名検証に必要な「送られてきたままのバイト列」が手に入らず、
-// シークレットを設定しても検証が素通りする（実際にそうなっていた）。
-// この口だけ解析を切り、本文は自分でストリームから読む。
-module.exports.config = { api: { bodyParser: false } };
 
 // 署名検証には生のリクエストボディが必要なので、自分で読む。
 async function readRawBody(req) {
@@ -94,3 +89,12 @@ module.exports = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Vercel は既定で本文をJSONに解析し、req.body に入れてしまう。
+// そうすると署名検証に必要な「送られてきたままのバイト列」が手に入らず、
+// シークレットを設定しても検証が素通りする（実際にそうなっていた）。
+// この口だけ解析を切り、本文は自分でストリームから読む。
+//
+// この行は module.exports への代入より後に置くこと。
+// 先に書くと、後の代入でまるごと上書きされて消える（一度やった）。
+module.exports.config = { api: { bodyParser: false } };
