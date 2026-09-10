@@ -358,7 +358,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
           <li><b>準備は行軍時間の入力だけ。</b><span class="note">各プレーヤーが自分の行軍時間を一度入れる作業は必要です。それ以外の設定はありません。</span></li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-solid" href="#pricing">申し込む（月 $3〜）</a>
+          <a class="btn btn-solid" href="#pricing">申し込む（月 ¥500〜）</a>
           <a class="btn btn-line" href="#benefit">まず仕組みを見る</a>
         </div>
         <p class="social">開発元のサーバーで、最大 <b class="num">219</b> 名の対戦に実戦投入</p>
@@ -601,10 +601,10 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
     <!-- どのプランを選べばいいか。入れ子の図がそのまま料金の境目。 -->
     <div class="scope">
       <div class="scope-server">
-        <span class="scope-tag">サーバー用 $20 — この枠ぜんぶ</span>
+        <span class="scope-tag">サーバー用 ¥3,000 — この枠ぜんぶ</span>
         <div class="scope-alliances">
           <div class="scope-alliance is-lit">
-            <span class="scope-tag alt">同盟用 $10 — この枠ひとつ</span>
+            <span class="scope-tag alt">同盟用 ¥1,500 — この枠ひとつ</span>
             <div class="scope-title">同盟①</div>
             <div class="squads">
               <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
@@ -630,7 +630,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
       <p class="scope-note">
         ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで、全部で36枠あります。<br>
         <b>乗り手は枠を使いません。</b>集結主の隊に乗るだけの方は、何人参加しても追加料金はかかりません。<br>
-        個人用 $3 は、参謀ひとりが自分の端末だけで使う形です（同時に1台まで）。
+        個人用 ¥500 は、参謀ひとりが自分の端末だけで使う形です（同時に1台まで）。
       </p>
     </div>
 
@@ -642,8 +642,8 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
     <div class="plans">
       <div class="plan">
         <h3>個人用</h3>
-        <div class="amt">$3 <span>/ 月</span></div>
-        <div class="jpy" data-usd="3"></div>
+        <div class="amt">¥500 <span>/ 月</span></div>
+
         <ul>
           <li>参謀が自分の端末だけで使う</li>
           <li>計算した出発時刻を<strong>コピーしてチャットに貼る</strong></li>
@@ -656,8 +656,8 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
       <div class="plan hot">
         <span class="tag">おすすめ</span>
         <h3>同盟用</h3>
-        <div class="amt">$10 <span>/ 月</span></div>
-        <div class="jpy" data-usd="10"></div>
+        <div class="amt">¥1,500 <span>/ 月</span></div>
+
         <ul>
           <li>メンバーが各自の端末で使う</li>
           <li>一人ずつ違うスタートタイミングが自動で出る</li>
@@ -670,8 +670,8 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
       </div>
       <div class="plan">
         <h3>サーバー用</h3>
-        <div class="amt">$20 <span>/ 月</span></div>
-        <div class="jpy" data-usd="20"></div>
+        <div class="amt">¥3,000 <span>/ 月</span></div>
+
         <ul>
           <li>同盟用にできることすべて</li>
           <li><strong>3同盟まで</strong>まとめて管理（最大6班・集結主36人）</li>
@@ -684,7 +684,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
       </div>
     </div>
     <p class="fine">
-      ご請求は<strong style="color:var(--ink-2);">米ドル建て</strong>です。円の表示は目安で、実際の換算レートはご利用のカード会社によります。<br>
+      表示価格はすべて<strong style="color:var(--ink-2);">税込</strong>です。追加料金はありません。<br>
       お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--ink-2);">実際にご請求が発生します</strong>。
       お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
     </p>
@@ -759,16 +759,6 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
       el.textContent = (el.dataset.prefix || '') + el.dataset.count;
     });
   }
-
-  // 円のめやす。請求はドル建てなので、あくまで参考値。
-  // レートを変えるときはこの1行だけ直せばよい。
-  const USD_JPY = 156;
-  document.querySelectorAll('.plan .jpy').forEach((el) => {
-    const usd = Number(el.dataset.usd || 0);
-    if (!usd) return;
-    const jpy = Math.round((usd * USD_JPY) / 10) * 10;
-    el.textContent = `約 ¥${jpy.toLocaleString('ja-JP')} / 月（1ドル${USD_JPY}円換算）`;
-  });
 
   // 決済
   document.querySelectorAll('button[data-plan]').forEach((btn) => {

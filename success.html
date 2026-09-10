@@ -174,8 +174,8 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
-        const PLAN_LABELS = { personal: '個人用（$3/月）', alliance: '同盟用（$10/月）', server: 'サーバー用（$20/月）' };
-        document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟用（$10/月）';
+        const PLAN_LABELS = { personal: '個人用（¥500/月）', alliance: '同盟用（¥1,500/月）', server: 'サーバー用（¥3,000/月）' };
+        document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟用（¥1,500/月）';
         document.getElementById('appUrl').textContent = data.appUrl;
         document.getElementById('roomId').textContent = data.roomId;
         document.getElementById('joinCode').textContent = data.code;
