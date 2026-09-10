@@ -11,6 +11,12 @@ const { fulfillSession, revokeBySubscription } = require('./_fulfill');
 
 const WEBHOOK_SECRET = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
 
+// Vercel は既定で本文をJSONに解析し、req.body に入れてしまう。
+// そうすると署名検証に必要な「送られてきたままのバイト列」が手に入らず、
+// シークレットを設定しても検証が素通りする（実際にそうなっていた）。
+// この口だけ解析を切り、本文は自分でストリームから読む。
+module.exports.config = { api: { bodyParser: false } };
+
 // 署名検証には生のリクエストボディが必要なので、自分で読む。
 async function readRawBody(req) {
   if (typeof req.body === 'string') return req.body;
@@ -30,8 +36,16 @@ module.exports = async (req, res) => {
   let event = null;
   try {
     const raw = await readRawBody(req);
-    if (WEBHOOK_SECRET && raw) {
+    if (WEBHOOK_SECRET) {
       // シークレットが設定されている場合は署名も検証する。
+      //
+      // 生の本文が取れないときは、検証できないまま受け入れてはいけない。
+      // 「検証しているつもり」で素通りするのが、いちばん危ない状態なので、
+      // ここは黙って通さずに断る。
+      if (!raw) {
+        res.status(400).json({ error: 'raw body unavailable; signature cannot be verified' });
+        return;
+      }
       const Stripe = require('stripe');
       const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
       const sig = req.headers['stripe-signature'];
