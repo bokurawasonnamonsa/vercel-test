@@ -75,13 +75,19 @@ module.exports = async (req, res) => {
       plan: (s.metadata && s.metadata.plan) || null,
       email: (s.customer_details && s.customer_details.email) || s.customer_email || null,
       delivered: issuedFor.has(s.id),
-      // 払い終わっているのにルームが無いものが、対応の必要なもの。
-      needsFulfill: s.payment_status === 'paid' && !issuedFor.has(s.id),
+      // 無料試用の申し込みは1円も課金されないので payment_status が
+      // 'no_payment_required' になる。これも「成立したお申し込み」なので、
+      // ルームが渡っていなければ対応が必要。ここを 'paid' だけで見ていると、
+      // 無料で申し込んだ人の引き渡しが失敗しても画面に出てこない。
+      needsFulfill:
+        (s.payment_status === 'paid' || s.payment_status === 'no_payment_required') &&
+        !issuedFor.has(s.id),
     }));
 
     res.status(200).json({
       count: items.length,
       paid: items.filter((i) => i.payment_status === 'paid').length,
+      trialing: items.filter((i) => i.payment_status === 'no_payment_required').length,
       pending: items.filter((i) => i.needsFulfill).length,
       roomsError,
       items,
