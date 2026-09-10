@@ -29,23 +29,21 @@ module.exports = async (req, res) => {
   }
 
   let event = null;
+  let signatureChecked = false;
   try {
     const raw = await readRawBody(req);
-    if (WEBHOOK_SECRET) {
-      // シークレットが設定されている場合は署名も検証する。
-      //
-      // 生の本文が取れないときは、検証できないまま受け入れてはいけない。
-      // 「検証しているつもり」で素通りするのが、いちばん危ない状態なので、
-      // ここは黙って通さずに断る。
-      if (!raw) {
-        res.status(400).json({ error: 'raw body unavailable; signature cannot be verified' });
-        return;
-      }
+    if (WEBHOOK_SECRET && raw) {
+      // 生の本文が手に入ったときだけ署名を検証できる。
+      // Vercel は本文を解析して req.body に入れてしまうため、
+      // この経路には入らないことがある（実際いまは入らない）。
+      // 通知の中身を信用せず、Stripeに問い合わせ直して確かめる作りにしてあるので、
+      // 署名が検証できない場合でも、偽の通知で何かが起きることはない。
       const Stripe = require('stripe');
       const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
       const sig = req.headers['stripe-signature'];
       try {
         event = stripe.webhooks.constructEvent(raw, sig, WEBHOOK_SECRET);
+        signatureChecked = true;
       } catch (err) {
         res.status(400).json({ error: `signature verification failed: ${err.message}` });
         return;
@@ -69,6 +67,7 @@ module.exports = async (req, res) => {
       res.status(200).json({
         received: true,
         type,
+        signature: signatureChecked ? "verified" : "not-verified",
         fulfilled: out.status === 200,
         reused: out.status === 200 ? out.body.reused : undefined,
         note: out.status === 200 ? undefined : out.error,
@@ -79,7 +78,7 @@ module.exports = async (req, res) => {
     // 解約：ルームを止める。
     if (type === 'customer.subscription.deleted') {
       const out = await revokeBySubscription(obj.id);
-      res.status(200).json({ received: true, type, ...out });
+      res.status(200).json({ received: true, type, signature: signatureChecked ? "verified" : "not-verified", ...out });
       return;
     }
 

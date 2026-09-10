@@ -124,9 +124,26 @@ async function fulfillSession(sessionId, opts) {
 }
 
 // 解約されたサブスクに紐づくルームを止める。
+//
+// 通知の中身は信用しない。Stripeに問い合わせ直して、本当に解約済みかを確かめる。
+// 引き渡し側（fulfillSession）が支払い済みかを確認しているのと同じ考え方で、
+// こちらは「止める」ほうの入口。ここを通知任せにすると、
+// サブスクIDを送りつけるだけで他人のルームを止められてしまう。
 async function revokeBySubscription(subscriptionId) {
   if (!subscriptionId || !isConfigured()) {
     return { ok: false, error: 'not configured or missing subscription id' };
+  }
+  if (!process.env.STRIPE_SECRET_KEY) {
+    return { ok: false, error: '決済が設定されていません' };
+  }
+  try {
+    const sub = await stripeClient().subscriptions.retrieve(subscriptionId);
+    if (sub.status !== 'canceled') {
+      return { ok: true, revoked: false, reason: `subscription is ${sub.status}, not canceled` };
+    }
+  } catch (err) {
+    // 実在しないIDはここで弾かれる。偽の通知はこの時点で止まる。
+    return { ok: false, error: 'subscription not found' };
   }
   try {
     const res = await fetch(`${APP_URL}/api/rooms/list`, {
