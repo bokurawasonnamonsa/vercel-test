@@ -33,6 +33,9 @@ const PLANS = {
   },
 };
 
+// 無料でお試しいただける日数。ここが正本で、LP・特商法・案内メールもこの数字を指す。
+const TRIAL_DAYS = 14;
+
 const CURRENCY = 'jpy';
 
-module.exports = { PLANS, CURRENCY };
+module.exports = { PLANS, CURRENCY, TRIAL_DAYS };

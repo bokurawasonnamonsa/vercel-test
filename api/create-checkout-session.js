@@ -1,5 +1,5 @@
 const Stripe = require('stripe');
-const { PLANS, CURRENCY } = require('./_plans');
+const { PLANS, CURRENCY, TRIAL_DAYS } = require('./_plans');
 
 // 月額のサブスクリプション。解約されるまで毎月自動更新される。
 // 特商法ページに「毎月同日に自動更新」と書いてあるので、実態を合わせている。
@@ -45,6 +45,15 @@ module.exports = async (req, res) => {
       // 引き渡し（_fulfill）はこの値を読んでルームの機能制限を決める。
       subscription_data: {
         metadata: { plan: selected.id },
+        // 14日間の無料試用。
+        //
+        // この道具はイベント中にしか価値が見えない。買った翌日にイベントが
+        // 無ければ、動かない画面を見て終わる。14日あればイベントを
+        // 1〜2回はまたげるので、価値を見てもらってから課金が始まる。
+        //
+        // 試用中は payment_status が 'no_payment_required' になるため、
+        // 引き渡し側（_fulfill）はそれも受け付けるようにしてある。
+        trial_period_days: TRIAL_DAYS,
       },
       metadata: { plan: selected.id },
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,

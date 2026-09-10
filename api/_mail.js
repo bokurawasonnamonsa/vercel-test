@@ -33,7 +33,27 @@ function planNoteHtml(plan, appUrl) {
   return `${b('同盟用プラン')}です。参加人数の制限はありません。同盟のメンバー全員が、各自の端末で同じルームに参加できます。`;
 }
 
-function buildWelcomeHtml({ roomId, code, appUrl, plan }) {
+// 無料期間の案内。いつから課金が始まるかを本人に伝えないと、
+// あとで「知らないうちに引き落とされた」という話になる。
+function trialNoteHtml(trialEnd) {
+  if (!trialEnd) return '';
+  const d = new Date(trialEnd * 1000);
+  const when = new Intl.DateTimeFormat('ja-JP', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: 'long', day: 'numeric',
+  }).format(d);
+  return `
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.28);border-radius:12px;padding:14px 16px;">
+            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+              <strong style="color:#4ade80;">${when}まで無料でお使いいただけます。</strong><br>
+              初回のご請求はその翌日からです。それまでに解約された場合、料金は一切発生しません。<br>
+              解約は下記のお問い合わせ先へご連絡ください。
+            </p>
+          </div>
+        </td></tr>`;
+}
+
+function buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd }) {
   return `<!doctype html>
 <html lang="ja">
 <body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
@@ -53,6 +73,7 @@ function buildWelcomeHtml({ roomId, code, appUrl, plan }) {
             <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">${planNoteHtml(plan, appUrl)}</p>
           </div>
         </td></tr>
+${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:20px 32px 4px;">
           <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 18px;">
@@ -103,7 +124,7 @@ function buildWelcomeHtml({ roomId, code, appUrl, plan }) {
 </html>`;
 }
 
-async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
+async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
   if (!to) return { sent: false, reason: 'no recipient address' };
@@ -121,7 +142,7 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan }) {
         from,
         to: [to],
         subject: `【CommandClock】ご利用開始のご案内（参加コード ${code}）`,
-        html: buildWelcomeHtml({ roomId, code, appUrl, plan }),
+        html: buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd }),
       }),
     });
 

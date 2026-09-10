@@ -15,11 +15,16 @@ function stripeClient() {
 
 // 決済セッションから「誰が・何を・いくら払ったか」を取り出す。
 async function lookupSession(sessionId) {
+  // サブスクも一緒に取り出す。試用期間つきの申し込みかどうかは、
+  // セッションだけを見ても分からないため。
   const session = await stripeClient().checkout.sessions.retrieve(sessionId, {
-    expand: ['line_items'],
+    expand: ['line_items', 'subscription'],
   });
   const item = session.line_items && session.line_items.data && session.line_items.data[0];
+  const sub = session.subscription && typeof session.subscription === 'object' ? session.subscription : null;
   return {
+    subscriptionStatus: sub ? sub.status : null,
+    trialEnd: sub && sub.trial_end ? sub.trial_end : null,
     sessionId: session.id,
     email:
       (session.customer_details && session.customer_details.email) ||
@@ -31,7 +36,7 @@ async function lookupSession(sessionId) {
     paymentStatus: session.payment_status,
     livemode: session.livemode,
     mode: session.mode,
-    subscription_id: typeof session.subscription === 'string' ? session.subscription : null,
+    subscription_id: typeof session.subscription === 'string' ? session.subscription : (sub ? sub.id : null),
     plan: (session.metadata && session.metadata.plan) || null,
   };
 }
@@ -61,7 +66,15 @@ async function fulfillSession(sessionId, opts) {
     return { status: 400, error: 'お申し込み情報を確認できませんでした。' };
   }
 
-  if (purchase.paymentStatus !== 'paid') {
+  // 試用期間つきの申し込みは、まだ1円も課金されていないので
+  // payment_status が 'paid' ではなく 'no_payment_required' になる。
+  // ここを 'paid' だけで判定すると、無料で試したいお客様に部屋が渡らない。
+  // ただし素通しにはせず、サブスクが本当に生きていることを確かめる。
+  const paidOk = purchase.paymentStatus === 'paid';
+  const trialOk =
+    purchase.paymentStatus === 'no_payment_required' &&
+    (purchase.subscriptionStatus === 'trialing' || purchase.subscriptionStatus === 'active');
+  if (!paidOk && !trialOk) {
     return { status: 402, error: 'お支払いが確認できていません。' };
   }
 
@@ -102,7 +115,7 @@ async function fulfillSession(sessionId, opts) {
   const mail = reused
     ? { sent: false, reason: 'already issued' }
     : to
-      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan })
+      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan, trialEnd: purchase.trialEnd })
       : { sent: false, reason: 'no recipient address' };
 
   return {
@@ -118,6 +131,8 @@ async function fulfillSession(sessionId, opts) {
         amount: purchase.amount,
         currency: purchase.currency,
         livemode: purchase.livemode,
+        trialEnd: purchase.trialEnd,
+        subscriptionStatus: purchase.subscriptionStatus,
       },
     },
   };
