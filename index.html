@@ -317,6 +317,32 @@ footer a { color: var(--ink-3); text-decoration: none; font-size: 0.85rem; }
 footer a:hover { color: var(--ink); }
 footer .sep { color: var(--rule); margin: 0 0.7rem; }
 footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-family: "Chivo Mono", monospace; }
+
+/* ---- 作った理由の節 --------------------------------------------
+   ここだけは一人称の文章なので、他の節より行間を広くして読ませる。
+   右の小さい段は、機能の話ではなく作り手の動機なので、
+   本文と同じ扱いにせず、罫で切って脇に置く。 */
+.origin-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 900px) { .origin-grid { grid-template-columns: minmax(0,1.35fr) minmax(0,0.65fr); gap: 3rem; } }
+.origin-text p { font-size: 1rem; line-height: 2.05; margin: 0 0 1.25rem; }
+.origin-text p:last-child { margin-bottom: 0; }
+.origin-formula {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem 0.7rem;
+  background: var(--paper); border: 1.5px solid var(--ink);
+  padding: 1.05rem 1rem; margin: 1.5rem 0 1.6rem;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.95rem; color: var(--ink-2); text-align: center;
+}
+.origin-formula b { color: var(--ink); font-weight: 600; }
+.origin-formula .hot { color: var(--signal); font-weight: 600; }
+.origin-aside { border-top: 3px solid var(--ink); padding-top: 1.1rem; }
+@media (min-width: 900px) { .origin-aside { border-top: none; border-left: 3px solid var(--ink); padding: 0 0 0 1.6rem; } }
+.origin-aside p { font-size: 0.92rem; line-height: 1.95; margin: 0 0 1rem; }
+.origin-aside p:last-child { margin-bottom: 0; }
+.origin-quote {
+  font-size: 1.12rem !important; font-weight: 900; color: var(--ink);
+  letter-spacing: -0.02em; line-height: 1.6 !important; text-wrap: balance;
+}
 </style>
 </head>
 <body>
@@ -526,8 +552,38 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
   </div>
 </section>
 
+<!-- ===== 作った理由。ここが他所には書けない部分なので、一人称のまま置く ===== -->
+<section id="origin" class="on-white">
+  <div class="wrap">
+    <span class="eyebrow">WHY IT EXISTS</span>
+    <h2>200人が、それぞれ暗算していました。</h2>
+
+    <div class="origin-grid">
+      <div class="origin-text">
+        <p>サーバー対抗戦の12時間、私はゲームのアカウントを3つ同時に開いて、敵の集結を見張っていました。集結が出たら、5〜10秒のうちに単発か連撃かを判断して、チャットに着弾時刻を4桁で流す。</p>
+
+        <p>しんどかったのは、その先です。<strong>受け取った側は、全員がそれぞれ暗算します。</strong></p>
+
+        <div class="origin-formula">
+          <span>着弾時間</span><b>−</b><span>自分の行軍時間</span><b>=</b><span class="hot">自分の出発時間</span>
+        </div>
+
+        <p>行軍時間は一人ずつ違うので、全員が違う答えを出さなければいけません。一人が間違えれば、その隊だけ遅れて溶けます。指示を出したあと、私にできるのは祈ることだけでした。</p>
+
+        <p><strong>この計算を、道具にやらせました。</strong>指示役が決めるのは着弾時刻ひとつだけ。あとは一人ひとりの行軍時間から逆算して、その人だけのカウントダウンが全員の画面に出ます。暗算する人は、もう誰もいません。</p>
+      </div>
+
+      <div class="origin-aside">
+        <p class="origin-quote">指揮は、一人の特殊な能力であってほしくなかった。</p>
+        <p>見る場所と、判断の基準と、伝え方さえ揃えば、担える部分は必ずあります。全部が一人の頭の中にしか無い状態を、やめたかった。</p>
+        <p>この道具は、秒を揃えるために作ったものですが、本当のところは<strong>指示役をひとりにしないため</strong>に作りました。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== 違い ===== -->
-<section id="difference" class="on-white">
+<section id="difference">
   <div class="wrap">
     <span class="eyebrow">THE DIFFERENCE</span>
     <h2>同時到着だけなら、他にもできます。</h2>
@@ -561,7 +617,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
 </section>
 
 <!-- ===== 実績 ===== -->
-<section id="proof">
+<section id="proof" class="on-white">
   <div class="wrap">
     <span class="eyebrow">THE PROOF</span>
     <h2>試作品ではありません。実戦から生まれた道具です。</h2>
