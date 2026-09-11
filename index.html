@@ -169,40 +169,10 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .bd-t2 { fill: none; stroke: var(--ink); stroke-width: 2; }
 .bd-t3 { fill: var(--signal); }
 .bd-cap { font-family: "Chivo Mono", monospace; font-size: 11px; letter-spacing: .06em; fill: var(--ink-3); }
-
-/* 作戦盤を動かす。
-   4部隊は別々の場所から出るのに、目標へ同時に着く——
-   この商品が言いたいことそのものなので、絵でも見せる。
-   目標(350,190)を原点にして縮めると、点は自分の進路をなぞって寄っていき、
-   4つとも同じ瞬間に着く。着いた瞬間に波紋を出す。
-   止まった状態（最初の1枚）でも成立するよう、0%は不透明で置いてある。 */
-.bd-unit {
-  transform-box: view-box; transform-origin: 350px 190px;
-  animation: bd-close 6.4s cubic-bezier(.45,.02,.55,1) infinite;
-}
-@keyframes bd-close {
-  0%   { transform: scale(1);    opacity: 1; }
-  70%  { transform: scale(0.10); opacity: 1; }
-  78%  { transform: scale(0.04); opacity: 0; }
-  92%  { transform: scale(1);    opacity: 0; }
-  100% { transform: scale(1);    opacity: 1; }
-}
-.bd-pulse {
-  fill: none; stroke: var(--signal); stroke-width: 2; opacity: 0;
-  transform-box: view-box; transform-origin: 350px 190px;
-  animation: bd-hit 6.4s ease-out infinite;
-}
-@keyframes bd-hit {
-  0%, 66%  { transform: scale(.2); opacity: 0; }
-  73%      { transform: scale(1);  opacity: .75; }
-  88%,100% { transform: scale(2.2); opacity: 0; }
-}
-/* 動きが苦手な人の設定では止める。静止画としても意味が通る配置にしてある。 */
-@media (prefers-reduced-motion: reduce) {
-  .bd-unit  { animation: none; opacity: 1; transform: none; }
-  .bd-pulse { animation: none; opacity: 0; }
-}
-
+/* 作戦盤の波紋。位置・大きさ・濃さはJSが毎フレーム決めるので、
+   ここでは見た目だけを決めておく。動きはCSSに持たせない——
+   カウントダウンと別々の周期で回ると、0:00と着弾がずれるため。 */
+.bd-pulse { fill: none; stroke: var(--signal); stroke-width: 2; opacity: 0; }
 /* ---- 時刻表の図 ---------------------------------------------- */
 .fig { margin: 0 0 1rem; }
 .fig .fig-narrow { display: none; }
@@ -479,10 +449,15 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
           <circle class="bd-t1" cx="350" cy="190" r="34"/>
           <circle class="bd-t2" cx="350" cy="190" r="19"/>
           <circle class="bd-t3" cx="350" cy="190" r="5"/>
-          <circle class="bd-pulse" cx="350" cy="190" r="34"/>
-          <g class="bd-unit">
-            <circle cx="250" cy="144" r="6"/><circle cx="244" cy="219" r="6"/>
-            <circle cx="279" cy="106" r="6"/><circle cx="266" cy="261" r="6"/>
+          <circle class="bd-pulse" id="bdPulse" cx="350" cy="190" r="18"/>
+          <!-- 各部隊は自分の都市（□）の上に置く。JSがそこから目標へ運ぶ。
+               data-march はその部隊の行軍時間（絵の中の秒）で、
+               長い部隊ほど早く出発し、全員が同じ瞬間に着く。 -->
+          <g class="bd-unit" id="bdUnits">
+            <circle cx="78"  cy="63"  r="6" data-bx="78"  data-by="63"  data-march="180"/>
+            <circle cx="108" cy="255" r="6" data-bx="108" data-by="255" data-march="135"/>
+            <circle cx="231" cy="48"  r="6" data-bx="231" data-by="48"  data-march="90"/>
+            <circle cx="189" cy="325" r="6" data-bx="189" data-by="325" data-march="45"/>
           </g>
           <g class="bd-base">
             <rect x="72" y="57" width="12" height="12"/><rect x="102" y="249" width="12" height="12"/>
@@ -492,7 +467,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
             <text x="72" y="48">21:00:15</text><text x="102" y="240">21:01:00</text>
             <text x="225" y="33">21:01:45</text><text x="183" y="310">21:02:30</text>
           </g>
-          <text class="bd-cap" x="260" y="385" text-anchor="middle">4部隊とも、目標までの残り時間はおなじ</text>
+          <text class="bd-cap" x="260" y="385" text-anchor="middle">出発はばらばら。着弾はおなじ。</text>
         </svg>
         <div class="readout">
           <div><span>YOUR START</span><b id="cdMine">--:--</b></div>
@@ -864,22 +839,67 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 </footer>
 
 <script>
-  // 作戦盤の下の実況表示（見本）。行軍45秒の人が、着弾の45秒前に出発する様子。
-  const TRAVEL = 45, CYCLE = 180;
-  const fmt = (s) => {
-    s = Math.max(0, Math.round(s));
-    return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
-  };
-  const mineEl = document.getElementById('cdMine');
-  const allEl = document.getElementById('cdAll');
-  const tick = () => {
-    const t = CYCLE - (Math.floor(Date.now() / 1000) % CYCLE);
-    allEl.textContent = fmt(t);
-    const mine = t - TRAVEL;
-    mineEl.textContent = mine > 0 ? fmt(mine) : '出発';
-  };
-  tick();
-  setInterval(tick, 250);
+  // 作戦盤。カウントダウンと点の動きを、ひとつの時計から作る。
+  //
+  // 以前は表示が180秒周期、点のアニメがCSSの6.4秒周期で、まったく無関係に
+  // 動いていた。そのため 0:00 と着弾が合わない。同じ位相から両方を作れば必ず合う。
+  //
+  // 絵の中では「着弾までの3分」が起きているが、それを20秒で見せている。
+  // 各部隊は自分の都市で待ち、自分の行軍時間になったら出発する。
+  // 行軍が長い部隊ほど早く出る。そして全員が 0:00 に着く。
+  (function () {
+    const TX = 350, TY = 190;   // 目標の座標
+    const SCENARIO = 180;       // 絵の中の秒（着弾までの3分）
+    const REAL = 20000;         // 実際に流れる時間（ミリ秒）
+    const RUN = 0.85;           // このぶんで着弾し、残りは余韻に使う
+    const TRAVEL = 45;          // 読み上げに使う例の人の行軍（絵の中の秒）
+
+    const units = Array.prototype.slice.call(document.querySelectorAll('#bdUnits circle'));
+    const pulse = document.getElementById('bdPulse');
+    const mineEl = document.getElementById('cdMine');
+    const allEl = document.getElementById('cdAll');
+    if (!units.length || !pulse || !mineEl || !allEl) return;
+
+    const fmt = (s) => {
+      s = Math.max(0, Math.round(s));
+      return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    };
+
+    function render(q) {
+      const left = SCENARIO * (1 - Math.min(q, 1));   // 着弾までの残り（絵の中の秒）
+      allEl.textContent = fmt(left);
+      const mine = left - TRAVEL;
+      mineEl.textContent = mine > 0 ? fmt(mine) : '出発';
+
+      units.forEach((c) => {
+        const bx = +c.dataset.bx, by = +c.dataset.by, march = +c.dataset.march;
+        // 自分の行軍時間になるまでは都市で待機。以後は一定の速さで目標へ。
+        const f = left >= march ? 0 : Math.min(1, (march - left) / march);
+        c.setAttribute('cx', (bx + (TX - bx) * f).toFixed(1));
+        c.setAttribute('cy', (by + (TY - by) * f).toFixed(1));
+        c.style.opacity = left <= 0 ? '0' : '1';
+      });
+
+      // 着弾の波紋。全員が着いた瞬間だけ出る。
+      if (q >= 1) {
+        const after = Math.min(1, (q - 1) / (1 / RUN - 1));
+        pulse.setAttribute('r', (18 + after * 78).toFixed(1));
+        pulse.style.opacity = (0.85 * (1 - after)).toFixed(3);
+      } else {
+        pulse.style.opacity = '0';
+      }
+    }
+
+    // 動きが苦手な設定では止める。途中の1枚でも、出発済みと待機中が同時に見える。
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      render(0.62);
+      return;
+    }
+    (function frame() {
+      render(((Date.now() % REAL) / REAL) / RUN);
+      requestAnimationFrame(frame);
+    })();
+  })();
 
   // 実績の数字をカウントアップ
   if ('IntersectionObserver' in window) {
