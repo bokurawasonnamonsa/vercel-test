@@ -112,6 +112,8 @@ h1 {
   letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
 }
 h1 em { font-style: normal; color: var(--amber-ink); }
+/* 語の途中で折れると読めなくなるので、この語だけは割らせない */
+.nb { white-space: nowrap; }
 .lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 1.4rem; max-width: 44ch; }
 .lead b { color: var(--ink); font-weight: 700; }
 .points { list-style: none; padding: 0; margin: 0 0 1.9rem; display: grid; gap: 0.55rem; }
@@ -408,7 +410,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
       <div>
         <span class="eyebrow">スマホ戦略ゲーム / 同盟イベント用</span>
-        <h1>集結も、入替も、差込も。<br><em>ぜんぶ、一人ひとりのカウントダウン</em>になる。</h1>
+        <h1>集結も、入替も、差込も。<br><em>ぜんぶ、一人ひとりの<span class="nb">カウントダウン</span></em>になる。</h1>
         <p class="lead">
           スマホの戦略ゲームで、同盟の指示役をしている方のための道具です。
           着弾させたい時刻を決めるだけで、集結も入替も差込も、
@@ -640,7 +642,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
             <th>手段</th>
             <th>同時到着</th>
             <th>個人ごとの<br>タイミング</th>
-            <th class="key">入替・差込<br>の指示</th>
+            <th class="key">入替・差込</th>
             <th class="key">端末時計の<br>ズレを補正</th>
           </tr>
         </thead>
