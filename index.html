@@ -170,6 +170,39 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .bd-t3 { fill: var(--signal); }
 .bd-cap { font-family: "Chivo Mono", monospace; font-size: 11px; letter-spacing: .06em; fill: var(--ink-3); }
 
+/* 作戦盤を動かす。
+   4部隊は別々の場所から出るのに、目標へ同時に着く——
+   この商品が言いたいことそのものなので、絵でも見せる。
+   目標(350,190)を原点にして縮めると、点は自分の進路をなぞって寄っていき、
+   4つとも同じ瞬間に着く。着いた瞬間に波紋を出す。
+   止まった状態（最初の1枚）でも成立するよう、0%は不透明で置いてある。 */
+.bd-unit {
+  transform-box: view-box; transform-origin: 350px 190px;
+  animation: bd-close 6.4s cubic-bezier(.45,.02,.55,1) infinite;
+}
+@keyframes bd-close {
+  0%   { transform: scale(1);    opacity: 1; }
+  70%  { transform: scale(0.10); opacity: 1; }
+  78%  { transform: scale(0.04); opacity: 0; }
+  92%  { transform: scale(1);    opacity: 0; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+.bd-pulse {
+  fill: none; stroke: var(--signal); stroke-width: 2; opacity: 0;
+  transform-box: view-box; transform-origin: 350px 190px;
+  animation: bd-hit 6.4s ease-out infinite;
+}
+@keyframes bd-hit {
+  0%, 66%  { transform: scale(.2); opacity: 0; }
+  73%      { transform: scale(1);  opacity: .75; }
+  88%,100% { transform: scale(2.2); opacity: 0; }
+}
+/* 動きが苦手な人の設定では止める。静止画としても意味が通る配置にしてある。 */
+@media (prefers-reduced-motion: reduce) {
+  .bd-unit  { animation: none; opacity: 1; transform: none; }
+  .bd-pulse { animation: none; opacity: 0; }
+}
+
 /* ---- 時刻表の図 ---------------------------------------------- */
 .fig { margin: 0 0 1rem; }
 .fig .fig-narrow { display: none; }
@@ -446,6 +479,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
           <circle class="bd-t1" cx="350" cy="190" r="34"/>
           <circle class="bd-t2" cx="350" cy="190" r="19"/>
           <circle class="bd-t3" cx="350" cy="190" r="5"/>
+          <circle class="bd-pulse" cx="350" cy="190" r="34"/>
           <g class="bd-unit">
             <circle cx="250" cy="144" r="6"/><circle cx="244" cy="219" r="6"/>
             <circle cx="279" cy="106" r="6"/><circle cx="266" cy="261" r="6"/>
