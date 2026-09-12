@@ -146,6 +146,12 @@ strong { color: var(--ink); }
         return;
       }
 
+      // 席を足せないルーム（個人用）は、払わせる前にここで止める。
+      if (info.seatable === false) {
+        fail(info.reason || 'このルームには席を追加できません。');
+        return;
+      }
+
       $('roomName').textContent = info.name || '（名称未設定）';
       $('roomIdText').textContent = info.room_id;
       $('seatCount').textContent = `${info.seats} 席`;

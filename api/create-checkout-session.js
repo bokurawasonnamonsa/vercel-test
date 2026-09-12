@@ -21,6 +21,12 @@ module.exports = async (req, res) => {
 
   const { plan, room, probe } = req.body || {};
 
+  // 個人用のルームは同時に1台までしかつなげない。そこに席を売ると、
+  // お金は取れるのに「1台までです」と弾かれるコードを渡すことになる。
+  // 席を足せるのは、人数制限の無い同盟用・サーバー用だけ。
+  const NOT_SEATABLE = 'このルームは個人用のため、席を増やせません。まとめ役の方に、同盟用への変更をご相談ください。';
+  const seatable = (info) => info.plan !== 'personal';
+
   // ---- 席を買う前の確認 -------------------------------------------------
   // 「このルームはあるか」「どの同盟か」だけを返す。参加コードは返さない
   // （そもそも商品サーバーの一覧に入っていない）。
@@ -30,7 +36,12 @@ module.exports = async (req, res) => {
       res.status(found.notFound ? 404 : 500).json({ error: found.notFound ? 'room not found' : found.error });
       return;
     }
-    res.status(200).json({ ...found.data, seat: { jpy: SEAT.jpy, trialDays: TRIAL_DAYS } });
+    res.status(200).json({
+      ...found.data,
+      seatable: seatable(found.data),
+      reason: seatable(found.data) ? null : NOT_SEATABLE,
+      seat: { jpy: SEAT.jpy, trialDays: TRIAL_DAYS },
+    });
     return;
   }
 
@@ -58,6 +69,10 @@ module.exports = async (req, res) => {
           ? 'このルームIDは見つかりませんでした。まとめ役の方に、配られたリンクをもう一度確認してください。'
           : 'ルームの確認ができませんでした。時間をおいてお試しください。',
       });
+      return;
+    }
+    if (!seatable(found.data)) {
+      res.status(409).json({ error: NOT_SEATABLE });
       return;
     }
     roomId = found.data.room_id;
