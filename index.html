@@ -57,6 +57,12 @@ a { color: var(--amber-ink); }
 /* ---- 節の共通 ------------------------------------------------ */
 section { padding: 5rem 0; }
 .on-white { background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+/* 実演の節だけ地を黒にする。動画の字幕帯が同じ #0d1420 なので、
+   字幕が出た瞬間だけページと動画の境目が消える。 */
+.on-ink { background: var(--ink); color: #f7f9fc; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+.on-ink .eyebrow { color: var(--amber); border-top-color: var(--amber); }
+.on-ink .sec-lead { color: #b9c2d2; }
+.on-ink figcaption { color: #99a4b8; }
 .eyebrow {
   font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.24em;
   color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: 0.5rem;
@@ -79,6 +85,8 @@ h2 {
 .brand svg { width: 26px; height: 26px; flex: none; }
 .brand .name { font-size: 0.95rem; letter-spacing: 0.04em; font-weight: 700; }
 .nav-links { display: flex; align-items: center; gap: 1.2rem; }
+/* 狭い画面では文字の間を詰める。「実演」を足しても申し込みボタンが折れないように。 */
+@media (max-width: 400px) { .nav-links { gap: 0.8rem; } .brand .name { font-size: 0.86rem; } }
 .nav-links a.plain { color: var(--ink-3); text-decoration: none; font-size: 0.87rem; }
 .nav-links a.plain:hover { color: var(--ink); }
 .nav-cta {
@@ -180,6 +188,43 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 @media (max-width: 640px) { .fig .fig-wide { display: none; } .fig .fig-narrow { display: block; } }
 figure { margin: 0 0 2.4rem; }
 figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin-top: 0.8rem; }
+
+/* ---- 実演の動画 ---------------------------------------------- */
+/* 白い枠を1本だけ回して「これは画面である」と示す。影も角丸も使わない。 */
+.demo-fig { margin: 0; }
+.demo-frame { border: 1.5px solid #46536b; background: #0a0f18; position: relative; }
+.demo-frame video { display: block; width: 100%; height: auto; }
+/* 読み込む前から高さを確保して、再生開始で紙面が飛び跳ねないようにする */
+.demo-frame { aspect-ratio: 955 / 493; }
+@media (max-width: 720px) { .demo-frame { aspect-ratio: 270 / 341; } }
+.demo-frame video, .demo-frame noscript img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* 見出し帯。動画の上に、計器のラベルのように置く。 */
+.demo-cap {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.16em;
+  color: #8d99ae; border: 1.5px solid #46536b; border-bottom: none;
+  padding: 0.5rem 0.8rem; background: #121a28;
+}
+.demo-cap b { color: #f7f9fc; font-weight: 600; }
+/* 狭い画面ではラベルを削って1行に収める。2行になると PAUSE が浮いて見える。 */
+@media (max-width: 480px) {
+  .demo-cap { font-size: 0.61rem; letter-spacing: 0.1em; padding: 0.45rem 0.6rem; }
+  .demo-cap .cap-long { display: none; }
+  .demo-toggle { font-size: 0.61rem; padding: 0.22rem 0.55rem; }
+}
+.demo-toggle {
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.14em;
+  background: none; border: 1px solid #46536b; color: #b9c2d2; border-radius: 2px;
+  padding: 0.24rem 0.7rem; cursor: pointer; min-height: 0; white-space: nowrap;
+}
+.demo-toggle:hover { border-color: var(--amber); color: var(--amber); }
+/* 動画のすぐ下に、その30秒で何が起きたかを3行で置く */
+.demo-beats { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; gap: 1px; background: #46536b; border: 1.5px solid #46536b; }
+@media (min-width: 760px) { .demo-beats { grid-template-columns: repeat(3, 1fr); } }
+.demo-beats li { background: var(--ink); padding: 0.9rem 1rem; }
+.demo-beats .t { font-family: "Chivo Mono", monospace; font-size: 0.7rem; letter-spacing: .12em; color: var(--amber); display: block; }
+.demo-beats .d { font-size: 0.86rem; color: #cfd6e2; line-height: 1.7; }
+.demo-beats .d b { color: #f7f9fc; font-weight: 700; }
 .fg-cap { font-family: "Chivo Mono", monospace; font-size: 12px; letter-spacing: .08em; fill: var(--ink-3); }
 .fg-sig { fill: var(--signal); }
 .fg-name { font-size: 14px; fill: var(--ink); }
@@ -401,6 +446,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <span class="name mono">CommandClock</span>
     </a>
     <div class="nav-links">
+      <a class="plain" href="#demo">実演</a>
       <a class="plain" href="/guide.html">使い方</a>
       <a class="nav-cta" href="#pricing">申し込む</a>
     </div>
@@ -581,6 +627,38 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <p>「この人が仕切ると決まる」という実績が、同盟全体の結束につながります。</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===== 実演 =====
+     ここまでは図で説明してきた。ここで一度だけ、実物の画面を見せる。
+     地を黒にしているのは、動画の字幕帯（#0d1420）と同じ色だから。 -->
+<section id="demo" class="on-ink">
+  <div class="wrap">
+    <span class="eyebrow">SEE IT WORKING</span>
+    <h2>これが、実際の画面です。</h2>
+    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面。号令を1回出してから、全員が同じ一秒に着弾するまでの30秒です。待ち時間だけ早送りしています。</p>
+
+    <figure class="demo-fig">
+      <div class="demo-cap">
+        <span><span class="cap-long">LIVE </span>SCREEN CAPTURE<b> / 30 SEC</b></span>
+        <button type="button" class="demo-toggle" id="demoToggle" aria-label="動画の再生と一時停止">PAUSE</button>
+      </div>
+      <!-- poster は書かない。ここに書くと横長を取りに行ってから縦長に差し替わり、
+           スマホで使わない画像を1枚よけいに落とすことになる。JSが幅を見てから付ける。 -->
+      <div class="demo-frame">
+        <video id="demoVideo" muted loop playsinline preload="none"
+               data-wide="/assets/demo-wide.mp4" data-tall="/assets/demo-tall.mp4"
+               aria-label="指示役が号令を1回出し、メンバーごとに違う秒読みが表示され、全員が同じ時刻に着弾するまでの画面録画"></video>
+        <noscript><img src="/assets/demo-wide.jpg" alt="指示役のコンソールと、メンバーごとに違う秒読みが出ている参加者の画面"></noscript>
+      </div>
+      <ul class="demo-beats">
+        <li><span class="t">00:00 — 指示役</span><span class="d">着弾させたい時刻を入れて、<b>号令を1回押すだけ</b>。</span></li>
+        <li><span class="t">00:08 — 全員の画面</span><span class="d">行軍時間が違うので、<b>出発の秒読みは一人ずつ違う</b>数字になります。</span></li>
+        <li><span class="t">00:27 — 着弾</span><span class="d">別々に出発した全員が、<b>同じ一秒に到着</b>して完了します。</span></li>
+      </ul>
+      <figcaption>音声はありません。画面はテスト用のルームで、名前と数値は仮のものです。</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -905,6 +983,72 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       render(((Date.now() % REAL) / REAL) / RUN);
       requestAnimationFrame(frame);
     })();
+  })();
+
+  // 実演の動画。
+  // ・画面の幅で横長／縦長を選ぶ。両方は読み込まない。
+  // ・見えるまで読み込まない。離れたら止める（通信量と電池のため）。
+  // ・動きが苦手な設定なら、自動では再生しない。静止画のまま置いておく。
+  (function () {
+    const v = document.getElementById('demoVideo');
+    const btn = document.getElementById('demoToggle');
+    if (!v || !btn) return;
+    const frame = v.parentElement;
+
+    // 枠の縦横比は「いま読み込んでいる動画」に合わせる。
+    // CSSの折返しだけで決めると、幅と中身がずれたときに黒帯が出る。
+    const AR = { tall: '270 / 341', wide: '955 / 493' };
+    let kind = '';
+
+    function pick() { return (window.matchMedia && window.matchMedia('(max-width: 720px)').matches) ? 'tall' : 'wide'; }
+
+    function use(k) {
+      if (k === kind) return;
+      kind = k;
+      frame.style.aspectRatio = AR[k];
+      v.poster = k === 'tall' ? '/assets/demo-tall.jpg' : '/assets/demo-wide.jpg';
+      if (v.src) { v.src = k === 'tall' ? v.dataset.tall : v.dataset.wide; }
+    }
+    use(pick());
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let wanted = !reduce;   // 利用者が「再生したい」状態かどうか
+
+    function label() { btn.textContent = wanted ? 'PAUSE' : 'PLAY'; }
+    function play() {
+      if (!v.src) { v.src = kind === 'tall' ? v.dataset.tall : v.dataset.wide; }
+      const p = v.play(); if (p && p.catch) p.catch(function () {});
+    }
+
+    btn.addEventListener('click', function () {
+      wanted = !wanted;
+      if (wanted) { play(); } else { v.pause(); }
+      label();
+    });
+    label();
+
+    // 画面を回したときなど、横長と縦長の境をまたいだら差し替える
+    let rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () {
+        const before = kind;
+        use(pick());
+        if (kind !== before && wanted && v.src) play();
+      }, 200);
+    });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) {
+          if (e.isIntersecting) { if (wanted) play(); }
+          else { v.pause(); }
+        });
+      }, { threshold: 0.25 });
+      io.observe(v);
+    } else {
+      if (wanted) play();
+    }
   })();
 
   // 実績の数字をカウントアップ
