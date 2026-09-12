@@ -330,6 +330,18 @@ tr.ours td { background: #fdf6ea; font-weight: 700; }
 /* ---- 料金 ---------------------------------------------------- */
 .price-note { border-left: 3px solid var(--signal); padding-left: 1.2rem; margin-bottom: 1.8rem; color: var(--ink-2); font-size: 0.9rem; max-width: 62ch; }
 .price-note strong { color: var(--ink); }
+/* 1人あたりの梯子。人数が増えるほど下がり、3人で止まる——を数字で見せる。
+   列が4つしかないので、比較表の min-width をそのまま使うと
+   スマホで無駄に横スクロールになる。ここだけ狭くする。 */
+.ladder { margin-bottom: 1.4rem; }
+.ladder table { min-width: 360px; font-size: 0.88rem; }
+.ladder th, .ladder td { padding: 0.62rem 1rem; }
+.ladder td { font-family: "Chivo Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.ladder td.per { color: var(--signal); font-weight: 600; }
+.ladder tr.edge td { background: rgba(240,166,60,0.09); color: var(--ink); }
+.ladder tr.edge td.per { color: var(--signal); }
+.ladder-cap { color: var(--ink-3); font-size: 0.82rem; margin: 0.7rem 0 1.9rem; max-width: 62ch; }
+.ladder-cap b { color: var(--ink-2); }
 .plans { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 900px) { .plans { grid-template-columns: repeat(3, 1fr); } }
 .plan { background: var(--surface); border: 1px solid var(--rule); padding: 1.7rem 1.6rem; display: flex; flex-direction: column; position: relative; }
@@ -837,10 +849,29 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       </p>
     </div>
 
-    <div class="price-note">
-      同盟用を200人でお使いいただくと <strong>1人あたり月8円</strong>です。
-      解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
+    <!-- 人数が増えるほど1人あたりが下がり、3人で上限が外れる。
+         別料金の仕組みではなく、いまの3プランがそのままこの形になっている。 -->
+    <div class="ladder tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>使う人数</th><th>プラン</th><th>月額</th><th>1人あたり</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1人</td><td>個人用</td><td>¥500</td><td class="per">¥500</td></tr>
+          <tr class="edge"><td>3人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥500</td></tr>
+          <tr><td>5人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥300</td></tr>
+          <tr><td>10人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥150</td></tr>
+          <tr><td>30人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥50</td></tr>
+          <tr><td>100人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥15</td></tr>
+          <tr><td>200人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥8</td></tr>
+        </tbody>
+      </table>
     </div>
+    <p class="ladder-cap">
+      <b>3人で上限です。</b>そこから先は何人増えても月額は ¥1,500 のまま、1人あたりだけが下がっていきます。
+      人数を数えたり、あとから追加で請求されたりすることはありません。
+      解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
+    </p>
 
     <div class="plans">
       <div class="plan">
@@ -904,6 +935,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <details><summary>メンバー全員がアプリを入れる必要がありますか？</summary><p>いいえ。URLをブラウザで開き、ルームIDと参加コードを入力するだけで使えます。インストールは不要です。</p></details>
       <details><summary>端末の時計がズレていても大丈夫ですか？</summary><p>大丈夫です。各端末の時計ではなく、サーバーの時刻を基準にカウントダウンします。通信の遅延も自動で補正するため、時計が数秒ズレている端末でも同じ瞬間に到着できます。</p></details>
       <details><summary>行軍時間の入力は毎回必要ですか？</summary><p>いいえ。最初に一度入力すれば端末に保存されます。距離が変わったときだけ入れ直してください。</p></details>
+      <details><summary>まとめ役が全員ぶんを払うことになりますか？</summary><p>同盟用・サーバー用は、まとめ役の方が1つお申し込みいただければ、メンバーは何人でも追加料金なしで参加できます。<br>「自分のぶんは自分で払いたい」という方がいる場合は、お申し込み後に発行される<strong>席の申し込みリンク</strong>を配れば、お一人ずつ（¥500/月）でお申し込みいただけます。ただし3人以上になるなら、同じ金額で人数無制限になる同盟用のほうが安くなります。</p></details>
       <details><summary>カード情報は安全ですか？</summary><p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p></details>
       <details><summary>特定のゲーム専用ですか？</summary><p>いいえ。時刻を合わせて複数人が同時に行動する場面であれば、ゲームの種類を問わず使えます。</p></details>
       <details><summary>うまく動かなかった場合は？</summary><p>サービスが正常に提供できなかった場合は個別に対応します。お問い合わせ先は特定商取引法に基づく表記に記載しています。</p></details>

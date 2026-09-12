@@ -53,6 +53,7 @@ strong { color: var(--ink); }
 .status { margin-top: .9rem; font-size: .86rem; color: var(--ink-3); min-height: 1.4em; }
 .status.bad { color: var(--warn); }
 
+.compare { margin-top: 1.6rem; border-left: 3px solid var(--amber); background: var(--surface); padding: .9rem 1.1rem; font-size: .88rem; color: var(--ink-2); line-height: 1.85; }
 .note { border-top: 1px solid var(--rule); margin-top: 1.8rem; padding-top: 1.2rem; }
 .note li { color: var(--ink-2); font-size: .89rem; margin-bottom: .5rem; }
 .note ul { padding-left: 1.1rem; margin: 0; }
@@ -97,6 +98,15 @@ strong { color: var(--ink); }
 
       <button class="btn btn-solid" id="buyBtn">14日間無料ではじめる</button>
       <div class="status" id="status"></div>
+
+      <!-- 先に書いておく。3席ぶんの金額で人数無制限にできることは、
+           200人を仕切る人なら5秒で気づく。こちらから言わないほうが損をする。 -->
+      <div class="compare">
+        <strong>3人以上でお使いになる場合</strong><br>
+        席3つ（¥1,500）と<strong>同じ金額で、人数無制限の同盟用</strong>にできます。
+        まとめ役の方が<a href="/#pricing">同盟用</a>を1つ申し込めば、メンバーは何人でも追加料金なしで参加できます。
+        この席は、<strong>ひとり、ふたりで使う場合</strong>の申し込み口です。
+      </div>
 
       <div class="note">
         <ul>
