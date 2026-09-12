@@ -162,7 +162,7 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
         <thead>
           <tr>
             <th>発行日時</th><th>お客様</th><th>プラン</th><th>金額</th>
-            <th>種別</th><th>接続</th><th>ルームID</th><th>決済ID</th>
+            <th>種別</th><th>席</th><th>接続</th><th>ルームID</th><th>決済ID</th>
           </tr>
         </thead>
         <tbody id="rows"></tbody>
@@ -297,8 +297,9 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
           <td>${i.plan_label || i.item_name || i.name || '—'}</td>
           <td class="money">${money(i.amount, i.currency)}${i.mode === 'subscription' ? ' <span style="color:var(--ink-3);font-weight:400">/月</span>' : ''}</td>
           <td>${tag}</td>
+          <td class="mono">${i.seats == null ? '—' : i.seats}</td>
           <td>${i.online ? i.online + ' 名' : '<span style="color:var(--ink-3)">—</span>'}</td>
-          <td class="mono">${(i.room_id || '').slice(0, 12)}…</td>
+          <td class="mono"><a href="/join?room=${encodeURIComponent(i.room_id || '')}" target="_blank" rel="noopener" title="このルームの席の申し込みページ">${(i.room_id || '').slice(0, 12)}…</a></td>
           <td class="mono" style="color:var(--ink-3)">${(i.issued_for || '').slice(0, 18) || '—'}</td>`;
         rows.appendChild(tr);
       });

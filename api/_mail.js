@@ -124,6 +124,109 @@ ${trialNoteHtml(trialEnd)}
 </html>`;
 }
 
+// 席を買った人あて。ルームは既にあるので、渡すのは「あなた専用の参加コード」だけ。
+//
+// 案内メールと分けているのは、書いてあることが逆だから。
+// ルームを買った人は「メンバーに配ってください」、席を買った人は
+// 「これはあなた専用なので配らないでください」。同じ文面にはできない。
+function buildSeatHtml({ roomId, code, appUrl, trialEnd }) {
+  return `<!doctype html>
+<html lang="ja">
+<body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b14;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#0d1424;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;">
+        <tr><td style="padding:32px 32px 8px;">
+          <div style="display:inline-block;padding:5px 14px;background:rgba(233,169,60,0.12);border:1px solid rgba(233,169,60,0.3);border-radius:999px;color:#e9a93c;font-size:12px;letter-spacing:.06em;">お申し込みありがとうございます</div>
+          <h1 style="color:#e8eef7;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>あなた専用の参加コード</h1>
+          <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
+            すでにあるルームに、あなたの席を1つ用意しました。下記のルームIDと参加コードで参加できます。
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:rgba(233,169,60,0.07);border:1px solid rgba(233,169,60,0.22);border-radius:12px;padding:14px 16px;">
+            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+              <strong style="color:#e8eef7;">この参加コードは、あなた専用です。</strong>
+              ほかの方には配らないでください。人数が増えるときは、その方がご自分の席を申し込む形になります。
+            </p>
+          </div>
+        </td></tr>
+${trialNoteHtml(trialEnd)}
+
+        <tr><td style="padding:20px 32px 4px;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 18px;">
+            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ご利用URL</div>
+            <div style="margin:4px 0 16px;"><a href="${appUrl}" style="color:#e9a93c;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
+
+            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ルームID</div>
+            <div style="color:#e8eef7;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
+
+            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">参加コード（あなた専用）</div>
+            <div style="color:#4ade80;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:20px 32px 4px;">
+          <a href="${appUrl}" style="display:block;background:#e9a93c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">CommandClock を開く</a>
+        </td></tr>
+
+        <tr><td style="padding:20px 32px 8px;">
+          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+            <strong style="color:#e8eef7;">はじめにやること</strong><br>
+            1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
+            2. ルームIDと参加コードを入力して参加します<br>
+            3. 役割を選びます。隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
+            4. 自分の移動時間を一度だけ入力します。以降は保存されます<br>
+            <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
+          <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
+            解約・お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
+            解約すると、この参加コードだけが使えなくなります。同盟のルームはそのまま残ります。<br>
+            本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendMail({ to, subject, html }) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
+  if (!to) return { sent: false, reason: 'no recipient address' };
+
+  const from = senderAddress();
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject, html }),
+    });
+    if (!response.ok) {
+      const detail = await response.text();
+      return { sent: false, from, reason: `resend ${response.status}: ${detail.slice(0, 200)}` };
+    }
+    const data = await response.json();
+    return { sent: true, from, id: data.id };
+  } catch (err) {
+    return { sent: false, from, reason: err.message };
+  }
+}
+
+async function sendSeatMail({ to, roomId, code, appUrl, trialEnd }) {
+  return sendMail({
+    to,
+    subject: `【CommandClock】あなた専用の参加コード（${code}）`,
+    html: buildSeatHtml({ roomId, code, appUrl, trialEnd }),
+  });
+}
+
 async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
@@ -158,4 +261,4 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
   }
 }
 
-module.exports = { sendWelcomeMail, senderAddress };
+module.exports = { sendWelcomeMail, sendSeatMail, senderAddress };

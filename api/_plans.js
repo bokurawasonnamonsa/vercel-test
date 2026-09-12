@@ -33,9 +33,27 @@ const PLANS = {
   },
 };
 
+// 席（1人ぶん）。すでに発行済みのルームに、自分専用の参加コードで加わる買い方。
+//
+// PLANS にはあえて入れていない。PLANS は「新しいルームを発行するプラン」の表で、
+// 席はルームを作らない。ここを混ぜると、ルームIDを指定せずに席だけ買えてしまい、
+// 行き先の無い決済ができてしまう。
+//
+// 金額は個人用と同じ ¥500。どちらも「1人が1か月使う」ぶんなので、
+// 同じ人数に違う値段を付ける理由がない。
+// 人数に応じた割引はまだ入れていない（次の段）。変えるならこの1行。
+const SEAT = {
+  id: 'seat',
+  name: 'CommandClock 参加席',
+  label: '席（1人ぶん）',
+  description: 'すでにある同盟のルームに、自分専用の参加コードで加わる',
+  jpy: 500,
+  unit_amount: 500,
+};
+
 // 無料でお試しいただける日数。ここが正本で、LP・特商法・案内メールもこの数字を指す。
 const TRIAL_DAYS = 14;
 
 const CURRENCY = 'jpy';
 
-module.exports = { PLANS, CURRENCY, TRIAL_DAYS };
+module.exports = { PLANS, SEAT, CURRENCY, TRIAL_DAYS };

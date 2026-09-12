@@ -106,8 +106,8 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
 <body class="center">
   <div class="card">
     <span class="eyebrow">ORDER COMPLETE</span>
-    <h1>お申し込みが完了しました</h1>
-    <p>決済が正常に完了しました。専用のルームを発行しています。</p>
+    <h1 id="headline">お申し込みが完了しました</h1>
+    <p id="intro">決済が正常に完了しました。専用のルームを発行しています。</p>
 
     <div class="creds" id="credsWrap" style="display:none;">
       <div class="row">
@@ -123,13 +123,47 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
         <div class="val" id="roomId"></div>
       </div>
       <div class="row">
-        <div class="label">参加コード<button class="copy" onclick="copyVal('joinCode')">コピー</button></div>
+        <div class="label" id="codeLabel">参加コード<button class="copy" onclick="copyVal('joinCode')">コピー</button></div>
         <div class="val code" id="joinCode"></div>
       </div>
     </div>
 
     <div class="links" id="linksWrap"></div>
     <div class="status" id="status">ルームを準備中…</div>
+
+    <!-- ルームを買った方へ。メンバーに席を配るためのリンク。
+         同盟用・サーバー用は人数無制限なので、参加コードをそのまま配れば足りる。
+         それでも「一人ずつ自分で払ってほしい」場合にこのリンクを使う。 -->
+    <div class="howto" id="share" style="display:none;">
+      <strong>メンバーに、自分ぶんを申し込んでもらう場合</strong><br>
+      下のリンクを配ると、各メンバーが<strong>自分専用の参加コード</strong>を申し込めます。
+      支払いはその人ごとになり、あなたの請求は増えません。会員登録もありません。
+      <div class="creds" style="margin-top:.9rem;">
+        <div class="row">
+          <div class="label">席の申し込みリンク<button class="copy" onclick="copyVal('joinLink')">コピー</button></div>
+          <div class="val" id="joinLink" style="word-break:break-all;"></div>
+        </div>
+      </div>
+      <span style="color:var(--ink-3);">※ 同盟用・サーバー用は人数の制限がありません。まとめて1つ払うなら、この上の参加コードをそのまま配ってください。</span>
+    </div>
+
+    <!-- 席を買った方へ -->
+    <div class="howto" id="howtoSeat" style="display:none;">
+      <strong>この参加コードは、あなた専用です</strong><br>
+      ほかの方には配らないでください。人数が増えるときは、その方がご自分で同じリンクから申し込む形になります。<br>
+      <span style="color:var(--ink-3);">※ SNSアプリの中の簡易ブラウザではうまく動かないことがあります。「ブラウザで開く」を選んでください。</span><br><br>
+
+      <strong>はじめにやること</strong><br>
+      1. 上のご利用URLをブラウザで開きます<br>
+      2. ルームIDと参加コードを入力して参加します<br>
+      3. 役割を選びます。隊を出す方は<strong>集結主</strong>、隊に加わる方は<strong>乗り手</strong>です<br>
+      4. 自分の移動時間を一度だけ入力します。以降は保存されます<br><br>
+
+      あとは、まとめ役が号令を出すと、<strong>あなただけの秒読み</strong>が画面に出ます。
+      その0になった瞬間に動けば、全員と同じ時刻に到着します。
+      <div class="warn">※ 解約すると、あなたの参加コードだけが使えなくなります。同盟のルームはそのまま残ります。</div>
+      <p style="margin-top:1.2rem;"><a href="/guide.html">画面ごとの使い方をくわしく見る →</a></p>
+    </div>
 
     <div class="howto" id="howto" style="display:none;">
       <strong>まず、この3点をメンバーに配ってください</strong><br>
@@ -174,13 +208,28 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
-        const PLAN_LABELS = { personal: '個人用（14日間無料、以降 ¥500/月）', alliance: '同盟用（14日間無料、以降 ¥1,500/月）', server: 'サーバー用（14日間無料、以降 ¥3,000/月）' };
+        const isSeat = data.kind === 'seat' || data.plan === 'seat';
+        const PLAN_LABELS = { personal: '個人用（14日間無料、以降 ¥500/月）', alliance: '同盟用（14日間無料、以降 ¥1,500/月）', server: 'サーバー用（14日間無料、以降 ¥3,000/月）', seat: '席1人ぶん（14日間無料、以降 ¥500/月）' };
         document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟用（14日間無料、以降 ¥1,500/月）';
         document.getElementById('appUrl').textContent = data.appUrl;
         document.getElementById('roomId').textContent = data.roomId;
         document.getElementById('joinCode').textContent = data.code;
         document.getElementById('credsWrap').style.display = 'block';
-        document.getElementById('howto').style.display = 'block';
+
+        if (isSeat) {
+          // 席を買った人には「配ってください」と言ってはいけない。逆のことを言う。
+          document.getElementById('headline').textContent = 'あなたの席を用意しました';
+          document.getElementById('intro').textContent = '決済が完了しました。下記のルームIDと、あなた専用の参加コードで参加できます。';
+          document.getElementById('codeLabel').innerHTML =
+            '参加コード（あなた専用）<button class="copy" onclick="copyVal(\'joinCode\')">コピー</button>';
+          document.getElementById('howtoSeat').style.display = 'block';
+        } else {
+          document.getElementById('howto').style.display = 'block';
+          const link = `${location.origin}/join?room=${encodeURIComponent(data.roomId)}`;
+          document.getElementById('joinLink').textContent = link;
+          document.getElementById('share').style.display = 'block';
+        }
+
         document.getElementById('linksWrap').innerHTML =
           `<a class="btn btn-solid" href="${data.appUrl}" target="_blank" rel="noopener">CommandClock を開く</a>` +
           (data.plan === 'server'

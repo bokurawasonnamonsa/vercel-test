@@ -4,9 +4,12 @@
 // どちらから来ても同じ結果になるよう、発行は決済セッションIDを鍵にした冪等処理。
 // そのため、お客様がタブを閉じても通知側で引き渡しが完了する。
 
-const { sendWelcomeMail } = require('./_mail');
-const { issueRoom, revokeRoom, isConfigured, playerUrl, APP_URL } = require('./_product');
-const { PLANS } = require('./_plans');
+const { sendWelcomeMail, sendSeatMail } = require('./_mail');
+const {
+  issueRoom, revokeRoom, addSeat, revokeSeat,
+  isConfigured, playerUrl, APP_URL,
+} = require('./_product');
+const { PLANS, SEAT } = require('./_plans');
 
 function stripeClient() {
   const Stripe = require('stripe');
@@ -37,7 +40,9 @@ async function lookupSession(sessionId) {
     livemode: session.livemode,
     mode: session.mode,
     subscription_id: typeof session.subscription === 'string' ? session.subscription : (sub ? sub.id : null),
-    plan: (session.metadata && session.metadata.plan) || null,
+    plan: (session.metadata && session.metadata.plan) || (sub && sub.metadata && sub.metadata.plan) || null,
+    // 席を買った場合の行き先。セッション側が空でもサブスク側に入っている。
+    roomId: (session.metadata && session.metadata.room_id) || (sub && sub.metadata && sub.metadata.room_id) || null,
   };
 }
 
@@ -76,6 +81,61 @@ async function fulfillSession(sessionId, opts) {
     (purchase.subscriptionStatus === 'trialing' || purchase.subscriptionStatus === 'active');
   if (!paidOk && !trialOk) {
     return { status: 402, error: 'お支払いが確認できていません。' };
+  }
+
+  // ---- 席を買った場合 ---------------------------------------------------
+  // 新しいルームは作らない。既にあるルームに参加コードを1つ足して、
+  // そのコードだけを本人に送る。会員登録はさせない。
+  if (purchase.plan === SEAT.id) {
+    if (!purchase.roomId) {
+      return { status: 400, error: '席の行き先（ルーム）が決済に記録されていません。お問い合わせください。' };
+    }
+    const seat = await addSeat({
+      roomId: purchase.roomId,
+      idempotencyKey: purchase.sessionId,
+      email: purchase.email,
+      subscriptionId: purchase.subscription_id,
+    });
+    if (!seat.ok) {
+      return {
+        status: 502,
+        error: '参加コードの発行に失敗しました。お問い合わせください。決済は完了しています。',
+        detail: seat.error,
+      };
+    }
+    const seatReused = Boolean(seat.data.reused);
+    const seatMail = seatReused
+      ? { sent: false, reason: 'already issued' }
+      : purchase.email
+        ? await sendSeatMail({
+            to: purchase.email,
+            roomId: seat.data.room_id,
+            code: seat.data.code,
+            appUrl: playerUrl(),
+            trialEnd: purchase.trialEnd,
+          })
+        : { sent: false, reason: 'no recipient address' };
+
+    return {
+      status: 200,
+      body: {
+        kind: 'seat',
+        roomId: seat.data.room_id,
+        code: seat.data.code,
+        seats: seat.data.seats,
+        plan: SEAT.id,
+        appUrl: playerUrl(),
+        reused: seatReused,
+        email: { to: purchase.email, ...seatMail },
+        purchase: {
+          amount: purchase.amount,
+          currency: purchase.currency,
+          livemode: purchase.livemode,
+          trialEnd: purchase.trialEnd,
+          subscriptionStatus: purchase.subscriptionStatus,
+        },
+      },
+    };
   }
 
   const issued = await issueRoom({
@@ -121,6 +181,7 @@ async function fulfillSession(sessionId, opts) {
   return {
     status: 200,
     body: {
+      kind: 'room',
       roomId,
       plan: issued.data.plan,
       code,
@@ -151,15 +212,35 @@ async function revokeBySubscription(subscriptionId) {
   if (!process.env.STRIPE_SECRET_KEY) {
     return { ok: false, error: '決済が設定されていません' };
   }
+  let meta = {};
   try {
     const sub = await stripeClient().subscriptions.retrieve(subscriptionId);
     if (sub.status !== 'canceled') {
       return { ok: true, revoked: false, reason: `subscription is ${sub.status}, not canceled` };
     }
+    meta = sub.metadata || {};
   } catch (err) {
     // 実在しないIDはここで弾かれる。偽の通知はこの時点で止まる。
     return { ok: false, error: 'subscription not found' };
   }
+
+  // 席の解約は、ルームごと止めるのではなく席を1つ落とす。
+  // どのルームの席だったかは、決済時に入れておいた room_id にしか無い。
+  // ここを間違えて revokeRoom を呼ぶと、1人が抜けただけで同盟全員が
+  // 使えなくなる。
+  if (meta.plan === SEAT.id && meta.room_id) {
+    const out = await revokeSeat({ roomId: meta.room_id, subscriptionId });
+    if (!out.ok) return { ok: false, error: out.error };
+    return {
+      ok: true,
+      kind: 'seat',
+      revoked: Boolean(out.data && out.data.revoked),
+      roomId: meta.room_id,
+      seats: out.data && out.data.seats,
+      reason: out.data && out.data.reason,
+    };
+  }
+
   try {
     const res = await fetch(`${APP_URL}/api/rooms/list`, {
       headers: { 'X-Issue-Key': (process.env.COMMANDCLOCK_ISSUE_KEY || '').trim() },
