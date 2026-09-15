@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CommandClock｜集結から、暗算をなくす。同盟戦・サーバー対抗戦（SVS）用</title>
-<meta name="description" content="スマホの戦略ゲームで指示役をしている方へ。ステ戦・砦・要塞戦・王城戦・SVS。着弾させたい時刻を1つ決めるだけで、集結も入替も差込も、一人ひとりの行軍時間から逆算した「その人だけの秒読み」になって全員の画面に届きます。端末の時計がずれていても揃います。開発元のサーバーで、最大219名規模のサーバー対抗戦に実戦投入。">
+<meta name="description" content="スマホの戦略ゲームで指示役をしている方へ。ステ戦・砦・要塞戦・王城戦・SVS。出したいタイミングで号令を1回押すだけ。着弾時刻はツールが計算します。集結も入替も差込も、一人ひとりの行軍時間から逆算した「その人だけの秒読み」が全員の画面に出ます。端末の時計がずれていても揃います。開発元のサーバーで、最大219名規模のサーバー対抗戦に実戦投入。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://commandclock.jp/">
 <meta property="og:title" content="CommandClock｜集結から、暗算をなくす。">
-<meta property="og:description" content="1同盟でも、サーバー全体でも、号令は1回。着弾させたい時刻を1つ決めるだけで、集結も入替も差込も、一人ひとりの秒読みになって全員の画面に届きます。">
+<meta property="og:description" content="1同盟でも、サーバー全体でも、号令は1回。出したいタイミングで押すだけで、着弾時刻はツールが計算します。一人ひとりの秒読みが、その人の画面に出ます。">
 <!-- リンクを貼ったときに出るカード。DiscordやLINEに転送されるのが主な入口なので、
      ここが実質のトップ画面になる。
      ファイル名を変えているのは、X・Discord・LINEが画像を強く覚えてしまい、
@@ -490,12 +490,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <h1><span class="nb">号令は1回。</span><em><span class="nb">秒読みは、人数分。</span></em></h1>
         <p class="lead">
           スマホの戦略ゲームで、指示役をしている方へ。
-          着弾させたい時刻を1つ決めるだけ。集結でも入替でも差込でも、
+          出したいタイミングで、号令を1回押すだけ。着弾時刻はツールが計算します。
+          集結でも入替でも差込でも、
           一人ひとりの行軍時間から逆算した<b>その人だけの秒読み</b>が、その人の画面に出ます。
           暗算する人は、もう誰もいません。
         </p>
         <ul class="points">
-          <li><b>集結時間も到着時刻も、こちらが計算します。</b>指示役は着弾させたい時刻を決めるだけです。</li>
+          <li><b>集結時間も着弾時刻も、ツールが計算します。</b>指示役が決めるのは、集結を出したいタイミングだけです。</li>
           <li><b>ゲーム内チャットで指示するより速い。</b>時刻を打って各自に暗算させる手間が、まるごと無くなります。</li>
           <li><b>集結だけでは足りません。</b>占領と攻撃の<b>入替</b>、連撃の間に割り込む<b>差込</b>。種類の違う指示を、それぞれ違う時刻で、同時に出せます。</li>
           <li><b>準備は一度だけ。</b><span class="note">各メンバーが自分の行軍時間を入れたら、あとは設定はありません。</span></li>
@@ -681,7 +682,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <noscript><img src="/assets/demo-wide.jpg" alt="指示役のコンソールと、メンバーごとに違う秒読みが出ている参加者の画面"></noscript>
       </div>
       <ul class="demo-beats">
-        <li><span class="t">00:00 — 指示役</span><span class="d">着弾させたい時刻を入れて、<b>号令を1回押すだけ</b>。</span></li>
+        <li><span class="t">00:00 — 指示役</span><span class="d">出したいタイミングで、<b>号令を1回押すだけ</b>。</span></li>
         <li><span class="t">00:08 — 全員の画面</span><span class="d">行軍時間が違うので、<b>出発の秒読みは一人ずつ違う</b>数字になります。</span></li>
         <li><span class="t">00:27 — 着弾</span><span class="d">別々に出発した全員が、<b>同じ一秒に到着</b>して完了します。</span></li>
       </ul>
@@ -735,7 +736,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
         <p>行軍時間は一人ずつ違うので、全員が違う答えを出さなければいけません。一人が間違えれば、その隊だけ遅れて溶けます。指示を出したあと、私にできるのは祈ることだけでした。</p>
 
-        <p><strong>この計算をツールに織り込みました。</strong>指示役が決めるのは着弾時刻ひとつだけ。あとは一人ひとりの行軍時間から逆算して、その人だけのカウントダウンが全員の画面に出ます。暗算する人は、もう誰もいません。</p>
+        <p><strong>この計算をツールに織り込みました。</strong>指示役が決めるのは、集結を出したいタイミングだけ。着弾時刻はツールが計算します。あとは一人ひとりの行軍時間から逆算して、その人だけのカウントダウンが全員の画面に出ます。暗算する人は、もう誰もいません。</p>
       </div>
 
       <div class="origin-aside">
