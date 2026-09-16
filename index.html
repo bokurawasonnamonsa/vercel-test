@@ -131,7 +131,9 @@ h1 {
   letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
 }
 h1 em { font-style: normal; color: var(--amber-ink); }
-/* 語の途中で折れると読めなくなるので、この語だけは割らせない */
+/* 語の途中で折れると読めなくなるので、この語だけは割らせない。
+   折り返してよいのは読点のあと。見出しを2つの nb に分けて、そこだけ折れるようにしている。
+   1つにまとめると、狭い画面で行そのものがはみ出して横スクロールが出る。 */
 .nb { white-space: nowrap; }
 .lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 1.4rem; max-width: 44ch; }
 .lead b { color: var(--ink); font-weight: 700; }
@@ -487,7 +489,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <span class="eyebrow">スマホ戦略ゲーム／同盟戦・サーバー対抗戦（SVS）用</span>
         <!-- 号令1回 ↔ カウントダウン人数分。この対比だけで商品の中身が伝わる。
              以前は2行に別々のことを書いていて、繋がっていなかった。 -->
-        <h1><span class="nb">号令は1回。</span><em><span class="nb">カウントダウンは、人数分。</span></em></h1>
+        <h1><span class="nb">号令は1回。</span><em><span class="nb">カウントダウンは、</span><span class="nb">人数分。</span></em></h1>
         <p class="lead">
           スマホの戦略ゲームで、指示役をしている方へ。
           出したいタイミングで、号令を1回押すだけ。着弾時刻はツールが計算します。
