@@ -131,9 +131,7 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
     <div class="links" id="linksWrap"></div>
     <div class="status" id="status">ルームを準備中…</div>
 
-    <!-- ルームを買った方へ。メンバーに席を配るためのリンク。
-         同盟用・サーバー用は人数無制限なので、参加コードをそのまま配れば足りる。
-         それでも「一人ずつ自分で払ってほしい」場合にこのリンクを使う。 -->
+    <!-- 席を配るためのリンク。2026-09-24 に席の新規受付を止めたので、表示しない（下のJSで出さなくした）。 -->
     <div class="howto" id="share" style="display:none;">
       <strong>メンバーに、自分ぶんを申し込んでもらう場合</strong><br>
       下のリンクを配ると、各メンバーが<strong>自分専用の参加コード</strong>を申し込めます。
@@ -144,7 +142,7 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
           <div class="val" id="joinLink" style="word-break:break-all;"></div>
         </div>
       </div>
-      <span style="color:var(--ink-3);">※ 同盟用・サーバー用は人数の制限がありません。まとめて1つ払うなら、この上の参加コードをそのまま配ってください。</span>
+      <span style="color:var(--ink-3);">※ 同盟プラン・総指揮プランは人数の制限がありません。まとめて1つ払うなら、この上の参加コードをそのまま配ってください。</span>
     </div>
 
     <!-- 席を買った方へ -->
@@ -209,8 +207,8 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
         if (!res.ok) throw new Error(data.error || '不明なエラー');
 
         const isSeat = data.kind === 'seat' || data.plan === 'seat';
-        const PLAN_LABELS = { personal: '個人用（14日間無料、以降 ¥500/月）', alliance: '同盟用（14日間無料、以降 ¥1,500/月）', server: 'サーバー用（14日間無料、以降 ¥3,000/月）', seat: '席1人ぶん（14日間無料、以降 ¥500/月）' };
-        document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟用（14日間無料、以降 ¥1,500/月）';
+        const PLAN_LABELS = { personal: '個人用（14日間無料、以降 ¥500/月）', alliance: '同盟プラン（14日間無料、以降 ¥980/月）', server: '総指揮プラン（14日間無料、以降 ¥2,980/月）', seat: '席1人ぶん（14日間無料、以降 ¥500/月）' };
+        document.getElementById('planName').textContent = PLAN_LABELS[data.plan] || '同盟プラン（14日間無料、以降 ¥980/月）';
         document.getElementById('appUrl').textContent = data.appUrl;
         document.getElementById('roomId').textContent = data.roomId;
         document.getElementById('joinCode').textContent = data.code;
@@ -225,9 +223,7 @@ body.center { display: flex; align-items: flex-start; justify-content: center; p
           document.getElementById('howtoSeat').style.display = 'block';
         } else {
           document.getElementById('howto').style.display = 'block';
-          const link = `${location.origin}/join?room=${encodeURIComponent(data.roomId)}`;
-          document.getElementById('joinLink').textContent = link;
-          document.getElementById('share').style.display = 'block';
+          // 席（1人ぶん）の申し込み口は 2026-09-24 に閉じた。参加コードをそのまま配れば人数無制限で入れる。
         }
 
         document.getElementById('linksWrap').innerHTML =

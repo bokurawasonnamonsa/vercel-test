@@ -1,5 +1,5 @@
 const Stripe = require('stripe');
-const { PLANS, SEAT, CURRENCY, TRIAL_DAYS } = require('./_plans');
+const { PLANS, SEAT, SELLABLE, CURRENCY, TRIAL_DAYS } = require('./_plans');
 const { roomSummary } = require('./_product');
 
 // 月額のサブスクリプション。解約されるまで毎月自動更新される。
@@ -21,11 +21,11 @@ module.exports = async (req, res) => {
 
   const { plan, room, probe } = req.body || {};
 
-  // 個人用のルームは同時に6台までしかつなげない。そこに席を売ると、
-  // 6台が埋まっているとき、お金は取れるのに「6台までです」と弾かれるコードを渡すことになる。
-  // 席を足せるのは、人数制限の無い同盟用・サーバー用だけ。
-  const NOT_SEATABLE = 'このルームは6人までの個人用のため、席を増やせません。まとめ役の方に、同盟用への変更をご相談ください。';
-  const seatable = (info) => info.plan !== 'personal';
+  // 2026-09-24、席（1人ぶんの申し込み）の新規受付を止めた。
+  // このツールは全員が同じ時刻を見て初めて効く。1人ずつ払わせると、払わない人が出て揃わない。
+  // まとめ役の方のプランで、人数無制限で入れる。
+  const NOT_SEATABLE = '席（1人ぶん）の申し込みは終了しました。まとめ役の方がお持ちのプランで、人数の制限なく参加できます。参加コードはまとめ役の方にお尋ねください。';
+  const seatable = () => false;
 
   // ---- 席を買う前の確認 -------------------------------------------------
   // 「このルームはあるか」「どの同盟か」だけを返す。参加コードは返さない
@@ -54,6 +54,10 @@ module.exports = async (req, res) => {
   const selected = isSeat ? SEAT : PLANS[plan];
   if (!selected) {
     res.status(400).json({ error: 'Invalid plan' });
+    return;
+  }
+  if (!isSeat && !SELLABLE.includes(selected.id)) {
+    res.status(410).json({ error: 'このプランの新しいお申し込みは終了しました。同盟プランか総指揮プランをお選びください。' });
     return;
   }
 

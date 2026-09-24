@@ -181,10 +181,10 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
     <p class="sechint" style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;">
       <label for="planOverride">商品欄が「—」の決済を引き渡すときのプラン:</label>
       <select id="planOverride" style="font-family:inherit;font-size:.85rem;padding:.4rem .6rem;border:1.5px solid var(--rule);border-radius:2px;background:var(--surface);color:var(--ink);min-height:40px;">
-        <option value="">決済の記録に従う（既定・記録が無ければ同盟用）</option>
-        <option value="personal">個人用にする</option>
-        <option value="alliance">同盟用にする</option>
-        <option value="server">サーバー用にする</option>
+        <option value="">決済の記録に従う（既定・記録が無ければ同盟プラン）</option>
+        <option value="personal">個人用にする（新規受付終了）</option>
+        <option value="alliance">同盟プランにする</option>
+        <option value="server">総指揮プランにする</option>
       </select>
     </p>
     <div class="tbl-wrap">
@@ -224,7 +224,7 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
 <script>
   const $ = (id) => document.getElementById(id);
 
-  const PLAN_LABELS = { personal: '個人用', alliance: '同盟用', server: 'サーバー用' };
+  const PLAN_LABELS = { personal: '個人用', alliance: '同盟プラン', server: '総指揮プラン' };
 
   // 通貨ごとに書式を変える。ドル建ては最小単位がセント、円は円そのもの。
 
@@ -411,7 +411,7 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
       const to = (data.email && data.email.to) || '';
       const sent = data.email && data.email.sent;
       $('payMsg').textContent =
-        `発行しました（${data.plan === 'server' ? 'サーバー用' : data.plan === 'personal' ? '個人用' : '同盟用'} / ルームID ${data.roomId} / 参加コード ${data.code}）` +
+        `発行しました（${data.plan === 'server' ? '総指揮プラン' : data.plan === 'personal' ? '個人用' : '同盟プラン'} / ルームID ${data.roomId} / 参加コード ${data.code}）` +
         (sent ? ` — ${to} 宛にご案内をお送りしました。` : ' — メールは送信できていません。この内容を直接お伝えください。');
       await loadRooms();
       await loadPayments();

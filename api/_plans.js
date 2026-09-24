@@ -6,30 +6,37 @@
 // 注意：Stripe では円は「最小単位が円そのもの」の通貨なので、
 // unit_amount にはそのまま円を書く。ドルのように100倍しない。
 // ここを間違えると ¥500 のつもりが ¥50,000 の請求になる。
+// 2026-09-24 に組み直した。プランは2つ。
+//   同盟プラン   ¥980  ：1同盟・2班。集結の着弾指示・即時号令・差込
+//   総指揮プラン ¥2,980：管理画面つき。占領同盟＋攻撃同盟2つ。入替・占領抜き・ペア号令
+// どちらも人数・台数は数えない。買うのは1人、使うのは全員。
+// 個人用と席は新しい申し込みを止めた（SELLABLE に入れない）。表は残す。
+// 既にある個人用のルームと、決済の記録（plan: 'personal'）を読めるようにするため。
+// 内部の名前（alliance / server）は、商品サーバーとの約束なので変えない。
 const PLANS = {
   personal: {
     id: 'personal',
     name: 'CommandClock Personal',
     label: '個人用',
-    description: '6人までの少人数で使う。同時に6台まで',
+    description: '（新規受付終了）6人までの少人数で使う。同時に6台まで',
     jpy: 500,
     unit_amount: 500,
   },
   alliance: {
     id: 'alliance',
-    name: 'CommandClock Alliance',
-    label: '同盟用',
-    description: 'ステ戦・砦・要塞戦・王城戦など、同盟単位で動くイベント用。人数無制限',
-    jpy: 1500,
-    unit_amount: 1500,
+    name: 'CommandClock 同盟プラン',
+    label: '同盟プラン',
+    description: '1同盟・2班。集結の着弾指示・即時号令・差込。人数無制限',
+    jpy: 980,
+    unit_amount: 980,
   },
   server: {
     id: 'server',
-    name: 'CommandClock Server',
-    label: 'サーバー用',
-    description: '王城戦用（SVS・国内どちらでも）。占領と攻撃の3同盟までを同時に動かせる',
-    jpy: 3000,
-    unit_amount: 3000,
+    name: 'CommandClock 総指揮プラン',
+    label: '総指揮プラン',
+    description: '管理画面つき。占領同盟と攻撃同盟2つを指揮し、入替・占領抜きまで揃える。人数無制限',
+    jpy: 2980,
+    unit_amount: 2980,
   },
 };
 
@@ -56,4 +63,7 @@ const TRIAL_DAYS = 14;
 
 const CURRENCY = 'jpy';
 
-module.exports = { PLANS, SEAT, CURRENCY, TRIAL_DAYS };
+// いま新しく申し込めるプラン。
+const SELLABLE = ['alliance', 'server'];
+
+module.exports = { PLANS, SEAT, SELLABLE, CURRENCY, TRIAL_DAYS };
