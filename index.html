@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CommandClock｜戦略ゲーム初心者の軍師が作った、サーバーの勝率を上げるツール</title>
+<title>CommandClock｜戦略ゲーム初心者の軍師が、サーバーの勝率を上げる為に頑張って作ったツール</title>
 <meta name="description" content="チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。あと少しのところで勝てない人、ほかのチームがまだ使っていない新しい手を探している人、大勢の仲間をまとめて動かしているリーダー役の人へ。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://commandclock.jp/">
-<meta property="og:title" content="CommandClock｜戦略ゲーム初心者の軍師が作った、サーバーの勝率を上げるツール">
+<meta property="og:title" content="CommandClock｜戦略ゲーム初心者の軍師が、サーバーの勝率を上げる為に頑張って作ったツール">
 <meta property="og:description" content="占領している時間の長さで勝ち負けが決まる戦いで、あと少しのところで勝てない人へ。">
 <!-- リンクを貼ったときに出るカード。DiscordやLINEに転送されるのが主な入口なので、
      ここが実質のトップ画面になる。
@@ -131,8 +131,8 @@ h1 {
   letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
 }
 h1 em { font-style: normal; color: var(--amber-ink); }
-/* 最初の画面の見出しは2段（2026-09-24 鎌田さんの指定）。1段が15字前後なので、最大の大きさだけ少し下げる。 */
-.hero h1.head { font-size: clamp(1.7rem, 3.1vw, 2.3rem); }
+/* 最初の画面の見出しは2段（2026-09-24 鎌田さんの指定）。2段目が22字あるので、左の枠ではなく横幅いっぱいに置く。 */
+.hero h1.head { font-size: clamp(1.7rem, 3.4vw, 2.6rem); margin-bottom: 1.6rem; }
 .who { font-weight: 700; color: var(--ink); margin: 0 0 0.7rem; }
 /* 見出しは文節で折り返す（「困っ／ていませんか」のように語の途中で折れないように）。 */
 h2, h3 { word-break: auto-phrase; }
@@ -490,13 +490,14 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <!-- ===== ヒーロー ===== -->
 <div class="hero">
   <div class="wrap">
+    <span class="eyebrow">拠点を取り合うスマホ戦略ゲームの、チーム用ツール</span>
+    <!-- 最初の画面は専門用語を出さない。何のためのツールで、どんな人のためか、だけを言う。
+         見出しは2段で、文は鎌田さんの言葉（2026-09-24）。「頑張って」「勝率を上げる為に」は省かない。
+         長いので左の枠から出し、横幅いっぱいに置いて1段ずつ1行に収める。 -->
+    <h1 class="head"><span class="nb">戦略ゲーム初心者の</span><span class="nb">軍師が、</span><br><em><span class="nb">サーバーの勝率を</span><span class="nb">上げる為に</span><span class="nb">頑張って作ったツール。</span></em></h1>
     <div class="hero-grid">
 
       <div>
-        <span class="eyebrow">拠点を取り合うスマホ戦略ゲームの、チーム用ツール</span>
-        <!-- 最初の画面は専門用語を出さない。何のためのツールで、どんな人のためか、だけを言う。
-             見出しは2段、その下の一文と「こんな人」は鎌田さんの言葉（2026-09-24）。 -->
-        <h1 class="head"><span class="nb">戦略ゲーム初心者の</span><span class="nb">軍師が作った、</span><br><em><span class="nb">サーバーの勝率を</span><span class="nb">上げるツール。</span></em></h1>
         <p class="lead">チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。</p>
         <p class="who">こんな人の為のツールです。</p>
         <ul class="points">
