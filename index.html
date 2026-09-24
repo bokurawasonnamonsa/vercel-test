@@ -289,7 +289,8 @@ figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin
 .tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 560px; }
 #roles table { min-width: 0; }
-#roles th:first-child, #roles td:first-child { width: 32%; }
+#roles th:first-child, #roles td:first-child { width: 36%; }
+#roles td { word-break: auto-phrase; }
 th, td { text-align: left; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--rule); }
 th {
   font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500;
@@ -596,15 +597,15 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="benefit" class="on-white">
   <div class="wrap">
     <span class="eyebrow">HOW IT WORKS</span>
-    <h2>押すのは1回。着弾時間は、ツールが出す。</h2>
-    <p class="sec-lead">即時号令を押すと、ツールが着弾時間を決めます。いまの時刻に、押すまでの猶予、集結時間、班で一番遠い集結主の行軍時間を足した時刻です。一人ひとりの出発は、そこから自分の行軍時間を引いた時刻になります。</p>
+    <h2>押すのは1回。到着時間は、ツールが出す。</h2>
+    <p class="sec-lead">リーダーが号令ボタンを押すと、ツールが全員の到着時間を決めます。いまの時刻に、押すまでの余裕と、仲間が集まるまでの時間と、一番遠い人の移動時間を足した時刻です。一人ひとりの出発は、そこから自分の移動時間を引いた時刻になります。</p>
 
     <figure>
       <div class="fig panel">
-        <div class="panel-cap"><span>DEPARTURE SCHEDULE</span><b class="num">着弾 21:03:15</b></div>
+        <div class="panel-cap"><span>DEPARTURE SCHEDULE</span><b class="num">到着 21:03:15</b></div>
         <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-label="移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する予定表">
           <text class="fg-cap" x="12" y="22">出発：ひとりずつ違う</text>
-          <text class="fg-cap fg-sig" x="808" y="22" text-anchor="end">着弾：全員そろう</text>
+          <text class="fg-cap fg-sig" x="808" y="22" text-anchor="end">到着：全員そろう</text>
           <line class="fg-goal" x1="760" y1="36" x2="760" y2="268"/>
           <text class="fg-cap fg-sig" x="808" y="288" text-anchor="end">21:03:15</text>
           <g>
@@ -640,7 +641,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-label="移動時間の違う4人が、それぞれ違う時刻に出発し、同じ時刻に到着する予定表">
           <text class="fg-cap" x="10" y="24">出発：ひとりずつ違う</text>
           <line class="fg-goal" x1="352" y1="38" x2="352" y2="332"/>
-          <text class="fg-cap fg-sig" x="372" y="360" text-anchor="end">着弾 21:03:15</text>
+          <text class="fg-cap fg-sig" x="372" y="360" text-anchor="end">到着 21:03:15</text>
           <text class="fg-cap fg-sig" x="372" y="380" text-anchor="end">全員そろう</text>
           <text class="fg-name" x="10" y="74">プレーヤーA　<tspan class="fg-time">21:00:15</tspan> に出発（移動 3:00）</text>
           <line class="fg-bar" x1="122" y1="88" x2="352" y2="88"/>
@@ -675,16 +676,16 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
     <div class="grid3">
       <div class="card gain">
-        <h3>連撃が、隙間なく着く</h3>
-        <p>集結主全員が同じ着弾時間で集結をかけるので、敵に差込を入れる隙間を与えません。</p>
+        <h3>続けて攻めるとき、隙間なく着く</h3>
+        <p>攻撃を出す全員が、同じ到着時間に合わせて出します。相手に割り込む隙間を与えません（連撃）。</p>
       </div>
       <div class="card gain">
-        <h3>差込が、狙った隙間に入る</h3>
-        <p>敵の連撃の着弾と着弾のあいだに、単騎の着弾を秒で合わせます。</p>
+        <h3>相手の攻撃の隙間に、狙って入る</h3>
+        <p>相手が続けて攻めてくるとき、その到着と到着のあいだに、こちらの一人を秒で合わせて送り込みます（差込）。</p>
       </div>
       <div class="card gain">
-        <h3>入替が、1秒の勝負に間に合う</h3>
-        <p>駐屯から抜ける時刻を、駐屯している全員が自分の画面で見て、同時に抜けます。旗持ちや盟主が一人ずつ外していては、間に合いません。</p>
+        <h3>拠点の受け渡しが、1秒の勝負に間に合う</h3>
+        <p>拠点の中にいる全員が、抜ける時刻を自分の画面で見て、同時に抜けます。リーダーが一人ずつ外していては、間に合いません（入替・占領抜き）。</p>
       </div>
     </div>
   </div>
@@ -695,20 +696,20 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   <div class="wrap">
     <span class="eyebrow">WHO GETS WHAT</span>
     <h2>役割ごとに、押す瞬間が届く。</h2>
-    <p class="sec-lead">王城戦は、同盟ごとの占領時間で勝ち負けが決まります。だから占領時間は1つの同盟（占領同盟）に集め、太陽城は攻撃同盟が奪って、入替で占領同盟に渡します。どの動きも、決めた着弾時間に全員が合わせて、はじめて成り立ちます。</p>
+    <p class="sec-lead">拠点の取り合いは、同盟ごとの占領時間で勝ち負けが決まります。だから占領時間は1つの同盟に集めます。拠点は攻める同盟が奪い、占領する同盟に受け渡します。どの動きも、決めた到着時間に全員が合わせて、はじめて成り立ちます。</p>
     <div class="tbl-wrap">
       <table>
         <thead><tr><th>役割</th><th>届くもの</th></tr></thead>
         <tbody>
-          <tr><td>軍師・参謀</td><td>即時号令1回で、最適な着弾時間。ゲーム内チャットにそのまま貼れる一行</td></tr>
-          <tr><td>集結主</td><td>どの着弾時間で集結をかければいいか。集結主全員に、同時に届く</td></tr>
-          <tr><td>占領同盟の乗り手</td><td>入替のとき、単騎で太陽城に攻撃する着弾時間と、攻撃ボタンを押す瞬間</td></tr>
-          <tr><td>攻撃同盟</td><td>占領同盟の単騎がいつ着くか。その数秒前に、太陽城から抜ける瞬間</td></tr>
-          <tr><td>差込の単騎</td><td>敵の連撃の隙間に合わせた着弾時間と、押す瞬間</td></tr>
+          <tr><td>指示を出す人<br>（軍師・参謀）</td><td>ボタン1回で、一番よい到着時間。ゲーム内チャットにそのまま貼れる一行</td></tr>
+          <tr><td>攻撃を出す人<br>（集結主）</td><td>どの到着時間に合わせて出せばいいか。全員に、同時に届く</td></tr>
+          <tr><td>占領する同盟の人</td><td>拠点を受け取るとき、一人で拠点に向かう到着時間と、ボタンを押す瞬間</td></tr>
+          <tr><td>攻める同盟の人</td><td>占領する同盟の仲間がいつ着くか。その数秒前に、拠点から抜ける瞬間</td></tr>
+          <tr><td>守りに入る人</td><td>相手の攻撃の隙間に合わせた到着時間と、押す瞬間</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tbl-note">集結主が全員ツールに入っていなくても、即時号令は使えます。全員がそろうほど、隙間は詰まります。</p>
+    <p class="tbl-note">全員がツールに入っていなくても、号令ボタンは使えます。入る人が増えるほど、隙間は詰まります。</p>
   </div>
 </section>
 
@@ -719,7 +720,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   <div class="wrap">
     <span class="eyebrow">SEE IT WORKING</span>
     <h2>これが、実際の画面です。</h2>
-    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面。号令を1回出してから、全員が同じ一秒に着弾するまでの30秒です。待ち時間だけ早送りしています。</p>
+    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面。号令を1回出してから、全員が同じ一秒に到着するまでの30秒です。待ち時間だけ早送りしています。</p>
 
     <figure class="demo-fig">
       <div class="demo-cap">
@@ -731,13 +732,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <div class="demo-frame">
         <video id="demoVideo" muted loop playsinline preload="none"
                data-wide="/assets/demo-wide.mp4" data-tall="/assets/demo-tall.mp4"
-               aria-label="指示役が号令を1回出し、メンバーごとに違うカウントダウンが表示され、全員が同じ時刻に着弾するまでの画面録画"></video>
+               aria-label="指示役が号令を1回出し、メンバーごとに違うカウントダウンが表示され、全員が同じ時刻に到着するまでの画面録画"></video>
         <noscript><img src="/assets/demo-wide.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
       </div>
       <ul class="demo-beats">
         <li><span class="t">00:00　指示役</span><span class="d">出したいタイミングで、<b>号令を1回押すだけ</b>。</span></li>
-        <li><span class="t">00:08　全員の画面</span><span class="d">行軍時間が違うので、<b>出発のカウントダウンは一人ずつ違う</b>数字になります。</span></li>
-        <li><span class="t">00:27　着弾</span><span class="d">別々に出発した全員が、<b>同じ一秒に到着</b>して完了します。</span></li>
+        <li><span class="t">00:08　全員の画面</span><span class="d">移動時間が違うので、<b>出発のカウントダウンは一人ずつ違う</b>数字になります。</span></li>
+        <li><span class="t">00:27　到着</span><span class="d">別々に出発した全員が、<b>同じ一秒に到着</b>して完了します。</span></li>
       </ul>
       <figcaption>音声はありません。画面はテスト用のルームで、名前と数値は仮のものです。</figcaption>
     </figure>
@@ -753,21 +754,21 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
     <div class="origin-grid">
       <div class="origin-text">
-        <p><strong>5時間フルで戦って、6秒差で負けました。</strong>サーバー対抗戦の王城戦は5時間あります。2時間30分を続けて押さえた同盟が、その場で勝ちます。どの同盟も2時間30分続けて押さえられなければ、5時間の最後に、押さえていた時間の合計が一番長い同盟が勝ちます。</p>
+        <p><strong>5時間フルで戦って、6秒差で負けました。</strong>サーバー同士で拠点を奪い合う王城戦は、5時間あります。2時間30分を続けて押さえた同盟が、その場で勝ちます。どの同盟も2時間30分続けて押さえられなければ、5時間の最後に、押さえていた時間の合計が一番長い同盟が勝ちます。</p>
 
         <p class="origin-voice">その合計の差が、6秒でした。<br>終わった後、誰もしゃべる事が出来ず、絶句でした。<br>こんな負け方は2度としたくない、<br>集まってくれたみんなにも味わわせたくないと思い、<br>負けた日の翌日から<br>ツール作りを始めました。</p>
 
-        <p>その5時間、私はゲームのアカウントを3つ同時に開いて、敵の集結を見張っていました。集結が出たら、5〜10秒のうちに単発か連撃かを判断して、チャットに着弾時刻を4桁で流していました。</p>
+        <p>その5時間、私はゲームのアカウントを3つ同時に開いて、敵の集結を見張っていました。相手が攻撃を出したら、5〜10秒のうちに1回だけか、続けて来るかを判断して、チャットに到着時刻を4桁で流していました。</p>
 
         <p>受け取ったみんなは、それぞれ自分で引き算をしていました。</p>
 
         <div class="origin-formula">
-          <span>着弾時間</span><b>−</b><span>自分の行軍時間</span><b>=</b><span class="hot">自分の出発時間</span>
+          <span>到着時間</span><b>−</b><span>自分の移動時間</span><b>=</b><span class="hot">自分の出発時間</span>
         </div>
 
-        <p>行軍時間は一人ずつ違うので、全員が違う答えを出さなければいけませんでした。入替や差込の単騎は、時刻の見えない画面で、その瞬間に押していました。指示を出したあと、私にできるのは祈ることだけでした。</p>
+        <p>移動時間は一人ずつ違うので、全員が違う答えを出さなければいけませんでした。一人で拠点に向かう人は、時刻の見えない画面で、その瞬間に押していました。指示を出したあと、私にできるのは祈ることだけでした。</p>
 
-        <p><strong>この計算を、ツールに織り込みました。</strong>号令を1回押せば、着弾時間が出ます。集結主にも単騎の人にも、押す瞬間がカウントダウンで届きます。</p>
+        <p><strong>この計算を、ツールに織り込みました。</strong>号令を1回押せば、到着時間が出ます。攻撃を出す人にも、一人で向かう人にも、押す瞬間がカウントダウンで届きます。</p>
       </div>
 
       <div class="origin-aside">
@@ -784,7 +785,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   <div class="wrap">
     <span class="eyebrow">THE DIFFERENCE</span>
     <h2>同時到着だけなら、他にもできます。</h2>
-    <p class="sec-lead">同時に着くことだけなら、手でも合わせられます。違いはその先です。<strong>集結・差込・入替・占領抜きという種類の違う号令を、1つの時刻を基準に組み合わせて出せること。</strong><strong>押す瞬間を、一人ひとりの画面にカウントダウンで届けること。</strong><strong>端末の時計が数秒ずれていても、全員のカウントダウンが合うこと。</strong></p>
+    <p class="sec-lead">同時に着くことだけなら、手でも合わせられます。違いはその先です。<strong>攻める・割り込む・受け渡す・抜けるという種類の違う号令を、1つの時刻を基準に組み合わせて出せること。</strong><strong>押す瞬間を、一人ひとりの画面にカウントダウンで届けること。</strong><strong>端末の時計が数秒ずれていても、全員のカウントダウンが合うこと。</strong></p>
     <div class="tbl-wrap">
       <table>
         <thead>
@@ -792,7 +793,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
             <th>手段</th>
             <th>同時到着</th>
             <th>個人ごとの<br>タイミング</th>
-            <th class="key">入替・差込・<br>占領抜き</th>
+            <th class="key">受け渡し・<br>割り込み</th>
             <th class="key">端末時計の<br>ズレを補正</th>
           </tr>
         </thead>
@@ -806,14 +807,14 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       </table>
     </div>
     <p class="tbl-note">
-      <b>入替</b>＝攻撃同盟が奪った太陽城を、占領同盟に時刻を合わせて渡すこと。<br>
-      <b>占領抜き</b>＝入替のとき、駐屯している全員が同時に太陽城から抜けること。<br>
-      <b>差込</b>＝敵の連撃の着弾と着弾のあいだに、自分の隊を割り込ませて守ること。
+      <b>受け渡し（入替）</b>＝攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。<br>
+      <b>占領抜き</b>＝受け渡しのとき、拠点の中にいる全員が同時に抜けること。<br>
+      <b>割り込み（差込）</b>＝相手が続けて攻めてくるとき、その到着と到着のあいだに、自分の隊を割り込ませて守ること。
     </p>
     <div class="note-line">
       <h3>なぜ他にないのか</h3>
       <p>
-        端末の時計を揃える。行軍時間から逆算する。押す瞬間を一人ひとりに届ける。この3つが同時に要ると分かるのは、王城戦で秒を詰めて戦ってきた人です。CommandClockは、その王城戦を指揮してきたプレイヤー自身が作りました。
+        端末の時計を揃える。移動時間から逆算する。押す瞬間を一人ひとりに届ける。この3つが同時に要ると分かるのは、拠点の取り合いで秒を詰めて戦ってきた人です。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。
       </p>
     </div>
   </div>
@@ -824,11 +825,11 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   <div class="wrap">
     <span class="eyebrow">THE PROOF</span>
     <h2>試作品ではありません。実戦で作りました。</h2>
-    <p class="sec-lead">開発元のサーバーで、実際のサーバー対抗戦の王城戦に使いながら作りました。最大219名が同時に使っています。</p>
+    <p class="sec-lead">開発元のサーバーで、実際のサーバー同士の拠点の取り合い（王城戦）に使いながら作りました。最大219名が同時に使っています。</p>
     <div class="stats">
       <div class="stat"><div class="n"><span data-count="219">0</span><small> 名</small></div><div class="k">開発元サーバーでの最大同時利用</div></div>
-      <div class="stat"><div class="n"><span data-count="200">0</span><small> 名超</small></div><div class="k">サーバー対抗戦での運用規模</div></div>
-      <div class="stat"><div class="n"><span data-count="0.00">0.00</span><small> 秒</small></div><div class="k">計算した着弾時刻のズレ</div></div>
+      <div class="stat"><div class="n"><span data-count="200">0</span><small> 名超</small></div><div class="k">サーバー同士の戦いでの運用規模</div></div>
+      <div class="stat"><div class="n"><span data-count="0.00">0.00</span><small> 秒</small></div><div class="k">計算した到着時刻のズレ</div></div>
       <div class="stat"><div class="n" style="font-size:1.35rem; font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900;">ブラウザ</div><div class="k">インストール不要で参加</div></div>
     </div>
   </div>
@@ -842,9 +843,9 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <p class="sec-lead">インストール作業も、サーバーの用意もいりません。</p>
     <div class="steps">
       <div class="step"><div class="k">01</div><h3>申し込む</h3><p>決済が終わると、その場でルームIDと参加コードが発行されます。同じ内容がメールにも届きます。</p></div>
-      <div class="step"><div class="k">02</div><h3>まず1人で使う</h3><p>参謀がプレーヤー画面を開き、即時号令を押すだけ。着弾時間が出て、チャットに貼れる一行がコピーされます。</p></div>
-      <div class="step"><div class="k">03</div><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有します。行軍時間は、各メンバーが一度入れれば、次からは保存されています。</p></div>
-      <div class="step"><div class="k">04</div><h3>号令を出す</h3><p>出したいタイミングで号令を押すだけ。一人ひとりに違うカウントダウンが出て、全員が同じ一秒に着弾します。</p></div>
+      <div class="step"><div class="k">02</div><h3>まず1人で使う</h3><p>指示を出す人がプレーヤー画面を開き、号令ボタンを押すだけ。到着時間が出て、チャットに貼れる一行がコピーされます。</p></div>
+      <div class="step"><div class="k">03</div><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有します。移動時間は、各メンバーが一度入れれば、次からは保存されています。</p></div>
+      <div class="step"><div class="k">04</div><h3>号令を出す</h3><p>出したいタイミングで号令を押すだけ。一人ひとりに違うカウントダウンが出て、全員が同じ一秒に到着します。</p></div>
     </div>
     <p style="margin-top:1.8rem;"><a href="/guide.html">画面ごとの使い方や、出てくる用語の説明はこちら →</a></p>
   </div>
@@ -887,9 +888,9 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         </div>
       </div>
       <p class="scope-note">
-        ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで。<br>
-        <b>班</b>は、同じ着弾時間で揃える集結主のまとまりです。4連と3連のように、連撃を2つの着弾時間に分けられます。<br>
-        <b>乗り手や単騎の人は枠を使いません。</b>何人でも入れます。
+        ■ の1つが、<b>攻撃を出す人（集結主）1人ぶんの枠</b>です。1つの班に6人まで、1同盟で2班まで。<br>
+        <b>班</b>は、同じ到着時間でそろえる人のまとまりです。4人と3人のように、続けて攻める組を2つの到着時間に分けられます。<br>
+        <b>集結に乗る人や、一人で向かう人は枠を使いません。</b>何人でも入れます。
       </p>
     </div>
 
@@ -899,11 +900,11 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <h3>同盟プラン</h3>
         <div class="amt">¥980 <span>/ 月</span></div>
         <ul>
-          <li><strong>1同盟・2班</strong>（集結主12人）</li>
-          <li>集結の着弾指示・即時号令・差込</li>
-          <li>号令と同時に、着弾時間をコピー</li>
+          <li><strong>1同盟・2班</strong>（攻撃を出す人12人）</li>
+          <li>到着時間の指示・号令ボタン・割り込み（差込）</li>
+          <li>号令と同時に、到着時間をコピー</li>
           <li><strong>人数・台数の制限なし</strong></li>
-          <li>ステ戦・砦要塞戦・兵器工場、少人数での王城戦に</li>
+          <li>同盟で動く拠点戦に（ステ戦・砦要塞戦・兵器工場、少人数での王城戦など）</li>
         </ul>
         <button class="btn btn-solid" data-plan="alliance">14日間無料で試す</button>
         <div class="msg" data-status="alliance"></div>
@@ -913,19 +914,19 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <div class="amt">¥2,980 <span>/ 月</span></div>
         <ul>
           <li>同盟プランにできることすべて</li>
-          <li><strong>管理画面つき</strong>（占領同盟と攻撃同盟2つを1画面で）</li>
+          <li><strong>管理画面つき</strong>（占領する同盟と、攻める同盟2つを1画面で）</li>
           <li>管理画面はパソコン推奨（スマホでも使えます）</li>
-          <li><strong>入替・占領抜き</strong>（駐屯から全員が同時に抜ける）</li>
+          <li><strong>拠点の受け渡し</strong>（入替・占領抜き。中にいる全員が同時に抜ける）</li>
           <li>同盟をまたぐペア号令</li>
-          <li>3同盟・6班（集結主36人）</li>
-          <li>占領同盟と攻撃同盟に分けて戦う王城戦（SVS・国内）に</li>
+          <li>3同盟・6班（攻撃を出す人36人）</li>
+          <li>占領する同盟と攻める同盟に分けて戦う、サーバー同士の拠点の取り合いに（王城戦・SVSなど）</li>
         </ul>
         <button class="btn btn-line" data-plan="server">14日間無料で試す</button>
         <div class="msg" data-status="server"></div>
       </div>
     </div>
     <p class="fine">
-      <strong style="color:var(--ink-2);">はじめの14日間は無料</strong>です。王城戦は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。この間に解約すれば、料金は一切かかりません。表示価格はすべて税込で、追加料金はありません。<br>
+      <strong style="color:var(--ink-2);">はじめの14日間は無料</strong>です。大きな拠点の取り合い（王城戦）は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。この間に解約すれば、料金は一切かかりません。表示価格はすべて税込で、追加料金はありません。<br>
       お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--ink-2);">実際にご請求が発生します</strong>。お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
     </p>
   </div>
@@ -937,13 +938,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <span class="eyebrow">FAQ</span>
     <h2>申し込む前に、気になるところ。</h2>
     <div class="faq">
-      <details><summary>1人でも使えますか？</summary><p>使えます。参謀の方がプレーヤー画面で即時号令を押すと、着弾時間が出て「【同盟名】集結　1234」がコピーされます。メンバーがツールに入っていなくても、その一行をゲーム内チャットに貼れば号令になります。</p></details>
+      <details><summary>1人でも使えますか？</summary><p>使えます。指示を出す方がプレーヤー画面で号令ボタンを押すと、到着時間が出て「【同盟名】集結　1234」がコピーされます。メンバーがツールに入っていなくても、その一行をゲーム内チャットに貼れば号令になります。</p></details>
       <details><summary>チートや規約違反になりませんか？</summary><p>CommandClockはゲームに一切触れません。ゲームの画面を読み取ることも、自動で押すこともしません。別の画面にカウントダウンが出るだけで、押すのはご自身です。</p></details>
       <details><summary>メンバー全員がアプリを入れる必要がありますか？</summary><p>いいえ。URLをブラウザで開き、ルームIDと参加コードを入力するだけで使えます。インストールは不要です。</p></details>
       <details><summary>メンバーのぶんも払う必要がありますか？</summary><p>ありません。まとめ役の方が1つ申し込めば、同盟やサーバーの全員が追加料金なしで参加できます。人数も台数も数えません。</p></details>
-      <details><summary>着弾時刻を自分で決めることもできますか？</summary><p>できます。即時号令のほかに、時刻を指定して出す着弾指定号令があります。</p></details>
+      <details><summary>到着時刻を自分で決めることもできますか？</summary><p>できます。いますぐ出す号令のほかに、到着時刻を指定して出す号令もあります。</p></details>
       <details><summary>端末の時計がずれていても大丈夫ですか？</summary><p>大丈夫です。各端末の時計ではなく、サーバーの時刻を基準にカウントダウンします。通信の遅延も自動で補正するため、時計が数秒ずれている端末でも同じ瞬間に到着できます。</p></details>
-      <details><summary>行軍時間の入力は毎回必要ですか？</summary><p>いいえ。最初に一度入力すれば端末に保存されます。距離が変わったときだけ入れ直してください。</p></details>
+      <details><summary>移動時間の入力は毎回必要ですか？</summary><p>いいえ。最初に一度入力すれば端末に保存されます。距離が変わったときだけ入れ直してください。</p></details>
       <details><summary>解約はいつでもできますか？</summary><p>できます。ご連絡いただければ次回以降の請求は発生しません。契約期間の縛りはありません。</p></details>
       <details><summary>カード情報は安全ですか？</summary><p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p></details>
       <details><summary>管理画面はスマホでも使えますか？</summary><p>使えます。ただ、3つの同盟を1つの画面に並べ、見比べながら号令を出す画面です。見やすさ、動きの軽さ、押しやすさで言えば、パソコンをおすすめします。指揮をとるなら、パソコンが一番です。目安は、Windows 10・11 か macOS、Intel Core i3・AMD Ryzen 3 以上、メモリ8GB以上、画面の横幅1366ピクセル以上です。ここ5年ほどの間に買ったパソコンなら、まず大丈夫です。メンバーが使うプレーヤー画面は、スマホで使う前提で作っています。</p></details>
