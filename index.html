@@ -424,6 +424,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
 @media (min-width: 900px) { .origin-aside { border-top: none; border-left: 3px solid var(--ink); padding: 0 0 0 1.6rem; } }
 .origin-aside p { font-size: 0.92rem; line-height: 1.95; margin: 0 0 1rem; }
 .origin-aside p:last-child { margin-bottom: 0; }
+.origin-voice { font-weight: 700; color: var(--ink); line-height: 2; border-left: 3px solid var(--amber); padding-left: 1rem; }
 .origin-quote {
   font-size: 1.12rem !important; font-weight: 900; color: var(--ink);
   letter-spacing: -0.02em; line-height: 1.6 !important; text-wrap: balance;
@@ -747,11 +748,14 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="origin" class="on-white">
   <div class="wrap">
     <span class="eyebrow">WHY IT EXISTS</span>
-    <h2>5時間戦って、6秒差で負けました。</h2>
+    <!-- 見出しは「このツールを作った一番の理由」として書く。下の本文の後半は鎌田さんの言葉（2026-09-24）。 -->
+    <h2><span class="nb">このツールを作った</span><span class="nb">一番の理由は、</span><br><span class="nb">5時間戦って、</span><span class="nb">6秒差で負けたことです。</span></h2>
 
     <div class="origin-grid">
       <div class="origin-text">
-        <p><strong>6秒差でした。</strong>サーバー対抗戦の王城戦は5時間あります。2時間30分を続けて押さえた同盟が、その場で勝ちます。誰も届かなければ、5時間の最後に、押さえていた時間の合計が長い同盟が勝ちます。その合計の差が、6秒でした。作り始めたのは、その翌日です。</p>
+        <p><strong>5時間フルで戦って、6秒差で負けました。</strong>サーバー対抗戦の王城戦は5時間あります。2時間30分を続けて押さえた同盟が、その場で勝ちます。誰も届かなければ、5時間の最後に、押さえていた時間の合計が長い同盟が勝ちます。</p>
+
+        <p class="origin-voice">その合計の差が、6秒でした。<br>終わった後、誰もしゃべる事が出来ず、絶句でした。<br>こんな負け方は2度としたくない、<br>集まってくれたみんなにも味わわせたくないと思い、<br>負けた日の翌日から<br>ツール作りを始めました。</p>
 
         <p>その5時間、私はゲームのアカウントを3つ同時に開いて、敵の集結を見張っていました。集結が出たら、5〜10秒のうちに単発か連撃かを判断して、チャットに着弾時刻を4桁で流す。</p>
 
