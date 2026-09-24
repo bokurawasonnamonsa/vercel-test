@@ -866,21 +866,21 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <p class="scope-note">
         ■ の1つが<b>集結主の枠</b>です。1つの班に6人まで、1同盟で2班まで、全部で36枠あります。<br>
         <b>乗り手は枠を使いません。</b>集結主の隊に乗るだけの方は、何人参加しても追加料金はかかりません。<br>
-        個人用 ¥500 は、参謀ひとりが自分の端末だけで使う形です（同時に1台まで）。
+        個人用 ¥500 は、6人までの少人数で使う形です（乗り手も含めて、同時に6台まで）。
       </p>
     </div>
 
-    <!-- 人数が増えるほど1人あたりが下がり、3人で上限が外れる。
-         別料金の仕組みではなく、いまの3プランがそのままこの形になっている。 -->
+    <!-- 6人までは個人用、7人からは同盟用。同盟用は何人増えても月額が変わらない。
+         2026-09-24 に個人用を1台→6台にしたので、段の区切りも3人→7人に変わった。 -->
     <div class="ladder tbl-wrap">
       <table>
         <thead>
           <tr><th>使う人数</th><th>プラン</th><th>月額</th><th>1人あたり</th></tr>
         </thead>
         <tbody>
-          <tr><td>1人</td><td>個人用</td><td>¥500</td><td class="per">¥500</td></tr>
-          <tr class="edge"><td>3人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥500</td></tr>
-          <tr><td>5人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥300</td></tr>
+          <tr><td>3人</td><td>個人用</td><td>¥500</td><td class="per">¥167</td></tr>
+          <tr><td>6人</td><td>個人用</td><td>¥500</td><td class="per">¥83</td></tr>
+          <tr class="edge"><td>7人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥214</td></tr>
           <tr><td>10人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥150</td></tr>
           <tr><td>30人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥50</td></tr>
           <tr><td>100人</td><td>同盟用</td><td>¥1,500</td><td class="per">¥15</td></tr>
@@ -889,7 +889,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       </table>
     </div>
     <p class="ladder-cap">
-      <b>3人で上限です。</b>そこから先は何人増えても月額は ¥1,500 のまま、1人あたりだけが下がっていきます。
+      <b>6人までは個人用、7人からは同盟用です。</b>同盟用は何人増えても月額は ¥1,500 のまま、1人あたりだけが下がっていきます。
       人数を数えたり、あとから追加で請求されたりすることはありません。
       解約はいつでもでき、次回以降の請求は発生しません。契約期間の縛りもありません。
     </p>
@@ -900,10 +900,10 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <div class="amt">¥500 <span>/ 月</span></div>
 
         <ul>
-          <li>参謀が自分の端末だけで使う</li>
-          <li>計算した出発時刻を<strong>コピーしてチャットに貼る</strong></li>
-          <li>メンバー側の準備はいらない</li>
-          <li>同時に使えるのは1台まで</li>
+          <li><strong>6人まで</strong>の少人数で使う</li>
+          <li>集結・入替・差込の号令は同盟用と同じ</li>
+          <li>同時に使えるのは、乗り手も含めて6台まで</li>
+          <li>7人以上なら同盟用</li>
         </ul>
         <button class="btn btn-line" data-plan="personal">14日間無料で試す</button>
         <div class="msg" data-status="personal"></div>

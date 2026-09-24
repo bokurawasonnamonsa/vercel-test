@@ -24,7 +24,7 @@ function senderAddress() {
 function planNoteHtml(plan, appUrl) {
   const b = (t) => `<strong style="color:#e8eef7;">${t}</strong>`;
   if (plan === 'personal') {
-    return `${b('個人用プラン')}です。ツールを開けるのは同時に1台までです。参謀の画面で計算し、「コピー」ボタンで出発時刻の一覧をチャットに貼って、メンバーへ伝えてください。`;
+    return `${b('個人用プラン')}です。6人までの少人数で使えます（乗り手も含めて、同時に6台まで）。上の3点を、一緒に使うメンバーに共有してください。7人以上で使うときは同盟用へお切り替えください。`;
   }
   if (plan === 'server') {
     const admin = `${String(appUrl).replace(/\/+$/, '')}/admin`;

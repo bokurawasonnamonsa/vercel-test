@@ -11,7 +11,7 @@ const PLANS = {
     id: 'personal',
     name: 'CommandClock Personal',
     label: '個人用',
-    description: '参謀が自分の端末だけで使う。結果はコピーしてチャットに貼る',
+    description: '6人までの少人数で使う。同時に6台まで',
     jpy: 500,
     unit_amount: 500,
   },
