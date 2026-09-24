@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CommandClock｜着弾と着弾のあいだの数秒を詰める。王城戦・SVS・同盟戦の集結用</title>
-<meta name="description" content="スマホの戦略ゲームで、集結を指示する方へ。王城戦・SVS・ステ戦・砦要塞戦。号令を1回押すと着弾時間が出て、ゲーム内チャットに貼れる一行がコピーされます。集結主にも、単騎で入替や差込をする人にも、押す瞬間がカウントダウンで届きます。端末の時計がずれていても揃います。">
+<title>CommandClock｜チームで拠点を取り合うスマホ戦略ゲームのためのツール</title>
+<meta name="description" content="チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。あと少しのところで勝てない人、ほかのチームがまだ使っていない新しい手を探している人、大勢の仲間をまとめて動かしているリーダー役の人へ。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://commandclock.jp/">
-<meta property="og:title" content="CommandClock｜着弾と着弾のあいだの数秒を詰める。">
-<meta property="og:description" content="号令を1回押すと、着弾時間が出る。集結主にも、単騎で入替や差込をする人にも、押す瞬間がカウントダウンで届く。">
+<meta property="og:title" content="CommandClock｜チームで拠点を取り合うスマホ戦略ゲームのためのツール">
+<meta property="og:description" content="占領している時間の長さで勝ち負けが決まる戦いで、あと少しのところで勝てない人へ。">
 <!-- リンクを貼ったときに出るカード。DiscordやLINEに転送されるのが主な入口なので、
      ここが実質のトップ画面になる。
      ファイル名を変えているのは、X・Discord・LINEが画像を強く覚えてしまい、
@@ -131,6 +131,11 @@ h1 {
   letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
 }
 h1 em { font-style: normal; color: var(--amber-ink); }
+/* 最初の画面の見出しは、鎌田さんの一文をそのまま置く（2026-09-24）。長いので小さめにし、文節で折り返す。 */
+.hero h1.head { font-size: clamp(1.45rem, 3.3vw, 2.05rem); line-height: 1.5; letter-spacing: -0.02em; word-break: auto-phrase; }
+.who { font-weight: 700; color: var(--ink); margin: 0 0 0.7rem; }
+/* 見出しは文節で折り返す（「困っ／ていませんか」のように語の途中で折れないように）。 */
+h2, h3 { word-break: auto-phrase; }
 /* 語の途中で折れると読めなくなるので、この語だけは割らせない。
    折り返してよいのは読点のあと。見出しを2つの nb に分けて、そこだけ折れるようにしている。
    1つにまとめると、狭い画面で行そのものがはみ出して横スクロールが出る。 */
@@ -267,7 +272,7 @@ figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin
 
 /* ---- カード -------------------------------------------------- */
 .grid3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-@media (min-width: 780px) { .grid3 { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 780px) { .grid3 { grid-template-columns: repeat(3, 1fr); } .grid-pain { grid-template-columns: repeat(2, 1fr); } }
 .card { background: var(--surface); border: 1px solid var(--rule); padding: 1.4rem 1.5rem; }
 .card h3 {
   font-size: 0.99rem; margin: 0 0 0.5rem; letter-spacing: -0.01em;
@@ -488,19 +493,15 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <div class="hero-grid">
 
       <div>
-        <span class="eyebrow">スマホ戦略ゲームの集結用／王城戦・SVS・ステ戦・砦要塞戦</span>
-        <!-- 攻める側（連撃）と守る側（差込）が奪い合っているのは、着弾と着弾のあいだの数秒。
-             このツールはその隙間の精度を上げる。見出しはそれだけを言う（2026-09-24 書き直し）。 -->
-        <h1><span class="nb">着弾と着弾のあいだの、</span><em><span class="nb">数秒を詰める。</span></em></h1>
-        <p class="lead">
-          連撃を揃えたい攻める側も、その隙間に差込を入れたい守る側も、戦っているのは同じ数秒です。号令を1回押すと、着弾時間はツールが出します。集結主にも、単騎で入替や差込をする人にも、押す瞬間がカウントダウンで届きます。
-        </p>
+        <span class="eyebrow">CommandClock</span>
+        <!-- 最初の画面は専門用語を出さない。何のためのツールで、どんな人のためか、だけを言う。
+             文は鎌田さんの言葉（2026-09-24）。 -->
+        <h1 class="head">チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。</h1>
+        <p class="who">こんな人の為のツールです。</p>
         <ul class="points">
-          <li><b>1人でも、その日から使える。</b>即時号令を押した瞬間に最適な着弾時間が出て、「【同盟名】集結　1234」がコピーされます。あとはゲーム内チャットに貼るだけです。</li>
-          <li><b>単騎の人に、押す瞬間が届く。</b>単騎で出征ボタンを押す画面には、時刻が出ません。入替も差込も、カウントダウンを見て押せます。</li>
-          <li><b>連撃・差込・入替を、同じ時刻の上で噛み合わせる。</b>占領同盟と攻撃同盟を1つの画面で指揮し、駐屯から抜ける時刻まで全員に配れます。</li>
-          <li><b>端末の時計がずれていても揃う。</b>基準はサーバーの時刻です。</li>
-          <li><b>ゲームには一切触れない。</b>画面を読み取ることも、自動で押すこともしません。押すのはご自身です。</li>
+          <li>その戦いで、あと少しのところで勝てない人</li>
+          <li>勝つために、ほかのチームがまだ使っていない新しい手を探している人</li>
+          <li>大勢の仲間をまとめて動かしている、リーダー役の人</li>
         </ul>
         <div class="cta-row">
           <a class="btn btn-solid" href="#pricing">14日間無料で試す</a>
@@ -511,7 +512,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
       <!-- 作戦盤。4つの拠点から出た部隊が、いま全員おなじ残り時間の位置にいる。 -->
       <div class="panel">
-        <div class="panel-cap"><span>OPERATION BOARD</span><b class="num">着弾 21:03:15</b></div>
+        <div class="panel-cap"><span>OPERATION BOARD</span><b class="num">到着 21:03:15</b></div>
         <svg viewBox="0 0 520 400" role="img" aria-label="4つの拠点から出た部隊が、目標から同じ距離にいて、同じ瞬間に到達する作戦盤">
           <g class="bd-grid">
             <path d="M0 40H520M0 90H520M0 140H520M0 190H520M0 240H520M0 290H520M0 340H520"/>
@@ -548,13 +549,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
             <text x="72" y="48">21:00:15</text><text x="102" y="240">21:01:00</text>
             <text x="225" y="33">21:01:45</text><text x="183" y="310">21:02:30</text>
           </g>
-          <text class="bd-cap" x="260" y="385" text-anchor="middle">出発はばらばら。着弾はおなじ。</text>
+          <text class="bd-cap" x="260" y="385" text-anchor="middle">出発はばらばら。到着はおなじ。</text>
         </svg>
         <div class="readout">
           <div><span>YOUR START</span><b id="cdMine">--:--</b></div>
           <div style="text-align:right;"><span>ARRIVAL</span><b class="arrive" id="cdAll">--:--</b></div>
         </div>
-        <p class="panel-note">行軍45秒の人の例。着弾の45秒前が、その人のスタートです。</p>
+        <p class="panel-note">目的地まで45秒かかる人の例。到着の45秒前が、その人の出発です。</p>
       </div>
 
     </div>
@@ -565,20 +566,24 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="pain">
   <div class="wrap">
     <span class="eyebrow">THE PROBLEM</span>
-    <h2>その数秒を、いまは人の手で合わせています。</h2>
-    <p class="sec-lead">連撃も差込も入替も、秒で噛み合わないと成り立ちません。それを、頭の中の引き算とチャットの一行で合わせています。</p>
-    <div class="grid3">
+    <h2>こんなことに困っていませんか。</h2>
+    <!-- 文は鎌田さんの言葉（2026-09-24）。 -->
+    <div class="grid3 grid-pain">
       <div class="card pain">
-        <h3>軍師は、時刻を追いかけながら引き算している</h3>
-        <p>進んでいくUTC時刻を見ながら、集結時間と行軍時間で引き算をして、ゲーム内チャットに流す。考えているあいだにも、秒は進みます。</p>
+        <h3>大勢が同じ瞬間に到着しないと勝てない</h3>
+        <p>数秒ずれると、その隙を相手に狙われて相手に奪われてしまう。</p>
       </div>
       <div class="card pain">
-        <h3>単騎のボタンを押す画面に、時刻は出ない</h3>
-        <p>入替や差込の単騎は、着弾時間から自分の行軍時間を引いた瞬間に押す必要があります。その瞬間に見ている画面には、時刻が出ていません。</p>
+        <h3>「せーの」で一斉に出ても、同時に着くわけではない</h3>
+        <p>一人ひとり自分の位置から目的地まで違う為、距離や時間がそれぞれ異なるので、「せーの」で一斉に出ても、同時に着くわけではないから揃い辛い。</p>
       </div>
       <div class="card pain">
-        <h3>2秒の遅れに、差込が入る</h3>
-        <p>3連のうち1つが2秒遅れると、その2秒に敵が差込を入れてきます。2連で削った占領兵が補充され、取り切れません。</p>
+        <h3>合わせる手段が、チャットと各自の計算しかない</h3>
+        <p>スマホの時計やアナログ時計を見ながら、いつ出ればいいかを一人ずつ考えて計算している。</p>
+      </div>
+      <div class="card pain">
+        <h3>リーダーが一人で抱えている</h3>
+        <p>計算も伝達も一人でやり、指示する時には狙っていた到着時間が過ぎている！なんて事もある。</p>
       </div>
     </div>
   </div>
