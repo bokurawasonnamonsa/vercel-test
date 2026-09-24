@@ -135,7 +135,7 @@ h1 em { font-style: normal; color: var(--amber-ink); }
 .hero h1.head { font-size: clamp(1.7rem, 3.4vw, 2.6rem); margin-bottom: 1.6rem; }
 .who { font-weight: 700; color: var(--ink); margin: 0 0 0.7rem; }
 /* 見出しは文節で折り返す（「困っ／ていませんか」のように語の途中で折れないように）。 */
-h2, h3, figcaption { word-break: auto-phrase; }
+h2, h3, figcaption, .origin-quote { word-break: auto-phrase; }
 /* 語の途中で折れると読めなくなるので、この語だけは割らせない。
    折り返してよいのは読点のあと。見出しを2つの nb に分けて、そこだけ折れるようにしている。
    1つにまとめると、狭い画面で行そのものがはみ出して横スクロールが出る。 */
@@ -771,7 +771,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       </div>
 
       <div class="origin-aside">
-        <p class="origin-quote">二度と、仲間にあんな思いをさせたくなかった。</p>
+        <p class="origin-quote">指揮する時に何を考えているか、みんなと共有すれば勝率が上がるのでは？と考えた。</p>
         <p>指揮は、一人の特殊な能力であってほしくない。見る場所と、判断の基準と、伝え方さえ揃えば、担える部分は必ずあります。全部が一人の頭の中にしか無い状態を、やめたかった。</p>
         <p>秒を揃えるために作りました。でも本当は、<strong>指示役をひとりにしないため</strong>に作りました。</p>
       </div>
