@@ -313,6 +313,13 @@ tr:last-child td { border-bottom: none; }
 td.o { color: var(--signal); font-weight: 700; }
 td.x { color: var(--ink-3); }
 tr.ours td { background: #fdf6ea; font-weight: 700; }
+table.cmp { min-width: 0; }
+table.cmp th, table.cmp td { word-break: auto-phrase; vertical-align: middle; }
+table.cmp th:not(:first-child), table.cmp td:not(:first-child) { text-align: center; width: 19%; }
+table.cmp .ours-col { background: #fdf6ea; font-weight: 700; }
+table.cmp small { display: block; font-size: 0.72rem; color: var(--ink-3); font-weight: 400; }
+table.cmp th { font-family: inherit; letter-spacing: 0; }
+@media (max-width: 600px) { table.cmp th, table.cmp td { padding: 0.6rem 0.3rem; font-size: 0.78rem; } table.cmp th { font-size: 0.66rem; } table.cmp td:first-child, table.cmp th:first-child { padding-left: 0.6rem; } table.cmp th:not(:first-child), table.cmp td:not(:first-child) { width: auto; } }
 .note-line { border-left: 3px solid var(--ink); padding: 0.2rem 0 0.2rem 1.2rem; margin-top: 1.6rem; max-width: 62ch; }
 .note-line h3 { margin: 0 0 0.4rem; font-size: 0.98rem; }
 .note-line p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
@@ -732,8 +739,43 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   </div>
 </section>
 
+<!-- ===== 他との違い（2026-09-26 講師の③診断を受けて、仕組みのすぐ後ろへ移した） ===== -->
+<section id="difference" class="on-white">
+  <div class="wrap">
+    <span class="eyebrow">THE DIFFERENCE</span>
+    <h2>同時着弾だけなら、他にもできます。</h2>
+    <p class="sec-lead">同時に着くことだけなら、手でも合わせられます。違いはその先です。</p>
+    <div class="tbl-wrap">
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th>比べること</th>
+            <th>ゲーム内チャット<br>（手計算・手打ち）</th>
+            <th>Discord<wbr>ボット</th>
+            <th class="ours-col">Command<wbr>Clock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>号令で、一人ひとりの押す瞬間が全員に届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>入替の押す瞬間を、全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>占領抜きの瞬間を、全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>集結の着弾時間が分かる</td><td class="x">△<br><small>自分で計算</small></td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="tbl-note">
+      <b>入替</b>＝攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。<br>
+      <b>占領抜き</b>＝入替のとき、拠点の中にいる全員が同時に抜けること。
+    </p>
+    <div class="note-line">
+      <h3>なぜ他にないのか</h3>
+      <p>他のツールは、集結の着弾時間や集結する時間が分かっても、全員に行き届くようなものは見たことがありません。端末の時計を揃える。行軍時間から逆算する。押す瞬間を一人ひとりに届ける。この3つが同時に要ると分かるのは、拠点の取り合いで秒を詰めて戦ってきた人です。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。</p>
+    </div>
+  </div>
+</section>
+
 <!-- ===== 役割ごとに届くもの ===== -->
-<section id="roles" class="on-white">
+<section id="roles">
   <div class="wrap">
     <span class="eyebrow">WHO GETS WHAT</span>
     <h2>役割ごとに、押す瞬間が届く。</h2>
@@ -823,45 +865,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   </div>
 </section>
 
-<!-- ===== 違い ===== -->
-<section id="difference">
-  <div class="wrap">
-    <span class="eyebrow">THE DIFFERENCE</span>
-    <h2>同時着弾だけなら、他にもできます。</h2>
-    <p class="sec-lead">同時に着くことだけなら、手でも合わせられます。違いはその先です。<strong>連撃・差込・入替・占領抜きという種類の違う号令を、1つの時刻を基準に組み合わせて出せること。</strong><strong>押す瞬間を、一人ひとりの画面にカウントダウンで届けること。</strong><strong>端末の時計が数秒ずれていても、全員のカウントダウンが合うこと。</strong></p>
-    <div class="tbl-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>手段</th>
-            <th>同時着弾</th>
-            <th>個人ごとの<br>タイミング</th>
-            <th class="key">入替・差込・<br>占領抜き</th>
-            <th class="key">端末時計の<br>ズレを補正</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>ゲーム内チャットで指示</td><td class="x">△</td><td class="x">×</td><td class="x key">×</td><td class="x key">×</td></tr>
-          <tr><td>Discord管理サービス</td><td class="o">◯</td><td class="x">×</td><td class="x key">×</td><td class="x key">×</td></tr>
-          <tr><td>Discordボット（無料）</td><td class="o">◯</td><td class="x">×</td><td class="x key">×</td><td class="x key">×</td></tr>
-          <tr><td>ブラウザタイマー</td><td class="o">◯</td><td class="x">△</td><td class="x key">×</td><td class="x key">×</td></tr>
-          <tr class="ours"><td>CommandClock</td><td>◯</td><td>◯</td><td class="key">◯</td><td class="key">◯</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="tbl-note">
-      <b>入替</b>＝攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。<br>
-      <b>占領抜き</b>＝入替のとき、拠点の中にいる全員が同時に抜けること。<br>
-      <b>差込</b>＝相手の連撃の、着弾と着弾のあいだに兵を送り込み、守りを補充すること。
-    </p>
-    <div class="note-line">
-      <h3>なぜ他にないのか</h3>
-      <p>
-        端末の時計を揃える。行軍時間から逆算する。押す瞬間を一人ひとりに届ける。この3つが同時に要ると分かるのは、拠点の取り合いで秒を詰めて戦ってきた人です。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。
-      </p>
-    </div>
-  </div>
-</section>
+
 
 <!-- ===== 実績 ===== -->
 <section id="proof" class="on-white">
