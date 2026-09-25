@@ -731,9 +731,9 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
            スマホで使わない画像を1枚よけいに落とすことになる。JSが幅を見てから付ける。 -->
       <div class="demo-frame">
         <video id="demoVideo" muted loop playsinline preload="none"
-               data-wide="/assets/demo-wide-v2.mp4" data-tall="/assets/demo-tall-v2.mp4"
+               data-wide="/assets/demo-wide-v3.mp4" data-tall="/assets/demo-tall-v3.mp4"
                aria-label="指示役が号令を1回出し、メンバーごとに違うカウントダウンが表示され、全員が同じ時刻に到着するまでの画面録画"></video>
-        <noscript><img src="/assets/demo-wide-v2.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
+        <noscript><img src="/assets/demo-wide-v3.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
       </div>
       <ul class="demo-beats">
         <li><span class="t">00:00　指示役</span><span class="d">出したいタイミングで、<b>号令を1回押すだけ</b>。</span></li>
@@ -1049,7 +1049,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       if (k === kind) return;
       kind = k;
       frame.style.aspectRatio = AR[k];
-      v.poster = k === 'tall' ? '/assets/demo-tall-v2.jpg' : '/assets/demo-wide-v2.jpg';
+      v.poster = k === 'tall' ? '/assets/demo-tall-v3.jpg' : '/assets/demo-wide-v3.jpg';
       if (v.src) { v.src = k === 'tall' ? v.dataset.tall : v.dataset.wide; }
     }
     use(pick());
