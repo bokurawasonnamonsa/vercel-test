@@ -132,7 +132,9 @@ h1 {
 }
 h1 em { font-style: normal; color: var(--amber-ink); }
 /* 最初の画面の見出しは2段（2026-09-24 鎌田さんの指定）。2段目が22字あるので、左の枠ではなく横幅いっぱいに置く。 */
-.hero h1.head { font-size: clamp(1.7rem, 3.4vw, 2.6rem); margin-bottom: 1.6rem; }
+.hero h1.head { font-size: clamp(1.9rem, 4.6vw, 3rem); margin-bottom: 0.6rem; }
+.hero-sub { font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 700; color: var(--amber-ink); margin: 0 0 1.8rem; line-height: 1.6; }
+.lead-small { font-size: 0.9rem; color: var(--ink-3); }
 .who { font-weight: 700; color: var(--ink); margin: 0 0 0.7rem; }
 /* 見出しは文節で折り返す（「困っ／ていませんか」のように語の途中で折れないように）。 */
 h2, h3, figcaption, .origin-quote { word-break: auto-phrase; }
@@ -412,6 +414,7 @@ details p { margin: 0.6rem 0 0; color: var(--ink-2); font-size: 0.89rem; }
 footer { border-top: 1.5px solid var(--ink); padding: 2.2rem 0 3rem; background: var(--surface); }
 footer a { color: var(--ink-3); text-decoration: none; font-size: 0.85rem; }
 footer a:hover { color: var(--ink); }
+footer .disclaimer { color: var(--ink-3); font-size: 0.78rem; line-height: 1.8; margin: 1rem 0 0; max-width: 62ch; }
 footer .sep { color: var(--rule); margin: 0 0.7rem; }
 footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-family: "Chivo Mono", monospace; }
 
@@ -436,6 +439,7 @@ footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-f
 @media (min-width: 900px) { .origin-aside { border-top: none; border-left: 3px solid var(--ink); padding: 0 0 0 1.6rem; } }
 .origin-aside p { font-size: 0.92rem; line-height: 1.95; margin: 0 0 1rem; }
 .origin-aside p:last-child { margin-bottom: 0; }
+.origin-maker { font-weight: 900; font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--amber-ink); margin: 0.2rem 0 0.4rem; line-height: 1.6; word-break: auto-phrase; }
 .origin-voice { font-weight: 700; color: var(--ink); line-height: 2; border-left: 3px solid var(--amber); padding-left: 1rem; }
 .origin-quote {
   font-size: 1.12rem !important; font-weight: 900; color: var(--ink);
@@ -503,15 +507,18 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <!-- ===== ヒーロー ===== -->
 <div class="hero">
   <div class="wrap">
-    <span class="eyebrow">拠点を取り合うスマホ戦略ゲームの、チーム用ツール</span>
-    <!-- 最初の画面は専門用語を出さない。何のためのツールで、どんな人のためか、だけを言う。
-         見出しは2段で、文は鎌田さんの言葉（2026-09-24）。「頑張って」「勝率を上げる為に」は省かない。
-         長いので左の枠から出し、横幅いっぱいに置いて1段ずつ1行に収める。 -->
-    <h1 class="head"><span class="nb">戦略ゲーム初心者の</span><span class="nb">軍師が、</span><br><em><span class="nb">サーバーの勝率を</span><span class="nb">上げる為に</span><span class="nb">頑張って作ったツール。</span></em></h1>
+    <!-- H1改善 2026-09：講師（AI指南）の②ベネフィット診断を受けて、鎌田さんと合意（2026-09-25）。
+         見出しは気持ち、サブコピーは何が得られるか。ツールは「押す瞬間を知らせる補助」で、同時に着弾させるとは書かない。
+         ゲーム名は「〜など」の一例＋（非公式）でだけ出す。前の見出しは「このツールを作った一番の理由」の欄の一番上に移した。 -->
+    <span class="eyebrow">ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）</span>
+    <h1 class="head"><span class="nb">もう、</span><span class="nb">数秒差で負けたくない。</span></h1>
+    <p class="hero-sub"><span class="nb">号令1回で、</span><span class="nb">仲間全員のスマホに</span><span class="nb">押す瞬間が届く。</span></p>
     <div class="hero-grid">
 
       <div>
-        <p class="lead">チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。</p>
+        <p class="lead">全員が集まって、5時間フルで戦い抜いた。それでも、占領時間6秒差で負けた。誰もしゃべれず絶句したあと、最初に出た言葉は「みんなごめん」でした。あの悔しさから、このツールは生まれました。</p>
+        <p class="lead">号令1回で、仲間一人ひとりに押す瞬間を知らせます。その瞬間に押せば、着弾はそろいます。連撃・差込・入替・占領抜きにも対応し、端末の時計のズレも自動で補正します。</p>
+        <p class="lead lead-small">チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。</p>
         <p class="who">こんな人の為のツールです。</p>
         <ul class="points">
           <li>その戦いで、あと少しのところで勝てない人</li>
@@ -783,7 +790,9 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="origin" class="on-white">
   <div class="wrap">
     <span class="eyebrow">WHY IT EXISTS</span>
-    <!-- 見出しは「このツールを作った一番の理由」として書く。下の本文の後半は鎌田さんの言葉（2026-09-24）。 -->
+    <!-- 見出しは「このツールを作った一番の理由」として書く。下の本文の後半は鎌田さんの言葉（2026-09-24）。
+         一番上の一行は、前のLPの見出し（鎌田さんの言葉）。講師の診断で見出しから外し、作り手の顔が見えるここに移した（2026-09-25）。 -->
+    <p class="origin-maker">戦略ゲーム初心者の軍師が、サーバーの勝率を上げる為に頑張って作ったツール。</p>
     <h2><span class="nb">このツールを作った</span><span class="nb">一番の理由は、</span><br><span class="nb">5時間戦って、</span><span class="nb">6秒差で負けたことです。</span></h2>
 
     <div class="origin-grid">
@@ -995,6 +1004,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
     <span class="sep">/</span>
     <a href="/feedback.html">ご意見・不具合の報告</a>
+    <p class="disclaimer">CommandClockはホワイトアウトサバイバルおよびその他対応ゲームの非公式ツールです。各ゲームの著作権は各パブリッシャーに帰属します。</p>
     <div class="cr">&copy; 2026 CommandClock</div>
   </div>
 </footer>
