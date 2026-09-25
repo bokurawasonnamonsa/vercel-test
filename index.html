@@ -291,6 +291,7 @@ figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin
 .why-list .n { font-family: "Chivo Mono", monospace; font-weight: 600; font-size: 1.5rem; line-height: 1.3; color: var(--amber-ink); }
 .why-list h3 { margin: 0 0 0.45rem; font-size: 1.08rem; line-height: 1.6; }
 .why-list p { margin: 0; color: var(--ink-2); line-height: 1.95; }
+.why-list .why-note { margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-3); line-height: 1.8; }
 .lead-multi p { margin: 0 0 1rem; }
 .lead-multi p:last-child { margin-bottom: 0; }
 .card-tag { display: inline-block; font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--amber-ink); border: 1px solid var(--rule); padding: 0.05rem 0.45rem; margin-bottom: 0.55rem; }
@@ -609,8 +610,8 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <span class="eyebrow">WHY TIMING MATTERS</span>
     <h2><span class="nb">なぜ、着弾の時刻を</span><span class="nb">そろえたいのか。</span></h2>
     <ol class="why-list">
-      <li><span class="n">1</span><div><h3>拠点は、1回の攻撃では奪えません。</h3><p>拠点を奪うには、中で守っている兵を倒しきる必要があります。守りが強いと、1回の攻撃（集結）では倒しきれません。そこで、何本もの集結を続けて当てます。これを「連撃」と呼びます。</p></div></li>
-      <li><span class="n">2</span><div><h3>攻撃のあいだに隙間があると、守りを補充されます。</h3><p>たとえば、3本の集結のうち1本だけが2秒遅れたとします。相手はその2秒に兵を送り込んで、守りを補充してきます。これが「差込」です。先の2本で削った分が戻ってしまい、拠点は奪えません。だから攻める側は、着弾の時刻をそろえて、隙間を作らないようにしたいのです。</p></div></li>
+      <li><span class="n">1</span><div><h3>1回の攻撃で拠点を抜ける可能性は、低いです。</h3><p>拠点を奪うには、中で守っている兵を倒しきる必要があります。1回の攻撃（集結）で抜ける可能性は低く、駐屯している相手の旗持ちが強いと、集結人数を増やして抜きにかかります。これを「連撃」と呼びます。</p><p class="why-note">※旗持ち：駐屯で一番強い人。一番先頭にいる人も旗持ちと言う場合がある為、ここでは一番強い人を旗持ちと言います。</p></div></li>
+      <li><span class="n">2</span><div><h3>攻撃のあいだに隙間があると、守りを固められます。</h3><p>3連のうち1つでも数秒遅れると、その数秒の間に敵が連撃の間に差し込んで、守りを固められてしまいます。これが「差込」です。駐屯の兵士を削り切れず、抜き切れません。だから攻める側は、着弾の時刻をそろえて、隙間を作らないようにしたいのです。</p></div></li>
       <li><span class="n">3</span><div><h3>守る側は、その隙間を狙います。</h3><p>相手の連撃の、着弾と着弾のあいだに兵を合わせて送り込めば、守りを補充できます。攻める側も守る側も、同じ数秒を取り合っています。</p></div></li>
       <li><span class="n">4</span><div><h3>味方への受け渡しも、1秒を争います。</h3><p>奪った拠点を味方の同盟に渡すときは、味方が着く数秒前に、中にいる全員が同時に抜ける必要があります。</p></div></li>
       <li><span class="n">5</span><div><h3>その数秒の積み重ねが、勝ち負けを決めます。</h3><p>勝ち負けは、拠点を占領していた時間の長さで決まります。奪うのが遅れた数秒、奪い返された数秒が、そのまま占領時間の差になります。</p></div></li>
