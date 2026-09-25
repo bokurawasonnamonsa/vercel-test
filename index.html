@@ -720,7 +720,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   <div class="wrap">
     <span class="eyebrow">SEE IT WORKING</span>
     <h2>これが、実際の画面です。</h2>
-    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面。号令を1回出してから、全員が同じ一秒に到着するまでの30秒です。待ち時間だけ早送りしています。</p>
+    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面。号令を1回出してから、全員が同じ時刻に到着するまでの30秒です。待ち時間だけ早送りしています。</p>
 
     <figure class="demo-fig">
       <div class="demo-cap">
@@ -731,14 +731,14 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
            スマホで使わない画像を1枚よけいに落とすことになる。JSが幅を見てから付ける。 -->
       <div class="demo-frame">
         <video id="demoVideo" muted loop playsinline preload="none"
-               data-wide="/assets/demo-wide-v3.mp4" data-tall="/assets/demo-tall-v3.mp4"
+               data-wide="/assets/demo-wide-v4.mp4" data-tall="/assets/demo-tall-v4.mp4"
                aria-label="指示役が号令を1回出し、メンバーごとに違うカウントダウンが表示され、全員が同じ時刻に到着するまでの画面録画"></video>
-        <noscript><img src="/assets/demo-wide-v3.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
+        <noscript><img src="/assets/demo-wide-v4.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
       </div>
       <ul class="demo-beats">
         <li><span class="t">00:00　指示役</span><span class="d">出したいタイミングで、<b>号令を1回押すだけ</b>。</span></li>
         <li><span class="t">00:08　全員の画面</span><span class="d">移動時間が違うので、<b>出発のカウントダウンは一人ずつ違う</b>数字になります。</span></li>
-        <li><span class="t">00:27　到着</span><span class="d">別々に出発した全員が、<b>同じ一秒に到着</b>して完了します。</span></li>
+        <li><span class="t">00:27　到着</span><span class="d">別々に出発した全員が、<b>同じ時刻に到着</b>します。</span></li>
       </ul>
       <figcaption>音声はありません。画面はテスト用のルームで、名前と数値は仮のものです。</figcaption>
     </figure>
@@ -845,7 +845,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <div class="step"><div class="k">01</div><h3>申し込む</h3><p>決済が終わると、その場でルームIDと参加コードが発行されます。同じ内容がメールにも届きます。</p></div>
       <div class="step"><div class="k">02</div><h3>まず1人で使う</h3><p>指示を出す人がプレーヤー画面を開き、号令ボタンを押すだけ。到着時間が出て、チャットに貼れる一行がコピーされます。</p></div>
       <div class="step"><div class="k">03</div><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有します。移動時間は、各メンバーが一度入れれば、次からは保存されています。</p></div>
-      <div class="step"><div class="k">04</div><h3>号令を出す</h3><p>出したいタイミングで号令を押すだけ。一人ひとりに違うカウントダウンが出て、全員が同じ一秒に到着します。</p></div>
+      <div class="step"><div class="k">04</div><h3>号令を出す</h3><p>出したいタイミングで号令を押すだけ。一人ひとりに違うカウントダウンが出て、全員が同じ時刻に到着します。</p></div>
     </div>
     <p style="margin-top:1.8rem;"><a href="/guide.html">画面ごとの使い方や、出てくる用語の説明はこちら →</a></p>
   </div>
@@ -1049,7 +1049,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       if (k === kind) return;
       kind = k;
       frame.style.aspectRatio = AR[k];
-      v.poster = k === 'tall' ? '/assets/demo-tall-v3.jpg' : '/assets/demo-wide-v3.jpg';
+      v.poster = k === 'tall' ? '/assets/demo-tall-v4.jpg' : '/assets/demo-wide-v4.jpg';
       if (v.src) { v.src = k === 'tall' ? v.dataset.tall : v.dataset.wide; }
     }
     use(pick());
