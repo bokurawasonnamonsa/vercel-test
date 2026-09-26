@@ -1,4 +1,6 @@
 const FROM_FALLBACK = 'onboarding@resend.dev';
+// 解約ページ（Stripeのカスタマーポータル）。お客さんが自分で解約する入口。期間の終わりに止まる設定（2026-09-26）。
+const PORTAL_URL = 'https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00';
 
 // 差出人アドレスを決める。
 //
@@ -47,7 +49,7 @@ function trialNoteHtml(trialEnd) {
             <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
               <strong style="color:#4ade80;">${when}まで無料でお使いいただけます。</strong><br>
               初回のご請求はその翌日からです。それまでに解約された場合、料金は一切発生しません。<br>
-              解約は下記のお問い合わせ先へご連絡ください。
+              解約は、<a href="${PORTAL_URL}" style="color:#4ade80;">解約ページ</a>からいつでもご自分でできます。
             </p>
           </div>
         </td></tr>`;
@@ -113,7 +115,7 @@ ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
           <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約・お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
+            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>
         </td></tr>
@@ -184,7 +186,7 @@ ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
           <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約・お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
+            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
             解約すると、この参加コードだけが使えなくなります。同盟のルームはそのまま残ります。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>

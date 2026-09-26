@@ -407,6 +407,9 @@ table.cmp th { font-family: inherit; letter-spacing: 0; }
 .plan .btn { margin-top: 1.6rem; width: 100%; }
 .plan .msg { min-height: 1.4em; margin-top: 0.55rem; font-size: 0.82rem; color: var(--ink-3); }
 .fine { color: var(--ink-3); font-size: 0.79rem; margin-top: 1.6rem; line-height: 1.9; max-width: 70ch; }
+.trial-box { background: #fdf6ea; border: 1.5px solid var(--amber); padding: 1rem 1.3rem; margin: 0 0 1.6rem; max-width: 860px; }
+.trial-box p { margin: 0; color: var(--ink-2); font-size: 0.95rem; line-height: 1.8; word-break: auto-phrase; }
+.trial-box strong { color: var(--ink); font-size: 1.08rem; }
 
 /* ---- FAQ ----------------------------------------------------- */
 .faq { border-top: 1.5px solid var(--ink); max-width: 78ch; }
@@ -941,6 +944,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       </p>
     </div>
 
+    <!-- 両プラン共通の無料の案内。値段を見る前に「14日間は安心して試せる」と分かるよう、カードの上に1つ置く（2026-09-26 講師の⑦診断） -->
+    <div class="trial-box">
+      <p><strong>はじめの14日間は無料です。</strong></p>
+      <p>王城戦は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。</p>
+      <p>14日以内に解約すれば、料金は一切かかりません。</p>
+    </div>
+
     <div class="plans">
       <div class="plan hot">
         <span class="tag">まずはここから</span>
@@ -972,9 +982,12 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <div class="msg" data-status="server"></div>
       </div>
     </div>
+    <!-- 解約はStripeのカスタマーポータルで本人がする（期間の終わりに止まる）。 -->
     <p class="fine">
-      <strong style="color:var(--ink-2);">はじめの14日間は無料</strong>です。大きな拠点の取り合い（王城戦）は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。この間に解約すれば、料金は一切かかりません。表示価格はすべて税込で、追加料金はありません。<br>
-      お申し込みボタンを押すとStripeの決済画面へ移動し、<strong style="color:var(--ink-2);">実際にご請求が発生します</strong>。お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。
+      14日間の無料期間が終わった翌日から、月額料金のご請求が始まります。終わる日は、お申し込み直後のメールでお知らせします。<br>
+      解約はいつでもご自分でできます。<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">→ 解約ページはこちら</a><br>
+      無料期間中に解約すれば、料金は一切かかりません。有料期間中に解約した場合は、次の請求は発生せず、その期間の終わりまでお使いいただけます。<br>
+      お申し込みボタンを押すとStripeの決済画面へ移動します。お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。表示価格はすべて税込で、追加料金はありません。
     </p>
   </div>
 </section>
