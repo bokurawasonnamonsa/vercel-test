@@ -344,6 +344,7 @@ table.cmp th { font-family: inherit; letter-spacing: 0; }
 }
 .stat .n small { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
 .stat .k { color: var(--ink-3); font-size: 0.79rem; margin-top: 0.2rem; }
+.voice + .voice { margin-top: 1rem; }
 .voice { margin: 2rem 0 0; padding: 1.4rem 1.6rem; background: #fdf6ea; border-left: 4px solid var(--amber); max-width: 860px; }
 .voice blockquote { margin: 0; font-size: clamp(1.05rem, 2.4vw, 1.3rem); font-weight: 900; color: var(--ink); line-height: 1.7; word-break: auto-phrase; }
 .voice figcaption { text-align: left; padding: 0; max-width: none; margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--ink-3); line-height: 1.8; }
@@ -924,6 +925,11 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <blockquote>「連携がしっかり取れていて、質の高い着弾と入替だね！」</blockquote>
       <figcaption>── ツールを使い始めてから、対戦したサーバーのプレイヤーたちに、ほぼ毎回言われる言葉</figcaption>
     </figure>
+    <!-- 仲間の声（鎌田さん、2026-09-26）。「100人ほど」を大きくしない。「SVS」は仲間の言葉のまま。 -->
+    <figure class="voice">
+      <blockquote>「もう、このツールなしでSVSはできない。」</blockquote>
+      <figcaption>── 開発元サーバーの仲間たち。100人ほどが、口をそろえて言っている言葉</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -1047,7 +1053,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <details><summary>着弾時刻を自分で決めることもできますか？</summary><p>できます。いますぐ出す号令のほかに、着弾時刻を指定して出す号令もあります。</p></details>
       <details><summary>端末の時計がずれていても大丈夫ですか？</summary><p>大丈夫です。各端末の時計ではなく、サーバーの時刻を基準にカウントダウンします。通信の遅延も自動で補正するため、時計が数秒ずれている端末でも、全員のカウントダウンは同じ瞬間に0になります。</p></details>
       <details><summary>行軍時間の入力は毎回必要ですか？</summary><p>いいえ。最初に一度入力すれば端末に保存されます。距離が変わったときだけ入れ直してください。</p></details>
-      <details><summary>解約はいつでもできますか？</summary><p>できます。ご連絡いただければ次回以降の請求は発生しません。契約期間の縛りはありません。</p></details>
+      <details><summary>解約はいつでもできますか？</summary><p>できます。<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">解約ページ</a>から、いつでもご自分で解約できます。無料期間中に解約すれば、料金は一切かかりません。有料期間中に解約した場合は、次の請求は発生せず、その期間の終わりまでお使いいただけます。契約期間の縛りはありません。</p></details>
       <details><summary>カード情報は安全ですか？</summary><p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p></details>
       <details><summary>管理画面はスマホでも使えますか？</summary><p>使えます。ただ、3つの同盟を1つの画面に並べ、見比べながら号令を出す画面です。見やすさ、動きの軽さ、押しやすさで言えば、パソコンをおすすめします。指揮をとるなら、パソコンが一番です。目安は、Windows 10・11 か macOS、Intel Core i3・AMD Ryzen 3 以上、メモリ8GB以上、画面の横幅1366ピクセル以上です。ここ5年ほどの間に買ったパソコンなら、まず大丈夫です。メンバーが使うプレーヤー画面は、スマホで使う前提で作っています。</p></details>
       <details><summary>特定のゲーム専用ですか？</summary><p>いいえ。時刻を合わせて複数人が同時に行動する場面であれば、ゲームの種類を問わず使えます。</p></details>
