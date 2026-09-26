@@ -275,6 +275,16 @@ figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin
 /* ---- カード -------------------------------------------------- */
 .grid3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 @media (min-width: 780px) { .grid3 { grid-template-columns: repeat(3, 1fr); } .grid-pain { grid-template-columns: repeat(2, 1fr); } }
+#scene h2 { margin-bottom: 2rem; }
+.scene-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 860px) { .scene-grid { grid-template-columns: 1fr 1fr; } }
+.scene-col { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.5rem 1.2rem; }
+.scene-col.before { border-top: 3px solid var(--warn); }
+.scene-col.after { border-top: 3px solid var(--amber); background: #fdf6ea; }
+.scene-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--ink-3); margin-bottom: 0.6rem; letter-spacing: 0.04em; }
+.scene-col.after .scene-tag { color: var(--amber-ink); }
+.scene-col p { margin: 0 0 0.9rem; color: var(--ink-2); font-size: 0.93rem; line-height: 1.95; }
+.scene-col strong { color: var(--ink); }
 .card { background: var(--surface); border: 1px solid var(--rule); padding: 1.4rem 1.5rem; }
 .card h3 {
   font-size: 0.99rem; margin: 0 0 0.5rem; letter-spacing: -0.01em;
@@ -777,8 +787,31 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   </div>
 </section>
 
+<!-- ===== 王城戦の日（2026-09-26 講師の⑤診断。比較表のすぐ後ろ。文は鎌田さんの言葉。
+     「6秒なんてすぐ稼げた」は本人の見立て。「指示が遅れたから6秒差で負けた」とは書かない） ===== -->
+<section id="scene">
+  <div class="wrap">
+    <span class="eyebrow">ON THE DAY</span>
+    <h2>指示までのロスが、敵の占領時間になる。</h2>
+    <div class="scene-grid">
+      <div class="scene-col before">
+        <span class="scene-tag">ツールを使う前</span>
+        <p>王城戦の5時間、私は3つのアカウントを同時に開いていました。</p>
+        <p>敵の集結がかかったと分かるのは、占領同盟に待機させているアカウントです。敵から集結がかかったら、攻撃同盟の集結主の人たちに、通話アプリで着弾時間を指示します。</p>
+        <p>ロスが生まれるのは、着弾時間の計算と、分秒の秒をキリの良い数字にそろえるところです。<strong>その指示までのロス分が、つまりは敵の占領時間を稼がせてしまう時間になります。</strong>その集結指示がレスポンス良く指示できれば、6秒なんてすぐ稼げたと思います。</p>
+        <p>指示を受けた皆も、一人ずつ「着弾時間 − 自分の行軍時間」を計算して押していました。聞き違い、秒数のずれ、誰が何をするかの混乱が起きていました。</p>
+      </div>
+      <div class="scene-col after">
+        <span class="scene-tag">ツールを使った後</span>
+        <p><strong>そのロスを無くしたのが、CommandClockの即時号令です。</strong>敵が集結したら、即時号令のボタンを押す。それだけで、ロスなしで皆に指示が届きます。無駄な計算も、キリの良い数字にそろえることもなく、一番最適なタイミングで集結の指示を出せるようになりました。入替や差込も含めて着弾時間の指示が具体的になり、状況が格段に分かりやすくなって、的確に皆も動くようになり、戦略の精度が物凄く上がりました。</p>
+        <p>ツールを使い始めてから、対戦した相手に「連携がしっかり取れていて、質の高い着弾と入替だね！」と言われるようになりました。同じ対戦国の何人もから、違う対戦国の人たちからも、ほとんど毎回のように言われます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== 役割ごとに届くもの ===== -->
-<section id="roles">
+<section id="roles" class="on-white">
   <div class="wrap">
     <span class="eyebrow">WHO GETS WHAT</span>
     <h2>役割ごとに、押す瞬間が届く。</h2>
