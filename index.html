@@ -510,6 +510,52 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   body { padding-bottom: 96px; }
 }
 </style>
+<!-- 2026-09-27 SEO：構造化データ（サービス名・料金・無料期間）。鎌田さんOK。評価（星の数など）は作らない -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "CommandClock",
+  "url": "https://commandclock.jp/",
+  "inLanguage": "ja",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Webブラウザ（スマホ・パソコン）",
+  "description": "ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの王城戦（王城決戦）・SVSで使う、指揮の補助ツール（非公式）。号令1回で、集結主から入替・差込をする人まで、仲間全員のスマホに押す瞬間が届きます。占領抜きにも対応。端末の時計のズレも自動で補正。14日間無料。",
+  "image": "https://commandclock.jp/assets/ogp-v5.png",
+  "offers": [
+    {
+      "@type": "Offer",
+      "name": "同盟プラン",
+      "description": "1同盟・2班（集結主12人）。人数・台数の制限なし。はじめの14日間は無料。",
+      "price": "980",
+      "priceCurrency": "JPY",
+      "url": "https://commandclock.jp/#pricing",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "980",
+        "priceCurrency": "JPY",
+        "unitText": "月",
+        "billingDuration": "P1M"
+      }
+    },
+    {
+      "@type": "Offer",
+      "name": "総指揮プラン",
+      "description": "管理画面つき。3同盟・6班（集結主36人）。入替・占領抜き・ペア号令。人数・台数の制限なし。はじめの14日間は無料。",
+      "price": "2980",
+      "priceCurrency": "JPY",
+      "url": "https://commandclock.jp/#pricing",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": "2980",
+        "priceCurrency": "JPY",
+        "unitText": "月",
+        "billingDuration": "P1M"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
