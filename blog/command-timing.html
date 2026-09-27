@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2026-09-27 記事2本目（講師の③）。中身は鎌田さんがOKした言葉（noteの「ツールがなくても持ち帰れること」「ツールに織り込んだこと」、Xの投稿I・J、発信の方針11章）。用語は記事1本目と同じ。 -->
+<title>号令は時刻で出す｜王城戦で指揮役が意識している時間の話｜CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/blog/command-timing.html">
+<meta name="description" content="総指揮が王城戦で意識している時間の考え方。指示が遅れた分が敵の占領時間になること、押す瞬間が一人ずつ違う理由、号令は時刻で出す、着弾は一番遠い集結主に合わせる、連撃を分けるなら着弾も分ける、占領抜き、端末の時計。例はホワイトアウトサバイバル（非公式）。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://commandclock.jp/blog/command-timing.html">
+<meta property="og:title" content="号令は時刻で出す｜王城戦で指揮役が意識している時間の話">
+<meta property="og:description" content="総指揮が王城戦で意識している時間の考え方。ツールがなくても持ち帰れる話。">
+<meta property="og:site_name" content="CommandClock">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "号令は時刻で出す｜王城戦で指揮役が意識している時間の話",
+  "inLanguage": "ja",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "image": "https://commandclock.jp/assets/ogp-v5.png",
+  "author": {
+    "@type": "Organization",
+    "name": "CommandClock"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CommandClock",
+    "url": "https://commandclock.jp/"
+  },
+  "mainEntityOfPage": "https://commandclock.jp/blog/command-timing.html"
+}
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper: #eef1f5; --surface: #ffffff; --ink: #0d1420; --ink-2: #3d4a63; --ink-3: #56637c;
+  --rule: #ccd4e0; --amber: #f0a63c; --amber-ink: #8a5a12; --signal: #c2410c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.95; -webkit-text-size-adjust: 100%; overflow-x: hidden;
+}
+a { color: var(--amber-ink); }
+.top { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.top .in { max-width: 760px; margin: 0 auto; padding: 0.9rem 16px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.logo { font-family: "Chivo Mono", monospace; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
+.top .cta { font-size: 0.85rem; font-weight: 700; color: #f7f9fc; background: var(--ink); padding: 0.45rem 0.9rem; text-decoration: none; white-space: nowrap; }
+article { max-width: 760px; margin: 0 auto; padding: 2.4rem 16px 3rem; }
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.18em; color: var(--amber-ink); }
+h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); line-height: 1.45; margin: 0.4rem 0 0.3rem; font-weight: 900; word-break: auto-phrase; }
+.sub { font-size: clamp(1rem, 2.6vw, 1.15rem); font-weight: 700; color: var(--ink-2); margin: 0 0 1.4rem; word-break: auto-phrase; }
+.meta { font-size: 0.8rem; color: var(--ink-3); margin: 0 0 2rem; }
+p { margin: 0 0 1.1rem; color: var(--ink-2); }
+h2 { font-size: clamp(1.2rem, 3.4vw, 1.45rem); margin: 2.8rem 0 1rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); line-height: 1.5; word-break: auto-phrase; }
+h3 { font-size: 1.05rem; margin: 1.8rem 0 0.6rem; line-height: 1.6; word-break: auto-phrase; }
+.lead p { font-size: 1.02rem; color: var(--ink); }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.1rem 1.3rem; margin: 0 0 1.4rem; }
+.box dl { margin: 0; }
+.box dt { font-weight: 700; color: var(--ink); margin-top: 0.6rem; }
+.box dt:first-child { margin-top: 0; }
+.box dd { margin: 0; color: var(--ink-2); font-size: 0.93rem; }
+.sched { width: 100%; border-collapse: collapse; background: var(--surface); margin: 0 0 1.4rem; font-size: 0.92rem; }
+.sched th, .sched td { border: 1px solid var(--rule); padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
+.sched th { background: #f5f7fa; white-space: nowrap; font-weight: 700; }
+.note { font-size: 0.85rem; color: var(--ink-3); }
+.call { background: #fdf6ea; border-left: 4px solid var(--amber); padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.call p:last-child { margin-bottom: 0; }
+.btn { display: inline-block; background: var(--ink); color: #f7f9fc; font-weight: 700; padding: 0.75rem 1.3rem; text-decoration: none; margin-top: 0.4rem; }
+footer { border-top: 1px solid var(--rule); background: var(--surface); }
+footer .in { max-width: 760px; margin: 0 auto; padding: 1.4rem 16px 2rem; font-size: 0.8rem; color: var(--ink-3); }
+footer a { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <a class="logo" href="/">CommandClock</a>
+    <a class="cta" href="/#pricing">14日間無料で試す</a>
+  </div>
+</header>
+
+<article>
+  <span class="eyebrow">COMMANDER'S NOTE</span>
+  <h1>号令は時刻で出す</h1>
+  <p class="sub">王城戦で指揮役が意識している時間の話</p>
+  <p class="meta">2026年9月27日　CommandClock</p>
+
+  <div class="lead">
+    <p>総指揮の私が、王城戦で意識している時間の考え方を書きます。ツールを使う・使わないに関わらず、持ち帰れる話です。例はホワイトアウトサバイバルです（非公式）。</p>
+    <p>敵国が決まってから本番が終わるまでの動きは、<a href="/blog/svs-preparation.html">SVS本番までに指揮役がやること</a>に書きました。</p>
+  </div>
+
+  <h2>先に、この記事で使う言葉</h2>
+  <div class="box">
+    <dl>
+      <dt>集結主</dt><dd>集結を出す人。集結に乗る人は、集結時間のうちに集結主の都市まで行きます。</dd>
+      <dt>連撃</dt><dd>1回の攻撃（集結）で拠点を抜ける可能性は低く、駐屯している相手の旗持ちが強いと、集結人数を増やして抜きにかかります。これが連撃です。2人なら2連、3人なら3連。</dd>
+      <dt>旗持ち</dt><dd>駐屯で一番強い人。一番先頭にいる人も旗持ちと言う場合がある為、ここでは一番強い人を旗持ちと言います。</dd>
+      <dt>入替</dt><dd>攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。占領する同盟の人は、単騎で着弾させます。</dd>
+      <dt>占領抜き</dt><dd>入替のとき、拠点の中に駐屯している全員が同時に抜けること。</dd>
+      <dt>差込</dt><dd>敵の連撃の着弾と着弾のあいだに兵を送り込んで、守りを固めること。</dd>
+    </dl>
+  </div>
+
+  <h2>1. 指示が遅れた分が、敵の占領時間になる</h2>
+  <p>敵が集結をかけたら、その敵に駐屯を抜かれる想定で動きます。抜かれてから、攻撃同盟がその敵を抜くまでの時間が、敵の占領時間になります。だから、敵が集結をかけたら、即集結をかけて抜けるようにします。</p>
+  <p>ロスが生まれるのは、着弾時間の計算と、分秒の秒をキリの良い数字にそろえるところです。そこに、受け取った一人ひとりの「着弾時間 − 自分の行軍時間」の引き算が加わります。</p>
+  <p>その指示までのロス分が、つまりは敵の占領時間を稼がせてしまう時間になります。</p>
+
+  <h2>2. 押す瞬間が、一人ひとり違う理由</h2>
+  <p>押す瞬間は、一人ずつ違います。仲間の都市はマップのあちこちにあり、拠点までの行軍時間が一人ずつ違うからです。同じ時刻に着弾させるには、遠い人ほど早く、近い人ほど遅く押す必要があります。</p>
+  <p>行軍に3分かかるプレーヤーAは21:00:15に、45秒のプレーヤーDは21:02:30に押します。押す時刻は違っても、全員が21:03:15に着弾する計算です。</p>
+
+  <h2>3. 号令は「何秒後」ではなく「時刻」で出す</h2>
+  <p>「今から60秒後」は、聞いた瞬間から遅れが始まります。時刻なら、遅れて見た人も追いつけます。</p>
+  <p>だから号令は、着弾時刻で出します。チャットには分と秒の4桁で流します。「1234」なら、12分34秒に着弾です。</p>
+
+  <h2>4. 着弾時刻は、一番遠い集結主に合わせる</h2>
+  <p>集結に乗る人は、集結時間のうちに集結主の都市まで行きます。着弾を決めるのは、太陽城まで一番遠い集結主の行軍時間です。</p>
+
+  <h2>5. 連撃を分けるなら、着弾時刻も分ける</h2>
+  <p>集結主7人を同じ着弾にすれば7連です。4連と3連に分けるなら、班を分けて別々の着弾時刻を出します。</p>
+
+  <h2>6. 占領抜きは、一人ひとりが自分で抜く</h2>
+  <p>入替のとき、駐屯している攻撃同盟の全員が、占領同盟の単騎が着く数秒前に太陽城から抜けます。これが占領抜きです。</p>
+  <p>旗持ちや盟主、幹部は駐屯している人を外せますが、一人ずつ外していては1秒の勝負に間に合いません。駐屯している一人ひとりが、自分で、同時に抜けます。</p>
+
+  <h2>7. 端末の時計を疑う</h2>
+  <p>全員が自分のスマホの時計を見ている限り、数秒はずれます。</p>
+
+  <div class="call">
+    <p><strong>この計算を、ツールに織り込みました。CommandClockといいます。</strong></p>
+    <p>指示役が決めるのは、集結を出したいタイミングだけです。即時号令を押すと、いまの時刻に、押すまでの猶予と、集結時間と、一番遠い集結主の行軍時間を足して、着弾時間が決まります。</p>
+    <p>ツールに入っている人には、その人の行軍時間を引いた出発のカウントダウンが、その人の画面に出ます。入替の着弾と、そこから数秒前の占領抜きを、1つの時刻を基準に配れます。差込の着弾も指示できます。</p>
+    <p>基準はサーバーの時刻です。端末の時計が数秒ずれていても、全員のカウントダウンが合います。</p>
+    <p>ゲームには一切触れません。画面を読み取ることも、自動で押すこともしません。押すのはご自身です。</p>
+    <p><a href="/">CommandClockの仕組みを見る</a></p>
+  </div>
+
+  <h2>おわりに</h2>
+  <p>号令は時刻で出す。着弾は一番遠い集結主に合わせる。連撃を分けるなら着弾も分ける。占領抜きは一人ひとりが自分で。端末の時計を疑う。どれも、決めた着弾時間に全員が合わせるための考え方です。</p>
+  <p>CommandClockは、はじめの14日間は無料です。王城戦は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。</p>
+  <a class="btn" href="/#pricing">14日間無料で試す</a>
+  <p style="margin-top:2rem;">あわせて読む：<a href="/blog/svs-preparation.html">SVS本番までに指揮役がやること</a></p>
+</article>
+
+<footer>
+  <div class="in">
+    <a href="/">CommandClock</a>　/　<a href="/guide.html">使い方ガイド</a>　/　<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
+    <p>CommandClockはホワイトアウトサバイバルおよびその他対応ゲームの非公式ツールです。各ゲームの著作権は各パブリッシャーに帰属します。</p>
+    <div>&copy; 2026 CommandClock</div>
+  </div>
+</footer>
+</body>
+</html>
