@@ -115,7 +115,7 @@ ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
           <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
+            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>
         </td></tr>
@@ -186,7 +186,7 @@ ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
           <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。<br>
+            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。<br>
             解約すると、この参加コードだけが使えなくなります。同盟のルームはそのまま残ります。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>
