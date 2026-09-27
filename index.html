@@ -333,6 +333,7 @@ table.cmp th { font-family: inherit; letter-spacing: 0; }
 .note-line { border-left: 3px solid var(--ink); padding: 0.2rem 0 0.2rem 1.2rem; margin-top: 1.6rem; max-width: 62ch; }
 .note-line h3 { margin: 0 0 0.4rem; font-size: 0.98rem; }
 .note-line p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
+.note-line p + p { margin-top: 0.7rem; }
 
 /* ---- 実績 ---------------------------------------------------- */
 .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); }
@@ -767,26 +768,31 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
         <thead>
           <tr>
             <th>比べること</th>
-            <th>ゲーム内チャット<br>（手計算・手打ち）</th>
-            <th>Discord<wbr>ボット</th>
+            <th>手計算・<wbr>手打ち</th>
+            <th>集結主向けの<wbr>タイマー<wbr>ツール</th>
             <th class="ours-col">Command<wbr>Clock</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>号令で、一人ひとりの押す瞬間が全員に届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
-          <tr><td>入替の押す瞬間を、全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
-          <tr><td>占領抜きの瞬間を、全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
-          <tr><td>集結の着弾時間が分かる</td><td class="x">△<br><small>自分で計算</small></td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+          <!-- 2026-09-27 競合調査を受けて。集結主に届く部分は他のツールにもあるので◯にして正直に認める -->
+          <tr><td>ボタン1回で、着弾時間が決まる</td><td class="x">△<br><small>自分で計算</small></td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+          <tr><td>集結主一人ひとりに、押す瞬間のカウントダウンが届く</td><td class="x">×</td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+          <tr><td>入替をする人（単騎）に、押す瞬間が届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>占領抜きの瞬間を、駐屯している全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>差込をする人（単騎）に、押す瞬間が届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
         </tbody>
       </table>
     </div>
     <p class="tbl-note">
       <b>入替</b>＝攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。<br>
-      <b>占領抜き</b>＝入替のとき、拠点の中にいる全員が同時に抜けること。
+      <b>占領抜き</b>＝入替のとき、拠点の中にいる全員が同時に抜けること。<br>
+      <b>差込</b>＝敵の連撃の着弾と着弾のあいだに兵を送り込んで、守りを固めること。
     </p>
     <div class="note-line">
-      <h3>なぜ他にないのか</h3>
-      <p>他のツールは、集結の着弾時間や集結する時間が分かっても、全員に行き届くようなものは見たことがありません。端末の時計を揃える。行軍時間から逆算する。押す瞬間を一人ひとりに届ける。この3つが同時に要ると分かるのは、拠点の取り合いで秒を詰めて戦ってきた人です。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。</p>
+      <!-- 2026-09-27 競合調査で、集結主に届けるツールが他にもあると分かったので書き直した（鎌田さん「その通りです」）。「唯一」とは書かない -->
+      <h3>集結主だけでなく、入替・占領抜き・差込をする人にも届く。</h3>
+      <p>集結主に着弾時間を届けるツールは、ほかにもあります。でも、入替・占領抜き・差込まで、単騎の人も含めた全員に押す瞬間が届くものは、調べた範囲では見当たりませんでした。</p>
+      <p>拠点の取り合いは、集結主だけでは成り立ちません。占領する同盟の単騎、駐屯から一斉に抜ける全員、敵の連撃の隙間に差し込む人。その全員が同じ着弾時間に合わせて、はじめて成り立ちます。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。</p>
     </div>
   </div>
 </section>
