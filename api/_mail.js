@@ -100,7 +100,7 @@ ${trialNoteHtml(trialEnd)}
             1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
             2. ルームIDと参加コードを入力して参加します<br>
             3. 役割を選びます。まとめ役は「参謀」、隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
-            4. 参謀が到着させたい時刻を送ると、各メンバーの画面に<strong style="color:#e8eef7;">一人ずつ違うスタートタイミング</strong>が出ます<br>
+            4. 参謀が号令を押すと、各メンバーの画面に<strong style="color:#e8eef7;">一人ずつ違う、押す瞬間のカウントダウン</strong>が出ます<br>
             <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
           </p>
         </td></tr>
@@ -108,7 +108,7 @@ ${trialNoteHtml(trialEnd)}
         <tr><td style="padding:16px 32px 8px;">
           <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
             <strong style="color:#e8eef7;">メンバーへの配り方</strong><br>
-            上の<strong style="color:#e8eef7;">URL・ルームID・参加コードの3点</strong>をメンバーに共有してください。各メンバーは初回に自分の移動時間を入力するだけで、以降は自分専用のカウントダウンが表示されます。<br>
+            上の<strong style="color:#e8eef7;">URL・ルームID・参加コードの3点</strong>をメンバーに共有してください。各メンバーは初回に自分の行軍時間を入力するだけで、以降は自分専用のカウントダウンが表示されます。<br>
             <span style="color:#5b6b81;">※ ルームIDと参加コードは、ご自身のチーム以外に共有しないでください。</span>
           </p>
         </td></tr>
@@ -179,7 +179,7 @@ ${trialNoteHtml(trialEnd)}
             1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
             2. ルームIDと参加コードを入力して参加します<br>
             3. 役割を選びます。隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
-            4. 自分の移動時間を一度だけ入力します。以降は保存されます<br>
+            4. 自分の行軍時間を一度だけ入力します。以降は保存されます<br>
             <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
           </p>
         </td></tr>
