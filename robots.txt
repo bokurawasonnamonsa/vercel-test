@@ -1,0 +1,9 @@
+# 2026-09-27 検索エンジン向け。管理画面・申し込み後の画面・APIは検索に出さない
+User-agent: *
+Disallow: /owner.html
+Disallow: /success.html
+Disallow: /cancel.html
+Disallow: /join.html
+Disallow: /api/
+
+Sitemap: https://commandclock.jp/sitemap.xml
