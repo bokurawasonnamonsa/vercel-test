@@ -201,6 +201,17 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
     </div>
     <div id="payMsg" class="msg"></div>
 
+    <h2 class="sec">管理用リンクの一斉送付</h2>
+    <p class="sechint">
+      ルームを契約した方だけが使える「管理用リンク」（参加コードを新しくする画面）を、まだ届いていない契約者へ、まとめて一度だけ送ります。
+      新しいお申し込みの方には、案内メールに入って自動で届くので、ここで送る必要はありません。
+    </p>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <button id="managePreviewBtn">届いていない契約者を確認する</button>
+      <button id="manageSendBtn" disabled>この内容で送る</button>
+    </div>
+    <div id="managePreview" class="msg"></div>
+
     <h2 class="sec">メールの点検</h2>
     <p class="foot" style="margin-top:0;">
       案内メールを自分宛に1通送り、実際に使われた差出人アドレスを表示します。
@@ -396,6 +407,52 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
     }
   }
 
+  // 管理用リンクの一斉送付（2026-09-27）。まず確認してから送る
+  async function managePreview() {
+    const btn = $('managePreviewBtn');
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/owner-rooms?action=manage-pending');
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '取得できませんでした');
+      const list = (data.recipients || []).map((r) => r.email + '（' + (r.name || '') + '・' + (r.plan_label || '') + '）').join('、');
+      const box = $('managePreview');
+      box.className = 'msg';
+      box.innerHTML = '';
+      const p = document.createElement('div');
+      p.textContent = data.count ? ('まだ届いていない契約者：' + data.count + ' 件 — ' + list) : 'まだ届いていない契約者はいません。';
+      box.appendChild(p);
+      if (data.count) {
+        const frame = document.createElement('iframe');
+        frame.style.cssText = 'width:100%;height:520px;border:1px solid var(--rule);margin-top:8px;background:#070b14;';
+        frame.srcdoc = data.sampleHtml || '';
+        box.appendChild(frame);
+      }
+      $('manageSendBtn').disabled = !data.count;
+    } catch (err) {
+      $('managePreview').className = 'msg err';
+      $('managePreview').textContent = 'エラー: ' + err.message;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  async function manageSend() {
+    if (!confirm('管理用リンクを、まだ届いていない契約者にまとめて送ります。よろしいですか？')) return;
+    const btn = $('manageSendBtn');
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/owner-rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'send-manage-links' }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '送れませんでした');
+      const failed = (data.results || []).filter((r) => !r.sent);
+      $('managePreview').className = failed.length ? 'msg err' : 'msg';
+      $('managePreview').textContent = data.sent + ' 件送りました。' + (failed.length ? ' 送れなかったもの：' + failed.map((f) => f.email + '（' + f.reason + '）').join('、') : '');
+    } catch (err) {
+      $('managePreview').className = 'msg err';
+      $('managePreview').textContent = 'エラー: ' + err.message;
+    }
+  }
+
   async function fulfillOne(sessionId, btn) {
     btn.disabled = true;
     btn.textContent = '発行中…';
@@ -474,6 +531,8 @@ td.money { font-family: "Chivo Mono", monospace; font-variant-numeric: tabular-n
   });
   $('reloadBtn').addEventListener('click', () => { loadRooms(); loadPayments(); });
   $('mailTestBtn').addEventListener('click', runMailTest);
+  $('managePreviewBtn').addEventListener('click', managePreview);
+  $('manageSendBtn').addEventListener('click', manageSend);
 
   (async () => {
     try {

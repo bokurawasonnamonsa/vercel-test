@@ -113,11 +113,31 @@ async function roomSummary(roomId) {
   }
 }
 
+// 管理用リンクをまだ送っていない契約者の一覧（商品サーバーが持っている）。
+async function manageLinksPending() {
+  if (!isConfigured()) return { ok: false, error: 'not configured' };
+  try {
+    const res = await fetch(`${APP_URL}/api/rooms/manage-pending`, { headers: { 'X-Issue-Key': ISSUE_KEY } });
+    const text = await res.text();
+    if (!res.ok) return { ok: false, error: `manage-pending ${res.status}: ${text.slice(0, 200)}` };
+    return { ok: true, data: JSON.parse(text) };
+  } catch (err) {
+    return { ok: false, error: err.message };
+  }
+}
+
+// 管理用リンクを送ったことを記録する（同じ人に二度送らないため）。
+async function markManageSent(roomId) {
+  return callProduct('/api/rooms/manage-sent', { room_id: roomId });
+}
+
 function playerUrl() {
   return `${APP_URL}/`;
 }
 
 module.exports = {
+  manageLinksPending,
+  markManageSent,
   issueRoom, revokeRoom, addSeat, revokeSeat, roomSummary,
   isConfigured, playerUrl, APP_URL,
 };

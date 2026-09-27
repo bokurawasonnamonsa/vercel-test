@@ -6,7 +6,7 @@
 
 const { sendWelcomeMail, sendSeatMail } = require('./_mail');
 const {
-  issueRoom, revokeRoom, addSeat, revokeSeat,
+  issueRoom, revokeRoom, addSeat, revokeSeat, markManageSent,
   isConfigured, playerUrl, APP_URL,
 } = require('./_product');
 const { PLANS, SEAT } = require('./_plans');
@@ -175,8 +175,12 @@ async function fulfillSession(sessionId, opts) {
   const mail = reused
     ? { sent: false, reason: 'already issued' }
     : to
-      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan, trialEnd: purchase.trialEnd })
+      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan, trialEnd: purchase.trialEnd, manageUrl: issued.data.manage_url })
       : { sent: false, reason: 'no recipient address' };
+  // 管理用リンクも一緒に届いたので、あとの一斉送付で二度送らないよう記録する
+  if (mail && mail.sent && issued.data.manage_url) {
+    try { await markManageSent(roomId); } catch (e) { /* 記録に失敗しても引き渡しは止めない */ }
+  }
 
   return {
     status: 200,

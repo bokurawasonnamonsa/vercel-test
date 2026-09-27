@@ -55,7 +55,23 @@ function trialNoteHtml(trialEnd) {
         </td></tr>`;
 }
 
-function buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd }) {
+// 管理用リンク（契約した人だけのもの）。参加コードを新しくする画面へ。2026-09-27
+function manageNoteHtml(manageUrl) {
+  if (!manageUrl) return '';
+  return `
+        <tr><td style="padding:16px 32px 8px;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;">
+            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+              <strong style="color:#e8eef7;">ルームの管理用リンク（契約した方だけのもの）</strong><br>
+              移民などで敵になった人が、前の参加コードで入れないようにできます。下のリンクから、参加コードをいつでも新しくできます（自動で作るか、ご自分で決められます）。新しくしても、いまつないでいる人はその場では切れません。<br>
+              <a href="${manageUrl}" style="color:#e9a93c;">ルームを管理する</a><br>
+              <span style="color:#5b6b81;">※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。</span>
+            </p>
+          </div>
+        </td></tr>`;
+}
+
+function buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd, manageUrl }) {
   return `<!doctype html>
 <html lang="ja">
 <body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
@@ -112,6 +128,7 @@ ${trialNoteHtml(trialEnd)}
             <span style="color:#5b6b81;">※ ルームIDと参加コードは、ご自身のチーム以外に共有しないでください。</span>
           </p>
         </td></tr>
+${manageNoteHtml(manageUrl)}
 
         <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
           <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
@@ -198,6 +215,58 @@ ${trialNoteHtml(trialEnd)}
 </html>`;
 }
 
+// 今のお客様あて：管理用リンクのお知らせ（本番に出すときに一度だけ送る）。2026-09-27
+function buildManageLinkHtml({ roomName, planLabel, manageUrl }) {
+  return `<!doctype html>
+<html lang="ja">
+<body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b14;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#0d1424;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;">
+        <tr><td style="padding:32px 32px 8px;">
+          <h1 style="color:#e8eef7;font-size:22px;margin:0 0 10px;line-height:1.45;">ルームの管理用リンクのお知らせ</h1>
+          <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
+            いつも CommandClock をご利用いただき、ありがとうございます。<br>
+            ルームを契約した方だけが使える「管理用リンク」をお送りします。このリンクから、参加コードをいつでも新しくできます。移民などで敵になった人が、前の参加コードで入れないようにするときにお使いください。
+          </p>
+        </td></tr>
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;">
+            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ルーム</div>
+            <div style="color:#e8eef7;font-size:16px;font-weight:700;margin-top:2px;">${roomName || ''}${planLabel ? '（' + planLabel + '）' : ''}</div>
+          </div>
+        </td></tr>
+        <tr><td style="padding:16px 32px 4px;">
+          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+            ・新しくすると、前の参加コードでは次から入れなくなります。いまつないでいる人は、その場では切れません。<br>
+            ・新しいコードは、自動で作るか、ご自分で決められます。<br>
+            ・新しいコードは、仲間に知らせてください。仲間は次に開いたときに、新しいコードを1回入れるだけです。
+          </p>
+        </td></tr>
+        <tr><td style="padding:20px 32px 4px;">
+          <a href="${manageUrl}" style="display:block;background:#e9a93c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">ルームを管理する</a>
+        </td></tr>
+        <tr><td style="padding:16px 32px 28px;">
+          <p style="color:#5b6b81;font-size:12px;line-height:1.9;margin:0;">
+            ※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。<br>
+            お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+async function sendManageLinkMail({ to, roomName, planLabel, manageUrl }) {
+  return sendMail({
+    to,
+    subject: '【CommandClock】ルームの管理用リンクのお知らせ',
+    html: buildManageLinkHtml({ roomName, planLabel, manageUrl }),
+  });
+}
+
 async function sendMail({ to, subject, html }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
@@ -229,7 +298,7 @@ async function sendSeatMail({ to, roomId, code, appUrl, trialEnd }) {
   });
 }
 
-async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
+async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd, manageUrl }) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
   if (!to) return { sent: false, reason: 'no recipient address' };
@@ -247,7 +316,7 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
         from,
         to: [to],
         subject: `【CommandClock】ご利用開始のご案内（参加コード ${code}）`,
-        html: buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd }),
+        html: buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd, manageUrl }),
       }),
     });
 
@@ -263,4 +332,4 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd }) {
   }
 }
 
-module.exports = { sendWelcomeMail, sendSeatMail, senderAddress };
+module.exports = { sendWelcomeMail, sendSeatMail, sendManageLinkMail, buildManageLinkHtml, senderAddress };
