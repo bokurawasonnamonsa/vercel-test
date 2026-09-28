@@ -139,7 +139,9 @@ async function fulfillSession(sessionId, opts) {
   }
 
   const issued = await issueRoom({
-    name: (purchase.email || 'Alliance').split('@')[0].slice(0, 24),
+    // 2026-09-28 購入者のメールアドレスから名前を作らない（参加者全員の画面に同盟の名前として出ていた）。
+    // 名前が無ければ、画面では 同盟A・同盟B・同盟C になる
+    name: '',
     note: `stripe:${purchase.sessionId}`,
     idempotencyKey: purchase.sessionId,
     plan: PLANS[purchase.plan]
