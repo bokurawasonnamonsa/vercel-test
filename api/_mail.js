@@ -249,7 +249,7 @@ function buildManageLinkHtml({ roomName, planLabel, manageUrl }) {
         <tr><td style="padding:16px 32px 28px;">
           <p style="color:#5b6b81;font-size:12px;line-height:1.9;margin:0;">
             ※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。<br>
-            お問い合わせは <a href="mailto:bokurawasonnamonsa@gmail.com" style="color:#8fa0b8;">bokurawasonnamonsa@gmail.com</a> まで。
+            お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。
           </p>
         </td></tr>
       </table>
