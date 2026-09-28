@@ -24,13 +24,13 @@ function senderAddress() {
 
 // プランごとに、届いた直後に迷わないための一言。
 function planNoteHtml(plan, appUrl) {
-  const b = (t) => `<strong style="color:#e8eef7;">${t}</strong>`;
+  const b = (t) => `<strong style="color:#0d1420;">${t}</strong>`;
   if (plan === 'personal') {
     return `${b('個人用プラン')}です。6人までの少人数で使えます（乗り手も含めて、同時に6台まで）。上の3点を、一緒に使うメンバーに共有してください。7人以上で使うときは同盟用へお切り替えください。`;
   }
   if (plan === 'server') {
     const admin = `${String(appUrl).replace(/\/+$/, '')}/admin`;
-    return `${b('総指揮プラン')}です。占領同盟と攻撃同盟2つ、3同盟までまとめて指揮できます。入替と占領抜きは管理画面から出します。指揮官の方は <a href="${admin}" style="color:#e9a93c;">${admin}</a> を開き、同じルームIDと参加コードで入ってください。管理画面は3つの同盟を並べて見る画面なので、パソコンでのご利用をおすすめします（スマホでも使えます）。`;
+    return `${b('総指揮プラン')}です。占領同盟と攻撃同盟2つ、3同盟までまとめて指揮できます。入替と占領抜きは管理画面から出します。指揮官の方は <a href="${admin}" style="color:#8a5a12;">${admin}</a> を開き、同じルームIDと参加コードで入ってください。管理画面は3つの同盟を並べて見る画面なので、パソコンでのご利用をおすすめします（スマホでも使えます）。`;
   }
   return `${b('同盟プラン')}です。参加人数の制限はありません。まずは参謀の方がプレーヤー画面を開き、即時号令を押すだけで着弾時間が出てコピーされます。同盟のメンバーも、各自の端末で同じルームに参加できます。`;
 }
@@ -45,11 +45,11 @@ function trialNoteHtml(trialEnd) {
   }).format(d);
   return `
         <tr><td style="padding:16px 32px 0;">
-          <div style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.28);border-radius:12px;padding:14px 16px;">
-            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-              <strong style="color:#4ade80;">${when}まで無料でお使いいただけます。</strong><br>
+          <div style="background:#eef6f4;border:1px solid #b8d8d1;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0f6b5f;">${when}まで無料でお使いいただけます。</strong><br>
               初回のご請求はその翌日からです。それまでに解約された場合、料金は一切発生しません。<br>
-              解約は、<a href="${PORTAL_URL}" style="color:#4ade80;">解約ページ</a>からいつでもご自分でできます。
+              解約は、<a href="${PORTAL_URL}" style="color:#0f6b5f;">解約ページ</a>からいつでもご自分でできます。
             </p>
           </div>
         </td></tr>`;
@@ -60,12 +60,12 @@ function manageNoteHtml(manageUrl) {
   if (!manageUrl) return '';
   return `
         <tr><td style="padding:16px 32px 8px;">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;">
-            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-              <strong style="color:#e8eef7;">ルームの管理用リンク（契約した方だけのもの）</strong><br>
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0d1420;">ルームの管理用リンク（契約した方だけのもの）</strong><br>
               移民などで敵になった人が、前の参加コードで入れないようにできます。下のリンクから、参加コードをいつでも新しくできます（自動で作るか、ご自分で決められます）。新しくしても、いまつないでいる人はその場では切れません。<br>
-              <a href="${manageUrl}" style="color:#e9a93c;">ルームを管理する</a><br>
-              <span style="color:#5b6b81;">※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。</span>
+              <a href="${manageUrl}" style="color:#8a5a12;">ルームを管理する</a><br>
+              <span style="color:#56637c;">※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。</span>
             </p>
           </div>
         </td></tr>`;
@@ -74,65 +74,65 @@ function manageNoteHtml(manageUrl) {
 function buildWelcomeHtml({ roomId, code, appUrl, plan, trialEnd, manageUrl }) {
   return `<!doctype html>
 <html lang="ja">
-<body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b14;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#0d1424;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #ccd4e0;border-radius:16px;overflow:hidden;">
         <tr><td style="padding:32px 32px 8px;">
-          <div style="display:inline-block;padding:5px 14px;background:rgba(233,169,60,0.12);border:1px solid rgba(233,169,60,0.3);border-radius:999px;color:#e9a93c;font-size:12px;letter-spacing:.06em;">お申し込みありがとうございます</div>
-          <h1 style="color:#e8eef7;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>ご利用開始のご案内</h1>
-          <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
+          <div style="display:inline-block;padding:5px 14px;background:#fcefd9;border:1px solid #e6c48a;border-radius:999px;color:#8a5a12;font-size:14px;letter-spacing:.06em;">お申し込みありがとうございます</div>
+          <h1 style="color:#0d1420;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>ご利用開始のご案内</h1>
+          <p style="color:#3d4a63;font-size:16px;line-height:1.85;margin:0;">
             専用のルームを発行しました。下記のルームIDと参加コードで、すぐにご利用いただけます。
           </p>
         </td></tr>
 
         <tr><td style="padding:16px 32px 0;">
-          <div style="background:rgba(233,169,60,0.07);border:1px solid rgba(233,169,60,0.22);border-radius:12px;padding:14px 16px;">
-            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">${planNoteHtml(plan, appUrl)}</p>
+          <div style="background:#fdf6ea;border:1px solid #ecd3a6;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">${planNoteHtml(plan, appUrl)}</p>
           </div>
         </td></tr>
 ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:20px 32px 4px;">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 18px;">
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ご利用URL</div>
-            <div style="margin:4px 0 16px;"><a href="${appUrl}" style="color:#e9a93c;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:16px 18px;">
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">ご利用URL</div>
+            <div style="margin:4px 0 16px;"><a href="${appUrl}" style="color:#8a5a12;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
 
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ルームID</div>
-            <div style="color:#e8eef7;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">ルームID</div>
+            <div style="color:#0d1420;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
 
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">参加コード</div>
-            <div style="color:#4ade80;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">参加コード</div>
+            <div style="color:#0f6b5f;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
           </div>
         </td></tr>
 
         <tr><td style="padding:20px 32px 4px;">
-          <a href="${appUrl}" style="display:block;background:#e9a93c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">CommandClock を開く</a>
+          <a href="${appUrl}" style="display:block;background:#f0a63c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">CommandClock を開く</a>
         </td></tr>
 
         <tr><td style="padding:20px 32px 8px;">
-          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-            <strong style="color:#e8eef7;">使い方</strong><br>
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">使い方</strong><br>
             1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
             2. ルームIDと参加コードを入力して参加します<br>
             3. 役割を選びます。まとめ役は「参謀」、隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
-            4. 参謀が号令を押すと、各メンバーの画面に<strong style="color:#e8eef7;">一人ずつ違う、押す瞬間のカウントダウン</strong>が出ます<br>
-            <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
+            4. 参謀が号令を押すと、各メンバーの画面に<strong style="color:#0d1420;">一人ずつ違う、押す瞬間のカウントダウン</strong>が出ます<br>
+            <a href="https://commandclock.jp/guide.html" style="color:#8a5a12;">画面ごとの使い方をくわしく見る</a>
           </p>
         </td></tr>
 
         <tr><td style="padding:16px 32px 8px;">
-          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-            <strong style="color:#e8eef7;">メンバーへの配り方</strong><br>
-            上の<strong style="color:#e8eef7;">URL・ルームID・参加コードの3点</strong>をメンバーに共有してください。各メンバーは初回に自分の行軍時間を入力するだけで、以降は自分専用のカウントダウンが表示されます。<br>
-            <span style="color:#5b6b81;">※ ルームIDと参加コードは、ご自身のチーム以外に共有しないでください。</span>
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">メンバーへの配り方</strong><br>
+            上の<strong style="color:#0d1420;">URL・ルームID・参加コードの3点</strong>をメンバーに共有してください。各メンバーは初回に自分の行軍時間を入力するだけで、以降は自分専用のカウントダウンが表示されます。<br>
+            <span style="color:#56637c;">※ ルームIDと参加コードは、ご自身のチーム以外に共有しないでください。</span>
           </p>
         </td></tr>
 ${manageNoteHtml(manageUrl)}
 
-        <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
-          <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。<br>
+        <tr><td style="padding:16px 32px 28px;border-top:1px solid #ccd4e0;">
+          <p style="color:#56637c;font-size:13px;line-height:1.9;margin:12px 0 0;">
+            解約は<a href="${PORTAL_URL}" style="color:#3d4a63;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#3d4a63;">support@commandclock.jp</a> まで。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>
         </td></tr>
@@ -151,22 +151,22 @@ ${manageNoteHtml(manageUrl)}
 function buildSeatHtml({ roomId, code, appUrl, trialEnd }) {
   return `<!doctype html>
 <html lang="ja">
-<body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b14;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#0d1424;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #ccd4e0;border-radius:16px;overflow:hidden;">
         <tr><td style="padding:32px 32px 8px;">
-          <div style="display:inline-block;padding:5px 14px;background:rgba(233,169,60,0.12);border:1px solid rgba(233,169,60,0.3);border-radius:999px;color:#e9a93c;font-size:12px;letter-spacing:.06em;">お申し込みありがとうございます</div>
-          <h1 style="color:#e8eef7;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>あなた専用の参加コード</h1>
-          <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
+          <div style="display:inline-block;padding:5px 14px;background:#fcefd9;border:1px solid #e6c48a;border-radius:999px;color:#8a5a12;font-size:14px;letter-spacing:.06em;">お申し込みありがとうございます</div>
+          <h1 style="color:#0d1420;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>あなた専用の参加コード</h1>
+          <p style="color:#3d4a63;font-size:16px;line-height:1.85;margin:0;">
             すでにあるルームに、あなたの席を1つ用意しました。下記のルームIDと参加コードで参加できます。
           </p>
         </td></tr>
 
         <tr><td style="padding:16px 32px 0;">
-          <div style="background:rgba(233,169,60,0.07);border:1px solid rgba(233,169,60,0.22);border-radius:12px;padding:14px 16px;">
-            <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-              <strong style="color:#e8eef7;">この参加コードは、あなた専用です。</strong>
+          <div style="background:#fdf6ea;border:1px solid #ecd3a6;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0d1420;">この参加コードは、あなた専用です。</strong>
               ほかの方には配らないでください。人数が増えるときは、その方がご自分の席を申し込む形になります。
             </p>
           </div>
@@ -174,36 +174,36 @@ function buildSeatHtml({ roomId, code, appUrl, trialEnd }) {
 ${trialNoteHtml(trialEnd)}
 
         <tr><td style="padding:20px 32px 4px;">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px 18px;">
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ご利用URL</div>
-            <div style="margin:4px 0 16px;"><a href="${appUrl}" style="color:#e9a93c;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:16px 18px;">
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">ご利用URL</div>
+            <div style="margin:4px 0 16px;"><a href="${appUrl}" style="color:#8a5a12;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
 
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ルームID</div>
-            <div style="color:#e8eef7;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">ルームID</div>
+            <div style="color:#0d1420;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
 
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">参加コード（あなた専用）</div>
-            <div style="color:#4ade80;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">参加コード（あなた専用）</div>
+            <div style="color:#0f6b5f;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
           </div>
         </td></tr>
 
         <tr><td style="padding:20px 32px 4px;">
-          <a href="${appUrl}" style="display:block;background:#e9a93c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">CommandClock を開く</a>
+          <a href="${appUrl}" style="display:block;background:#f0a63c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">CommandClock を開く</a>
         </td></tr>
 
         <tr><td style="padding:20px 32px 8px;">
-          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
-            <strong style="color:#e8eef7;">はじめにやること</strong><br>
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">はじめにやること</strong><br>
             1. 上のURLをブラウザで開きます（アプリ内ブラウザでは正しく動きません）<br>
             2. ルームIDと参加コードを入力して参加します<br>
             3. 役割を選びます。隊を出す方は「集結主」、隊に加わる方は「乗り手」です<br>
             4. 自分の行軍時間を一度だけ入力します。以降は保存されます<br>
-            <a href="https://commandclock.jp/guide.html" style="color:#e9a93c;">画面ごとの使い方をくわしく見る</a>
+            <a href="https://commandclock.jp/guide.html" style="color:#8a5a12;">画面ごとの使い方をくわしく見る</a>
           </p>
         </td></tr>
 
-        <tr><td style="padding:16px 32px 28px;border-top:1px solid rgba(255,255,255,0.07);">
-          <p style="color:#5b6b81;font-size:11px;line-height:1.9;margin:12px 0 0;">
-            解約は<a href="${PORTAL_URL}" style="color:#8fa0b8;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。<br>
+        <tr><td style="padding:16px 32px 28px;border-top:1px solid #ccd4e0;">
+          <p style="color:#56637c;font-size:13px;line-height:1.9;margin:12px 0 0;">
+            解約は<a href="${PORTAL_URL}" style="color:#3d4a63;">解約ページ</a>から、いつでもご自分でできます。お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#3d4a63;">support@commandclock.jp</a> まで。<br>
             解約すると、この参加コードだけが使えなくなります。同盟のルームはそのまま残ります。<br>
             本サービスは現在、検証運用中のため内容・料金が変更される場合があります。
           </p>
@@ -219,37 +219,37 @@ ${trialNoteHtml(trialEnd)}
 function buildManageLinkHtml({ roomName, planLabel, manageUrl }) {
   return `<!doctype html>
 <html lang="ja">
-<body style="margin:0;padding:0;background:#070b14;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#070b14;padding:32px 16px;">
+<body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:32px 16px;">
     <tr><td align="center">
-      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#0d1424;border:1px solid rgba(255,255,255,0.09);border-radius:16px;overflow:hidden;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #ccd4e0;border-radius:16px;overflow:hidden;">
         <tr><td style="padding:32px 32px 8px;">
-          <h1 style="color:#e8eef7;font-size:22px;margin:0 0 10px;line-height:1.45;">ルームの管理用リンクのお知らせ</h1>
-          <p style="color:#8fa0b8;font-size:14px;line-height:1.85;margin:0;">
+          <h1 style="color:#0d1420;font-size:22px;margin:0 0 10px;line-height:1.45;">ルームの管理用リンクのお知らせ</h1>
+          <p style="color:#3d4a63;font-size:16px;line-height:1.85;margin:0;">
             いつも CommandClock をご利用いただき、ありがとうございます。<br>
             ルームを契約した方だけが使える「管理用リンク」をお送りします。このリンクから、参加コードをいつでも新しくできます。移民などで敵になった人が、前の参加コードで入れないようにするときにお使いください。
           </p>
         </td></tr>
         <tr><td style="padding:16px 32px 0;">
-          <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;">
-            <div style="color:#8fa0b8;font-size:11px;letter-spacing:.1em;">ルーム</div>
-            <div style="color:#e8eef7;font-size:16px;font-weight:700;margin-top:2px;">${roomName || ''}${planLabel ? '（' + planLabel + '）' : ''}</div>
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:14px 16px;">
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">ルーム</div>
+            <div style="color:#0d1420;font-size:16px;font-weight:700;margin-top:2px;">${roomName || ''}${planLabel ? '（' + planLabel + '）' : ''}</div>
           </div>
         </td></tr>
         <tr><td style="padding:16px 32px 4px;">
-          <p style="color:#8fa0b8;font-size:13px;line-height:1.9;margin:0;">
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
             ・新しくすると、前の参加コードでは次から入れなくなります。いまつないでいる人は、その場では切れません。<br>
             ・新しいコードは、自動で作るか、ご自分で決められます。<br>
             ・新しいコードは、仲間に知らせてください。仲間は次に開いたときに、新しいコードを1回入れるだけです。
           </p>
         </td></tr>
         <tr><td style="padding:20px 32px 4px;">
-          <a href="${manageUrl}" style="display:block;background:#e9a93c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">ルームを管理する</a>
+          <a href="${manageUrl}" style="display:block;background:#f0a63c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">ルームを管理する</a>
         </td></tr>
         <tr><td style="padding:16px 32px 28px;">
-          <p style="color:#5b6b81;font-size:12px;line-height:1.9;margin:0;">
+          <p style="color:#56637c;font-size:14px;line-height:1.9;margin:0;">
             ※ このリンクは、ほかの人に渡さないでください。参加コードとは別のものです。<br>
-            お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#8fa0b8;">support@commandclock.jp</a> まで。
+            お問い合わせは <a href="mailto:support@commandclock.jp" style="color:#3d4a63;">support@commandclock.jp</a> まで。
           </p>
         </td></tr>
       </table>
