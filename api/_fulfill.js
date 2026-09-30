@@ -43,6 +43,8 @@ async function lookupSession(sessionId) {
     plan: (session.metadata && session.metadata.plan) || (sub && sub.metadata && sub.metadata.plan) || null,
     // 席を買った場合の行き先。セッション側が空でもサブスク側に入っている。
     roomId: (session.metadata && session.metadata.room_id) || (sub && sub.metadata && sub.metadata.room_id) || null,
+    // 2026-09-30 英語版から申し込んだ人は 'en'。案内メールと完了画面の文を英語にする
+    lang: ((session.metadata && session.metadata.lang) || (sub && sub.metadata && sub.metadata.lang)) === 'en' ? 'en' : 'ja',
   };
 }
 
@@ -68,8 +70,10 @@ async function fulfillSession(sessionId, opts) {
     purchase = await lookupSession(sessionId);
   } catch (err) {
     // 通知が偽物でも、ここで実在しないセッションとして弾かれる。
-    return { status: 400, error: 'お申し込み情報を確認できませんでした。' };
+    return { status: 400, error: 'お申し込み情報を確認できませんでした。 / We couldn’t confirm your sign-up.' };
   }
+  const en = purchase.lang === 'en';
+  const T = (ja, eng) => (en ? eng : ja);
 
   // 試用期間つきの申し込みは、まだ1円も課金されていないので
   // payment_status が 'paid' ではなく 'no_payment_required' になる。
@@ -80,7 +84,7 @@ async function fulfillSession(sessionId, opts) {
     purchase.paymentStatus === 'no_payment_required' &&
     (purchase.subscriptionStatus === 'trialing' || purchase.subscriptionStatus === 'active');
   if (!paidOk && !trialOk) {
-    return { status: 402, error: 'お支払いが確認できていません。' };
+    return { status: 402, error: T('お支払いが確認できていません。', 'We couldn’t confirm your payment.') };
   }
 
   // ---- 席を買った場合 ---------------------------------------------------
@@ -88,7 +92,7 @@ async function fulfillSession(sessionId, opts) {
   // そのコードだけを本人に送る。会員登録はさせない。
   if (purchase.plan === SEAT.id) {
     if (!purchase.roomId) {
-      return { status: 400, error: '席の行き先（ルーム）が決済に記録されていません。お問い合わせください。' };
+      return { status: 400, error: T('席の行き先（ルーム）が決済に記録されていません。お問い合わせください。', 'The room for this seat wasn’t recorded with the payment. Please contact us.') };
     }
     const seat = await addSeat({
       roomId: purchase.roomId,
@@ -99,7 +103,7 @@ async function fulfillSession(sessionId, opts) {
     if (!seat.ok) {
       return {
         status: 502,
-        error: '参加コードの発行に失敗しました。お問い合わせください。決済は完了しています。',
+        error: T('参加コードの発行に失敗しました。お問い合わせください。決済は完了しています。', 'We couldn’t issue your join code. Please contact us. Your payment is complete.'),
         detail: seat.error,
       };
     }
@@ -113,6 +117,7 @@ async function fulfillSession(sessionId, opts) {
             code: seat.data.code,
             appUrl: playerUrl(),
             trialEnd: purchase.trialEnd,
+            lang: purchase.lang,
           })
         : { sent: false, reason: 'no recipient address' };
 
@@ -163,7 +168,7 @@ async function fulfillSession(sessionId, opts) {
   if (!issued.ok) {
     return {
       status: 502,
-      error: 'ルームの発行に失敗しました。お問い合わせください。決済は完了しています。',
+      error: T('ルームの発行に失敗しました。お問い合わせください。決済は完了しています。', 'We couldn’t issue your room. Please contact us. Your payment is complete.'),
       detail: issued.error,
     };
   }
@@ -177,7 +182,7 @@ async function fulfillSession(sessionId, opts) {
   const mail = reused
     ? { sent: false, reason: 'already issued' }
     : to
-      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan, trialEnd: purchase.trialEnd, manageUrl: issued.data.manage_url })
+      ? await sendWelcomeMail({ to, roomId, code, appUrl: playerUrl(), plan: issued.data.plan, trialEnd: purchase.trialEnd, manageUrl: issued.data.manage_url, lang: purchase.lang })
       : { sent: false, reason: 'no recipient address' };
   // 管理用リンクも一緒に届いたので、あとの一斉送付で二度送らないよう記録する
   if (mail && mail.sent && issued.data.manage_url) {

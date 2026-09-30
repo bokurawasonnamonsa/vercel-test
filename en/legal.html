@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Legal Notice and Terms of Service</title>
+<link rel="canonical" href="https://commandclock.jp/en/legal.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<style>
+/* 方向D「白の計器」。トップページと同じ決まりを、下層にも通す。 */
+:root {
+  color-scheme: light;
+  --paper:#eef1f5; --surface:#ffffff; --ink:#0d1420; --ink-2:#3d4a63; --ink-3:#56637c;
+  --rule:#ccd4e0; --grid:#dbe2ec; --amber:#f0a63c; --amber-ink:#8a5a12; --signal:#c2410c; --warn:#a33a2a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); line-height: 1.9;
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.4rem; }
+
+.nav { position: sticky; top: 0; z-index: 40; background: rgba(238,241,245,.92); backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--ink); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: .7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--ink); }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand .name { font-size: .95rem; letter-spacing: .04em; font-weight: 700; }
+.nav-cta { background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700; padding: .5rem 1.15rem; font-size: .86rem; border-radius: 2px; white-space: nowrap; }
+
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
+h2 { font-size: 1.22rem; font-weight: 900; letter-spacing: -.02em; margin: 3rem 0 .6rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink); }
+h3 { font-size: 1rem; margin: 1.8rem 0 .4rem; }
+p { margin: 0 0 1rem; color: var(--ink-2); font-size: .95rem; }
+.lead { color: var(--ink-2); font-size: .97rem; }
+.muted { color: var(--ink-3); font-size: .88rem; }
+strong { color: var(--ink); }
+
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.panel h3 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.box h3 { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+ul.plain { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .5rem; }
+ul.plain li { position: relative; padding-left: 1.55rem; color: var(--ink-2); font-size: .93rem; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: .58em; width: 9px; height: 9px; border: 1.5px solid var(--ink); background: var(--amber); }
+
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
+th, td { text-align: left; padding: .75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.yes { color: var(--signal); font-weight: 700; }
+td.no { color: var(--ink-3); }
+
+pre.sample {
+  background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.1rem;
+  overflow-x: auto; font-size: .84rem; line-height: 1.85; color: var(--ink-2); margin: .8rem 0 1rem;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
+}
+details { border-bottom: 1px solid var(--rule); padding: .95rem 0; }
+summary { cursor: pointer; font-size: .95rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "Chivo Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: .6rem 0 0; font-size: .89rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: .85rem 1.7rem; font-weight: 700; font-size: .94rem; text-decoration: none; border-radius: 2px; min-height: 48px; border: none; cursor: pointer; font-family: inherit; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+
+footer { margin-top: 3.4rem; border-top: 1.5px solid var(--ink); padding: 2rem 0 3rem; background: var(--surface); }
+footer p, footer a { color: var(--ink-3); font-size: .82rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+/* 特商法・規約に固有のもの */
+header.doc { background: var(--surface); border-bottom: 1.5px solid var(--ink); padding: 2.4rem 0 2rem; }
+header.doc h1 { margin: 0 0 .3rem; }
+header.doc p { margin: 0; color: var(--ink-3); font-size: .9rem; }
+main { padding: 2.4rem 0 1rem; }
+.notice { border-left: 3px solid var(--signal); padding: .2rem 0 .2rem 1.2rem; margin-bottom: 2rem; color: var(--ink-2); font-size: .9rem; }
+.table-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+.table-wrap table { min-width: 480px; }
+.table-wrap th { width: 12rem; font-family: "Zen Kaku Gothic New", sans-serif; font-size: .88rem; font-weight: 700; color: var(--ink); letter-spacing: 0; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); white-space: normal; }
+.table-wrap tr:last-child th { border-bottom: none; }
+ol { padding-left: 1.4rem; color: var(--ink-2); font-size: .93rem; }
+ol li { margin-bottom: .4rem; }
+ul { color: var(--ink-2); font-size: .93rem; }
+.foot { color: var(--ink-3); font-size: .82rem; }
+.foot a { color: var(--amber-ink); }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/en/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/><path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="2.2" fill="#c2410c"/></svg>
+      <span class="name mono">CommandClock</span>
+    </a>
+    <a class="nav-cta" href="/en/#pricing">Sign up</a>
+  </div>
+</header>
+  <header class="doc">
+    <div class="wrap">
+      <h1>Legal Notice / Terms of Service</h1>
+      <p>Synchronized Countdown Support App</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="notice">
+      This service is currently in a trial-operation stage. Its features and prices may change in the future.
+    </div>
+
+    <h2>Legal Notice (Specified Commercial Transactions Act of Japan)</h2>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>Seller</th>
+          <td>鎌田 諒</td>
+        </tr>
+        <tr>
+          <th>Person responsible for operations</th>
+          <td>鎌田 諒</td>
+        </tr>
+        <tr>
+          <th>Address</th>
+          <td>We will disclose it without delay upon request.<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">Please request it at the contact email address below.</span></td>
+        </tr>
+        <tr>
+          <th>Phone number</th>
+          <td>We will disclose it without delay upon request.<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">As a rule, we accept inquiries by email.</span></td>
+        </tr>
+        <tr>
+          <th>Contact</th>
+          <td>support@commandclock.jp</td>
+        </tr>
+        <tr>
+          <th>Price</th>
+          <td>The amount shown on each plan&#39;s page (in US dollars on the English page)<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">Free for the first 14 days after signing up. Alliance Plan $6.29 per month / Commander Plan $18.99 per month</span><br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">There are no charges other than the displayed price.</span></td>
+        </tr>
+        <tr>
+          <th>Other charges</th>
+          <td>Internet connection charges are the customer&#39;s responsibility.<br>
+</td>
+        </tr>
+        <tr>
+          <th>Payment method</th>
+          <td>Credit card payment (via Stripe)</td>
+        </tr>
+        <tr>
+          <th>Payment timing</th>
+          <td>The first 14 days after signing up are a free trial. There is no charge during this period.<br>
+            The first payment is charged on day 15, and the subscription then renews automatically on the same day each month.<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">The end date of the free trial is stated in the email we send after you sign up. If you cancel during the free trial, you will not be charged at all.</span></td>
+        </tr>
+        <tr>
+          <th>When the service is provided</th>
+          <td>You can use it immediately after payment is complete.<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">We provide the URL, Room ID, and join code on the completion screen and by email to your registered address.</span></td>
+        </tr>
+        <tr>
+          <th>Returns and cancellations</th>
+          <td>Due to the nature of digital services, as a rule we do not offer refunds after payment is complete.<br>
+            However, if the service was not provided properly, please contact us at the address above. We will handle it case by case.<br>
+            <span style="color:var(--ink-3);font-size:0.86rem;">You can cancel yourself anytime from the <a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">cancellation page</a>. Even after you cancel, you can keep using the service until the end of the current period, and you will not be billed again.<strong>If you cancel during the free trial, you will not be charged at all.</strong></span></td>
+        </tr>
+        <tr>
+          <th>System requirements</th>
+          <td>A device connected to the internet and an up-to-date web browser (Google Chrome, Microsoft Edge, or Safari). For the Commander Plan&#39;s console, we recommend a PC (Windows 10/11 or macOS, 8 GB of memory or more, and a screen at least 1366 pixels wide). It can also be used on a phone.</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>Terms of Service</h2>
+
+    <h3>Article 1 (Scope)</h3>
+    <p>These Terms set out the conditions for using the “Synchronized Countdown Support App” we provide (the “Service”). By using the Service, users are deemed to have agreed to these Terms.</p>
+
+    <h3>Article 2 (Description of the Service)</h3>
+    <p>The Service calculates and delivers an individual countdown for each user, based on their travel time, so that multiple users can arrive at a destination at the same time.</p>
+
+    <h3>Article 3 (Plans and scope of use)</h3>
+    <ol>
+      <li>The Service may be used within the one room issued according to the plan you signed up for.</li>
+      <li>The Alliance Plan and the Commander Plan have no limit on the number of people or devices connecting within the same room.</li>
+      <li>The Alliance Plan covers one alliance, and the Commander Plan covers up to three alliances. The console (Commander console), swap and withdraw, and operations across multiple alliances are available only on the Commander Plan.</li>
+      <li>Personal plans (up to 6 devices at once), alliance plans, server plans, and seats purchased before September 24, 2026 continue under the terms at the time of purchase.</li>
+      <li>Please use the Room ID and join code only within the team of the person who signed up.</li>
+    </ol>
+
+    <h3>Article 4 (Fees and payment)</h3>
+    <ol>
+      <li>Users shall pay the monthly fee set for each plan. Customers who sign up on the English page are billed in US dollars.</li>
+      <li>Payment is made by credit card, and payment processing is outsourced to Stripe, Inc. We do not hold card information.</li>
+      
+      <li>The first 14 days after signing up are a free trial, with no charge during this period. After the free trial ends, the first payment is charged.</li>
+      <li>The subscription renews automatically every month. You will continue to be charged unless you cancel.</li>
+    </ol>
+
+    <h3>Article 5 (Cancellation)</h3>
+    <p>Users may cancel anytime from the <a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">cancellation page</a> (Stripe customer portal). Cancellation takes effect at the end of the current free trial or paid period, and there will be no further charges. As a rule, we do not refund periods already paid for.</p>
+
+    <h3>Article 6 (Prohibited acts)</h3>
+    <ul>
+      <li>Copying, modifying, or reverse engineering the Service</li>
+      <li>Improperly sharing account information or the service URL with third parties</li>
+      <li>Interfering with the operation of the Service</li>
+      <li>Acts that violate laws or public order and morals</li>
+    </ul>
+
+    <h3>Article 7 (Changes to and suspension of the Service)</h3>
+    <p>We may change or suspend all or part of the Service without prior notice to users due to system maintenance, failures, or other unavoidable reasons.</p>
+
+    <h3>Article 8 (Disclaimer)</h3>
+    <ol>
+      <li>Depending on the network environment and device condition, the timing displayed by the Service may contain errors. We do not guarantee the complete accuracy of the timing.</li>
+      <li>We are not liable for any damage users suffer from using the Service, except in cases of our intent or gross negligence.</li>
+    </ol>
+
+    <h3>Article 9 (Handling of personal information)</h3>
+    <p>We use personal information such as email addresses, obtained for payment and communication, only to provide the Service and to contact you. We do not provide it to third parties except as required by law.</p>
+
+    <h3>Article 10 (Governing law and jurisdiction)</h3>
+    <p>These Terms are governed by the laws of Japan. If a dispute arises regarding the Service, the court with jurisdiction over our location shall be the exclusive agreed court of first instance.</p>
+
+    <p style="color:var(--ink-3);font-size:0.86rem;margin-top:2.5rem;">Established: July 28, 2026 / Last revised: September 27, 2026. This English page is a translation; if it differs from the Japanese version, the Japanese version prevails.</p>
+
+    <div class="foot">
+      <a href="/en/">← Back to the product page</a> &nbsp;·&nbsp;
+      <a href="/plan.html">See the business plan</a>
+    </div>
+  </main>
+</body>
+</html>

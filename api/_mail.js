@@ -259,6 +259,179 @@ function buildManageLinkHtml({ roomName, planLabel, manageUrl }) {
 </html>`;
 }
 
+// ---- 英語版（2026-09-30）----------------------------------------------------
+// 英語の販売ページ（commandclock.jp/en）から申し込んだ人あて。見た目は日本語版と同じ白。
+// 日付は国をまたぐので UTC で書く。ツールの画面を英語で開くよう、リンクに ?lang=en を付ける。
+function withLang(url) {
+  if (!url) return url;
+  return url + (String(url).includes('?') ? '&' : '?') + 'lang=en';
+}
+
+function planNoteHtmlEn(plan, appUrl) {
+  const b = (t) => `<strong style="color:#0d1420;">${t}</strong>`;
+  if (plan === 'personal') {
+    return `You’re on the ${b('Personal plan')}. It’s for small groups of up to 6 (up to 6 devices at once, joiners included). Share the three items above with the members you use it with.`;
+  }
+  if (plan === 'server') {
+    const admin = `${String(appUrl).replace(/\/+$/, '')}/admin`;
+    return `You’re on the ${b('Commander Plan')}. You can command up to three alliances together: the occupying alliance and two attacking alliances. Swaps and withdrawals are sent from the console. Commanders, open <a href="${withLang(admin)}" style="color:#8a5a12;">${admin}</a> and join with the same Room ID and join code. The console shows three alliances side by side, so we recommend using it on a PC (it also works on phones).`;
+  }
+  return `You’re on the ${b('Alliance Plan')}. There’s no limit on the number of people. To start, the officer opens the player screen and presses Call now: the landing time appears and is copied. Alliance members can join the same room on their own devices.`;
+}
+
+function trialNoteHtmlEn(trialEnd) {
+  if (!trialEnd) return '';
+  const d = new Date(trialEnd * 1000);
+  const when = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric',
+  }).format(d);
+  return `
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:#eef6f4;border:1px solid #b8d8d1;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0f6b5f;">You can use it free until ${when} (UTC).</strong><br>
+              Your first charge is the day after. If you cancel before then, you won’t be charged at all.<br>
+              You can cancel yourself anytime from the <a href="${PORTAL_URL}" style="color:#0f6b5f;">cancellation page</a>.
+            </p>
+          </div>
+        </td></tr>`;
+}
+
+function manageNoteHtmlEn(manageUrl) {
+  if (!manageUrl) return '';
+  return `
+        <tr><td style="padding:16px 32px 8px;">
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0d1420;">Room management link (for the subscriber only)</strong><br>
+              You can stop people who have become enemies (for example, after transferring) from joining with the old join code. From the link below, you can change the join code anytime (generate one automatically, or choose your own). Changing it doesn’t disconnect people who are connected right now.<br>
+              <a href="${withLang(manageUrl)}" style="color:#8a5a12;">Manage your room</a><br>
+              <span style="color:#56637c;">*Please don’t give this link to anyone else. It’s separate from the join code.</span>
+            </p>
+          </div>
+        </td></tr>`;
+}
+
+function shellEn(inner) {
+  return `<!doctype html>
+<html lang="en">
+<body style="margin:0;padding:0;background:#eef1f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1f5;padding:32px 16px;">
+    <tr><td align="center">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff;border:1px solid #ccd4e0;border-radius:16px;overflow:hidden;">
+${inner}
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+}
+
+function credsHtmlEn({ appUrl, roomId, code, codeLabel }) {
+  const url = withLang(appUrl);
+  return `
+        <tr><td style="padding:20px 32px 4px;">
+          <div style="background:#f4f7fb;border:1px solid #ccd4e0;border-radius:12px;padding:16px 18px;">
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">URL</div>
+            <div style="margin:4px 0 16px;"><a href="${url}" style="color:#8a5a12;font-size:15px;text-decoration:none;word-break:break-all;">${appUrl}</a></div>
+
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">Room ID</div>
+            <div style="color:#0d1420;font-family:ui-monospace,Menlo,monospace;font-size:19px;font-weight:700;letter-spacing:.08em;margin:2px 0 16px;word-break:break-all;">${roomId}</div>
+
+            <div style="color:#3d4a63;font-size:13px;letter-spacing:.1em;">${codeLabel}</div>
+            <div style="color:#0f6b5f;font-family:ui-monospace,Menlo,monospace;font-size:22px;font-weight:700;letter-spacing:.16em;margin-top:2px;">${code}</div>
+          </div>
+        </td></tr>
+
+        <tr><td style="padding:20px 32px 4px;">
+          <a href="${url}" style="display:block;background:#f0a63c;color:#241703;text-decoration:none;text-align:center;padding:15px;border-radius:10px;font-weight:700;font-size:15px;">Open CommandClock</a>
+        </td></tr>`;
+}
+
+function footerHtmlEn(extra) {
+  return `
+        <tr><td style="padding:16px 32px 28px;border-top:1px solid #ccd4e0;">
+          <p style="color:#56637c;font-size:13px;line-height:1.9;margin:12px 0 0;">
+            You can cancel yourself anytime from the <a href="${PORTAL_URL}" style="color:#3d4a63;">cancellation page</a>. For questions, contact <a href="mailto:support@commandclock.jp" style="color:#3d4a63;">support@commandclock.jp</a>.<br>
+            ${extra ? extra + '<br>' : ''}This service is currently in a trial-operation stage, so its features and prices may change.
+          </p>
+        </td></tr>`;
+}
+
+function buildWelcomeHtmlEn({ roomId, code, appUrl, plan, trialEnd, manageUrl }) {
+  return shellEn(`
+        <tr><td style="padding:32px 32px 8px;">
+          <div style="display:inline-block;padding:5px 14px;background:#fcefd9;border:1px solid #e6c48a;border-radius:999px;color:#8a5a12;font-size:14px;letter-spacing:.06em;">Thank you for signing up</div>
+          <h1 style="color:#0d1420;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>Getting started</h1>
+          <p style="color:#3d4a63;font-size:16px;line-height:1.85;margin:0;">
+            We’ve issued your own room. You can start right away with the Room ID and join code below.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:#fdf6ea;border:1px solid #ecd3a6;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">${planNoteHtmlEn(plan, appUrl)}</p>
+          </div>
+        </td></tr>
+${trialNoteHtmlEn(trialEnd)}
+${credsHtmlEn({ appUrl, roomId, code, codeLabel: 'Join code' })}
+
+        <tr><td style="padding:20px 32px 8px;">
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">How to use it</strong><br>
+            1. Open the URL above in a browser (it won’t work properly in an in-app browser)<br>
+            2. Enter the Room ID and join code to join<br>
+            3. Choose a role: the organizer is “Officer,” players who start rallies are “Rally leader,” and players who join rallies are “Joiner”<br>
+            4. When the officer presses a call, each member’s screen shows <strong style="color:#0d1420;">a countdown to their own moment to press, different for each person</strong><br>
+            <a href="https://commandclock.jp/en/guide.html" style="color:#8a5a12;">See how to use each screen in detail</a>
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 8px;">
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">Sharing with members</strong><br>
+            Share <strong style="color:#0d1420;">the three items above: the URL, Room ID, and join code</strong> with your members. Each member enters their march time the first time, and after that they see their own countdown.<br>
+            <span style="color:#56637c;">*Please don’t share the Room ID and join code outside your team.</span>
+          </p>
+        </td></tr>
+${manageNoteHtmlEn(manageUrl)}
+${footerHtmlEn('')}`);
+}
+
+function buildSeatHtmlEn({ roomId, code, appUrl, trialEnd }) {
+  return shellEn(`
+        <tr><td style="padding:32px 32px 8px;">
+          <div style="display:inline-block;padding:5px 14px;background:#fcefd9;border:1px solid #e6c48a;border-radius:999px;color:#8a5a12;font-size:14px;letter-spacing:.06em;">Thank you for signing up</div>
+          <h1 style="color:#0d1420;font-size:22px;margin:18px 0 10px;line-height:1.45;">CommandClock<br>Your own join code</h1>
+          <p style="color:#3d4a63;font-size:16px;line-height:1.85;margin:0;">
+            We’ve added a seat for you in an existing room. You can join with the Room ID and join code below.
+          </p>
+        </td></tr>
+
+        <tr><td style="padding:16px 32px 0;">
+          <div style="background:#fdf6ea;border:1px solid #ecd3a6;border-radius:12px;padding:14px 16px;">
+            <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+              <strong style="color:#0d1420;">This join code is yours alone.</strong>
+              Please don’t share it with others. When more people want to join, they sign up for their own seats.
+            </p>
+          </div>
+        </td></tr>
+${trialNoteHtmlEn(trialEnd)}
+${credsHtmlEn({ appUrl, roomId, code, codeLabel: 'Join code (yours alone)' })}
+
+        <tr><td style="padding:20px 32px 8px;">
+          <p style="color:#3d4a63;font-size:15px;line-height:1.9;margin:0;">
+            <strong style="color:#0d1420;">First steps</strong><br>
+            1. Open the URL above in a browser (it won’t work properly in an in-app browser)<br>
+            2. Enter the Room ID and join code to join<br>
+            3. Choose a role: players who start rallies are “Rally leader,” and players who join rallies are “Joiner”<br>
+            4. Enter your march time once. It’s saved from then on<br>
+            <a href="https://commandclock.jp/en/guide.html" style="color:#8a5a12;">See how to use each screen in detail</a>
+          </p>
+        </td></tr>
+${footerHtmlEn('If you cancel, only this join code stops working. The alliance’s room stays as it is.')}`);
+}
+
 async function sendManageLinkMail({ to, roomName, planLabel, manageUrl }) {
   return sendMail({
     to,
@@ -290,7 +463,10 @@ async function sendMail({ to, subject, html }) {
   }
 }
 
-async function sendSeatMail({ to, roomId, code, appUrl, trialEnd }) {
+async function sendSeatMail({ to, roomId, code, appUrl, trialEnd, lang }) {
+  if (lang === 'en') {
+    return sendMail({ to, subject: `[CommandClock] Your own join code (${code})`, html: buildSeatHtmlEn({ roomId, code, appUrl, trialEnd }) });
+  }
   return sendMail({
     to,
     subject: `【CommandClock】あなた専用の参加コード（${code}）`,
@@ -298,7 +474,10 @@ async function sendSeatMail({ to, roomId, code, appUrl, trialEnd }) {
   });
 }
 
-async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd, manageUrl }) {
+async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd, manageUrl, lang }) {
+  if (lang === 'en') {
+    return sendMail({ to, subject: `[CommandClock] Getting started (join code ${code})`, html: buildWelcomeHtmlEn({ roomId, code, appUrl, plan, trialEnd, manageUrl }) });
+  }
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) return { sent: false, reason: 'RESEND_API_KEY is not configured' };
   if (!to) return { sent: false, reason: 'no recipient address' };
@@ -332,4 +511,4 @@ async function sendWelcomeMail({ to, roomId, code, appUrl, plan, trialEnd, manag
   }
 }
 
-module.exports = { sendWelcomeMail, sendSeatMail, sendManageLinkMail, buildManageLinkHtml, senderAddress };
+module.exports = { sendWelcomeMail, sendSeatMail, sendManageLinkMail, buildManageLinkHtml, senderAddress, buildWelcomeHtmlEn, buildSeatHtmlEn };

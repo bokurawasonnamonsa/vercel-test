@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2026-09-27 記事1本目（講師の⑤）。中身は鎌田さんの言葉（発信の方針11・13〜16章、Xの投稿H・J・M）。
+     書き方の決まり：「着弾がそろう」と書かない（押す瞬間を知らせる補助）。6秒差を着弾のずれと結びつけない。
+     ほかのツールの名前を出さない。ゲーム名は「例」として、非公式と書く。 -->
+<title>What a commander does before SvS | From the moment the enemy state is decided to the five-hour Castle Battle | CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/en/blog/svs-preparation.html">
+<meta name="description" content="The commander who leads every SvS for their state writes, step by step, what they actually do from the moment the enemy state is decided until the five-hour Castle Battle ends: rules for the war phase, headcounts, which enemies to mark, and live calls on rallies, swaps, and reinforcing. Examples are from Whiteout Survival (unofficial).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://commandclock.jp/en/blog/svs-preparation.html">
+<meta property="og:title" content="What a commander does before SvS | From the moment the enemy state is decided to the five-hour Castle Battle">
+<meta property="og:description" content="What the commander who leads every SvS actually does from the moment the enemy state is decided to the five-hour Castle Battle.">
+<meta property="og:site_name" content="CommandClock">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "What a commander does before SvS | From the moment the enemy state is decided to the five-hour Castle Battle",
+  "inLanguage": "ja",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "image": "https://commandclock.jp/assets/ogp-v5.png",
+  "author": { "@type": "Organization", "name": "CommandClock" },
+  "publisher": { "@type": "Organization", "name": "CommandClock", "url": "https://commandclock.jp/" },
+  "mainEntityOfPage": "https://commandclock.jp/blog/svs-preparation.html"
+}
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper: #eef1f5; --surface: #ffffff; --ink: #0d1420; --ink-2: #3d4a63; --ink-3: #56637c;
+  --rule: #ccd4e0; --amber: #f0a63c; --amber-ink: #8a5a12; --signal: #c2410c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.95; -webkit-text-size-adjust: 100%; overflow-x: hidden;
+}
+a { color: var(--amber-ink); }
+.top { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.top .in { max-width: 760px; margin: 0 auto; padding: 0.9rem 16px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.logo { font-family: "Chivo Mono", monospace; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
+.top .cta { font-size: 0.85rem; font-weight: 700; color: #f7f9fc; background: var(--ink); padding: 0.45rem 0.9rem; text-decoration: none; white-space: nowrap; }
+article { max-width: 760px; margin: 0 auto; padding: 2.4rem 16px 3rem; }
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.18em; color: var(--amber-ink); }
+h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); line-height: 1.45; margin: 0.4rem 0 0.3rem; font-weight: 900; word-break: auto-phrase; }
+.sub { font-size: clamp(1rem, 2.6vw, 1.15rem); font-weight: 700; color: var(--ink-2); margin: 0 0 1.4rem; word-break: auto-phrase; }
+.meta { font-size: 0.8rem; color: var(--ink-3); margin: 0 0 2rem; }
+p { margin: 0 0 1.1rem; color: var(--ink-2); }
+h2 { font-size: clamp(1.2rem, 3.4vw, 1.45rem); margin: 2.8rem 0 1rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); line-height: 1.5; word-break: auto-phrase; }
+h3 { font-size: 1.05rem; margin: 1.8rem 0 0.6rem; line-height: 1.6; word-break: auto-phrase; }
+.lead p { font-size: 1.02rem; color: var(--ink); }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.1rem 1.3rem; margin: 0 0 1.4rem; }
+.box dl { margin: 0; }
+.box dt { font-weight: 700; color: var(--ink); margin-top: 0.6rem; }
+.box dt:first-child { margin-top: 0; }
+.box dd { margin: 0; color: var(--ink-2); font-size: 0.93rem; }
+.sched { width: 100%; border-collapse: collapse; background: var(--surface); margin: 0 0 1.4rem; font-size: 0.92rem; }
+.sched th, .sched td { border: 1px solid var(--rule); padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
+.sched th { background: #f5f7fa; white-space: nowrap; font-weight: 700; }
+.note { font-size: 0.85rem; color: var(--ink-3); }
+.call { background: #fdf6ea; border-left: 4px solid var(--amber); padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.call p:last-child { margin-bottom: 0; }
+.btn { display: inline-block; background: var(--ink); color: #f7f9fc; font-weight: 700; padding: 0.75rem 1.3rem; text-decoration: none; margin-top: 0.4rem; }
+footer { border-top: 1px solid var(--rule); background: var(--surface); }
+footer .in { max-width: 760px; margin: 0 auto; padding: 1.4rem 16px 2rem; font-size: 0.8rem; color: var(--ink-3); }
+footer a { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <a class="logo" href="/en/">CommandClock</a>
+    <a class="cta" href="/en/#pricing">Try free for 14 days</a>
+  </div>
+</header>
+
+<article>
+  <span class="eyebrow">COMMANDER'S NOTE</span>
+  <h1>What a commander does before SvS</h1>
+  <p class="sub">From the moment the enemy state is decided to the five-hour Castle Battle</p>
+  <p class="meta">September 27, 2026  CommandClock</p>
+
+  <div class="lead">
+    <p>I lead every SvS for my state as overall commander in a mobile base-war strategy game. I’ve done every role: solo reinforcing, swaps, and rally leader.</p>
+    <p>Here, step by step, is what I actually do as commander from the moment the enemy state is decided until the five-hour Castle Battle ends. Examples are from Whiteout Survival (unofficial).</p>
+  </div>
+
+  <h2>First, the terms used in this article</h2>
+  <div class="box">
+    <dl>
+      <dt>Rally leader</dt><dd>The player who starts a rally.</dd>
+      <dt>Single rally</dt><dd>A rally by one player. When only the marked enemy is rallying, or when other enemies rally separately with time between them, each one is a single rally.</dd>
+      <dt>Chain attack</dt><dd>A single attack (rally) rarely breaks through, and when the enemy’s flag holder in the garrison is strong, you add more rallies to break it. That’s a chain attack. Two players make a chain of 2; three make a chain of 3.</dd>
+      <dt>Flag holder</dt><dd>The strongest player in the garrison. The player at the very front is sometimes also called the flag holder, so here we use it to mean the strongest player.</dd>
+      <dt>Swap</dt><dd>The attacking alliance hands a captured base to the occupying alliance, timed to the second. Players in the occupying alliance land solo.</dd>
+      <dt>Withdraw</dt><dd>During a swap, everyone garrisoned inside the base leaves at the same moment.</dd>
+      <dt>Reinforce</dt><dd>Sending troops in between the enemy’s chained landings to strengthen the defense.</dd>
+    </dl>
+  </div>
+
+  <h2>The flow of SvS week</h2>
+  <p>If the Saturday of the Castle Battle is day D, the flow looks like this (Japan time, with UTC in parentheses).</p>
+  <table class="sched">
+    <tr><th>D−6 (Sun) 9:00<br>(00:00 UTC)</th><td>The enemy state is decided</td></tr>
+    <tr><th>D−5 (Mon) 9:00–<br>(00:00 UTC)</th><td>Preparation phase (on the last day, only until 19:00 on day D)</td></tr>
+    <tr><th>Day D 21:00–2:00<br>(12:00–17:00 UTC)</th><td>Castle Battle (five hours)</td></tr>
+  </table>
+
+  <h2>1. Three things to do first once the enemy state is decided</h2>
+
+  <h3>1-1. Decide the war-phase rules and the seating areas</h3>
+  <p>Coordinate with the enemy state to set the rules for the war phase, and share them within your own state.</p>
+  <p>Decide the seating areas at the same time: north, south, east, or west (up, down, left, right), and which side of the border line to use.</p>
+
+  <h3>1-2. Ask for headcounts</h3>
+  <p>With help from each alliance leader, ask for headcounts through in-alliance surveys and similar. You ask for the total, and for each alliance’s numbers so you can split players into the occupying alliance and the attacking alliances.</p>
+  <p>Also decide who will call people out in alliance chat.</p>
+
+  <h3>1-3. Decide which enemies to mark</h3>
+  <p>Whether to mark an enemy depends on how strong they are. If any chain-attack squad can break them, there’s no need to mark anyone in particular. Still, keep an eye on roughly the top 1–5 in the enemy state’s rankings.</p>
+
+  <h2>2. What the commander actually does during the five live hours</h2>
+
+  <h3>2-1. Watch for enemy rallies from an account in the occupying alliance</h3>
+  <p>Use an account kept on standby in the occupying alliance to watch for enemy rallies. When a marked enemy starts a rally, announce it on the voice call: “(enemy name) rally!”</p>
+  <p>When you don’t hold the base, you can’t see the timing of enemy rallies in the list. In that case, look down on the marked enemies’ cities from above and judge whether they’re rallying.</p>
+
+  <h3>2-2. Change the next decision depending on a single rally or a chain</h3>
+  <p>Within about 5–10 seconds before or after a marked enemy starts a rally, watch whether other enemies have lined up with it. If they have, it’s a chain attack; if not, it’s a single rally. The next decision changes depending on which it is.</p>
+
+  <h3>2-3. Cut the enemy’s occupation time with an immediate rally</h3>
+  <p>When an enemy starts a rally, act on the assumption that they will break your garrison.</p>
+  <p>The time from being broken until the attacking alliance breaks that enemy becomes the enemy’s occupation time. So when an enemy rallies, start a rally right away so you can break them. That way you cut the enemy’s occupation time.</p>
+
+  <h3>2-4. On a single rally, decide whether to swap</h3>
+  <p>On a single rally, decide whether to swap.</p>
+  <p>When enemy rallies spread out and a perfect window opens, decide whether to swap right away, or have the attacking alliance hold on and swap once things settle. When swapping, also call the time for the withdraw, when everyone in the garrison leaves at the same moment.</p>
+
+  <h3>2-5. On a chain attack, call the reinforce time</h3>
+  <p>When the enemy rallies in a chain, call the time to reinforce.</p>
+
+  <p>I do this for five hours while on a voice call.</p>
+
+  <h2>3. What gets in the way most during the live battle</h2>
+  <p>When an enemy rally starts, I give the landing time to the attacking alliance’s rally leaders. The delay comes from calculating the landing time and rounding the seconds to a clean number.</p>
+  <p>That delay before the call is, in the end, occupation time we let the enemy gain.</p>
+  <p>Everyone who gets the call also has to work out “landing time − my march time” one by one before pressing.</p>
+
+  <div class="call">
+    <p><strong>CommandClock is what I built to solve this.</strong></p>
+    <p>Call now shows the landing time and sends it to everyone with a single button. No math and no rounding to clean numbers: you can give rally calls at the best possible moment.</p>
+    <p>It also sends each player their own moment to press: solo players who swap or reinforce, and everyone in the garrison who withdraws.</p>
+    <p><a href="/en/">See how CommandClock works</a></p>
+  </div>
+
+  <h2>In closing</h2>
+  <p>From the moment the enemy state is decided until the battle ends, the commander prepares the rules, the headcounts, and the enemies to mark, and then watches, decides, and calls during the live battle. All of it only works when everyone matches the landing time you set.</p>
+  <p>CommandClock is free for the first 14 days. Castle Battles come every two weeks, so you can always try it in at least one real battle during the free period.</p>
+  <a class="btn" href="/en/#pricing">Try free for 14 days</a>
+  <p style="margin-top:2rem;">Read next: <a href="/en/blog/command-timing.html">Give calls as a time | How commanders think about time in the Castle Battle</a></p>
+</article>
+
+<footer>
+  <div class="in">
+    <a href="/en/">CommandClock</a>　/　<a href="/en/guide.html">User guide</a>　/　<a href="/en/legal.html">Legal Notice and Terms of Service</a>
+    <p>CommandClock is an unofficial tool for Whiteout Survival and other supported games. All game copyrights belong to their respective publishers.</p>
+    <div>&copy; 2026 CommandClock</div>
+  </div>
+</footer>
+</body>
+</html>

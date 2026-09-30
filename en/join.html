@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign up for a seat in this alliance | CommandClock</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Sign up for your own join code from the link your organizer shared. Free for 14 days.">
+<!-- このリンクは同盟のチャットに貼られるのが前提なので、カードは必ず要る。
+     検索には出さない（noindex）が、貼られたときの見え方は作っておく。 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="CommandClock">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Sign up for one seat in this alliance | CommandClock">
+<meta property="og:description" content="When you sign up, your own join code arrives by email. No account registration. Free for 14 days.">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<style>
+/* 方向D「白の計器」。トップページと同じ決まりを、この画面にも通す。 */
+:root {
+  color-scheme: light;
+  --paper:#eef1f5; --surface:#ffffff; --ink:#0d1420; --ink-2:#3d4a63; --ink-3:#56637c;
+  --rule:#ccd4e0; --amber:#f0a63c; --amber-ink:#8a5a12; --signal:#c2410c; --warn:#a33a2a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); line-height: 1.9;
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+  display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 2.4rem 1.2rem;
+}
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.card { max-width: 520px; width: 100%; }
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+h1 { font-size: clamp(1.4rem,4.4vw,1.9rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
+p { margin: 0 0 1rem; color: var(--ink-2); font-size: .95rem; }
+strong { color: var(--ink); }
+.muted { color: var(--ink-3); font-size: .86rem; }
+
+/* 行き先の札。何に対して払うのかを、金額の前に置く。 */
+.dest { background: var(--surface); border: 1.5px solid var(--ink); padding: 1rem 1.2rem; margin: 1.4rem 0; }
+.dest .k { font-family: "Chivo Mono", monospace; font-size: .64rem; letter-spacing: .16em; color: var(--ink-3); }
+.dest .v { font-size: 1.06rem; font-weight: 700; margin-top: .1rem; word-break: break-all; }
+.dest .v.id { font-family: "Chivo Mono", monospace; font-size: .92rem; font-weight: 500; letter-spacing: .06em; color: var(--ink-2); }
+.dest .sp { height: .8rem; }
+
+.price { display: flex; align-items: baseline; gap: .5rem; margin: 1.4rem 0 .3rem; }
+.price .n { font-family: "Chivo Mono", monospace; font-size: 2.1rem; font-weight: 600; letter-spacing: -.02em; }
+.price .u { color: var(--ink-3); font-size: .9rem; }
+.trial { display: inline-block; background: var(--amber); color: #241703; font-weight: 700; font-size: .8rem; padding: .18rem .6rem; border-radius: 2px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: .95rem 1.7rem; font-weight: 700; font-size: .96rem; text-decoration: none; border-radius: 2px; min-height: 52px; border: none; cursor: pointer; font-family: inherit; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-solid:hover { background: #1c2840; }
+.btn:disabled { opacity: .45; cursor: default; }
+.status { margin-top: .9rem; font-size: .86rem; color: var(--ink-3); min-height: 1.4em; }
+.status.bad { color: var(--warn); }
+
+.compare { margin-top: 1.6rem; border-left: 3px solid var(--amber); background: var(--surface); padding: .9rem 1.1rem; font-size: .88rem; color: var(--ink-2); line-height: 1.85; }
+.note { border-top: 1px solid var(--rule); margin-top: 1.8rem; padding-top: 1.2rem; }
+.note li { color: var(--ink-2); font-size: .89rem; margin-bottom: .5rem; }
+.note ul { padding-left: 1.1rem; margin: 0; }
+.hide { display: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <span class="eyebrow">JOIN A ROOM</span>
+
+    <!-- 読み込み中 -->
+    <div id="loading">
+      <h1>Checking the room…</h1>
+      <p class="muted">Please wait a moment.</p>
+    </div>
+
+    <!-- リンクが正しくない / ルームが無い -->
+    <div id="bad" class="hide">
+      <h1>You can’t sign up from this link</h1>
+      <p id="badMsg">No Room ID was given. Please open the link your organizer shared exactly as it is.</p>
+      <p class="muted">To create a new room, see the  <a href="/en/#pricing">plans</a> .</p>
+    </div>
+
+    <!-- 申し込み -->
+    <div id="ok" class="hide">
+      <h1>Sign up for one seat in this alliance</h1>
+      <p>This is the link your organizer shared. When you sign up, <strong>your own join code</strong> arrives by email. No account registration.</p>
+
+      <div class="dest">
+        <div class="k">ALLIANCE</div>
+        <div class="v" id="roomName">—</div>
+        <div class="sp"></div>
+        <div class="k">ROOM ID</div>
+        <div class="v id" id="roomIdText">—</div>
+        <div class="sp"></div>
+        <div class="k">CURRENT SEATS</div>
+        <div class="v" id="seatCount">—</div>
+      </div>
+
+      <div class="price"><span class="n" id="priceText">$3.19</span><span class="u">/ month per person</span></div>
+      <p><span class="trial" id="trialText">14 days free</span> <span class="muted">Cancel during the free trial, and you pay nothing.</span></p>
+
+      <button class="btn btn-solid" id="buyBtn">Start free for 14 days</button>
+      <div class="status" id="status"></div>
+
+      <!-- 2026-09-24 に席の受付を止めた。いまは probe が seatable:false を返すので、この枠は表示されない。 -->
+      <div class="compare">
+        <strong>Seat sign-ups ended on September 24, 2026.</strong><br>
+        The Alliance Plan and Commander Plan have no limit on people. Get the join code from your organizer, and you can join at no extra cost.
+      </div>
+
+      <div class="note">
+        <ul>
+          <li>Payment is by credit card (Stripe). This page never handles card numbers.</li>
+          <li>The join code you receive is <strong>yours alone</strong>. Please don’t share it with others.</li>
+          <li>If you cancel, only your join code stops working. The alliance’s room stays as it is.</li>
+          <li><a href="/en/legal.html">Legal Notice and Terms of Service</a> ／ <a href="/en/guide.html">User guide</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (async () => {
+      const q = new URLSearchParams(location.search);
+      const room = (q.get('room') || '').trim();
+      const $ = (id) => document.getElementById(id);
+      const show = (id) => { $(id).classList.remove('hide'); };
+      const hide = (id) => { $(id).classList.add('hide'); };
+
+      function fail(msg) {
+        hide('loading'); hide('ok');
+        if (msg) $('badMsg').textContent = msg;
+        show('bad');
+      }
+
+      if (!room) { fail(); return; }
+
+      // 払う前に、行き先が本当にあるかを確かめる。
+      // 無いルームに払わせると、返金の手間だけが残る。
+      let info;
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ probe: true, room }),
+        });
+        info = await res.json();
+        if (!res.ok) {
+          fail(res.status === 404
+            ? 'This Room ID wasn’t found. Please check the link with your organizer again.'
+            : 'Couldn’t check the room. Please try again later.');
+          return;
+        }
+      } catch (e) {
+        fail('Couldn’t connect. Please try again somewhere with a better signal.');
+        return;
+      }
+
+      // 席を足せないルーム（個人用）は、払わせる前にここで止める。
+      if (info.seatable === false) {
+        fail(info.reason || 'Seats can’t be added to this room.');
+        return;
+      }
+
+      $('roomName').textContent = info.name || '(no name)';
+      $('roomIdText').textContent = info.room_id;
+      $('seatCount').textContent = `${info.seats} seats`;
+      const seat = info.seat || {};
+      if (seat.usd) $('priceText').textContent = '$' + Number(seat.usd).toFixed(2);
+      if (seat.trialDays) {
+        $('trialText').textContent = `${seat.trialDays} days free`;
+        $('buyBtn').textContent = `Start free for ${seat.trialDays} days`;
+      }
+      hide('loading'); show('ok');
+
+      $('buyBtn').addEventListener('click', async () => {
+        const btn = $('buyBtn'), st = $('status');
+        btn.disabled = true;
+        st.className = 'status';
+        st.textContent = 'Preparing checkout…';
+        try {
+          const res = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan: 'seat', room }),
+          });
+          const data = await res.json();
+          if (!res.ok || !data.url) throw new Error(data.error || 'Couldn’t open the checkout page.');
+          location.href = data.url;
+        } catch (err) {
+          btn.disabled = false;
+          st.className = 'status bad';
+          st.textContent = err.message;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

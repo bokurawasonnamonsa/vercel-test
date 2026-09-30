@@ -1,34 +1,35 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- 2026-09-27 SEO：検索結果の題。ゲーム名は入れず「王城戦・SVS・号令」を入れる（鎌田さんOK）。Xのカードの題（og:title）は変えない -->
-<title>もう、数秒差で負けたくない。王城戦・SVSの号令ツール｜CommandClock</title>
-<link rel="canonical" href="https://commandclock.jp/">
+<title>No more losing by seconds. The call tool for Castle Battles and SvS | CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/en/">
 <link rel="alternate" hreflang="ja" href="https://commandclock.jp/">
 <link rel="alternate" hreflang="en" href="https://commandclock.jp/en/">
 <link rel="alternate" hreflang="x-default" href="https://commandclock.jp/en/">
-<meta name="description" content="ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの王城戦（王城決戦）・SVSで使う、指揮の補助ツール（非公式）。号令1回で、集結主から入替・差込をする人まで、仲間全員のスマホに押す瞬間が届きます。占領抜きにも対応。端末の時計のズレも自動で補正。14日間無料。">
+<meta name="description" content="An unofficial command-support tool for Castle Battles and SvS in mobile base-war strategy games such as Whiteout Survival. With one call, every teammate&#39;s phone shows the moment to press, from rally leaders to players who swap or reinforce. Withdrawals are supported too, and device clock drift is corrected automatically. Free for 14 days.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://commandclock.jp/">
-<meta property="og:title" content="CommandClock｜もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く">
-<meta property="og:description" content="占領している時間の長さで勝ち負けが決まる戦いで、あと少しのところで勝てない人へ。">
+<meta property="og:url" content="https://commandclock.jp/en/">
+<meta property="og:title" content="CommandClock | No more losing by seconds. One call, and every teammate&#39;s phone shows the moment to press">
+<meta property="og:description" content="For players who keep falling just short in battles decided by how long you occupy a base.">
 <!-- リンクを貼ったときに出るカード。DiscordやLINEに転送されるのが主な入口なので、
      ここが実質のトップ画面になる。
      ファイル名を変えているのは、X・Discord・LINEが画像を強く覚えてしまい、
      同じ名前だと古いほうを出し続けるため。差し替えるときは必ず名前も変える。
      以前は2.26MBの、文字が1つも入っていない絵だった。 -->
 <meta property="og:site_name" content="CommandClock">
-<meta property="og:locale" content="ja_JP">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ja_JP">
 <meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）。もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く。">
+<meta property="og:image:alt" content="An unofficial tool for commanders and teammates in mobile base-war strategy games such as Whiteout Survival. No more losing by seconds. One call, and every teammate&#39;s phone shows the moment to press.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
-<meta name="twitter:image:alt" content="ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）。もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く。">
+<meta name="twitter:image:alt" content="An unofficial tool for commanders and teammates in mobile base-war strategy games such as Whiteout Survival. No more losing by seconds. One call, and every teammate&#39;s phone shows the moment to press.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
@@ -521,40 +522,40 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "CommandClock",
-  "url": "https://commandclock.jp/",
-  "inLanguage": "ja",
+  "url": "https://commandclock.jp/en/",
+  "inLanguage": "en",
   "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "Webブラウザ（スマホ・パソコン）",
-  "description": "ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの王城戦（王城決戦）・SVSで使う、指揮の補助ツール（非公式）。号令1回で、集結主から入替・差込をする人まで、仲間全員のスマホに押す瞬間が届きます。占領抜きにも対応。端末の時計のズレも自動で補正。14日間無料。",
+  "operatingSystem": "Web browser (phone or PC)",
+  "description": "An unofficial command-support tool for Castle Battles and SvS in mobile base-war strategy games such as Whiteout Survival. With one call, every teammate's phone shows the moment to press, from rally leaders to players who swap or reinforce. Withdrawals are supported too, and device clock drift is corrected automatically. Free for 14 days.",
   "image": "https://commandclock.jp/assets/ogp-v5.png",
   "offers": [
     {
       "@type": "Offer",
-      "name": "同盟プラン",
-      "description": "1同盟・2班（集結主12人）。人数・台数の制限なし。はじめの14日間は無料。",
-      "price": "980",
-      "priceCurrency": "JPY",
-      "url": "https://commandclock.jp/#pricing",
+      "name": "Alliance Plan",
+      "description": "1 alliance, 2 squads (12 rally leaders). No limit on people or devices. The first 14 days are free.",
+      "price": "6.29",
+      "priceCurrency": "USD",
+      "url": "https://commandclock.jp/en/#pricing",
       "priceSpecification": {
         "@type": "UnitPriceSpecification",
-        "price": "980",
-        "priceCurrency": "JPY",
-        "unitText": "月",
+        "price": "6.29",
+        "priceCurrency": "USD",
+        "unitText": "month",
         "billingDuration": "P1M"
       }
     },
     {
       "@type": "Offer",
-      "name": "総指揮プラン",
-      "description": "管理画面つき。3同盟・6班（集結主36人）。入替・占領抜き・ペア号令。人数・台数の制限なし。はじめの14日間は無料。",
-      "price": "2980",
-      "priceCurrency": "JPY",
-      "url": "https://commandclock.jp/#pricing",
+      "name": "Commander Plan",
+      "description": "Includes the commander console. 3 alliances, 6 squads (36 rally leaders). Swap, withdraw, and paired calls. No limit on people or devices. The first 14 days are free.",
+      "price": "18.99",
+      "priceCurrency": "USD",
+      "url": "https://commandclock.jp/en/#pricing",
       "priceSpecification": {
         "@type": "UnitPriceSpecification",
-        "price": "2980",
-        "priceCurrency": "JPY",
-        "unitText": "月",
+        "price": "18.99",
+        "priceCurrency": "USD",
+        "unitText": "month",
         "billingDuration": "P1M"
       }
     }
@@ -566,7 +567,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
 <header class="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="/">
+    <a class="brand" href="/en/">
       <svg viewBox="0 0 32 32" aria-hidden="true">
         <circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/>
         <path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/>
@@ -575,9 +576,10 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       <span class="name mono">CommandClock</span>
     </a>
     <div class="nav-links">
-      <a class="plain" href="#demo">実演</a>
-      <a class="plain" href="/guide.html">使い方</a>
-      <a class="nav-cta" href="#pricing">申し込む</a>
+      <a class="plain" href="#demo">Demo</a>
+      <a class="plain" href="/en/guide.html">Guide</a>
+      <a class="plain" href="/" hreflang="ja" lang="ja" style="white-space:nowrap;">JP</a>
+      <a class="nav-cta" href="#pricing">Sign up</a>
     </div>
   </div>
 </header>
@@ -588,32 +590,32 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <!-- H1改善 2026-09：講師（AI指南）の②ベネフィット診断を受けて、鎌田さんと合意（2026-09-25）。
          見出しは気持ち、サブコピーは何が得られるか。ツールは「押す瞬間を知らせる補助」で、同時に着弾させるとは書かない。
          ゲーム名は「〜など」の一例＋（非公式）でだけ出す。前の見出しは「このツールを作った一番の理由」の欄の一番上に移した。 -->
-    <span class="eyebrow">ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）</span>
-    <h1 class="head"><span class="nb">もう、</span><span class="nb">数秒差で負けたくない。</span></h1>
-    <p class="hero-sub"><span class="nb">号令1回で、</span><span class="nb">仲間全員のスマホに</span><span class="nb">押す瞬間が届く。</span></p>
+    <span class="eyebrow">A tool for commanders and teammates in mobile base-war strategy games such as Whiteout Survival (unofficial)</span>
+    <h1 class="head"><span class="nb">No more losing</span> <span class="nb">by seconds.</span></h1>
+    <p class="hero-sub"><span class="nb">One call,</span> <span class="nb">and every teammate&#39;s phone</span> <span class="nb">shows the moment to press.</span></p>
     <div class="hero-grid">
 
       <div>
-        <p class="lead">全員が集まって、5時間フルで戦い抜いた。それでも、占領時間6秒差で負けた。誰もしゃべれず絶句したあと、最初に出た言葉は「みんなごめん」でした。あの悔しさから、このツールは生まれました。</p>
-        <p class="lead">号令1回で、仲間一人ひとりに押す瞬間を知らせます。その瞬間に押せば、着弾はそろいます。連撃・差込・入替・占領抜きにも対応し、端末の時計のズレも自動で補正します。</p>
-        <p class="lead lead-small">チームで拠点を取り合い、占領している時間の長さで勝ち負けが決まるスマホの戦略ゲームを遊んでいる人のためのツールです。</p>
-        <p class="who">こんな人の為のツールです。</p>
+        <p class="lead">Everyone showed up, and we fought the full five hours. We still lost by six seconds of occupation time. No one could speak. When words finally came, the first ones were “Sorry, everyone.” This tool was born from that frustration.</p>
+        <p class="lead">With one call, each teammate is told their own moment to press. Press at that moment, and the landings line up. It handles chain attacks, reinforcing, swaps, and withdrawals, and corrects device clock drift automatically.</p>
+        <p class="lead lead-small">It&#39;s for people who play mobile strategy games where teams fight over bases and the winner is decided by how long they occupy them.</p>
+        <p class="who">Who it&#39;s for</p>
         <ul class="points">
-          <li>その戦いで、あと少しのところで勝てない人</li>
-          <li>勝つために、ほかのチームがまだ使っていない新しい手を探している人</li>
-          <li>大勢の仲間をまとめて動かしている、リーダー役の人</li>
+          <li>Players who keep falling just short in those battles</li>
+          <li>Players looking for a new edge that other teams aren&#39;t using yet</li>
+          <li>Leaders who coordinate large groups of teammates</li>
         </ul>
         <div class="cta-row">
-          <a class="btn btn-solid" href="#pricing">14日間無料で試す</a>
-          <a class="btn btn-line" href="#demo">実際の画面を見る</a>
+          <a class="btn btn-solid" href="#pricing">Try free for 14 days</a>
+          <a class="btn btn-line" href="#demo">See the real screen</a>
         </div>
-        <p class="social">開発元のサーバーで、最大 <b class="num">219</b> 名が同時に使っています</p>
+        <p class="social">Up to <b class="num">219</b> players use it at once on the developer&#39;s server</p>
       </div>
 
       <!-- 作戦盤。4つの拠点から出た部隊が、いま全員おなじ残り時間の位置にいる。 -->
       <div class="panel">
-        <div class="panel-cap"><span>OPERATION BOARD</span><b class="num">到着 21:03:15</b></div>
-        <svg viewBox="0 0 520 400" role="img" aria-label="4つの拠点から出た部隊が、目標から同じ距離にいて、同じ瞬間に到達する作戦盤">
+        <div class="panel-cap"><span>OPERATION BOARD</span><b class="num">ARRIVAL 21:03:15</b></div>
+        <svg viewBox="0 0 520 400" role="img" aria-label="Operation board: troops from four cities are the same time away from the target and arrive at the same moment">
           <g class="bd-grid">
             <path d="M0 40H520M0 90H520M0 140H520M0 190H520M0 240H520M0 290H520M0 340H520"/>
             <path d="M65 0V400M130 0V400M195 0V400M260 0V400M325 0V400M390 0V400M455 0V400"/>
@@ -649,13 +651,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
             <text x="72" y="48">21:00:15</text><text x="102" y="240">21:01:00</text>
             <text x="225" y="33">21:01:45</text><text x="183" y="310">21:02:30</text>
           </g>
-          <text class="bd-cap" x="260" y="385" text-anchor="middle">遠い人ほど早く押す。だから、着く時刻をそろえられる。</text>
+          <text class="bd-cap" x="260" y="385" text-anchor="middle">Farther players press earlier, so arrivals line up.</text>
         </svg>
         <div class="readout">
           <div><span>YOUR START</span><b id="cdMine">--:--</b></div>
           <div style="text-align:right;"><span>ARRIVAL</span><b class="arrive" id="cdAll">--:--</b></div>
         </div>
-        <p class="panel-note">目的地まで45秒かかる人の例。到着の45秒前に押せば、ちょうど到着時刻に着きます。</p>
+        <p class="panel-note">Example: a player whose march takes 45 seconds. Press 45 seconds before the arrival time, and you arrive right on time.</p>
       </div>
 
     </div>
@@ -666,24 +668,24 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="pain">
   <div class="wrap">
     <span class="eyebrow">THE PROBLEM</span>
-    <h2>こんなことに困っていませんか。</h2>
+    <h2>Does this sound familiar?</h2>
     <!-- 文は鎌田さんの言葉（2026-09-24）。 -->
     <div class="grid3 grid-pain">
       <div class="card pain">
-        <h3>大勢が同じ瞬間に到着しないと勝てない</h3>
-        <p>数秒ずれると、その隙を相手に狙われて相手に奪われてしまう。</p>
+        <h3>You can&#39;t win unless many players arrive at the same moment</h3>
+        <p>Be a few seconds off, and the enemy targets that gap and takes the base from you.</p>
       </div>
       <div class="card pain">
-        <h3>「せーの」で一斉に出ても、同時に着くわけではない</h3>
-        <p>一人ひとり自分の位置から目的地まで違う為、距離や時間がそれぞれ異なるので、「せーの」で一斉に出ても、同時に着くわけではないから揃い辛い。</p>
+        <h3>Leaving together on “3, 2, 1” doesn&#39;t mean arriving together</h3>
+        <p>Everyone starts from a different spot, so the distance and time to the target are different for each person. Even if you all leave on “3, 2, 1,” you won&#39;t arrive together, which makes it hard to line up.</p>
       </div>
       <div class="card pain">
-        <h3>合わせる手段が、チャットと各自の計算しかない</h3>
-        <p>スマホの時計やアナログ時計を見ながら、いつ出ればいいかを一人ずつ考えて計算している。</p>
+        <h3>The only ways to sync are chat and everyone&#39;s own math</h3>
+        <p>Each person watches a phone clock or an analog clock and works out when to leave, one by one.</p>
       </div>
       <div class="card pain">
-        <h3>リーダーが一人で抱えている</h3>
-        <p>計算も伝達も一人でやり、指示する時には狙っていた到着時間が過ぎている！なんて事もある。</p>
+        <h3>The leader carries it all alone</h3>
+        <p>The leader does all the math and all the relaying, and sometimes, by the time the call goes out, the target arrival time has already passed!</p>
       </div>
     </div>
   </div>
@@ -693,13 +695,13 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="why" class="on-white">
   <div class="wrap">
     <span class="eyebrow">WHY TIMING MATTERS</span>
-    <h2><span class="nb">なぜ、着弾の時刻を</span><span class="nb">そろえたいのか。</span></h2>
+    <h2><span class="nb">Why line up</span> <span class="nb">landing times?</span></h2>
     <ol class="why-list">
-      <li><span class="n">1</span><div><h3>1回の攻撃で拠点を抜ける可能性は、低いです。</h3><p>拠点を奪うには、中で守っている兵を倒しきる必要があります。1回の攻撃（集結）で抜ける可能性は低く、駐屯している相手の旗持ちが強いと、集結人数を増やして抜きにかかります。これを「連撃」と呼びます。</p><p class="why-note">※旗持ち：駐屯で一番強い人。一番先頭にいる人も旗持ちと言う場合がある為、ここでは一番強い人を旗持ちと言います。</p></div></li>
-      <li><span class="n">2</span><div><h3>攻撃のあいだに隙間があると、守りを固められます。</h3><p>3連のうち1つでも数秒遅れると、その数秒の間に敵が連撃の間に差し込んで、守りを固められてしまいます。これが「差込」です。駐屯の兵士を削り切れず、抜き切れません。だから攻める側は、着弾の時刻をそろえて、隙間を作らないようにしたいのです。</p></div></li>
-      <li><span class="n">3</span><div><h3>守る側は、その隙間を狙います。</h3><p>相手の連撃の、着弾と着弾のあいだに兵を合わせて送り込めば、守りを補充できます。攻める側も守る側も、同じ数秒を取り合っています。</p></div></li>
-      <li><span class="n">4</span><div><h3>味方への受け渡しも、1秒を争います。</h3><p>奪った拠点を味方の同盟に渡すときは、味方が着く数秒前に、中にいる全員が同時に抜ける必要があります。</p></div></li>
-      <li><span class="n">5</span><div><h3>その数秒の積み重ねが、勝ち負けを決めます。</h3><p>勝ち負けは、拠点を占領していた時間の長さで決まります。奪うのが遅れた数秒、奪い返された数秒が、そのまま占領時間の差になります。</p></div></li>
+      <li><span class="n">1</span><div><h3>One attack rarely takes a base.</h3><p>To take a base, you have to defeat every troop defending inside. A single attack (rally) rarely breaks through, and when the enemy&#39;s flag holder in the garrison is strong, you add more rallies to break it. This is called a “chain attack.”</p><p class="why-note">*Flag holder: the strongest player in the garrison. The player at the very front is sometimes also called the flag holder, so here we use it to mean the strongest player.</p></div></li>
+      <li><span class="n">2</span><div><h3>Gaps between attacks let the defense rebuild.</h3><p>If even one of three chained rallies is a few seconds late, the enemy slips troops in during those seconds and shores up the defense. This is “reinforcing.” You can&#39;t wear down the garrison, and you can&#39;t break through. That&#39;s why attackers want to line up landing times and leave no gaps.</p></div></li>
+      <li><span class="n">3</span><div><h3>Defenders aim for that gap.</h3><p>Send troops timed to land between the enemy&#39;s chained landings, and you can refill the defense. Attackers and defenders are fighting over the same few seconds.</p></div></li>
+      <li><span class="n">4</span><div><h3>Handing a base to an ally is a race against the clock, too.</h3><p>When you hand a captured base to an allied alliance, everyone inside has to leave at the same moment, a few seconds before the ally arrives.</p></div></li>
+      <li><span class="n">5</span><div><h3>Those seconds add up to the result.</h3><p>The winner is decided by how long each side occupied the base. Every second lost taking it, and every second lost when it&#39;s taken back, becomes the difference in occupation time.</p></div></li>
     </ol>
   </div>
 </section>
@@ -708,103 +710,103 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="benefit">
   <div class="wrap">
     <span class="eyebrow">HOW IT WORKS</span>
-    <h2><span class="nb">1〜4の戦略を、</span><span class="nb">押す瞬間の知らせで</span><span class="nb">補助する。</span></h2>
+    <h2><span class="nb">It supports strategies 1–4</span> <span class="nb">by telling everyone</span> <span class="nb">the moment to press.</span></h2>
     <div class="sec-lead lead-multi">
-      <p>1〜4は、どれも全員が決めた時刻に合わせて押せるかどうかで、うまくいくかが決まります。CommandClockは、その成功率を少しでも上げるための補助ツールです。</p>
-      <p>押す瞬間は、一人ずつ違います。仲間の都市はマップのあちこちにあり、拠点までの行軍時間が一人ずつ違うからです。同じ時刻に着弾させるには、遠い人ほど早く、近い人ほど遅く押す必要があります。</p>
-      <p>指示役が号令ボタンを押すと、ツールが着弾時間を決めます。いまの時刻に、押すまでの余裕、集結の時間、一番遠い人の行軍時間を足した時刻です。一番遠い人でも間に合う時刻を選ぶので、置いていかれる人が出ません。</p>
-      <p>そこから一人ひとりの行軍時間を引いて、その人が押す瞬間を計算し、それぞれのスマホにカウントダウンで知らせます。全員がカウントダウンの0で押せば、着弾はそろいます。</p>
+      <p>Every one of 1–4 succeeds or fails on whether everyone presses at the agreed time. CommandClock is a support tool to raise that success rate, even a little.</p>
+      <p>The moment to press is different for each person. Teammates&#39; cities are scattered across the map, so each one&#39;s march time to the base is different. To land at the same time, farther players have to press earlier, and closer players later.</p>
+      <p>When the caller presses the call button, the tool sets the landing time: the current time, plus a buffer before pressing, the rally time, and the longest march time. It picks a time even the farthest player can make, so no one gets left behind.</p>
+      <p>Then it subtracts each player&#39;s march time to work out their moment to press, and shows it on their phone as a countdown. If everyone presses at 0, the landings line up.</p>
     </div>
 
     <figure>
       <div class="fig panel">
-        <div class="panel-cap"><span>DEPARTURE SCHEDULE</span><b class="num">着弾 21:03:15</b></div>
-        <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-label="行軍時間の違う4人が、それぞれ違う時刻に押し、同じ時刻に着弾する予定">
-          <text class="fg-cap" x="12" y="22">押す瞬間：一人ずつ違う（遠い人ほど早い）</text>
-          <text class="fg-cap fg-sig" x="808" y="22" text-anchor="end">着弾：全員が同じ時刻を狙う</text>
+        <div class="panel-cap"><span>DEPARTURE SCHEDULE</span><b class="num">LANDING 21:03:15</b></div>
+        <svg class="fig-wide" viewBox="0 0 820 300" role="img" aria-label="Four players with different march times press at different times and are scheduled to land at the same time">
+          <text class="fg-cap" x="12" y="22">Moment to press: different for each player (farther = earlier)</text>
+          <text class="fg-cap fg-sig" x="808" y="22" text-anchor="end">Landing: everyone aims for the same time</text>
           <line class="fg-goal" x1="760" y1="36" x2="760" y2="268"/>
           <text class="fg-cap fg-sig" x="808" y="288" text-anchor="end">21:03:15</text>
           <g>
-            <text class="fg-name" x="92" y="76" text-anchor="end">プレーヤーA</text>
+            <text class="fg-name" x="92" y="76" text-anchor="end">Player A</text>
             <text class="fg-time" x="180" y="76" text-anchor="end">21:00:15</text>
             <line class="fg-bar" x1="190" y1="71" x2="760" y2="71"/>
             <rect class="fg-dot" x="185" y="66" width="10" height="10"/>
-            <text class="fg-march" x="475" y="62" text-anchor="middle">行軍 3:00</text>
+            <text class="fg-march" x="475" y="62" text-anchor="middle">March 3:00</text>
           </g>
           <g>
-            <text class="fg-name" x="92" y="128" text-anchor="end">プレーヤーB</text>
+            <text class="fg-name" x="92" y="128" text-anchor="end">Player B</text>
             <text class="fg-time" x="322" y="128" text-anchor="end">21:01:00</text>
             <line class="fg-bar" x1="332" y1="123" x2="760" y2="123"/>
             <rect class="fg-dot" x="327" y="118" width="10" height="10"/>
-            <text class="fg-march" x="546" y="114" text-anchor="middle">行軍 2:15</text>
+            <text class="fg-march" x="546" y="114" text-anchor="middle">March 2:15</text>
           </g>
           <g>
-            <text class="fg-name" x="92" y="180" text-anchor="end">プレーヤーC</text>
+            <text class="fg-name" x="92" y="180" text-anchor="end">Player C</text>
             <text class="fg-time" x="465" y="180" text-anchor="end">21:01:45</text>
             <line class="fg-bar" x1="475" y1="175" x2="760" y2="175"/>
             <rect class="fg-dot" x="470" y="170" width="10" height="10"/>
-            <text class="fg-march" x="617" y="166" text-anchor="middle">行軍 1:30</text>
+            <text class="fg-march" x="617" y="166" text-anchor="middle">March 1:30</text>
           </g>
           <g>
-            <text class="fg-name" x="92" y="232" text-anchor="end">プレーヤーD</text>
+            <text class="fg-name" x="92" y="232" text-anchor="end">Player D</text>
             <text class="fg-time" x="607" y="232" text-anchor="end">21:02:30</text>
             <line class="fg-bar" x1="617" y1="227" x2="760" y2="227"/>
             <rect class="fg-dot" x="612" y="222" width="10" height="10"/>
-            <text class="fg-march" x="688" y="218" text-anchor="middle">行軍 0:45</text>
+            <text class="fg-march" x="688" y="218" text-anchor="middle">March 0:45</text>
           </g>
         </svg>
 
-        <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-label="行軍時間の違う4人が、それぞれ違う時刻に押し、同じ時刻に着弾する予定">
-          <text class="fg-cap" x="10" y="24">押す瞬間：一人ずつ違う（遠い人ほど早い）</text>
+        <svg class="fig-narrow" viewBox="0 0 380 400" role="img" aria-label="Four players with different march times press at different times and are scheduled to land at the same time">
+          <text class="fg-cap" x="10" y="24">Press times differ (farther = earlier)</text>
           <line class="fg-goal" x1="352" y1="38" x2="352" y2="332"/>
-          <text class="fg-cap fg-sig" x="372" y="360" text-anchor="end">着弾 21:03:15</text>
-          <text class="fg-cap fg-sig" x="372" y="380" text-anchor="end">全員が同じ時刻を狙う</text>
-          <text class="fg-name" x="10" y="74">プレーヤーA　<tspan class="fg-time">21:00:15</tspan> に押す（行軍 3:00）</text>
+          <text class="fg-cap fg-sig" x="372" y="360" text-anchor="end">Landing 21:03:15</text>
+          <text class="fg-cap fg-sig" x="372" y="380" text-anchor="end">Everyone aims for the same time</text>
+          <text class="fg-name" x="10" y="74">Player A presses at <tspan class="fg-time">21:00:15</tspan> (march 3:00)</text>
           <line class="fg-bar" x1="122" y1="88" x2="352" y2="88"/>
           <rect class="fg-dot" x="117" y="83" width="10" height="10"/>
-          <text class="fg-name" x="10" y="146">プレーヤーB　<tspan class="fg-time">21:01:00</tspan> に押す（行軍 2:15）</text>
+          <text class="fg-name" x="10" y="146">Player B presses at <tspan class="fg-time">21:01:00</tspan> (march 2:15)</text>
           <line class="fg-bar" x1="180" y1="160" x2="352" y2="160"/>
           <rect class="fg-dot" x="175" y="155" width="10" height="10"/>
-          <text class="fg-name" x="10" y="218">プレーヤーC　<tspan class="fg-time">21:01:45</tspan> に押す（行軍 1:30）</text>
+          <text class="fg-name" x="10" y="218">Player C presses at <tspan class="fg-time">21:01:45</tspan> (march 1:30)</text>
           <line class="fg-bar" x1="237" y1="232" x2="352" y2="232"/>
           <rect class="fg-dot" x="232" y="227" width="10" height="10"/>
-          <text class="fg-name" x="10" y="290">プレーヤーD　<tspan class="fg-time">21:02:30</tspan> に押す（行軍 0:45）</text>
+          <text class="fg-name" x="10" y="290">Player D presses at <tspan class="fg-time">21:02:30</tspan> (march 0:45)</text>
           <line class="fg-bar" x1="294" y1="304" x2="352" y2="304"/>
           <rect class="fg-dot" x="289" y="299" width="10" height="10"/>
         </svg>
       </div>
-      <figcaption>行軍に3分かかるプレーヤーAは21:00:15に、45秒のプレーヤーDは21:02:30に押します。押す時刻は違っても、全員が21:03:15に着弾する計算です。</figcaption>
+      <figcaption>Player A, whose march takes 3 minutes, presses at 21:00:15. Player D, whose march takes 45 seconds, presses at 21:02:30. They press at different times, but everyone is calculated to land at 21:03:15.</figcaption>
     </figure>
 
     <div class="sync">
-      <div class="lbl">「せーの」で同時に押すと：着弾がずれる</div>
+      <div class="lbl">Press together on “3, 2, 1”: landings scatter</div>
       <div class="track scatter">
         <span class="base"></span><span class="goal"></span>
         <i style="left:64%"></i><i style="left:79%"></i><i style="left:88%"></i><i style="left:97%"></i>
       </div>
-      <div class="lbl">カウントダウンどおりに押すと：着弾がそろう</div>
+      <div class="lbl">Press on your countdown: landings line up</div>
       <div class="track">
         <span class="base"></span><span class="goal"></span>
         <i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i><i style="left:100%"></i>
       </div>
-      <p class="cap">行軍時間が違うので、同時に押すと近い人から順に着弾してしまいます。<b>遠い人から順に押せば、同じ時刻に着弾できます。</b></p>
+      <p class="cap">Because march times differ, pressing together makes the closest players land first. <b>Press in order from farthest to closest, and everyone lands at the same time.</b></p>
     </div>
 
     <div class="grid3">
       <div class="card gain">
-        <span class="card-tag">1・2の補助</span>
-        <h3>連撃を、隙間なく当てられるように</h3>
-        <p>集結を出す全員に、同じ着弾時間と、それぞれが押す瞬間が届きます。全員がその瞬間に押せば着弾がそろうので、相手が差込を入れる隙間を小さくできます。</p>
+        <span class="card-tag">Supports 1 &amp; 2</span>
+        <h3>Land chain attacks with no gaps</h3>
+        <p>Everyone starting a rally gets the same landing time and their own moment to press. If everyone presses at that moment, the landings line up, shrinking the gap the enemy can reinforce through.</p>
       </div>
       <div class="card gain">
-        <span class="card-tag">3の補助</span>
-        <h3>相手の連撃の隙間を、狙えるように</h3>
-        <p>相手の着弾と着弾のあいだは、数秒しかありません。そのあいだを狙う着弾時間と押す瞬間が届くので、秒単位で合わせて差込を送れます。</p>
+        <span class="card-tag">Supports 3</span>
+        <h3>Hit the gaps in the enemy&#39;s chain</h3>
+        <p>There are only a few seconds between the enemy&#39;s landings. You get a landing time aimed at that gap and the moment to press, so you can send reinforcements timed to the second.</p>
       </div>
       <div class="card gain">
-        <span class="card-tag">4の補助</span>
-        <h3>味方への受け渡しが、1秒の勝負に間に合うように</h3>
-        <p>拠点の中にいる全員に、抜ける瞬間がカウントダウンで届きます。リーダーが一人ずつ外していては間に合いません。一人ひとりが自分で同時に抜けられるので、受け渡しが間に合います（入替・占領抜き）。</p>
+        <span class="card-tag">Supports 4</span>
+        <h3>Make handoffs in time, when every second counts</h3>
+        <p>Everyone inside the base gets a countdown to the moment to leave. If the leader pulls people out one by one, it&#39;s too late. Each player leaves on their own at the same moment, so the handoff makes it in time (swap and withdraw).</p>
       </div>
     </div>
   </div>
@@ -814,38 +816,38 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="difference" class="on-white">
   <div class="wrap">
     <span class="eyebrow">THE DIFFERENCE</span>
-    <h2>同時着弾だけなら、他にもできます。</h2>
-    <p class="sec-lead">同時に着くことだけなら、手でも合わせられます。違いはその先です。</p>
+    <h2>Other tools can do simultaneous landings, too.</h2>
+    <p class="sec-lead">If all you need is to arrive together, you can sync by hand. The difference is what comes after.</p>
     <div class="tbl-wrap">
       <table class="cmp">
         <thead>
           <tr>
-            <th>比べること</th>
-            <th>手計算・<wbr>手打ち</th>
-            <th>集結主向けの<wbr>タイマー<wbr>ツール</th>
+            <th>What we compare</th>
+            <th>Manual math <wbr>&amp; typing</th>
+            <th>Timer tools <wbr>for rally <wbr>leaders</th>
             <th class="ours-col">Command<wbr>Clock</th>
           </tr>
         </thead>
         <tbody>
           <!-- 2026-09-27 競合調査を受けて。集結主に届く部分は他のツールにもあるので◯にして正直に認める -->
-          <tr><td>ボタン1回で、着弾時間が決まる</td><td class="x">△<br><small>自分で計算</small></td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
-          <tr><td>集結主一人ひとりに、押す瞬間のカウントダウンが届く</td><td class="x">×</td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
-          <tr><td>入替をする人（単騎）に、押す瞬間が届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
-          <tr><td>占領抜きの瞬間を、駐屯している全員に届けられる</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
-          <tr><td>差込をする人（単騎）に、押す瞬間が届く</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>One button sets the landing time</td><td class="x">△<br><small>Do the math yourself</small></td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+          <tr><td>Each rally leader gets a countdown to the moment to press</td><td class="x">×</td><td class="o">◯</td><td class="o ours-col">◯</td></tr>
+          <tr><td>Players doing the swap (solo) get the moment to press</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>Everyone in the garrison gets the moment to withdraw</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
+          <tr><td>Players reinforcing (solo) get the moment to press</td><td class="x">×</td><td class="x">×</td><td class="o ours-col">◯</td></tr>
         </tbody>
       </table>
     </div>
     <p class="tbl-note">
-      <b>入替</b>＝攻める同盟が奪った拠点を、占領する同盟に時刻を合わせて渡すこと。<br>
-      <b>占領抜き</b>＝入替のとき、拠点の中にいる全員が同時に抜けること。<br>
-      <b>差込</b>＝敵の連撃の着弾と着弾のあいだに兵を送り込んで、守りを固めること。
+      <b>Swap</b> = the attacking alliance hands a captured base to the occupying alliance, timed to the second.<br>
+      <b>Withdraw</b> = during a swap, everyone inside the base leaves at the same moment.<br>
+      <b>Reinforce</b> = sending troops in between the enemy&#39;s chained landings to strengthen the defense.
     </p>
     <div class="note-line">
       <!-- 2026-09-27 競合調査で、集結主に届けるツールが他にもあると分かったので書き直した（鎌田さん「その通りです」）。「唯一」とは書かない -->
-      <h3>集結主だけでなく、入替・占領抜き・差込をする人にも届く。</h3>
-      <p>集結主に着弾時間を届けるツールは、ほかにもあります。でも、入替・占領抜き・差込まで、単騎の人も含めた全員に押す瞬間が届くものは、調べた範囲では見当たりませんでした。</p>
-      <p>拠点の取り合いは、集結主だけでは成り立ちません。占領する同盟の単騎、駐屯から一斉に抜ける全員、敵の連撃の隙間に差し込む人。その全員が同じ着弾時間に合わせて、はじめて成り立ちます。CommandClockは、その戦いを指揮してきたプレイヤー自身が作りました。</p>
+      <h3>Not just rally leaders. It reaches the players who swap, withdraw, and reinforce.</h3>
+      <p>Other tools deliver landing times to rally leaders. But as far as we looked, we couldn&#39;t find one that sends the moment to press to everyone, solo players included, for swaps, withdrawals, and reinforcing.</p>
+      <p>Base battles don&#39;t work with rally leaders alone. The solo players of the occupying alliance, everyone pulling out of the garrison at once, the players slipping into the gaps in the enemy&#39;s chain: it only works when all of them match the same landing time. CommandClock was built by a player who has commanded those battles.</p>
     </div>
   </div>
 </section>
@@ -855,23 +857,23 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="scene">
   <div class="wrap">
     <span class="eyebrow">ON THE DAY</span>
-    <h2>指示までのロスが、敵の占領時間になる。</h2>
+    <h2>Every second lost before the call becomes the enemy&#39;s occupation time.</h2>
     <div class="scene-grid">
       <div class="scene-col before">
-        <span class="scene-tag">ツールを使う前</span>
-        <p>王城戦の5時間、私は3つのアカウントを同時に開いていました。</p>
-        <p>敵の集結がかかったと分かるのは、占領同盟に待機させているアカウントです。敵から集結がかかったら、攻撃同盟の集結主の人たちに、通話アプリで着弾時間を指示します。</p>
-        <p>ロスが生まれるのは、着弾時間の計算と、分秒の秒をキリの良い数字にそろえるところです。<strong>その指示までのロス分が、つまりは敵の占領時間を稼がせてしまう時間になります。</strong>その集結指示がレスポンス良く指示できれば、6秒なんてすぐ稼げたと思います。</p>
-        <p>指示を受けた皆も、一人ずつ「着弾時間 − 自分の行軍時間」を計算して押していました。聞き違い、秒数のずれ、誰が何をするかの混乱が起きていました。</p>
+        <span class="scene-tag">Before the tool</span>
+        <p>For the five hours of the Castle Battle, I had three accounts open at the same time.</p>
+        <p>It was the account I kept on standby in the occupying alliance that told me the enemy had started a rally. When they did, I gave the landing time to the attacking alliance&#39;s rally leaders over a voice-chat app.</p>
+        <p>The delay came from calculating the landing time and rounding the seconds to a clean number. <strong>That delay before the call is, in the end, occupation time we let the enemy gain.</strong> If I had been able to give those rally calls quickly, I think we could easily have gained six seconds.</p>
+        <p>Everyone who got the call also worked out “landing time − my march time” one by one before pressing. There were mishearings, seconds off, and confusion over who was doing what.</p>
       </div>
       <div class="scene-col after">
-        <span class="scene-tag">ツールを使った後</span>
-        <p><strong>そのロスを無くしたのが、CommandClockの即時号令です。</strong>敵が集結したら、即時号令のボタンを押す。それだけで、ロスなしで皆に指示が届きます。無駄な計算も、キリの良い数字にそろえることもなく、一番最適なタイミングで集結の指示を出せるようになりました。入替や差込も含めて着弾時間の指示が具体的になり、状況が格段に分かりやすくなって、的確に皆も動くようになり、戦略の精度が物凄く上がりました。</p>
-        <p>ツールを使い始めてから、対戦した相手に「連携がしっかり取れていて、質の高い着弾と入替だね！」と言われるようになりました。同じ対戦国の何人もから、違う対戦国の人たちからも、ほとんど毎回のように言われます。</p>
+        <span class="scene-tag">After the tool</span>
+        <p><strong>What removed that delay was CommandClock&#39;s Call now.</strong> When the enemy rallies, press the Call now button. That alone gets the call to everyone with no delay. No wasted math and no rounding to clean numbers: I can now give rally calls at the best possible moment. Landing-time calls became concrete, swaps and reinforcing included. The situation became far easier to read, everyone moved precisely, and the precision of our strategy went up enormously.</p>
+        <p>Since we started using the tool, our opponents have been telling us, “Your coordination is solid. High-quality landings and swaps!” We hear it from many players in the same opposing state, and from players in other states too, almost every time.</p>
       </div>
     </div>
     <!-- 2026-09-27 記事へのリンク（講師の提案） -->
-    <p class="article-link">敵国が決まってから5時間の王城戦まで、総指揮がやっていることを順番に書きました。→ <a href="/blog/svs-preparation.html">SVS本番までに指揮役がやること（記事）</a></p>
+    <p class="article-link">I wrote down, step by step, what the overall commander does from the moment the enemy state is decided until the five-hour Castle Battle. → <a href="/en/blog/svs-preparation.html">What a commander does before SvS (article)</a></p>
   </div>
 </section>
 
@@ -879,21 +881,21 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="roles" class="on-white">
   <div class="wrap">
     <span class="eyebrow">WHO GETS WHAT</span>
-    <h2>役割ごとに、押す瞬間が届く。</h2>
-    <p class="sec-lead">拠点の取り合いは、同盟ごとの占領時間で勝ち負けが決まります。だから占領時間は1つの同盟に集めます。拠点は攻める同盟が奪い、占領する同盟に受け渡します。どの動きも、決めた着弾時間に全員が合わせて、はじめて成り立ちます。</p>
+    <h2>Everyone gets the moment to press for their role.</h2>
+    <p class="sec-lead">In base battles, the result is decided by each alliance&#39;s occupation time, so occupation time is gathered into one alliance. The attacking alliance takes the base and hands it to the occupying alliance. Every move only works when everyone matches the landing time you set.</p>
     <div class="tbl-wrap">
       <table>
-        <thead><tr><th>役割</th><th>届くもの</th></tr></thead>
+        <thead><tr><th>Role</th><th>What they get</th></tr></thead>
         <tbody>
-          <tr><td>指示を出す人<br>（軍師・参謀）</td><td>ボタン1回で、一番よい着弾時間。ゲーム内チャットにそのまま貼れる一行</td></tr>
-          <tr><td>集結主<br>（集結を出す人）</td><td>どの着弾時間に合わせて集結を出せばいいか。全員に、同時に届く</td></tr>
-          <tr><td>占領する同盟の人</td><td>拠点を受け取るとき、単騎で拠点に向かう着弾時間と、ボタンを押す瞬間</td></tr>
-          <tr><td>攻める同盟の人</td><td>占領する同盟の仲間がいつ着くか。その数秒前に、拠点から抜ける瞬間</td></tr>
-          <tr><td>守りに入る人</td><td>相手の連撃の隙間に合わせた着弾時間と、押す瞬間</td></tr>
+          <tr><td>The caller<br>(strategist / officer)</td><td>The best landing time with one button, plus a line you can paste straight into in-game chat</td></tr>
+          <tr><td>Rally leaders<br>(players who start rallies)</td><td>Which landing time to start their rally for, sent to everyone at once</td></tr>
+          <tr><td>Players in the occupying alliance</td><td>When taking over the base: the landing time for marching solo to it, and the moment to press</td></tr>
+          <tr><td>Players in the attacking alliance</td><td>When the occupying alliance&#39;s teammates will arrive, and the moment to leave the base a few seconds before</td></tr>
+          <tr><td>Players defending</td><td>A landing time matched to the gap in the enemy&#39;s chain, and the moment to press</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="tbl-note">全員がツールに入っていなくても、号令ボタンは使えます。ツールに入る人が増えるほど、押す瞬間を知らせられる人が増えます。そのぶん、着弾をそろえやすくなります。</p>
+    <p class="tbl-note">The call button works even if not everyone is in the tool. The more people join, the more people you can tell the moment to press, and the easier it is to line up landings.</p>
   </div>
 </section>
 
@@ -903,28 +905,28 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="demo" class="on-ink">
   <div class="wrap">
     <span class="eyebrow">SEE IT WORKING</span>
-    <h2>これが、実際の画面です。</h2>
-    <p class="sec-lead">左が指示役のコンソール、右がメンバーの画面です。指示役が号令を1回押してから、全員のカウントダウンが同じ着弾時刻で0になるまでの30秒です。待ち時間だけ早送りしています。</p>
+    <h2>This is the real screen.</h2>
+    <p class="sec-lead">On the left is the caller&#39;s console; on the right, a member&#39;s screen. It&#39;s the 30 seconds from the caller pressing a call once until everyone&#39;s countdown hits 0 at the same landing time. Only the waiting is fast-forwarded. The screens in the video are the Japanese version.</p>
 
     <figure class="demo-fig">
       <div class="demo-cap">
         <span><span class="cap-long">LIVE </span>SCREEN CAPTURE<b> / 30 SEC</b></span>
-        <button type="button" class="demo-toggle" id="demoToggle" aria-label="動画の再生と一時停止">PAUSE</button>
+        <button type="button" class="demo-toggle" id="demoToggle" aria-label="Play or pause the video">PAUSE</button>
       </div>
       <!-- poster は書かない。ここに書くと横長を取りに行ってから縦長に差し替わり、
            スマホで使わない画像を1枚よけいに落とすことになる。JSが幅を見てから付ける。 -->
       <div class="demo-frame">
         <video id="demoVideo" muted loop playsinline preload="none"
                data-wide="/assets/demo-wide-v5.mp4" data-tall="/assets/demo-tall-v5.mp4"
-               aria-label="指示役が号令を1回出し、メンバーごとに違うカウントダウンが表示され、全員のカウントダウンが同じ着弾時刻で0になるまでの画面録画"></video>
-        <noscript><img src="/assets/demo-wide-v5.jpg" alt="指示役のコンソールと、メンバーごとに違うカウントダウンが出ている参加者の画面"></noscript>
+               aria-label="Screen recording: the caller sends one call, each member sees a different countdown, and everyone&#39;s countdown reaches 0 at the same landing time"></video>
+        <noscript><img src="/assets/demo-wide-v5.jpg" alt="The caller&#39;s console and a participant screen showing a different countdown for each member"></noscript>
       </div>
       <ul class="demo-beats">
-        <li><span class="t">00:00　指示役</span><span class="d">出したいタイミングで、<b>号令を1回押すだけ</b>。</span></li>
-        <li><span class="t">00:08　全員の画面</span><span class="d">行軍時間が違うので、<b>押すまでのカウントダウンは一人ずつ違う</b>数字になります。</span></li>
-        <li><span class="t">00:27　着弾時刻</span><span class="d">別々の時刻に押した全員の予定が、<b>同じ着弾時刻で0</b>になります。</span></li>
+        <li><span class="t">00:00  Caller</span><span class="d">At the moment you want, <b>just press the call once</b>.</span></li>
+        <li><span class="t">00:08  Everyone&#39;s screen</span><span class="d">Because march times differ, <b>each person&#39;s countdown to press shows a different number</b>.</span></li>
+        <li><span class="t">00:27  Landing time</span><span class="d">Everyone pressed at different times, but their plans <b>reach 0 at the same landing time</b>.</span></li>
       </ul>
-      <figcaption>音声はありません。画面はテスト用のルームで、名前と数値は仮のものです。</figcaption>
+      <figcaption>No audio. The screens are from a test room; names and numbers are placeholders.</figcaption>
     </figure>
   </div>
 </section>
@@ -935,34 +937,34 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
     <span class="eyebrow">WHY IT EXISTS</span>
     <!-- 見出しは「このツールを作った一番の理由」として書く。下の本文の後半は鎌田さんの言葉（2026-09-24）。
          一番上の一行は、前のLPの見出し（鎌田さんの言葉）。講師の診断で見出しから外し、作り手の顔が見えるここに移した（2026-09-25）。 -->
-    <p class="origin-maker">戦略ゲーム初心者の軍師が、サーバーの勝率を上げる為に頑張って作ったツール。</p>
-    <h2><span class="nb">このツールを作った</span><span class="nb">一番の理由は、</span><br><span class="nb">5時間戦って、</span><span class="nb">6秒差で負けたことです。</span></h2>
+    <p class="origin-maker">A tool built with real effort by a strategist new to strategy games, to raise the server&#39;s win rate.</p>
+    <h2><span class="nb">The biggest reason</span> <span class="nb">I built this tool:</span><br><span class="nb">we fought for five hours</span> <span class="nb">and lost by six seconds.</span></h2>
 
     <div class="origin-grid">
       <div class="origin-text">
-        <p><strong>5時間フルで戦って、6秒差で負けました。</strong>サーバー同士で拠点を奪い合う王城戦は、5時間あります。2時間30分を続けて押さえた同盟が、その場で勝ちます。どの同盟も2時間30分続けて押さえられなければ、5時間の最後に、押さえていた時間の合計が一番長い同盟が勝ちます。</p>
+        <p><strong>We fought the full five hours and lost by six seconds.</strong> The Castle Battle, where servers fight over a base, lasts five hours. An alliance that occupies it for 2 hours 30 minutes straight wins on the spot. If no alliance occupies it for 2 hours 30 minutes straight, the alliance with the longest total occupation time at the end of the five hours wins.</p>
 
-        <p class="origin-voice">その合計の差が、6秒でした。<br>終わった後、誰もしゃべる事が出来ず、絶句でした。<br>こんな負け方は2度としたくない、<br>集まってくれたみんなにも味わわせたくないと思い、<br>負けた日の翌日から<br>ツール作りを始めました。</p>
+        <p class="origin-voice">The difference in that total was six seconds.<br>When it was over, no one could say a word.<br>I never want to lose like that again,<br>and I never want the people who showed up to go through it either.<br>So the day after that loss,<br>I started building the tool.</p>
 
-        <p>その5時間、私はゲームのアカウントを3つ同時に開いて、敵の集結を見張っていました。集結が出たら、5〜10秒のうちに単発か連撃かを判断して、チャットに着弾時刻を4桁で流していました。</p>
+        <p>For those five hours, I had three game accounts open at once, watching for enemy rallies. When one appeared, I judged within 5–10 seconds whether it was a single attack or a chain, and posted the landing time in chat as four digits.</p>
 
-        <p>受け取ったみんなは、それぞれ自分で引き算をしていました。</p>
+        <p>Everyone who got it did the subtraction on their own.</p>
 
         <div class="origin-formula">
-          <span>着弾時間</span><b>−</b><span>自分の行軍時間</span><b>=</b><span class="hot">自分の出征時間</span>
+          <span>Landing time</span><b>−</b><span>Your march time</span><b>=</b><span class="hot">Your departure time</span>
         </div>
 
-        <p>行軍時間は一人ずつ違うので、全員が違う答えを出さなければいけませんでした。単騎で拠点に向かう人は、時刻の見えない画面で、その瞬間に押していました。指示を出したあと、私にできるのは祈ることだけでした。</p>
+        <p>March times differ for each person, so everyone had to come up with a different answer. Players heading to the base solo had to press at that exact moment, on a screen that doesn&#39;t show the time. After giving the call, all I could do was pray.</p>
 
-        <p><strong>この計算を、ツールに織り込みました。</strong>号令を1回押せば、着弾時間が出ます。集結を出す人にも、単騎で向かう人にも、押す瞬間がカウントダウンで届きます。</p>
+        <p><strong>I built that math into the tool.</strong> Press the call once, and the landing time appears. Rally leaders and solo players alike get a countdown to the moment to press.</p>
       </div>
 
       <div class="origin-aside">
-        <p class="origin-quote">指揮する時に何を考えているか、みんなと共有すれば勝率が上がるのでは？と考えた。</p>
-        <p>指揮は、一人だけが持つ特別な能力であってほしくない。どこを見て、何を基準に判断し、どう伝えるか。それをみんなで揃えれば、ほかの人にも担える部分は必ずあります。全部が一人の頭の中にしか無い状態を、なくしたかった。</p>
-        <p>考え得る全ての着弾時間を揃えたくて作ったのもそうですが、<strong>指揮が一人で抱え込まないようにする為</strong>でもあります。</p>
+        <p class="origin-quote">I thought: if I share what I&#39;m thinking while I command, won&#39;t our win rate go up?</p>
+        <p>I don&#39;t want commanding to be a special ability that only one person has. Where to look, what to judge by, how to communicate: if everyone shares that, there are always parts others can take on. I wanted to end the state where all of it lives only inside one person&#39;s head.</p>
+        <p>I built it because I wanted to line up every landing time I could think of, but also <strong>so that the commander doesn&#39;t have to carry it all alone</strong>.</p>
         <!-- 2026-09-27 記事へのリンク（講師の提案）。指揮で考えていることを共有する、という動機につなげる -->
-        <p class="article-link">指揮する時に何を見て、何を基準に判断しているかは、記事で共有しています。→ <a href="/blog/svs-preparation.html">SVS本番までに指揮役がやること（記事）</a></p>
+        <p class="article-link">I share what I look at and what I base my decisions on while commanding in an article. → <a href="/en/blog/svs-preparation.html">What a commander does before SvS (article)</a></p>
       </div>
     </div>
   </div>
@@ -974,24 +976,24 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="proof" class="on-white">
   <div class="wrap">
     <span class="eyebrow">THE PROOF</span>
-    <h2>試作品ではありません。実戦で作りました。</h2>
-    <p class="sec-lead">開発元のサーバーで、実際のサーバー同士の拠点の取り合い（王城戦）に使いながら作りました。最大219名が同時に使っています。</p>
+    <h2>Not a prototype. Built in real battles.</h2>
+    <p class="sec-lead">It was built while being used in real server-vs-server base battles (Castle Battles) on the developer&#39;s server. Up to 219 players use it at the same time.</p>
     <div class="stats">
-      <div class="stat"><div class="n"><span data-count="219">0</span><small> 名</small></div><div class="k">開発元サーバーでの最大同時利用</div></div>
-      <div class="stat"><div class="n"><span data-count="200">0</span><small> 名超</small></div><div class="k">サーバー同士の戦いでの運用規模</div></div>
-      <div class="stat"><div class="n"><span data-count="0.00">0.00</span><small> 秒</small></div><div class="k">計算した着弾時刻のズレ</div></div>
-      <div class="stat"><div class="n" style="font-size:1.35rem; font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900;">ブラウザ</div><div class="k">インストール不要で参加</div></div>
+      <div class="stat"><div class="n"><span data-count="219">0</span><small> players</small></div><div class="k">Peak concurrent users on the developer&#39;s server</div></div>
+      <div class="stat"><div class="n"><span data-count="200">0</span><small>+ players</small></div><div class="k">Scale of use in server-vs-server battles</div></div>
+      <div class="stat"><div class="n"><span data-count="0.00">0.00</span><small> s</small></div><div class="k">Drift in the calculated landing time</div></div>
+      <div class="stat"><div class="n" style="font-size:1.35rem; font-family:'Zen Kaku Gothic New',sans-serif; font-weight:900;">Browser</div><div class="k">Join without installing anything</div></div>
     </div>
     <!-- 対戦相手の言葉（鎌田さんの体験、2026-09-26）。サーバー名・名前は出さない。「ツールを使い始めてから」は落とさない。
          戦績（6回中5勝1敗）は回数が少ないので載せない（鎌田さん・講師と合意）。仲間の声は集まり次第ここに足す。 -->
     <figure class="voice">
-      <blockquote>「連携がしっかり取れていて、質の高い着弾と入替だね！」</blockquote>
-      <figcaption>── ツールを使い始めてから、対戦したサーバーのプレイヤーたちに、ほぼ毎回言われる言葉</figcaption>
+      <blockquote>“Your coordination is solid. High-quality landings and swaps!”</blockquote>
+      <figcaption>— What players from opposing servers have told us almost every time since we started using the tool</figcaption>
     </figure>
     <!-- 仲間の声（鎌田さん、2026-09-26）。「100人ほど」を大きくしない。「SVS」は仲間の言葉のまま。 -->
     <figure class="voice">
-      <blockquote>「もう、このツールなしでSVSはできない。」</blockquote>
-      <figcaption>── 開発元サーバーの仲間たち。100人ほどが、口をそろえて言っている言葉</figcaption>
+      <blockquote>“We can&#39;t do SvS without this tool anymore.”</blockquote>
+      <figcaption>— Teammates on the developer&#39;s server. About 100 of them say the same thing.</figcaption>
     </figure>
   </div>
 </section>
@@ -1000,15 +1002,15 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="how" class="on-white">
   <div class="wrap">
     <span class="eyebrow">GETTING STARTED</span>
-    <h2>申し込んだその場から使えます。</h2>
-    <p class="sec-lead">インストール作業も、サーバーの用意もいりません。</p>
+    <h2>Use it the moment you sign up.</h2>
+    <p class="sec-lead">No installation, and no server to set up.</p>
     <div class="steps">
-      <div class="step"><div class="k">01</div><h3>申し込む</h3><p>決済が終わると、その場でルームIDと参加コードが発行されます。同じ内容がメールにも届きます。</p></div>
-      <div class="step"><div class="k">02</div><h3>まず1人で使う</h3><p>指示を出す人がプレーヤー画面を開き、号令ボタンを押すだけ。着弾時間が出て、チャットに貼れる一行がコピーされます。</p></div>
-      <div class="step"><div class="k">03</div><h3>メンバーに配る</h3><p>URL・ルームID・参加コードの3点を共有します。行軍時間は、各メンバーが一度入れれば、次からは保存されています。</p></div>
-      <div class="step"><div class="k">04</div><h3>号令を出す</h3><p>出したいタイミングで号令を押すだけ。一人ひとりの行軍時間に合わせたカウントダウンが出ます。全員が0で押せば、着弾がそろいます。</p></div>
+      <div class="step"><div class="k">01</div><h3>Sign up</h3><p>When payment is complete, a Room ID and join code are issued on the spot. You also get them by email.</p></div>
+      <div class="step"><div class="k">02</div><h3>Start on your own</h3><p>The caller opens the player screen and presses the call button. That&#39;s all. The landing time appears, and a line you can paste into chat is copied.</p></div>
+      <div class="step"><div class="k">03</div><h3>Share with members</h3><p>Share three things: the URL, the Room ID, and the join code. Each member enters their march time once, and it&#39;s saved for next time.</p></div>
+      <div class="step"><div class="k">04</div><h3>Give the call</h3><p>Just press the call when you want. Each player gets a countdown matched to their own march time. If everyone presses at 0, the landings line up.</p></div>
     </div>
-    <p style="margin-top:1.8rem;"><a href="/guide.html">画面ごとの使い方や、出てくる用語の説明はこちら →</a></p>
+    <p style="margin-top:1.8rem;"><a href="/en/guide.html">How to use each screen, and what the terms mean →</a></p>
   </div>
 </section>
 
@@ -1016,89 +1018,89 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="pricing">
   <div class="wrap">
     <span class="eyebrow">PRICING</span>
-    <h2>買うのは1人。使うのは全員。</h2>
-    <p class="sec-lead">プランは2つです。どちらも、参加する人数や台数に制限はありません。まとめ役の方が1つ申し込めば、同盟やサーバーの全員が追加料金なしで入れます。</p>
+    <h2>One person buys. Everyone uses it.</h2>
+    <p class="sec-lead">There are two plans. Neither limits the number of people or devices. When one organizer signs up, everyone in the alliance or server can join at no extra cost.</p>
 
     <!-- どのプランを選べばいいか。入れ子の図がそのまま料金の境目。 -->
     <div class="scope">
       <div class="scope-server">
-        <span class="scope-tag">総指揮プラン ¥2,980　この枠ぜんぶ</span>
+        <span class="scope-tag">Commander Plan $18.99 — this whole box</span>
         <div class="scope-alliances">
           <div class="scope-alliance is-lit">
-            <span class="scope-tag alt">同盟プラン ¥980　この枠ひとつ</span>
-            <div class="scope-title">同盟①</div>
+            <span class="scope-tag alt">Alliance Plan $6.29 — one of these</span>
+            <div class="scope-title">Alliance ①</div>
             <div class="squads">
-              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
             </div>
           </div>
           <div class="scope-alliance">
-            <div class="scope-title">同盟②</div>
+            <div class="scope-title">Alliance ②</div>
             <div class="squads">
-              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
             </div>
           </div>
           <div class="scope-alliance">
-            <div class="scope-title">同盟③</div>
+            <div class="scope-title">Alliance ③</div>
             <div class="squads">
-              <div class="squad"><span class="nm">第1班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-              <div class="squad"><span class="nm">第2班</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+              <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
             </div>
           </div>
         </div>
       </div>
       <p class="scope-note">
-        ■ の1つが、<b>集結主（集結を出す人）1人ぶんの枠</b>です。1つの班に6人まで、1同盟で2班まで。<br>
-        <b>班</b>は、同じ着弾時間でそろえる集結主のまとまりです。4連と3連のように、連撃を2つの着弾時間に分けられます。<br>
-        <b>集結に乗る人や、単騎で向かう人は枠を使いません。</b>何人でも入れます。
+        Each ■ is <b>a slot for one rally leader (a player who starts rallies)</b>. Up to 6 per squad, and up to 2 squads per alliance.<br>
+        A <b>squad</b> is a group of rally leaders lined up to the same landing time. You can split chains across two landing times, such as a chain of 4 and a chain of 3.<br>
+        <b>Players joining rallies or marching solo don&#39;t use slots.</b> Any number of them can join.
       </p>
     </div>
 
     <!-- 両プラン共通の無料の案内。値段を見る前に「14日間は安心して試せる」と分かるよう、カードの上に1つ置く（2026-09-26 講師の⑦診断） -->
     <div class="trial-box">
-      <p><strong>はじめの14日間は無料です。</strong></p>
-      <p>王城戦は2週ごとにあるので、無料のうちに必ず1回は実戦で試せます。</p>
-      <p>14日以内に解約すれば、料金は一切かかりません。</p>
+      <p><strong>The first 14 days are free.</strong></p>
+      <p>Castle Battles come every two weeks, so you can always try it in at least one real battle during the free period.</p>
+      <p>Cancel within 14 days, and you pay nothing at all.</p>
     </div>
 
     <div class="plans">
       <div class="plan hot">
-        <span class="tag">まずはここから</span>
-        <h3>同盟プラン</h3>
-        <div class="amt">¥980 <span>/ 月</span></div>
+        <span class="tag">Start here</span>
+        <h3>Alliance Plan</h3>
+        <div class="amt">$6.29 <span>/ month</span></div>
         <ul>
-          <li><strong>1同盟・2班</strong>（集結主12人）</li>
-          <li>着弾時間の指示・即時号令・差込</li>
-          <li>号令と同時に、着弾時間をコピー</li>
-          <li><strong>人数・台数の制限なし</strong></li>
-          <li>同盟で動く拠点戦に（ステ戦・砦要塞戦・兵器工場、少人数での王城戦など）</li>
+          <li><strong>1 alliance, 2 squads</strong> (12 rally leaders)</li>
+          <li>Landing-time calls, Call now, reinforcing</li>
+          <li>Copy the landing time as you call</li>
+          <li><strong>No limit on people or devices</strong></li>
+          <li>For base battles fought as one alliance (Facility, Fortress, and Stronghold battles, Foundry Battle, smaller Castle Battles, and more)</li>
         </ul>
-        <button class="btn btn-solid" data-plan="alliance">14日間無料で試す</button>
+        <button class="btn btn-solid" data-plan="alliance">Try free for 14 days</button>
         <div class="msg" data-status="alliance"></div>
       </div>
       <div class="plan">
-        <h3>総指揮プラン</h3>
-        <div class="amt">¥2,980 <span>/ 月</span></div>
+        <h3>Commander Plan</h3>
+        <div class="amt">$18.99 <span>/ month</span></div>
         <ul>
-          <li>同盟プランにできることすべて</li>
-          <li><strong>管理画面つき</strong>（占領する同盟と、攻める同盟2つを1画面で）</li>
-          <li>管理画面はパソコン推奨（スマホでも使えます）</li>
-          <li><strong>拠点の受け渡し</strong>（入替・占領抜き。中にいる全員が同時に抜ける）</li>
-          <li>同盟をまたぐペア号令</li>
-          <li>3同盟・6班（集結主36人）</li>
-          <li>占領する同盟と攻める同盟に分けて戦う、サーバー同士の拠点の取り合いに（王城戦・SVSなど）</li>
+          <li>Everything in the Alliance Plan</li>
+          <li><strong>Includes the commander console</strong> (the occupying alliance and two attacking alliances on one screen)</li>
+          <li>A PC is recommended for the console (it also works on phones)</li>
+          <li><strong>Base handoffs</strong> (swap and withdraw: everyone inside leaves at once)</li>
+          <li>Paired calls across alliances</li>
+          <li>3 alliances, 6 squads (36 rally leaders)</li>
+          <li>For server-vs-server base battles fought with a occupying alliance and attacking alliances (Castle Battles, SvS, and more)</li>
         </ul>
-        <button class="btn btn-line" data-plan="server">14日間無料で試す</button>
+        <button class="btn btn-line" data-plan="server">Try free for 14 days</button>
         <div class="msg" data-status="server"></div>
       </div>
     </div>
     <!-- 解約はStripeのカスタマーポータルで本人がする（期間の終わりに止まる）。 -->
     <p class="fine">
-      14日間の無料期間が終わった翌日から、月額料金のご請求が始まります。終わる日は、お申し込み直後のメールでお知らせします。<br>
-      解約はいつでもご自分でできます。<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">→ 解約ページはこちら</a><br>
-      無料期間中に解約すれば、料金は一切かかりません。有料期間中に解約した場合は、次の請求は発生せず、その期間の終わりまでお使いいただけます。<br>
-      お申し込みボタンを押すとStripeの決済画面へ移動します。お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。表示価格はすべて税込で、追加料金はありません。
+      Monthly billing starts the day after your 14-day free trial ends. We&#39;ll email you the end date right after you sign up.<br>
+      You can cancel anytime yourself. <a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">→ Cancel here</a><br>
+      Cancel during the free trial, and you pay nothing. If you cancel during a paid period, you won&#39;t be billed again, and you can keep using it until the end of that period.<br>
+      The sign-up button takes you to Stripe&#39;s checkout page. Before signing up, please review the <a href="/en/legal.html">Legal notice and Terms of Service</a>. All prices are in US dollars, and we charge no additional fees.
     </p>
   </div>
 </section>
@@ -1107,34 +1109,34 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 <section id="faq" class="on-white">
   <div class="wrap">
     <span class="eyebrow">FAQ</span>
-    <h2>申し込む前に、気になるところ。</h2>
+    <h2>Questions before you sign up.</h2>
     <div class="faq">
-      <details><summary>1人でも使えますか？</summary><p>使えます。指示を出す方がプレーヤー画面で号令ボタンを押すと、着弾時間が出て「【同盟名】集結　1234」がコピーされます。メンバーがツールに入っていなくても、その一行をゲーム内チャットに貼れば号令になります。</p></details>
-      <details><summary>チートや規約違反になりませんか？</summary><p>CommandClockはゲームに一切触れません。ゲームの画面を読み取ることも、自動で押すこともしません。別の画面にカウントダウンが出るだけで、押すのはご自身です。</p></details>
-      <details><summary>メンバー全員がアプリを入れる必要がありますか？</summary><p>いいえ。URLをブラウザで開き、ルームIDと参加コードを入力するだけで使えます。インストールは不要です。</p></details>
-      <details><summary>メンバーのぶんも払う必要がありますか？</summary><p>ありません。まとめ役の方が1つ申し込めば、同盟やサーバーの全員が追加料金なしで参加できます。人数も台数も数えません。</p></details>
-      <details><summary>着弾時刻を自分で決めることもできますか？</summary><p>できます。いますぐ出す号令のほかに、着弾時刻を指定して出す号令もあります。</p></details>
-      <details><summary>端末の時計がずれていても大丈夫ですか？</summary><p>大丈夫です。各端末の時計ではなく、サーバーの時刻を基準にカウントダウンします。通信の遅延も自動で補正するため、時計が数秒ずれている端末でも、全員のカウントダウンは同じ瞬間に0になります。</p></details>
-      <details><summary>行軍時間の入力は毎回必要ですか？</summary><p>いいえ。最初に一度入力すれば端末に保存されます。距離が変わったときだけ入れ直してください。</p></details>
-      <details><summary>解約はいつでもできますか？</summary><p>できます。<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">解約ページ</a>から、いつでもご自分で解約できます。無料期間中に解約すれば、料金は一切かかりません。有料期間中に解約した場合は、次の請求は発生せず、その期間の終わりまでお使いいただけます。契約期間の縛りはありません。</p></details>
-      <details><summary>カード情報は安全ですか？</summary><p>決済はStripeが処理します。当方がカード情報を受け取ったり保存したりすることは一切ありません。</p></details>
-      <details><summary>管理画面はスマホでも使えますか？</summary><p>使えます。ただ、3つの同盟を1つの画面に並べ、見比べながら号令を出す画面です。見やすさ、動きの軽さ、押しやすさで言えば、パソコンをおすすめします。指揮をとるなら、パソコンが一番です。目安は、Windows 10・11 か macOS、Intel Core i3・AMD Ryzen 3 以上、メモリ8GB以上、画面の横幅1366ピクセル以上です。ここ5年ほどの間に買ったパソコンなら、まず大丈夫です。メンバーが使うプレーヤー画面は、スマホで使う前提で作っています。</p></details>
-      <details><summary>特定のゲーム専用ですか？</summary><p>いいえ。時刻を合わせて複数人が同時に行動する場面であれば、ゲームの種類を問わず使えます。</p></details>
-      <details><summary>うまく動かなかった場合は？</summary><p>サービスが正常に提供できなかった場合は個別に対応します。お問い合わせ先は特定商取引法に基づく表記に記載しています。</p></details>
+      <details><summary>Can I use it on my own?</summary><p>Yes. When the caller presses the call button on the player screen, the landing time appears and “[Alliance] Rally 1234” is copied. Even if members aren&#39;t in the tool, pasting that line into in-game chat works as the call.</p></details>
+      <details><summary>Is this cheating, or against the game&#39;s rules?</summary><p>CommandClock never touches the game. It doesn&#39;t read the game screen, and it doesn&#39;t press anything automatically. It only shows a countdown on a separate screen. You press the button yourself.</p></details>
+      <details><summary>Does every member need to install an app?</summary><p>No. Just open the URL in a browser and enter the Room ID and join code. No installation needed.</p></details>
+      <details><summary>Do I have to pay for members, too?</summary><p>No. When one organizer signs up, everyone in the alliance or server can join at no extra cost. We don&#39;t count people or devices.</p></details>
+      <details><summary>Can I set the landing time myself?</summary><p>Yes. Besides calls for right now, there are calls with a landing time you set.</p></details>
+      <details><summary>What if device clocks are off?</summary><p>No problem. Countdowns are based on the server&#39;s time, not each device&#39;s clock. Network delay is corrected automatically too, so even on a device whose clock is a few seconds off, everyone&#39;s countdown hits 0 at the same moment.</p></details>
+      <details><summary>Do I have to enter my march time every time?</summary><p>No. Enter it once, and it&#39;s saved on your device. Re-enter it only when your distance changes.</p></details>
+      <details><summary>Can I cancel anytime?</summary><p>Yes. You can cancel yourself anytime from the <a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">cancellation page</a>. Cancel during the free trial, and you pay nothing. If you cancel during a paid period, you won&#39;t be billed again, and you can keep using it until the end of that period. There&#39;s no minimum contract.</p></details>
+      <details><summary>Is my card information safe?</summary><p>Payments are processed by Stripe. We never receive or store your card information.</p></details>
+      <details><summary>Can I use the console on a phone?</summary><p>Yes. But it&#39;s a screen that puts three alliances side by side so you can compare them while giving calls. For readability, speed, and ease of tapping, we recommend a PC. If you&#39;re commanding, a PC is best. As a guide: Windows 10/11 or macOS, an Intel Core i3 or AMD Ryzen 3 or better, 8 GB of memory or more, and a screen at least 1366 pixels wide. A PC bought within the last five years or so should be fine. The player screen that members use is designed for phones.</p></details>
+      <details><summary>Is it only for one specific game?</summary><p>No. It works in any game where several people need to act at the same time by the clock.</p></details>
+      <details><summary>What if it doesn&#39;t work properly?</summary><p>If the service can&#39;t be provided properly, we&#39;ll handle it case by case. Contact details are in the <a href="/en/legal.html">Legal notice</a>.</p></details>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <a href="/guide.html">使い方ガイド</a>
+    <a href="/en/guide.html">User guide</a>
     <span class="sep">/</span>
-    <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
+    <a href="/en/legal.html">Legal notice &amp; Terms</a>
     <span class="sep">/</span>
-    <a href="/feedback.html">ご意見・不具合の報告</a>
+    <a href="/en/feedback.html">Feedback &amp; bug reports</a>
     <span class="sep">/</span>
-    <a href="/en/" hreflang="en" lang="en">English</a>
-    <p class="disclaimer">CommandClockはホワイトアウトサバイバルおよびその他対応ゲームの非公式ツールです。各ゲームの著作権は各パブリッシャーに帰属します。</p>
+    <a href="/" hreflang="ja" lang="ja">日本語</a>
+    <p class="disclaimer">CommandClock is an unofficial tool for Whiteout Survival and other supported games. All game copyrights belong to their respective publishers.</p>
     <div class="cr">&copy; 2026 CommandClock</div>
   </div>
 </footer>
@@ -1170,7 +1172,7 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       const left = SCENARIO * (1 - Math.min(q, 1));   // 着弾までの残り（絵の中の秒）
       allEl.textContent = fmt(left);
       const mine = left - TRAVEL;
-      mineEl.textContent = mine > 0 ? fmt(mine) : '押す';
+      mineEl.textContent = mine > 0 ? fmt(mine) : 'PRESS';
 
       units.forEach((c) => {
         const bx = +c.dataset.bx, by = +c.dataset.by, march = +c.dataset.march;
@@ -1297,18 +1299,18 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
       const plan = btn.getAttribute('data-plan');
       const el = document.querySelector(`[data-status="${plan}"]`);
       btn.disabled = true;
-      el.textContent = '決済ページを準備中…';
+      el.textContent = 'Preparing checkout…';
       try {
         const res = await fetch('/api/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ plan }),
+          body: JSON.stringify({ plan, lang: 'en' }),
         });
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || '不明なエラー');
+        if (!res.ok) throw new Error(data.error || 'Unknown error');
         window.location.href = data.url;
       } catch (err) {
-        el.textContent = 'エラー: ' + err.message;
+        el.textContent = 'Error: ' + err.message;
         btn.disabled = false;
       }
     });
@@ -1317,8 +1319,8 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
 
 <!-- スマホで下端に残す申し込み導線 -->
 <div class="sticky-cta">
-  <a href="#pricing">14日間無料で試す</a>
-  <small>クレジットカード決済・いつでも解約できます</small>
+  <a href="#pricing">Try free for 14 days</a>
+  <small>Card payment · Cancel anytime</small>
 </div>
 </body>
 </html>

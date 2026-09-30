@@ -1,5 +1,5 @@
 const Stripe = require('stripe');
-const { PLANS, SEAT, SELLABLE, CURRENCY, TRIAL_DAYS } = require('./_plans');
+const { PLANS, SEAT, SELLABLE, TRIAL_DAYS, priceFor } = require('./_plans');
 const { roomSummary } = require('./_product');
 
 // 月額のサブスクリプション。解約されるまで毎月自動更新される。
@@ -20,11 +20,15 @@ module.exports = async (req, res) => {
   }
 
   const { plan, room, probe } = req.body || {};
+  // 2026-09-30 英語版の販売ページからは lang:'en' が来る。ドルで売り、戻り先も英語のページにする
+  const en = (req.body || {}).lang === 'en';
 
   // 2026-09-24、席（1人ぶんの申し込み）の新規受付を止めた。
   // このツールは全員が同じ時刻を見て初めて効く。1人ずつ払わせると、払わない人が出て揃わない。
   // まとめ役の方のプランで、人数無制限で入れる。
-  const NOT_SEATABLE = '席（1人ぶん）の申し込みは終了しました。まとめ役の方がお持ちのプランで、人数の制限なく参加できます。参加コードはまとめ役の方にお尋ねください。';
+  const NOT_SEATABLE = en
+    ? 'Seat sign-ups have ended. You can join with no limit on people through your organizer’s plan. Please ask your organizer for the join code.'
+    : '席（1人ぶん）の申し込みは終了しました。まとめ役の方がお持ちのプランで、人数の制限なく参加できます。参加コードはまとめ役の方にお尋ねください。';
   const seatable = () => false;
 
   // ---- 席を買う前の確認 -------------------------------------------------
@@ -40,7 +44,7 @@ module.exports = async (req, res) => {
       ...found.data,
       seatable: seatable(found.data),
       reason: seatable(found.data) ? null : NOT_SEATABLE,
-      seat: { jpy: SEAT.jpy, trialDays: TRIAL_DAYS },
+      seat: { jpy: SEAT.jpy, usd: SEAT.usd / 100, trialDays: TRIAL_DAYS },
     });
     return;
   }
@@ -57,7 +61,7 @@ module.exports = async (req, res) => {
     return;
   }
   if (!isSeat && !SELLABLE.includes(selected.id)) {
-    res.status(410).json({ error: 'このプランの新しいお申し込みは終了しました。同盟プランか総指揮プランをお選びください。' });
+    res.status(410).json({ error: en ? 'This plan is no longer offered. Please choose the Alliance Plan or the Commander Plan.' : 'このプランの新しいお申し込みは終了しました。同盟プランか総指揮プランをお選びください。' });
     return;
   }
 
@@ -70,8 +74,8 @@ module.exports = async (req, res) => {
     if (!found.ok) {
       res.status(found.notFound ? 404 : 500).json({
         error: found.notFound
-          ? 'このルームIDは見つかりませんでした。まとめ役の方に、配られたリンクをもう一度確認してください。'
-          : 'ルームの確認ができませんでした。時間をおいてお試しください。',
+          ? (en ? 'This Room ID wasn’t found. Please check the link with your organizer again.' : 'このルームIDは見つかりませんでした。まとめ役の方に、配られたリンクをもう一度確認してください。')
+          : (en ? 'Couldn’t check the room. Please try again later.' : 'ルームの確認ができませんでした。時間をおいてお試しください。'),
       });
       return;
     }
@@ -92,18 +96,22 @@ module.exports = async (req, res) => {
     // 席の場合は room_id も入れる。解約の通知にはサブスクIDしか来ないので、
     // どのルームの席だったかを後から知る手がかりがここにしか無い。
     const meta = isSeat ? { plan: SEAT.id, room_id: roomId } : { plan: selected.id };
+    // 英語で申し込んだ人には、案内メールも英語で送る（_fulfill がこの印を読む）
+    if (en) meta.lang = 'en';
+    const price = priceFor(selected, en ? 'en' : 'ja');
+    const base = en ? `${origin}/en` : origin;
 
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       line_items: [
         {
           price_data: {
-            currency: CURRENCY,
+            currency: price.currency,
             product_data: {
-              name: isSeat && roomName ? `${selected.name}（${roomName}）` : selected.name,
-              description: selected.description,
+              name: isSeat && roomName ? (en ? `${price.name} (${roomName})` : `${price.name}（${roomName}）`) : price.name,
+              description: price.description,
             },
-            unit_amount: selected.unit_amount,
+            unit_amount: price.unit_amount,
             recurring: { interval: 'month' },
           },
           quantity: 1,
@@ -122,8 +130,9 @@ module.exports = async (req, res) => {
         trial_period_days: TRIAL_DAYS,
       },
       metadata: meta,
-      success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: isSeat ? `${origin}/join.html?room=${encodeURIComponent(roomId)}` : `${origin}/cancel.html`,
+      ...(en ? { locale: 'en' } : {}),
+      success_url: `${base}/success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: isSeat ? `${base}/join.html?room=${encodeURIComponent(roomId)}` : `${base}/cancel.html`,
     });
 
     res.status(200).json({ url: session.url });

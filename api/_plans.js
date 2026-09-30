@@ -21,6 +21,9 @@ const PLANS = {
     description: '（新規受付終了）6人までの少人数で使う。同時に6台まで',
     jpy: 500,
     unit_amount: 500,
+    usd: 319,
+    name_en: 'CommandClock Personal',
+    description_en: '(No longer offered) For small groups of up to 6. Up to 6 devices at once',
   },
   alliance: {
     id: 'alliance',
@@ -29,6 +32,9 @@ const PLANS = {
     description: '1同盟・2班。集結の着弾指示・即時号令・差込。人数無制限',
     jpy: 980,
     unit_amount: 980,
+    usd: 629,
+    name_en: 'CommandClock Alliance Plan',
+    description_en: '1 alliance, 2 squads. Landing-time calls, Call now, and reinforcing. No limit on people',
   },
   server: {
     id: 'server',
@@ -37,6 +43,9 @@ const PLANS = {
     description: '管理画面つき。占領同盟と攻撃同盟2つを指揮し、入替・占領抜きまで揃える。人数無制限',
     jpy: 2980,
     unit_amount: 2980,
+    usd: 1899,
+    name_en: 'CommandClock Commander Plan',
+    description_en: 'Includes the commander console. Command the occupying alliance and two attacking alliances, with swaps and withdrawals. No limit on people',
   },
 };
 
@@ -56,6 +65,9 @@ const SEAT = {
   description: 'すでにある同盟のルームに、自分専用の参加コードで加わる',
   jpy: 500,
   unit_amount: 500,
+  usd: 319,
+  name_en: 'CommandClock Seat',
+  description_en: 'Join an existing alliance room with your own join code',
 };
 
 // 無料でお試しいただける日数。ここが正本で、LP・特商法・案内メールもこの数字を指す。
@@ -63,7 +75,17 @@ const TRIAL_DAYS = 14;
 
 const CURRENCY = 'jpy';
 
+// 2026-09-30 英語版（commandclock.jp/en）はドルで売る。日本語版と相違ない値段（1ドル≒156.5円で換算）。
+// ドルは最小単位がセントなので、usd には100倍した数を書く（629 = $6.29）。
+// 日本語版から来た申し込みは、今までどおり円のまま。
+function priceFor(item, lang) {
+  if (lang === 'en' && item.usd) {
+    return { currency: 'usd', unit_amount: item.usd, name: item.name_en || item.name, description: item.description_en || item.description };
+  }
+  return { currency: CURRENCY, unit_amount: item.unit_amount, name: item.name, description: item.description };
+}
+
 // いま新しく申し込めるプラン。
 const SELLABLE = ['alliance', 'server'];
 
-module.exports = { PLANS, SEAT, SELLABLE, CURRENCY, TRIAL_DAYS };
+module.exports = { PLANS, SEAT, SELLABLE, CURRENCY, TRIAL_DAYS, priceFor };

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 2026-09-27 記事2本目（講師の③）。中身は鎌田さんがOKした言葉（noteの「ツールがなくても持ち帰れること」「ツールに織り込んだこと」、Xの投稿I・J、発信の方針11章）。用語は記事1本目と同じ。 -->
+<title>Give calls as a time | How commanders think about time in the Castle Battle | CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/en/blog/command-timing.html">
+<meta name="description" content="How an overall commander thinks about time in the Castle Battle: delays in calls become the enemy’s occupation time, why each player’s moment to press is different, give calls as a time, match the landing to the farthest rally leader, split landings when you split chains, withdrawals, and device clocks. Examples are from Whiteout Survival (unofficial).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://commandclock.jp/en/blog/command-timing.html">
+<meta property="og:title" content="Give calls as a time | How commanders think about time in the Castle Battle">
+<meta property="og:description" content="How an overall commander thinks about time in the Castle Battle. Ideas you can take home, with or without the tool.">
+<meta property="og:site_name" content="CommandClock">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Give calls as a time | How commanders think about time in the Castle Battle",
+  "inLanguage": "ja",
+  "datePublished": "2026-09-27",
+  "dateModified": "2026-09-27",
+  "image": "https://commandclock.jp/assets/ogp-v5.png",
+  "author": {
+    "@type": "Organization",
+    "name": "CommandClock"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CommandClock",
+    "url": "https://commandclock.jp/"
+  },
+  "mainEntityOfPage": "https://commandclock.jp/blog/command-timing.html"
+}
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --paper: #eef1f5; --surface: #ffffff; --ink: #0d1420; --ink-2: #3d4a63; --ink-3: #56637c;
+  --rule: #ccd4e0; --amber: #f0a63c; --amber-ink: #8a5a12; --signal: #c2410c;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.95; -webkit-text-size-adjust: 100%; overflow-x: hidden;
+}
+a { color: var(--amber-ink); }
+.top { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.top .in { max-width: 760px; margin: 0 auto; padding: 0.9rem 16px; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.logo { font-family: "Chivo Mono", monospace; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
+.top .cta { font-size: 0.85rem; font-weight: 700; color: #f7f9fc; background: var(--ink); padding: 0.45rem 0.9rem; text-decoration: none; white-space: nowrap; }
+article { max-width: 760px; margin: 0 auto; padding: 2.4rem 16px 3rem; }
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.18em; color: var(--amber-ink); }
+h1 { font-size: clamp(1.5rem, 4.4vw, 2.1rem); line-height: 1.45; margin: 0.4rem 0 0.3rem; font-weight: 900; word-break: auto-phrase; }
+.sub { font-size: clamp(1rem, 2.6vw, 1.15rem); font-weight: 700; color: var(--ink-2); margin: 0 0 1.4rem; word-break: auto-phrase; }
+.meta { font-size: 0.8rem; color: var(--ink-3); margin: 0 0 2rem; }
+p { margin: 0 0 1.1rem; color: var(--ink-2); }
+h2 { font-size: clamp(1.2rem, 3.4vw, 1.45rem); margin: 2.8rem 0 1rem; padding-top: 1.2rem; border-top: 2px solid var(--ink); line-height: 1.5; word-break: auto-phrase; }
+h3 { font-size: 1.05rem; margin: 1.8rem 0 0.6rem; line-height: 1.6; word-break: auto-phrase; }
+.lead p { font-size: 1.02rem; color: var(--ink); }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.1rem 1.3rem; margin: 0 0 1.4rem; }
+.box dl { margin: 0; }
+.box dt { font-weight: 700; color: var(--ink); margin-top: 0.6rem; }
+.box dt:first-child { margin-top: 0; }
+.box dd { margin: 0; color: var(--ink-2); font-size: 0.93rem; }
+.sched { width: 100%; border-collapse: collapse; background: var(--surface); margin: 0 0 1.4rem; font-size: 0.92rem; }
+.sched th, .sched td { border: 1px solid var(--rule); padding: 0.55rem 0.7rem; text-align: left; vertical-align: top; }
+.sched th { background: #f5f7fa; white-space: nowrap; font-weight: 700; }
+.note { font-size: 0.85rem; color: var(--ink-3); }
+.call { background: #fdf6ea; border-left: 4px solid var(--amber); padding: 1.1rem 1.3rem; margin: 1.6rem 0; }
+.call p:last-child { margin-bottom: 0; }
+.btn { display: inline-block; background: var(--ink); color: #f7f9fc; font-weight: 700; padding: 0.75rem 1.3rem; text-decoration: none; margin-top: 0.4rem; }
+footer { border-top: 1px solid var(--rule); background: var(--surface); }
+footer .in { max-width: 760px; margin: 0 auto; padding: 1.4rem 16px 2rem; font-size: 0.8rem; color: var(--ink-3); }
+footer a { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="in">
+    <a class="logo" href="/en/">CommandClock</a>
+    <a class="cta" href="/en/#pricing">Try free for 14 days</a>
+  </div>
+</header>
+
+<article>
+  <span class="eyebrow">COMMANDER'S NOTE</span>
+  <h1>Give calls as a time</h1>
+  <p class="sub">How commanders think about time in the Castle Battle</p>
+  <p class="meta">September 27, 2026  CommandClock</p>
+
+  <div class="lead">
+    <p>As overall commander, I’ll write about how I think about time in the Castle Battle. These are ideas you can take home whether or not you use the tool. Examples are from Whiteout Survival (unofficial).</p>
+    <p>I wrote about what happens from the moment the enemy state is decided until the battle ends in <a href="/en/blog/svs-preparation.html">What a commander does before SvS</a>.</p>
+  </div>
+
+  <h2>First, the terms used in this article</h2>
+  <div class="box">
+    <dl>
+      <dt>Rally leader</dt><dd>The player who starts a rally. Players joining the rally travel to the rally leader’s city during the rally time.</dd>
+      <dt>Chain attack</dt><dd>A single attack (rally) rarely breaks through, and when the enemy’s flag holder in the garrison is strong, you add more rallies to break it. That’s a chain attack. Two players make a chain of 2; three make a chain of 3.</dd>
+      <dt>Flag holder</dt><dd>The strongest player in the garrison. The player at the very front is sometimes also called the flag holder, so here we use it to mean the strongest player.</dd>
+      <dt>Swap</dt><dd>The attacking alliance hands a captured base to the occupying alliance, timed to the second. Players in the occupying alliance land solo.</dd>
+      <dt>Withdraw</dt><dd>During a swap, everyone garrisoned inside the base leaves at the same moment.</dd>
+      <dt>Reinforce</dt><dd>Sending troops in between the enemy’s chained landings to strengthen the defense.</dd>
+    </dl>
+  </div>
+
+  <h2>1. Every second of delay in a call becomes the enemy’s occupation time</h2>
+  <p>When an enemy starts a rally, act on the assumption that they will break your garrison. The time from being broken until the attacking alliance breaks that enemy becomes the enemy’s occupation time. So when an enemy rallies, start a rally right away so you can break them.</p>
+  <p>The delay comes from calculating the landing time and rounding the seconds to a clean number. On top of that, each person who receives the call has to do the subtraction “landing time − my march time.”</p>
+  <p>That delay before the call is, in the end, occupation time we let the enemy gain.</p>
+
+  <h2>2. Why each player’s moment to press is different</h2>
+  <p>The moment to press is different for each person. Teammates’ cities are scattered across the map, so each one’s march time to the base is different. To land at the same time, farther players have to press earlier, and closer players later.</p>
+  <p>Player A, whose march takes 3 minutes, presses at 21:00:15. Player D, whose march takes 45 seconds, presses at 21:02:30. They press at different times, but everyone is calculated to land at 21:03:15.</p>
+
+  <h2>3. Give calls as a time, not “in so many seconds”</h2>
+  <p>With “60 seconds from now,” the delay starts the instant someone hears it. With a time, even someone who sees it late can catch up.</p>
+  <p>So give calls as a landing time. In chat, post it as four digits: minutes and seconds. “1234” means landing at 12 minutes 34 seconds.</p>
+
+  <h2>4. Match the landing time to the farthest rally leader</h2>
+  <p>Players joining a rally travel to the rally leader’s city during the rally time. What decides the landing is the march time of the rally leader farthest from Sunfire Castle.</p>
+
+  <h2>5. If you split chains, split the landing times too</h2>
+  <p>Put seven rally leaders on the same landing, and you get a chain of 7. To split it into a chain of 4 and a chain of 3, split them into squads and give each its own landing time.</p>
+
+  <h2>6. For withdraw, each player leaves on their own</h2>
+  <p>During a swap, everyone from the attacking alliance in the garrison leaves Sunfire Castle a few seconds before the occupying alliance’s solo marches arrive. That’s the withdraw.</p>
+  <p>The flag holder, alliance leader, and officers can remove players from the garrison, but removing them one by one won’t make it in a one-second race. Each player in the garrison leaves on their own, at the same moment.</p>
+
+  <h2>7. Don’t trust device clocks</h2>
+  <p>As long as everyone watches their own phone clock, you’ll be off by a few seconds.</p>
+
+  <div class="call">
+    <p><strong>I built this math into a tool. It’s called CommandClock.</strong></p>
+    <p>The caller decides only when to start the rally. Press Call now, and the landing time is set as the current time plus a buffer before pressing, the rally time, and the farthest rally leader’s march time.</p>
+    <p>Players in the tool see a departure countdown on their own screen, with their march time subtracted. The swap landing and the withdraw a few seconds before it can be sent from a single reference time. You can also call the reinforce landing.</p>
+    <p>The reference is the server’s time. Even if a device clock is a few seconds off, everyone’s countdowns match.</p>
+    <p>It never touches the game. It doesn’t read the screen or press anything automatically. You press the button yourself.</p>
+    <p><a href="/en/">See how CommandClock works</a></p>
+  </div>
+
+  <h2>In closing</h2>
+  <p>Give calls as a time. Match the landing to the farthest rally leader. If you split chains, split landings too. For withdraw, each player leaves on their own. Don’t trust device clocks. All of these are ways of thinking that help everyone match the landing time you set.</p>
+  <p>CommandClock is free for the first 14 days. Castle Battles come every two weeks, so you can always try it in at least one real battle during the free period.</p>
+  <a class="btn" href="/en/#pricing">Try free for 14 days</a>
+  <p style="margin-top:2rem;">Read next: <a href="/en/blog/svs-preparation.html">What a commander does before SvS</a></p>
+</article>
+
+<footer>
+  <div class="in">
+    <a href="/en/">CommandClock</a>　/　<a href="/en/guide.html">User guide</a>　/　<a href="/en/legal.html">Legal Notice and Terms of Service</a>
+    <p>CommandClock is an unofficial tool for Whiteout Survival and other supported games. All game copyrights belong to their respective publishers.</p>
+    <div>&copy; 2026 CommandClock</div>
+  </div>
+</footer>
+</body>
+</html>

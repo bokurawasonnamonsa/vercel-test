@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>User guide | CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/en/guide.html">
+<meta name="description" content="What CommandClock does, and what to do from signing up to actually using it, explained step by step.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<style>
+/* 方向D「白の計器」。トップページと同じ決まりを、下層にも通す。 */
+:root {
+  color-scheme: light;
+  --paper:#eef1f5; --surface:#ffffff; --ink:#0d1420; --ink-2:#3d4a63; --ink-3:#56637c;
+  --rule:#ccd4e0; --grid:#dbe2ec; --amber:#f0a63c; --amber-ink:#8a5a12; --signal:#c2410c; --warn:#a33a2a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); line-height: 1.9;
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.4rem; }
+
+.nav { position: sticky; top: 0; z-index: 40; background: rgba(238,241,245,.92); backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--ink); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: .7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--ink); }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand .name { font-size: .95rem; letter-spacing: .04em; font-weight: 700; }
+.nav-cta { background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700; padding: .5rem 1.15rem; font-size: .86rem; border-radius: 2px; white-space: nowrap; }
+
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
+h2 { font-size: 1.22rem; font-weight: 900; letter-spacing: -.02em; margin: 3rem 0 .6rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink); }
+h3 { font-size: 1rem; margin: 1.8rem 0 .4rem; }
+p { margin: 0 0 1rem; color: var(--ink-2); font-size: .95rem; }
+.lead { color: var(--ink-2); font-size: .97rem; }
+.muted { color: var(--ink-3); font-size: .88rem; }
+strong { color: var(--ink); }
+
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.panel h3 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.box h3 { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+ul.plain { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .5rem; }
+ul.plain li { position: relative; padding-left: 1.55rem; color: var(--ink-2); font-size: .93rem; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: .58em; width: 9px; height: 9px; border: 1.5px solid var(--ink); background: var(--amber); }
+
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
+th, td { text-align: left; padding: .75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.yes { color: var(--signal); font-weight: 700; }
+td.no { color: var(--ink-3); }
+
+pre.sample {
+  background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.1rem;
+  overflow-x: auto; font-size: .84rem; line-height: 1.85; color: var(--ink-2); margin: .8rem 0 1rem;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
+}
+details { border-bottom: 1px solid var(--rule); padding: .95rem 0; }
+summary { cursor: pointer; font-size: .95rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "Chivo Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: .6rem 0 0; font-size: .89rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: .85rem 1.7rem; font-weight: 700; font-size: .94rem; text-decoration: none; border-radius: 2px; min-height: 48px; border: none; cursor: pointer; font-family: inherit; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+
+footer { margin-top: 3.4rem; border-top: 1.5px solid var(--ink); padding: 2rem 0 3rem; background: var(--surface); }
+footer p, footer a { color: var(--ink-3); font-size: .82rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+/* サーバー ⊃ 同盟 ⊃ 班 ⊃ 集結主。この入れ子がそのまま料金の境目。 */
+.scope { margin: 1.2rem 0 1.6rem; }
+.scope-server { border: 1.5px dashed var(--ink); padding: 2rem 1rem 1rem; position: relative; background: var(--surface); }
+.scope-tag { position: absolute; top: -.75rem; left: 1rem; font-family: "Chivo Mono", monospace; font-size: .66rem; font-weight: 600; padding: .16rem .6rem; background: var(--ink); color: #f7f9fc; white-space: nowrap; }
+.scope-tag.alt { background: var(--signal); }
+.scope-alliances { display: grid; grid-template-columns: 1fr; gap: .85rem; }
+@media (min-width: 700px) { .scope-alliances { grid-template-columns: repeat(3, 1fr); } }
+.scope-alliance { border: 1px solid var(--rule); padding: 1.6rem .8rem .8rem; position: relative; }
+.scope-alliance.is-lit { border: 1.5px solid var(--signal); }
+.scope-title { font-size: .84rem; font-weight: 700; margin-bottom: .5rem; }
+.squads { display: grid; gap: .45rem; }
+.squad { border: 1px solid var(--rule); padding: .45rem .6rem; display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+.squad .nm { font-family: "Chivo Mono", monospace; font-size: .72rem; color: var(--ink-3); white-space: nowrap; }
+.squad .seats { display: inline-flex; gap: 3px; }
+.squad .seats i { width: 8px; height: 8px; background: var(--amber); border: 1px solid var(--ink); }
+.scope-note { color: var(--ink-2); font-size: .86rem; margin: .9rem 0 0; line-height: 1.9; }
+.scope-note b { color: var(--ink); }
+
+/* 手順 */
+.steps { counter-reset: st; }
+.stepitem { position: relative; padding-left: 3.2rem; margin-bottom: 1.9rem; }
+.stepitem::before {
+  counter-increment: st; content: "0" counter(st);
+  position: absolute; left: 0; top: .15rem;
+  font-family: "Chivo Mono", monospace; font-size: .82rem; font-weight: 600;
+  color: #f7f9fc; background: var(--ink); padding: .1rem .45rem;
+}
+.stepitem h3 { margin: 0 0 .35rem; }
+
+.toc { background: var(--surface); border: 1px solid var(--rule); padding: 1.1rem 1.4rem; margin: 1.8rem 0 0; }
+.toc ol { margin: 0; padding-left: 1.3rem; }
+.toc li { margin: .25rem 0; font-size: .92rem; }
+header.top { padding: 2.6rem 0 1rem; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/en/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/><path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="2.2" fill="#c2410c"/></svg>
+      <span class="name mono">CommandClock</span>
+    </a>
+    <a class="nav-cta" href="/en/#pricing">Sign up</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow mono">GUIDE</div>
+    <h1>User guide</h1>
+    <p class="lead">
+      A tool for players who give the calls for their alliance in mobile strategy games. This guide explains, step by step, what it does and what to do after you sign up. It’s written so that even people who don’t know the game can follow it.
+    </p>
+    <nav class="toc">
+      <ol>
+        <li><a href="#what">What this tool does</a></li>
+        <li><a href="#roles">The three roles</a></li>
+        <li><a href="#start">From signing up to getting started</a></li>
+        <li><a href="#screens">What to do on each screen</a></li>
+        <li><a href="#plans">What each plan includes</a></li>
+        <li><a href="#trouble">When things don’t work</a></li>
+      </ol>
+    </nav>
+  </header>
+
+  <h2 id="what">1. What this tool does</h2>
+  <p>
+    In a word, it’s a tool that <strong>“tells each teammate their own moment to press, with a single call.”</strong>
+  </p>
+  <p>
+    Say four players want to land on the same base at the same time. But their cities are in different places on the map, so their march times to the base differ. One takes 3 minutes; another arrives in 45 seconds.
+  </p>
+  <p>
+    If they all press together on “3, 2, 1,” the closest players land first. To land at the same time, you need to <strong>“press earlier the farther you are, and later the closer you are.”</strong> The moment to press is different for each person.
+  </p>
+
+  <div class="panel">
+    <h3>To line up everyone’s landing at 21:03:15</h3>
+    <pre class="sample">Player A  march 3:00  →  press at 21:00:15
+Player B  march 2:15  →  press at 21:01:00
+Player C  march 1:30  →  press at 21:01:45
+Player D  march 0:45  →  press at 21:02:30
+                     ↓
+       Everyone lands at 21:03:15</pre>
+    <p class="muted">
+      Doing this subtraction for every player, to the second, over and over during a live battle is too much for a person. With CommandClock, the organizer just presses the call once at the moment they want, and the tool calculates the landing time. The tool also builds this table and sends each device <strong>a countdown just for that player</strong>.
+    </p>
+  </div>
+
+  <h3>You don’t need to worry about clock drift</h3>
+  <p>
+    When you’re lining things up to the second, a phone clock that’s a few seconds off ruins everything. CommandClock uses <strong>the server’s time</strong> as its reference instead of each device’s clock, and also subtracts the round-trip network time to correct for it. Users never need to reset their clocks.
+  </p>
+
+  <h2 id="roles">2. The three roles</h2>
+  <p>
+    Everyone who joins first chooses their role. There are only three.
+  </p>
+
+  <div class="box">
+    <h3>Officer — the organizer</h3>
+    <p>
+      The person who gives the call when it’s time to rally. One per group is enough. The officer’s screen lists every member’s departure time.
+    </p>
+  </div>
+  <div class="box">
+    <h3>Rally leader — starts rallies</h3>
+    <p>
+      The player who sends out their own rally toward the target. Their screen shows “Depart in ○ seconds,” <strong>a countdown just for them</strong>. March times differ by player, so they enter their own march time once at the start.
+    </p>
+    <p class="muted">Up to 6 can register per group (squad).</p>
+  </div>
+  <div class="box">
+    <h3>Joiner — joins rallies</h3>
+    <p>
+      A player who doesn’t start rallies but joins a rally leader’s rally. There’s no limit on the number, and no extra charge no matter how many join.
+    </p>
+  </div>
+
+  <h2 id="start">3. From signing up to getting started</h2>
+  <div class="steps">
+    <div class="stepitem">
+      <h3>Sign up</h3>
+      <p>
+        <a href="/en/#pricing">In the pricing section</a>, choose a plan and pay by card. When payment is done, the completion screen shows three things: <strong>the URL, Room ID, and join code</strong>. The same details are also sent to your registered email address.
+      </p>
+      <p class="muted">
+        The Room ID and join code are your group’s own key. Other customers can’t see them.
+      </p>
+    </div>
+    <div class="stepitem">
+      <h3>Share the three things with members</h3>
+      <p>
+        Send <strong>the URL, Room ID, and join code</strong> to your members by chat or similar. No app installation needed; they can use it by opening it in their phone’s browser.
+      </p>
+      <p class="muted">
+        *The built-in browser inside social media apps may not work properly. Choosing “Open in browser” is the safe option.
+      </p>
+    </div>
+    <div class="stepitem">
+      <h3>Each person chooses a role and registers</h3>
+      <p>
+        Opening the URL shows a screen for entering the Room ID and join code. After joining, each person chooses their role from “Officer,” “Rally leader,” or “Joiner” and enters a name. Rally leaders also enter <strong>their own march time</strong>.
+      </p>
+      <p class="muted">What you enter is saved on your device, so next time you just choose.</p>
+    </div>
+    <div class="stepitem">
+      <h3>The officer gives the call</h3>
+      <p>
+        On the officer’s screen, press the call button when it’s time to rally. At that moment, everyone’s screen starts moving on its own timing. Then each person just moves the moment their screen says “Start.”
+      </p>
+    </div>
+  </div>
+
+  <h2 id="screens">4. What to do on each screen</h2>
+
+  <p>
+    Seeing it move is faster than reading, so take a look first. The 30 seconds from giving a call until everyone lands are in the <a href="/en/#demo">demo on the top page</a>.
+  </p>
+
+  <h3>Participant screen (used by everyone)</h3>
+  <ul class="plain">
+    <li>Shows a large clock and your own countdown.</li>
+    <li>All you do is “move the moment the countdown hits 0.”</li>
+    <li>It’s also read aloud, so you’ll know even if you’re not looking at the screen.</li>
+  </ul>
+
+  <h3>Officer screen (used by the organizer)</h3>
+  <ul class="plain">
+    <li>Lists, for everyone in your group, the time until they press, their rally time, their march time, and their landing time.</li>
+    <li>Press the call when it’s time to rally. The tool calculates the landing time. If you want to set a time yourself, you can also enter the landing time directly.</li>
+    <li><strong>The “Copy” button</strong> turns everyone’s departure times into text. Paste it straight into chat, and even members who don’t have the tool open can get it.</li>
+  </ul>
+  <div class="box">
+    <p class="muted" style="margin-bottom:0.5rem;">Example of the copied text</p>
+    <pre class="sample">[Rally time] ○○ Alliance
+Squad 1  Landing 21:03:15
+  Player A  Depart 21:00:15 (March 3:00)
+  Player B  Depart 21:01:00 (March 2:15)</pre>
+    <p class="muted">
+      Useful even when members can’t open the tool. Available on every plan.
+    </p>
+  </div>
+
+  <h3>Console / Commander console (Commander Plan only)</h3>
+  <ul class="plain">
+    <li>See three alliances together on one screen.</li>
+    <li>Give calls across multiple alliances at the same time (paired calls).</li>
+    <li><strong>Swap calls</strong>: a call to hand Sunfire Castle, taken from the enemy state by the attacking alliance, to the occupying alliance. You can send, all at once, the landing time for the occupying alliance’s solo marches and how many seconds before that landing time to leave the garrison (withdraw).</li>
+    <li><strong>Withdraw</strong>: each player in the garrison leaves at the same moment, following the countdown on their own screen. If the flag holder, alliance leader, or officers pull people out one by one, you won’t make it in a one-second race.</li>
+    <li>Add  <span class="mono">/admin</span>  to the end of the URL, open it, and join with the same Room ID and join code.</li>
+  </ul>
+  <div class="box">
+    <h3>We recommend using the console on a PC</h3>
+    <p>
+      It also works on a phone. But the console puts three alliances side by side on one screen so you can compare them while giving calls. For readability, speed, and ease of tapping, a PC is best. On a phone, the alliances stack vertically, so you’ll be scrolling up and down while you operate it.
+    </p>
+    <p>A guide to the minimum you’ll need.</p>
+    <ul class="plain">
+      <li>PC: Windows 10/11 or macOS</li>
+      <li>Browser: the latest Google Chrome, Microsoft Edge, or Safari</li>
+      <li>CPU: Intel Core i3 or AMD Ryzen 3 or better (a PC bought within the last five years or so should be fine)</li>
+      <li>Memory: 8 GB or more</li>
+      <li>Screen: at least 1366 pixels wide (a typical laptop screen). With Full HD (1920×1080), you can view the three alliances side by side with room to spare</li>
+      <li>Connection: a stable internet connection (wired, or Wi-Fi with a steady signal)</li>
+    </ul>
+    <p>The player screen that members use is designed for phones.</p>
+  </div>
+  <div class="box">
+    <h3>Reinforce calls are on the officer’s screen, too</h3>
+    <p>
+      When the enemy attacks you in a chain, slipping your own troops in between to defend is <strong>reinforcing</strong>. Set how many seconds before the last landing to send them in, and a signal worked backward from that time is sent out. This is an officer feature, so <strong>it’s available on every plan</strong>。
+    </p>
+  </div>
+
+  <h2 id="plans">5. What each plan includes</h2>
+  <p>
+    The plan boundary depends on how much of this nesting you use.
+  </p>
+  <div class="scope">
+    <div class="scope-server">
+      <span class="scope-tag">Commander Plan $18.99  this whole box</span>
+      <div class="scope-alliances">
+        <div class="scope-alliance is-lit">
+          <span class="scope-tag alt">Alliance Plan $6.29  one of these</span>
+          <div class="scope-title">Alliance ①</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+        <div class="scope-alliance">
+          <div class="scope-title">Alliance ②</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+        <div class="scope-alliance">
+          <div class="scope-title">Alliance ③</div>
+          <div class="squads">
+            <div class="squad"><span class="nm">Squad 1</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="squad"><span class="nm">Squad 2</span><span class="seats"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="scope-note">
+      Each ■ is <b>a rally leader slot</b>. Up to 6 per squad, and 2 squads per alliance. 36 slots in total.<br>
+      <b>Joiners don’t use slots.</b>There’s no extra charge no matter how many people just join rally leaders’ rallies.
+    </p>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>What you can do</th><th>Alliance Plan<br>$6.29/month</th><th>Commander Plan<br>$18.99/month</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Automatic calculation of landing and departure times</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>Rally calls: Call now and Call with set landing</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>Copy the landing time as you call</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>Reinforce calls</td><td class="yes">○</td><td class="yes">○</td></tr>
+        <tr><td>People and devices</td><td class="yes">Unlimited</td><td class="yes">Unlimited</td></tr>
+        <tr><td>Alliances covered</td><td>1</td><td class="yes">3</td></tr>
+        <tr><td>a rally leader slot</td><td>12 (2 squads)</td><td class="yes">36 (6 squads)</td></tr>
+        <tr><td>Console (Commander console)</td><td class="no">－</td><td class="yes">○</td></tr>
+        <tr><td>Swap calls and withdraw</td><td class="no">－</td><td class="yes">○</td></tr>
+        <tr><td>Paired calls across alliances</td><td class="no">－</td><td class="yes">○</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="margin-top:0.9rem;">
+    The first 14 days are free. Castle Battles come every two weeks, so you can always try it in at least one real battle during the free period. Monthly billing starts the day after your 14-day free trial ends. We’ll email you the end date right after you sign up.<br>
+    You can cancel anytime yourself.<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">→ Cancel here</a><br>
+    Cancel during the free trial, and you pay nothing. If you cancel during a paid period, you won’t be billed again, and you can keep using it until the end of that period. All prices are in US dollars, and we charge no additional fees.
+  </p>
+
+  <h2 id="trouble">6. When things don’t work</h2>
+  <details>
+    <summary>I entered the Room ID and join code but can’t get in</summary>
+    <p>
+      Check that there are no spaces before or after them. Codes are case-sensitive. If you still can’t get in, try copying the details from the email we sent exactly as they are.
+    </p>
+  </details>
+  <details>
+    <summary>It says “up to 6 devices at once” and won’t let me in</summary>
+    <p>
+      Personal plans purchased before September 24, 2026 allow up to 6 devices open at once, joiners included. Close devices or tabs you aren’t using and try again. To remove the limit, please sign up for the Alliance Plan.
+    </p>
+  </details>
+  <details>
+    <summary>It says “This squad is full”</summary>
+    <p>
+      Up to 6 rally leaders can register per squad. Choose another squad, or ask your officer about open slots. Joiners have no limit, so they can join as they are.
+    </p>
+  </details>
+  <details>
+    <summary>Only my countdown doesn’t move</summary>
+    <p>
+      You may not have finished registering. Check that you entered your name and march time and pressed “Register and start.” If your name appears in the list on the officer’s screen, you’re registered.
+    </p>
+  </details>
+  <details>
+    <summary>I paid, but my Room ID hasn’t arrived</summary>
+    <p>
+      Please check your spam folder. If you can’t find it, contact 
+      <a href="mailto:support@commandclock.jp">support@commandclock.jp</a>
+      . As soon as we confirm the payment, we’ll issue it and send it to you.
+    </p>
+  </details>
+  <details>
+    <summary>I want to cancel</summary>
+    <p>
+      <a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">The cancellation page</a> lets you cancel yourself anytime. Enter the email address you signed up with, and Stripe will send you a confirmation code; enter it to cancel.<br>
+      Cancel during the free trial, and you pay nothing. If you cancel during a paid period, you won’t be billed again, and you can keep using it until the end of that period. We don’t offer prorated refunds.<br>
+      If things still don’t work, please contact the address above.
+    </p>
+  </details>
+
+  <div class="cta-row">
+    <a class="btn btn-solid" href="/en/#pricing">See the plans</a>
+    <a class="btn btn-line" href="/en/">Back to top</a>
+  </div>
+
+  <footer>
+    <p>If you have any questions, feel free to contact  <a href="mailto:support@commandclock.jp">support@commandclock.jp</a> .</p>
+    <p><a href="/en/legal.html">Legal Notice and Terms of Service</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
