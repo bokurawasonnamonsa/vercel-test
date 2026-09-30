@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>事業内容｜CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/plan.html">
+<meta name="description" content="CommandClock の事業内容。スマホの戦略ゲーム向け指揮補助ツールの開発・販売と、戦略のコンサルティング。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<style>
+/* 方向D「白の計器」。トップページと同じ決まりを、下層にも通す。 */
+:root {
+  color-scheme: light;
+  --paper:#eef1f5; --surface:#ffffff; --ink:#0d1420; --ink-2:#3d4a63; --ink-3:#56637c;
+  --rule:#ccd4e0; --grid:#dbe2ec; --amber:#f0a63c; --amber-ink:#8a5a12; --signal:#c2410c; --warn:#a33a2a;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink); line-height: 1.9;
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.wrap { max-width: 820px; margin: 0 auto; padding: 0 1.4rem; }
+
+.nav { position: sticky; top: 0; z-index: 40; background: rgba(238,241,245,.92); backdrop-filter: blur(10px); border-bottom: 1.5px solid var(--ink); }
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: .7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: .6rem; text-decoration: none; color: var(--ink); }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand .name { font-size: .95rem; letter-spacing: .04em; font-weight: 700; }
+.nav-cta { background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700; padding: .5rem 1.15rem; font-size: .86rem; border-radius: 2px; white-space: nowrap; }
+
+.eyebrow { font-family: "Chivo Mono", monospace; font-size: .68rem; letter-spacing: .24em; color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: .5rem; display: inline-block; }
+h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 900; line-height: 1.42; letter-spacing: -.035em; margin: .8rem 0 .7rem; text-wrap: balance; }
+h2 { font-size: 1.22rem; font-weight: 900; letter-spacing: -.02em; margin: 3rem 0 .6rem; padding-top: 1.4rem; border-top: 1.5px solid var(--ink); }
+h3 { font-size: 1rem; margin: 1.8rem 0 .4rem; }
+p { margin: 0 0 1rem; color: var(--ink-2); font-size: .95rem; }
+.lead { color: var(--ink-2); font-size: .97rem; }
+.muted { color: var(--ink-3); font-size: .88rem; }
+strong { color: var(--ink); }
+
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.panel h3 { margin-top: 0; }
+.panel p:last-child, .panel ul:last-child { margin-bottom: 0; }
+.box { background: var(--surface); border: 1px solid var(--rule); padding: 1.2rem 1.4rem; margin: 1.2rem 0; }
+.box h3 { margin-top: 0; }
+.box p:last-child { margin-bottom: 0; }
+
+ul.plain { margin: 0 0 1rem; padding: 0; list-style: none; display: grid; gap: .5rem; }
+ul.plain li { position: relative; padding-left: 1.55rem; color: var(--ink-2); font-size: .93rem; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: .58em; width: 9px; height: 9px; border: 1.5px solid var(--ink); background: var(--amber); }
+
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .88rem; min-width: 520px; }
+th, td { text-align: left; padding: .75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500; font-size: .68rem; letter-spacing: .1em; border-bottom: 1.5px solid var(--ink); white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+td.yes { color: var(--signal); font-weight: 700; }
+td.no { color: var(--ink-3); }
+
+pre.sample {
+  background: var(--surface); border: 1px solid var(--rule); padding: 1rem 1.1rem;
+  overflow-x: auto; font-size: .84rem; line-height: 1.85; color: var(--ink-2); margin: .8rem 0 1rem;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
+}
+details { border-bottom: 1px solid var(--rule); padding: .95rem 0; }
+summary { cursor: pointer; font-size: .95rem; font-weight: 500; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "Chivo Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: .6rem 0 0; font-size: .89rem; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: .85rem 1.7rem; font-weight: 700; font-size: .94rem; text-decoration: none; border-radius: 2px; min-height: 48px; border: none; cursor: pointer; font-family: inherit; }
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.cta-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 2rem; }
+
+footer { margin-top: 3.4rem; border-top: 1.5px solid var(--ink); padding: 2rem 0 3rem; background: var(--surface); }
+footer p, footer a { color: var(--ink-3); font-size: .82rem; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--ink); }
+
+/* 特商法・規約に固有のもの */
+header.doc { background: var(--surface); border-bottom: 1.5px solid var(--ink); padding: 2.4rem 0 2rem; }
+header.doc h1 { margin: 0 0 .3rem; }
+header.doc p { margin: 0; color: var(--ink-3); font-size: .9rem; }
+main { padding: 2.4rem 0 1rem; }
+.notice { border-left: 3px solid var(--signal); padding: .2rem 0 .2rem 1.2rem; margin-bottom: 2rem; color: var(--ink-2); font-size: .9rem; }
+.table-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+.table-wrap table { min-width: 480px; }
+.table-wrap th { width: 12rem; font-family: "Zen Kaku Gothic New", sans-serif; font-size: .88rem; font-weight: 700; color: var(--ink); letter-spacing: 0; border-bottom: 1px solid var(--rule); border-right: 1px solid var(--rule); white-space: normal; }
+.table-wrap tr:last-child th { border-bottom: none; }
+ol { padding-left: 1.4rem; color: var(--ink-2); font-size: .93rem; }
+ol li { margin-bottom: .4rem; }
+ul { color: var(--ink-2); font-size: .93rem; }
+.foot { color: var(--ink-3); font-size: .82rem; }
+.foot a { color: var(--amber-ink); }
+/* 事業内容のページ：表を画面の幅に収める */
+.table-wrap table { min-width: 0; }
+.table-wrap th { width: 9rem; }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/><path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/><circle cx="16" cy="16" r="2.2" fill="#c2410c"/></svg>
+      <span class="name mono">CommandClock</span>
+    </a>
+    <a class="nav-cta" href="/#pricing">申し込む</a>
+  </div>
+</header>
+  <header class="doc">
+    <div class="wrap">
+      <h1>事業内容</h1>
+      <p>CommandClock</p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+    <h2>事業の概要</h2>
+    <div class="table-wrap">
+      <table>
+        <tr>
+          <th>サービス名</th>
+          <td>CommandClock</td>
+        </tr>
+        <tr>
+          <th>事業内容</th>
+          <td>スマホの戦略ゲーム向け指揮補助ツールの開発・販売<br>戦略ゲームの指揮・戦略のコンサルティング</td>
+        </tr>
+        <tr>
+          <th>連絡先</th>
+          <td>support@commandclock.jp</td>
+        </tr>
+        <tr>
+          <th>販売事業者の表記</th>
+          <td><a href="/legal.html">特定商取引法に基づく表記</a>をご覧ください。</td>
+        </tr>
+      </table>
+    </div>
+
+    <h2>1. 指揮補助ツールの開発</h2>
+    <p>スマホの戦略ゲームで、指揮役と仲間が使う補助ツール「CommandClock」を開発しています。号令1回で、仲間一人ひとりに押す瞬間をカウントダウンで知らせるツールです。ブラウザで使える版と、Androidアプリがあります。</p>
+
+    <h2>2. ツールの販売</h2>
+    <p>CommandClock は、月額のプランで提供しています。</p>
+    <ul class="plain">
+      <li>同盟プラン：1同盟・2班。人数・台数の制限なし</li>
+      <li>総指揮プラン：管理画面つき。3同盟・6班。人数・台数の制限なし</li>
+    </ul>
+    <p>はじめの14日間は無料です。料金とできることは、<a href="/#pricing">製品ページの料金</a>をご覧ください。</p>
+
+    <h2>3. 戦略のコンサルティング</h2>
+    <p>戦略ゲームの指揮・戦略について、ご相談をお受けします。内容と料金は、下記の連絡先までお問い合わせください。</p>
+
+    <h2>お問い合わせ</h2>
+    <p><a href="mailto:support@commandclock.jp">support@commandclock.jp</a></p>
+
+    <div class="foot" style="margin-top:2.5rem;">
+      <a href="/">← 製品ページへ戻る</a> &nbsp;·&nbsp;
+      <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
+    </div>
+    </div>
+  </main>
+</body>
+</html>
