@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プランと料金｜CommandClock</title>
+<link rel="canonical" href="https://commandclock.jp/pricing.html">
+<link rel="alternate" hreflang="ja" href="https://commandclock.jp/pricing.html">
+<link rel="alternate" hreflang="en" href="https://commandclock.jp/en/pricing.html">
+<meta name="description" content="CommandClock のプラン。同盟プラン ¥980／月、総指揮プラン ¥2,980／月。どちらも、はじめの14日間は無料です。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23eef1f5'/%3E%3Ccircle cx='16' cy='16' r='11' fill='%23fff' stroke='%230d1420' stroke-width='2'/%3E%3Cpath d='M16 8.5V16l5.4 3.4' fill='none' stroke='%230d1420' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='2.4' fill='%23c2410c'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://commandclock.jp/pricing.html">
+<meta property="og:title" content="CommandClock｜もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く">
+<meta property="og:description" content="占領している時間の長さで勝ち負けが決まる戦いで、あと少しのところで勝てない人へ。">
+<meta property="og:site_name" content="CommandClock">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）。もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く。">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://commandclock.jp/assets/ogp-v5.png">
+<meta name="twitter:image:alt" content="ホワイトアウトサバイバルなど、スマホ拠点戦略ゲームの指揮役と仲間のためのツール（非公式）。もう、数秒差で負けたくない。号令1回で、仲間全員のスマホに押す瞬間が届く。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Chivo+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   方向D「白の計器」。
+   秒を扱うツールなので、測定器の説明書のように組む。
+   ・地は冷たい紙。面は白。線は黒の細罫。
+   ・角は丸めない（最大2px）。
+   ・時刻と数字は等幅で、必ず桁を揃える。
+   ・琥珀＝拠点／出発、朱＝目標／着弾。この2色以外は使わない。
+   ============================================================ */
+:root {
+  color-scheme: light;
+  --paper:   #eef1f5;   /* 地 */
+  --surface: #ffffff;   /* 面 */
+  --ink:     #0d1420;   /* 主 */
+  --ink-2:   #3d4a63;   /* 本文 */
+  --ink-3:   #56637c;   /* 補助 */
+  --rule:    #ccd4e0;   /* 罫 */
+  --grid:    #dbe2ec;   /* 方眼 */
+  --amber:   #f0a63c;   /* 拠点・出発 */
+  --amber-ink: #8a5a12; /* 明るい地で読める琥珀 */
+  --signal:  #c2410c;   /* 目標・着弾 */
+  --warn:    #a33a2a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", sans-serif;
+  line-height: 1.9; -webkit-text-size-adjust: 100%; overflow-x: hidden;
+}
+.mono { font-family: "Chivo Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+.num { font-variant-numeric: tabular-nums; }
+a { color: var(--amber-ink); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.4rem; }
+
+/* ---- 節の共通 ------------------------------------------------ */
+section { padding: 5rem 0; }
+.on-white { background: var(--surface); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+/* 実演の節だけ地を黒にする。動画の字幕帯が同じ #0d1420 なので、
+   字幕が出た瞬間だけページと動画の境目が消える。 */
+.on-ink { background: var(--ink); color: #f7f9fc; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); }
+.on-ink .eyebrow { color: var(--amber); border-top-color: var(--amber); }
+.on-ink .sec-lead { color: #b9c2d2; }
+.on-ink figcaption { color: #99a4b8; }
+.eyebrow {
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.24em;
+  color: var(--amber-ink); border-top: 2px solid var(--ink); padding-top: 0.5rem;
+  display: inline-block; margin-bottom: 1rem;
+}
+h2 {
+  font-size: clamp(1.45rem, 3.4vw, 2.05rem); font-weight: 900; line-height: 1.45;
+  letter-spacing: -0.035em; margin: 0 0 0.7rem; text-wrap: balance;
+}
+.sec-lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 2.4rem; max-width: 62ch; }
+
+/* ---- ナビ ---------------------------------------------------- */
+.nav {
+  position: sticky; top: 0; z-index: 60;
+  background: rgba(238,241,245,0.92); backdrop-filter: blur(10px);
+  border-bottom: 1.5px solid var(--ink);
+}
+.nav-in { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; gap: 1rem; }
+.brand { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; color: var(--ink); }
+.brand svg { width: 26px; height: 26px; flex: none; }
+.brand .name { font-size: 0.95rem; letter-spacing: 0.04em; font-weight: 700; }
+.nav-links { display: flex; align-items: center; gap: 1.2rem; }
+/* 狭い画面では文字の間を詰める。「実演」を足しても申し込みボタンが折れないように。 */
+@media (max-width: 400px) { .nav-links { gap: 0.8rem; } .brand .name { font-size: 0.86rem; } }
+.nav-links a.plain { color: var(--ink-3); text-decoration: none; font-size: 0.87rem; }
+.nav-links a.plain:hover { color: var(--ink); }
+.nav-cta {
+  background: var(--ink); color: #f7f9fc; text-decoration: none; font-weight: 700;
+  padding: 0.5rem 1.15rem; font-size: 0.86rem; white-space: nowrap; border-radius: 2px;
+}
+
+/* ---- ボタン -------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.9rem 1.8rem; font-weight: 700; font-size: 0.95rem; text-decoration: none;
+  border: none; cursor: pointer; font-family: inherit; border-radius: 2px; min-height: 48px;
+  transition: background .14s ease, color .14s ease;
+}
+.btn-solid { background: var(--ink); color: #f7f9fc; }
+.btn-solid:hover { background: #1c2840; }
+.btn-line { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-line:hover { background: var(--ink); color: #f7f9fc; }
+.btn:disabled { opacity: .45; cursor: default; }
+.cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+@media (max-width: 560px) { .cta-row .btn { width: 100%; } }
+
+/* ---- ヒーロー ------------------------------------------------ */
+.hero { padding: 3.6rem 0 4rem; border-bottom: 1.5px solid var(--ink); }
+.hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.6rem; align-items: center; }
+/* 見出し「全員が同じ瞬間に到着する。」が1行に収まる幅を左段に確保する。
+   足りないと「瞬間 / に到着する。」と助詞で割れて読みにくい。 */
+@media (min-width: 940px) { .hero-grid { grid-template-columns: minmax(0,1.14fr) minmax(0,0.86fr); gap: 2.6rem; } }
+h1 {
+  font-size: clamp(1.85rem, 4.8vw, 2.85rem); font-weight: 900; line-height: 1.34;
+  letter-spacing: -0.04em; margin: 0.9rem 0 0.9rem; text-wrap: balance;
+}
+h1 em { font-style: normal; color: var(--amber-ink); }
+/* 最初の画面の見出しは2段（2026-09-24 鎌田さんの指定）。2段目が22字あるので、左の枠ではなく横幅いっぱいに置く。 */
+.hero h1.head { font-size: clamp(1.9rem, 4.6vw, 3rem); margin-bottom: 0.6rem; }
+.hero-sub { font-size: clamp(1.05rem, 2.2vw, 1.35rem); font-weight: 700; color: var(--amber-ink); margin: 0 0 1.8rem; line-height: 1.6; }
+.lead-small { font-size: 0.9rem; color: var(--ink-3); }
+.who { font-weight: 700; color: var(--ink); margin: 0 0 0.7rem; }
+/* 見出しは文節で折り返す（「困っ／ていませんか」のように語の途中で折れないように）。 */
+h2, h3, figcaption, .origin-quote { word-break: auto-phrase; }
+/* 語の途中で折れると読めなくなるので、この語だけは割らせない。
+   折り返してよいのは読点のあと。見出しを2つの nb に分けて、そこだけ折れるようにしている。
+   1つにまとめると、狭い画面で行そのものがはみ出して横スクロールが出る。 */
+.nb { white-space: nowrap; }
+.lead { color: var(--ink-2); font-size: 0.98rem; margin: 0 0 1.4rem; max-width: 44ch; }
+.lead b { color: var(--ink); font-weight: 700; }
+.points { list-style: none; padding: 0; margin: 0 0 1.9rem; display: grid; gap: 0.55rem; }
+/* 印は絶対配置にする。grid だと <b> と地の文が別々のマス目に入り、
+   行が割れてしまう（実際に割れた）。 */
+.points li {
+  position: relative; padding-left: 1.75rem;
+  font-size: 0.91rem; line-height: 1.7; color: var(--ink-2);
+}
+.points li::before {
+  content: ""; position: absolute; left: 0; top: 0.56em;
+  width: 10px; height: 10px; border: 1.5px solid var(--ink); background: var(--amber);
+}
+.points b { color: var(--ink); font-weight: 700; }
+.points .note { color: var(--ink-3); font-size: 0.86rem; }
+.social {
+  margin-top: 1.3rem; font-family: "Chivo Mono", monospace; font-size: 0.76rem;
+  letter-spacing: 0.05em; color: var(--ink-3);
+}
+.social b { color: var(--ink); font-weight: 600; }
+
+/* ---- 計器パネル（作戦盤・図） -------------------------------- */
+.panel { background: var(--surface); border: 1.5px solid var(--ink); padding: 1rem 1.1rem 0.85rem; }
+.panel-cap {
+  font-family: "Chivo Mono", monospace; font-size: 0.65rem; letter-spacing: 0.18em;
+  color: var(--ink-3); display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.7rem;
+}
+.panel-cap b { color: var(--ink); font-weight: 600; }
+.panel svg { width: 100%; height: auto; display: block; }
+.readout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem;
+  border-top: 1px solid var(--rule); margin-top: 0.85rem; padding-top: 0.85rem;
+}
+.readout span {
+  display: block; font-family: "Chivo Mono", monospace; font-size: 0.62rem;
+  letter-spacing: 0.16em; color: var(--ink-3);
+}
+.readout b {
+  font-family: "Chivo Mono", monospace; font-size: 1.5rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.02em; color: var(--ink);
+}
+.readout .arrive { color: var(--signal); }
+.panel-note { color: var(--ink-3); font-size: 0.75rem; text-align: center; margin: 0.6rem 0 0; }
+
+/* 作戦盤の線 */
+.bd-grid { stroke: var(--grid); stroke-width: 1; }
+/* 進路の矢印。点や□より一段弱く置いて、視線を邪魔しない。 */
+.bd-path path { fill: none; stroke: var(--ink-3); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; opacity: .5; }
+.bd-base { fill: var(--amber); stroke: var(--ink); stroke-width: 1.5; }
+.bd-time { font-family: "Chivo Mono", monospace; font-size: 12px; font-weight: 600; fill: var(--amber-ink); }
+.bd-ring { fill: none; stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 5; opacity: .5; }
+.bd-unit { fill: var(--ink); }
+.bd-t1 { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.bd-t2 { fill: none; stroke: var(--ink); stroke-width: 2; }
+.bd-t3 { fill: var(--signal); }
+.bd-cap { font-family: "Chivo Mono", monospace; font-size: 11px; letter-spacing: .06em; fill: var(--ink-3); }
+/* 作戦盤の波紋。位置・大きさ・濃さはJSが毎フレーム決めるので、
+   ここでは見た目だけを決めておく。動きはCSSに持たせない——
+   カウントダウンと別々の周期で回ると、0:00と着弾がずれるため。 */
+.bd-pulse { fill: none; stroke: var(--signal); stroke-width: 2; opacity: 0; }
+/* ---- 時刻表の図 ---------------------------------------------- */
+.fig { margin: 0 0 1rem; }
+.fig .fig-narrow { display: none; }
+@media (max-width: 640px) { .fig .fig-wide { display: none; } .fig .fig-narrow { display: block; } }
+figure { margin: 0 0 2.4rem; }
+figcaption { text-align: center; color: var(--ink-2); font-size: 0.89rem; margin-top: 0.8rem; }
+
+/* ---- 実演の動画 ---------------------------------------------- */
+/* 白い枠を1本だけ回して「これは画面である」と示す。影も角丸も使わない。 */
+.demo-fig { margin: 0; }
+.demo-frame { border: 1.5px solid #46536b; background: #0a0f18; position: relative; }
+.demo-frame video { display: block; width: 100%; height: auto; }
+/* 読み込む前から高さを確保して、再生開始で紙面が飛び跳ねないようにする */
+.demo-frame { aspect-ratio: 955 / 493; }
+@media (max-width: 720px) { .demo-frame { aspect-ratio: 270 / 341; } }
+.demo-frame video, .demo-frame noscript img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+/* 見出し帯。動画の上に、計器のラベルのように置く。 */
+.demo-cap {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.16em;
+  color: #8d99ae; border: 1.5px solid #46536b; border-bottom: none;
+  padding: 0.5rem 0.8rem; background: #121a28;
+}
+.demo-cap b { color: #f7f9fc; font-weight: 600; }
+/* 狭い画面ではラベルを削って1行に収める。2行になると PAUSE が浮いて見える。 */
+@media (max-width: 480px) {
+  .demo-cap { font-size: 0.61rem; letter-spacing: 0.1em; padding: 0.45rem 0.6rem; }
+  .demo-cap .cap-long { display: none; }
+  .demo-toggle { font-size: 0.61rem; padding: 0.22rem 0.55rem; }
+}
+.demo-toggle {
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.14em;
+  background: none; border: 1px solid #46536b; color: #b9c2d2; border-radius: 2px;
+  padding: 0.24rem 0.7rem; cursor: pointer; min-height: 0; white-space: nowrap;
+}
+.demo-toggle:hover { border-color: var(--amber); color: var(--amber); }
+/* 動画のすぐ下に、その30秒で何が起きたかを3行で置く */
+.demo-beats { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; gap: 1px; background: #46536b; border: 1.5px solid #46536b; }
+@media (min-width: 760px) { .demo-beats { grid-template-columns: repeat(3, 1fr); } }
+.demo-beats li { background: var(--ink); padding: 0.9rem 1rem; }
+.demo-beats .t { font-family: "Chivo Mono", monospace; font-size: 0.7rem; letter-spacing: .12em; color: var(--amber); display: block; }
+.demo-beats .d { font-size: 0.86rem; color: #cfd6e2; line-height: 1.7; }
+.demo-beats .d b { color: #f7f9fc; font-weight: 700; }
+.fg-cap { font-family: "Chivo Mono", monospace; font-size: 12px; letter-spacing: .08em; fill: var(--ink-3); }
+.fg-sig { fill: var(--signal); }
+.fg-name { font-size: 14px; fill: var(--ink); }
+.fg-time { font-family: "Chivo Mono", monospace; font-size: 12px; font-weight: 600; fill: var(--amber-ink); }
+.fg-march { font-size: 11px; fill: var(--ink-3); }
+.fg-bar { stroke: var(--ink); stroke-width: 1.5; }
+.fg-dot { fill: var(--amber); stroke: var(--ink); stroke-width: 1; }
+.fg-goal { stroke: var(--signal); stroke-width: 2; }
+
+/* ---- 従来との比較 -------------------------------------------- */
+.sync { border: 1.5px solid var(--ink); background: var(--surface); padding: 1.8rem 1.7rem; margin-bottom: 2.4rem; }
+.sync .lbl {
+  font-family: "Chivo Mono", monospace; font-size: 0.68rem; letter-spacing: 0.16em;
+  color: var(--ink-3); margin-bottom: 0.7rem;
+}
+.sync .lbl + .track { margin-bottom: 1.8rem; }
+.track { position: relative; height: 22px; }
+.track .base { position: absolute; left: 0; right: 0; top: 10px; height: 1px; background: var(--ink); }
+.track .goal { position: absolute; right: 0; top: 0; bottom: 0; width: 2px; background: var(--signal); }
+.track i {
+  position: absolute; top: 4px; width: 12px; height: 12px; transform: translateX(-50%);
+  background: var(--amber); border: 1.5px solid var(--ink);
+}
+.track.scatter i { background: var(--surface); }
+.sync .cap { margin: 0; color: var(--ink-2); font-size: 0.9rem; }
+.sync .cap b { color: var(--signal); }
+
+/* ---- カード -------------------------------------------------- */
+.grid3 { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 780px) { .grid3 { grid-template-columns: repeat(3, 1fr); } .grid-pain { grid-template-columns: repeat(2, 1fr); } }
+#scene h2 { margin-bottom: 2rem; }
+.scene-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 860px) { .scene-grid { grid-template-columns: 1fr 1fr; } }
+.scene-col { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 1.5rem 1.2rem; }
+.scene-col.before { border-top: 3px solid var(--warn); }
+.scene-col.after { border-top: 3px solid var(--amber); background: #fdf6ea; }
+.scene-tag { display: inline-block; font-size: 0.78rem; font-weight: 700; color: var(--ink-3); margin-bottom: 0.6rem; letter-spacing: 0.04em; }
+.scene-col.after .scene-tag { color: var(--amber-ink); }
+.scene-col p { margin: 0 0 0.9rem; color: var(--ink-2); font-size: 0.93rem; line-height: 1.95; }
+.scene-col strong { color: var(--ink); }
+.card { background: var(--surface); border: 1px solid var(--rule); padding: 1.4rem 1.5rem; }
+.card h3 {
+  font-size: 0.99rem; margin: 0 0 0.5rem; letter-spacing: -0.01em;
+  display: grid; grid-template-columns: auto 1fr; gap: 0.5rem; align-items: baseline;
+}
+.card h3::before { font-family: "Chivo Mono", monospace; font-weight: 600; }
+.card p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
+.card.pain { border-top: 3px solid var(--warn); }
+.card.pain h3::before { content: "×"; color: var(--warn); }
+.card.gain { border-top: 3px solid var(--ink); }
+.card.gain h3::before { content: "✓"; color: var(--signal); }
+/* なぜ着弾をそろえたいのか（本人確定の1〜5）。番号つきで上から読ませる。 */
+.why-list { list-style: none; padding: 0; margin: 0; max-width: 760px; }
+.why-list li { display: grid; grid-template-columns: 2.6rem 1fr; gap: 0 0.9rem; padding: 1.3rem 0; border-top: 1px solid var(--rule); }
+.why-list li:last-child { border-bottom: 1px solid var(--rule); }
+.why-list .n { font-family: "Chivo Mono", monospace; font-weight: 600; font-size: 1.5rem; line-height: 1.3; color: var(--amber-ink); }
+.why-list h3 { margin: 0 0 0.45rem; font-size: 1.08rem; line-height: 1.6; }
+.why-list p { margin: 0; color: var(--ink-2); line-height: 1.95; }
+.why-list .why-note { margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-3); line-height: 1.8; }
+.lead-multi p { margin: 0 0 1rem; }
+.lead-multi p:last-child { margin-bottom: 0; }
+.card-tag { display: inline-block; font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--amber-ink); border: 1px solid var(--rule); padding: 0.05rem 0.45rem; margin-bottom: 0.55rem; }
+
+/* ---- 表 ------------------------------------------------------ */
+.tbl-wrap { border: 1.5px solid var(--ink); background: var(--surface); overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; min-width: 560px; }
+#roles table { min-width: 0; }
+#roles th:first-child, #roles td:first-child { width: 36%; }
+#roles td { word-break: auto-phrase; }
+th, td { text-align: left; padding: 0.8rem 1.1rem; border-bottom: 1px solid var(--rule); }
+th {
+  font-family: "Chivo Mono", monospace; color: var(--ink-3); font-weight: 500;
+  font-size: 0.68rem; letter-spacing: 0.1em; border-bottom: 1.5px solid var(--ink);
+}
+tr:last-child td { border-bottom: none; }
+td.o { color: var(--signal); font-weight: 700; }
+td.x { color: var(--ink-3); }
+tr.ours td { background: #fdf6ea; font-weight: 700; }
+table.cmp { min-width: 0; }
+table.cmp th, table.cmp td { word-break: auto-phrase; vertical-align: middle; }
+table.cmp th:not(:first-child), table.cmp td:not(:first-child) { text-align: center; width: 19%; }
+table.cmp .ours-col { background: #fdf6ea; font-weight: 700; }
+table.cmp small { display: block; font-size: 0.72rem; color: var(--ink-3); font-weight: 400; }
+table.cmp th { font-family: inherit; letter-spacing: 0; }
+@media (max-width: 600px) { table.cmp th, table.cmp td { padding: 0.6rem 0.3rem; font-size: 0.78rem; } table.cmp th { font-size: 0.66rem; } table.cmp td:first-child, table.cmp th:first-child { padding-left: 0.6rem; } table.cmp th:not(:first-child), table.cmp td:not(:first-child) { width: auto; } }
+.note-line { border-left: 3px solid var(--ink); padding: 0.2rem 0 0.2rem 1.2rem; margin-top: 1.6rem; max-width: 62ch; }
+.note-line h3 { margin: 0 0 0.4rem; font-size: 0.98rem; }
+.note-line p { margin: 0; color: var(--ink-2); font-size: 0.89rem; }
+.note-line p + p { margin-top: 0.7rem; }
+
+/* ---- 実績 ---------------------------------------------------- */
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); }
+@media (min-width: 780px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+.stat { background: var(--surface); padding: 1.3rem 1.3rem; }
+.stat .n {
+  font-family: "Chivo Mono", monospace; font-size: 2rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.04em; line-height: 1.2; color: var(--ink);
+}
+.stat .n small { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
+.stat .k { color: var(--ink-3); font-size: 0.79rem; margin-top: 0.2rem; }
+.voice + .voice { margin-top: 1rem; }
+.article-link { margin: 1.4rem 0 0; font-size: 0.9rem; font-weight: 700; color: var(--ink-2); word-break: auto-phrase; }
+.article-link a { color: var(--amber-ink); }
+.voice { margin: 2rem 0 0; padding: 1.4rem 1.6rem; background: #fdf6ea; border-left: 4px solid var(--amber); max-width: 860px; }
+.voice blockquote { margin: 0; font-size: clamp(1.05rem, 2.4vw, 1.3rem); font-weight: 900; color: var(--ink); line-height: 1.7; word-break: auto-phrase; }
+.voice figcaption { text-align: left; padding: 0; max-width: none; margin: 0.6rem 0 0; font-size: 0.85rem; color: var(--ink-3); line-height: 1.8; }
+
+/* ---- 手順 ---------------------------------------------------- */
+.steps { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--rule); border: 1.5px solid var(--ink); }
+@media (min-width: 900px) { .steps { grid-template-columns: repeat(4, 1fr); } }
+.step { background: var(--surface); padding: 1.4rem 1.4rem; }
+.step .k { font-family: "Chivo Mono", monospace; font-size: 0.72rem; letter-spacing: 0.14em; color: var(--amber-ink); }
+.step h3 { font-size: 0.96rem; margin: 0.35rem 0 0.4rem; }
+.step p { margin: 0; color: var(--ink-2); font-size: 0.87rem; }
+
+/* ---- プランの範囲 -------------------------------------------- */
+.scope { margin-bottom: 1.8rem; }
+.scope-server { border: 1.5px dashed var(--ink); padding: 2rem 1.1rem 1.1rem; position: relative; background: var(--surface); }
+.scope-tag {
+  position: absolute; top: -0.75rem; left: 1.1rem;
+  font-family: "Chivo Mono", monospace; font-size: 0.67rem; font-weight: 600; letter-spacing: 0.04em;
+  padding: 0.16rem 0.6rem; background: var(--ink); color: #f7f9fc; white-space: nowrap;
+}
+.scope-tag.alt { background: var(--signal); }
+.scope-alliances { display: grid; grid-template-columns: 1fr; gap: 0.9rem; }
+@media (min-width: 800px) { .scope-alliances { grid-template-columns: repeat(3, 1fr); } }
+.scope-alliance { border: 1px solid var(--rule); padding: 1.6rem 0.85rem 0.85rem; position: relative; }
+.scope-alliance.is-lit { border: 1.5px solid var(--signal); }
+.scope-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.55rem; }
+.squads { display: grid; gap: 0.45rem; }
+.squad {
+  border: 1px solid var(--rule); padding: 0.45rem 0.6rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.squad .nm { font-family: "Chivo Mono", monospace; font-size: 0.72rem; color: var(--ink-3); white-space: nowrap; }
+.squad .seats { display: inline-flex; gap: 3px; }
+.squad .seats i { width: 8px; height: 8px; background: var(--amber); border: 1px solid var(--ink); }
+.scope-note { color: var(--ink-2); font-size: 0.86rem; margin: 1rem 0 0; line-height: 1.9; }
+.scope-note b { color: var(--ink); }
+
+/* ---- 料金 ---------------------------------------------------- */
+.price-note { border-left: 3px solid var(--signal); padding-left: 1.2rem; margin-bottom: 1.8rem; color: var(--ink-2); font-size: 0.9rem; max-width: 62ch; }
+.price-note strong { color: var(--ink); }
+/* 1人あたりの梯子。人数が増えるほど下がり、3人で止まる——を数字で見せる。
+   列が4つしかないので、比較表の min-width をそのまま使うと
+   スマホで無駄に横スクロールになる。ここだけ狭くする。 */
+.ladder { margin-bottom: 1.4rem; }
+.ladder table { min-width: 0; font-size: 0.88rem; }
+.ladder th, .ladder td { padding: 0.62rem 1rem; }
+/* 4列しかないので、狭い画面では詰めて横スクロールを出さない */
+@media (max-width: 480px) { .ladder th, .ladder td { padding: 0.55rem 0.5rem; font-size: 0.81rem; } }
+.ladder td { font-family: "Chivo Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.ladder td.per { color: var(--signal); font-weight: 600; }
+.ladder tr.edge td { background: rgba(240,166,60,0.09); color: var(--ink); }
+.ladder tr.edge td.per { color: var(--signal); }
+.ladder-cap { color: var(--ink-3); font-size: 0.82rem; margin: 0.7rem 0 1.9rem; max-width: 62ch; }
+.ladder-cap b { color: var(--ink-2); }
+.plans { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+@media (min-width: 760px) { .plans { grid-template-columns: repeat(2, 1fr); max-width: 860px; } }
+.plan { background: var(--surface); border: 1px solid var(--rule); padding: 1.7rem 1.6rem; display: flex; flex-direction: column; position: relative; }
+.plan.hot { border: 1.5px solid var(--ink); }
+.plan .tag {
+  position: absolute; top: -0.72rem; left: 1.5rem;
+  font-family: "Chivo Mono", monospace; font-size: 0.66rem; font-weight: 600; letter-spacing: 0.08em;
+  padding: 0.16rem 0.6rem; background: var(--ink); color: #f7f9fc;
+}
+.plan h3 { margin: 0; font-size: 1.02rem; }
+.plan .amt {
+  font-family: "Chivo Mono", monospace; font-size: 2.2rem; font-weight: 600;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.045em; margin: 0.4rem 0 0;
+}
+.plan .amt span { font-family: "Zen Kaku Gothic New", sans-serif; font-size: 0.82rem; font-weight: 500; color: var(--ink-3); }
+.plan .jpy { font-family: "Chivo Mono", monospace; font-size: 0.74rem; color: var(--ink-3); min-height: 1.2em; margin-bottom: 1.2rem; }
+.plan ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; display: grid; gap: 0.5rem; align-content: start; }
+.plan li { position: relative; padding-left: 1.4rem; font-size: 0.89rem; color: var(--ink-2); }
+.plan li::before { content: "✓"; position: absolute; left: 0; top: 0; color: var(--signal); font-weight: 700; }
+.plan .btn { margin-top: 1.6rem; width: 100%; }
+.plan .msg { min-height: 1.4em; margin-top: 0.55rem; font-size: 0.82rem; color: var(--ink-3); }
+.fine { color: var(--ink-3); font-size: 0.79rem; margin-top: 1.6rem; line-height: 1.9; max-width: 70ch; }
+.trial-box { background: #fdf6ea; border: 1.5px solid var(--amber); padding: 1rem 1.3rem; margin: 0 0 1.6rem; max-width: 860px; }
+.trial-box p { margin: 0; color: var(--ink-2); font-size: 0.95rem; line-height: 1.8; word-break: auto-phrase; }
+.trial-box strong { color: var(--ink); font-size: 1.08rem; }
+
+/* ---- FAQ ----------------------------------------------------- */
+.faq { border-top: 1.5px solid var(--ink); max-width: 78ch; }
+details { border-bottom: 1px solid var(--rule); padding: 1rem 0; }
+summary { cursor: pointer; font-size: 0.95rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; font-weight: 500; }
+summary::-webkit-details-marker { display: none; }
+summary::after { content: "+"; font-family: "Chivo Mono", monospace; color: var(--signal); font-weight: 600; flex: none; }
+details[open] summary::after { content: "−"; }
+details p { margin: 0.6rem 0 0; color: var(--ink-2); font-size: 0.89rem; }
+
+/* ---- フッター ------------------------------------------------ */
+footer { border-top: 1.5px solid var(--ink); padding: 2.2rem 0 3rem; background: var(--surface); }
+footer a { color: var(--ink-3); text-decoration: none; font-size: 0.85rem; }
+footer a:hover { color: var(--ink); }
+footer .disclaimer { color: var(--ink-3); font-size: 0.78rem; line-height: 1.8; margin: 1rem 0 0; max-width: 62ch; }
+footer .sep { color: var(--rule); margin: 0 0.7rem; }
+footer .cr { color: var(--ink-3); font-size: 0.76rem; margin-top: 0.9rem; font-family: "Chivo Mono", monospace; }
+
+/* ---- 作った理由の節 --------------------------------------------
+   ここだけは一人称の文章なので、他の節より行間を広くして読ませる。
+   右の小さい段は、機能の話ではなく作り手の動機なので、
+   本文と同じ扱いにせず、罫で切って脇に置く。 */
+.origin-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 900px) { .origin-grid { grid-template-columns: minmax(0,1.35fr) minmax(0,0.65fr); gap: 3rem; } }
+.origin-text p { font-size: 1rem; line-height: 2.05; margin: 0 0 1.25rem; }
+.origin-text p:last-child { margin-bottom: 0; }
+.origin-formula {
+  display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.5rem 0.7rem;
+  background: var(--paper); border: 1.5px solid var(--ink);
+  padding: 1.05rem 1rem; margin: 1.5rem 0 1.6rem;
+  font-family: "Chivo Mono", ui-monospace, Menlo, monospace;
+  font-size: 0.95rem; color: var(--ink-2); text-align: center;
+}
+.origin-formula b { color: var(--ink); font-weight: 600; }
+.origin-formula .hot { color: var(--signal); font-weight: 600; }
+.origin-aside { border-top: 3px solid var(--ink); padding-top: 1.1rem; }
+@media (min-width: 900px) { .origin-aside { border-top: none; border-left: 3px solid var(--ink); padding: 0 0 0 1.6rem; } }
+.origin-aside p { font-size: 0.92rem; line-height: 1.95; margin: 0 0 1rem; }
+.origin-aside p:last-child { margin-bottom: 0; }
+.origin-maker { font-weight: 900; font-size: clamp(1.05rem, 2.4vw, 1.3rem); color: var(--amber-ink); margin: 0.2rem 0 0.4rem; line-height: 1.6; word-break: auto-phrase; }
+.origin-voice { font-weight: 700; color: var(--ink); line-height: 2; border-left: 3px solid var(--amber); padding-left: 1rem; }
+.origin-quote {
+  font-size: 1.12rem !important; font-weight: 900; color: var(--ink);
+  letter-spacing: -0.02em; line-height: 1.6 !important; text-wrap: balance;
+}
+
+/* ---- 比較表：本当の差がある2列を目立たせる ----------------------
+   同着と個人別配信は、指示役にとっては当たり前。
+   他所にできないのは「入替・差込」と「時計のズレ補正」の2つなので、
+   その列だけ地色を変えて視線を止める。 */
+th.key { background: var(--paper); }
+td.key { background: rgba(240,166,60,0.07); }
+tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
+.tbl-note {
+  color: var(--ink-3); font-size: 0.84rem; line-height: 1.85; margin: 0.8rem 0 0;
+}
+.tbl-note b { color: var(--ink-2); font-weight: 700; }
+
+/* ---- スマホの追従ボタン ------------------------------------------
+   お客様はゲームの合間にスマホで見る。下へ読み進むほど
+   申し込みボタンが画面の外へ消えるので、下端に残す。
+   PCでは上部のナビにボタンがあるので出さない。 */
+.sticky-cta { display: none; }
+@media (max-width: 760px) {
+  .sticky-cta {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; z-index: 70;
+    background: rgba(238,241,245,0.96); backdrop-filter: blur(10px);
+    border-top: 1.5px solid var(--ink);
+    padding: 0.6rem 1rem calc(0.6rem + env(safe-area-inset-bottom));
+  }
+  .sticky-cta a {
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    background: var(--ink); color: #f7f9fc; text-decoration: none;
+    font-weight: 700; font-size: 0.95rem; min-height: 52px; border-radius: 2px;
+  }
+  .sticky-cta small {
+    display: block; text-align: center; color: var(--ink-3);
+    font-size: 0.72rem; margin-top: 0.35rem;
+  }
+  /* 追従ボタンが最後の内容に重ならないよう、その分だけ床を上げる */
+  body { padding-bottom: 96px; }
+}
+</style>
+<style>
+  #pricing.only { padding-top: 40px; padding-bottom: 56px; }
+  #pricing.only h1.pricing-h { font-size: clamp(24px, 4vw, 32px); margin: 0 0 24px; letter-spacing: .02em; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="12" fill="#fff" stroke="#0d1420" stroke-width="1.6"/>
+        <path d="M16 8.5V16l5.4 3.4" fill="none" stroke="#0d1420" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="2.2" fill="#c2410c"/>
+      </svg>
+      <span class="name mono">CommandClock</span>
+    </a>
+    <div class="nav-links">
+      <a class="plain" href="/#demo">実演</a>
+      <a class="plain" href="/guide.html">使い方</a>
+    </div>
+  </div>
+</header>
+
+<section id="pricing" class="only">
+  <div class="wrap" id="plans">
+    <h1 class="pricing-h">プランを選ぶ</h1>
+    <div class="plans">
+      <div class="plan hot">
+        <span class="tag">まずはここから</span>
+        <h3>同盟プラン</h3>
+        <div class="amt">¥980 <span>/ 月</span></div>
+        <ul>
+          <li><strong>1同盟・2班</strong>（集結主12人）</li>
+          <li>着弾時間の指示・即時号令・差込</li>
+          <li>号令と同時に、着弾時間をコピー</li>
+          <li><strong>人数・台数の制限なし</strong></li>
+          <li>同盟で動く拠点戦に（ステ戦・砦要塞戦・兵器工場、少人数での王城戦など）</li>
+        </ul>
+        <button class="btn btn-solid" data-plan="alliance">14日間無料で試す</button>
+        <div class="msg" data-status="alliance"></div>
+      </div>
+      <div class="plan">
+        <h3>総指揮プラン</h3>
+        <div class="amt">¥2,980 <span>/ 月</span></div>
+        <ul>
+          <li>同盟プランにできることすべて</li>
+          <li><strong>管理画面つき</strong>（占領する同盟と、攻める同盟2つを1画面で）</li>
+          <li>管理画面はパソコン推奨（スマホでも使えます）</li>
+          <li><strong>拠点の受け渡し</strong>（入替・占領抜き。中にいる全員が同時に抜ける）</li>
+          <li>同盟をまたぐペア号令</li>
+          <li>3同盟・6班（集結主36人）</li>
+          <li>占領する同盟と攻める同盟に分けて戦う、サーバー同士の拠点の取り合いに（王城戦・SVSなど）</li>
+        </ul>
+        <button class="btn btn-line" data-plan="server">14日間無料で試す</button>
+        <div class="msg" data-status="server"></div>
+      </div>
+    </div>
+    <!-- 解約はStripeのカスタマーポータルで本人がする（期間の終わりに止まる）。 -->
+    <p class="fine">
+      14日間の無料期間が終わった翌日から、月額料金のご請求が始まります。終わる日は、お申し込み直後のメールでお知らせします。<br>
+      解約はいつでもご自分でできます。<a href="https://billing.stripe.com/p/login/5kQ9ASdpdavGgAmbCX6Zy00" target="_blank" rel="noopener">→ 解約ページはこちら</a><br>
+      無料期間中に解約すれば、料金は一切かかりません。有料期間中に解約した場合は、次の請求は発生せず、その期間の終わりまでお使いいただけます。<br>
+      お申し込みボタンを押すとStripeの決済画面へ移動します。お申し込みの前に<a href="/legal.html">特定商取引法に基づく表記・利用規約</a>をご確認ください。表示価格はすべて税込で、追加料金はありません。
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a href="/guide.html">使い方ガイド</a>
+    <span class="sep">/</span>
+    <a href="/legal.html">特定商取引法に基づく表記・利用規約</a>
+    <span class="sep">/</span>
+    <a href="/feedback.html">ご意見・不具合の報告</a>
+    <span class="sep">/</span>
+    <a href="/en/pricing.html" hreflang="en" lang="en">English</a>
+    <p class="disclaimer">CommandClockはホワイトアウトサバイバルおよびその他対応ゲームの非公式ツールです。各ゲームの著作権は各パブリッシャーに帰属します。</p>
+    <div class="cr">&copy; 2026 CommandClock</div>
+  </div>
+</footer>
+
+<script>
+  // 決済
+  document.querySelectorAll('button[data-plan]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const plan = btn.getAttribute('data-plan');
+      const el = document.querySelector(`[data-status="${plan}"]`);
+      btn.disabled = true;
+      el.textContent = '決済ページを準備中…';
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ plan }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || '不明なエラー');
+        window.location.href = data.url;
+      } catch (err) {
+        el.textContent = 'エラー: ' + err.message;
+        btn.disabled = false;
+      }
+    });
+  });
+</script>
+</body>
+</html>

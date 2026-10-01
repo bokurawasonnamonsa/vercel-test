@@ -127,6 +127,8 @@ h2 {
 .btn-line:hover { background: var(--ink); color: #f7f9fc; }
 .btn:disabled { opacity: .45; cursor: default; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.try-tool { margin: 0.9rem 0 0; font-size: 0.95rem; }
+.try-tool a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 560px) { .cta-row .btn { width: 100%; } }
 
 /* ---- ヒーロー ------------------------------------------------ */
@@ -612,6 +614,8 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
           <a class="btn btn-solid" href="#pricing">Try free for 14 days</a>
           <a class="btn btn-line" href="#demo">See the real screen</a>
         </div>
+        <!-- 2026-10-01 ツールは開くだけなら無料（UTC時計）。登録なしで、まず触ってもらう -->
+        <p class="try-tool"><a href="https://app.commandclock.jp/?lang=en&amp;from=lp" target="_blank" rel="noopener">Open the tool, no sign-up<span aria-hidden="true"> →</span></a></p>
         <p class="social">Up to <b class="num">219</b> players use it at once on the developer&#39;s server</p>
       </div>
 

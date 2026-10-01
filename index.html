@@ -123,6 +123,8 @@ h2 {
 .btn-line:hover { background: var(--ink); color: #f7f9fc; }
 .btn:disabled { opacity: .45; cursor: default; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+.try-tool { margin: 0.9rem 0 0; font-size: 0.95rem; }
+.try-tool a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 560px) { .cta-row .btn { width: 100%; } }
 
 /* ---- ヒーロー ------------------------------------------------ */
@@ -607,6 +609,8 @@ tr.ours td.key { background: rgba(194,65,12,0.10); font-weight: 700; }
           <a class="btn btn-solid" href="#pricing">14日間無料で試す</a>
           <a class="btn btn-line" href="#demo">実際の画面を見る</a>
         </div>
+        <!-- 2026-10-01 ツールは開くだけなら無料（UTC時計）。登録なしで、まず触ってもらう -->
+        <p class="try-tool"><a href="https://app.commandclock.jp/?from=lp" target="_blank" rel="noopener">登録なしで、ツールを開いてみる<span aria-hidden="true"> →</span></a></p>
         <p class="social">開発元のサーバーで、最大 <b class="num">219</b> 名が同時に使っています</p>
       </div>
 
